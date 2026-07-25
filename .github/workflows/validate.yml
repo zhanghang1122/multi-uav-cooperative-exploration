@@ -1,0 +1,30 @@
+name: Validate repository
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  structural-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Validate repository structure and generated assets
+        run: python3 tools/verify_repository.py
+
+      - name: Compile Python sources
+        run: |
+          python3 -m compileall -q \
+            tools \
+            demos \
+            research/01_ruins_environment/scripts

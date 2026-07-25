@@ -1,4 +1,4 @@
-# Demo 03: FUEL Autonomous Exploration
+# Demo 03: FUEL Autonomous Exploration and 3D Occupancy Mapping
 
 ## What This Demo Is
 
@@ -14,7 +14,8 @@ unknown office-like PCD environment
 ```
 
 The recorded run showed the vehicle exploring previously unknown space while
-the 3D map grew in RViz.
+the 3D occupancy map grew in RViz. This is described as 3D occupancy mapping,
+not as a verified `octomap_server` output.
 
 ## What This Demo Is Not
 
@@ -73,10 +74,9 @@ After the official office baseline passes, use one of this repository's maps,
 for example:
 
 ```text
-maps/pcd/Ruins-Urban-01_complex.pcd
+research/01_ruins_environment/maps/pcd/Ruins-Urban-01_complex.pcd
 ```
 
 The example map-publisher launch files under `launch/` show the intended map
 paths. Do not change the planner and the environment in the same experiment:
 first validate the upstream baseline, then change only the map path and bounds.
-

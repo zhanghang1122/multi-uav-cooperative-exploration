@@ -1,4 +1,10 @@
-# Demo 01: D435i Perception Baseline
+# Demo 01: Single-UAV Obstacle Avoidance
+
+## Status
+
+The objective of this exercise was a complete Prometheus/PX4 single-UAV
+obstacle-avoidance loop. The historical run did not complete that objective.
+Only the D435i perception stage below is accepted as verified.
 
 ## Verified Scope
 
@@ -41,7 +47,7 @@ intentionally omitted.
 After launching the Prometheus P230+D435i simulation, run:
 
 ```bash
-bash demos/demo01_d435i_perception/scripts/verify_perception.sh
+bash demos/demo01_single_uav_obstacle_avoidance/scripts/verify_perception.sh
 ```
 
 Pass criteria:
@@ -53,3 +59,26 @@ Pass criteria:
 The screenshots in `evidence/` are retained as historical evidence, not as a
 substitute for a repeatable runtime test.
 
+## Why There Is No Avoidance Run Script
+
+A runnable avoidance wrapper would imply that the full chain is known to work.
+The final recorded run did not meet that condition:
+
+```text
+Gazebo + PX4 + D435i
+  -> point cloud verified
+  -> OctoMap/EGO input
+  -> incorrect world-to-D435i transform
+  -> planner reported the vehicle inside an obstacle
+  -> no successful avoidance flight was recorded
+```
+
+The earlier temporary TF broadcaster is excluded because it was proposed as a
+diagnostic fix but never followed by a confirmed successful flight. This demo
+may be upgraded to `verified` only after an Ubuntu rerun records:
+
+1. correct vehicle and D435i transforms throughout takeoff;
+2. an obstacle in the planner's collision map;
+3. a collision-free trajectory around that obstacle;
+4. arrival at the commanded goal;
+5. repeatability across at least three clean launches.

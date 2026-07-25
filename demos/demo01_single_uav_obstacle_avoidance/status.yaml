@@ -1,5 +1,5 @@
-id: demo01_d435i_perception
-status: partial_verified
+id: demo01_single_uav_obstacle_avoidance
+status: incomplete_end_to_end
 verified:
   - gazebo_obstacle_visible
   - d435i_color_stream
@@ -11,4 +11,3 @@ not_verified:
   - autonomous_collision_free_arrival
 excluded_fixes:
   - temporary_camera_odom_tf_bridge
-

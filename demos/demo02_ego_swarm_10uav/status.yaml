@@ -10,4 +10,5 @@ limitations:
   - no_gazebo_vehicle_dynamics
   - no_frontier_task_allocation
 upstream_commit_at_historical_run: not_recorded
-
+wrapper_tested_upstream_commit: 92fe9f7227b2da819133eb8e0e8c7fc000f6ae20
+wrapper_test_date: 2026-07-25

@@ -51,7 +51,9 @@ python3 demos/demo02_ego_swarm_10uav/scripts/create_manual_launches.py \
 ```
 
 Both scripts stop without changing files when the expected upstream structure
-does not match.
+does not match. The wrappers were structurally tested against upstream commit
+`92fe9f7227b2da819133eb8e0e8c7fc000f6ae20`; the generator requires exactly ten
+agent includes and refuses a different upstream layout.
 
 ## Run
 
@@ -72,4 +74,3 @@ bash demos/demo02_ego_swarm_10uav/scripts/trigger.sh
 The default target coordinates are predefined. This demonstrates decentralized
 multi-agent trajectory planning and collision avoidance, not autonomous
 frontier allocation or unknown-environment exploration.
-

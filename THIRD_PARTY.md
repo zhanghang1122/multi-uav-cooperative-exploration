@@ -11,6 +11,6 @@ This repository does not vendor the upstream planners. The wrappers under
 | FUEL | https://github.com/HKUST-Aerial-Robotics/FUEL | GPL-3.0 | Demo 3 and map integration |
 | RACER | https://github.com/Robotics-STAR-Lab/RACER | Upstream license | Integration template only |
 
-The MIT license in this repository covers Ruins-Urban-01 assets and original
-wrapper scripts. It does not replace upstream licenses.
-
+The MIT license in this repository covers the original paper-repository code,
+Ruins-Urban-01 assets, and original wrapper scripts. It does not replace
+upstream licenses.

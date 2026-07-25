@@ -27,7 +27,7 @@ working code.
    aircraft.
 3. Demo 3 is a single-UAV exploration baseline, not the proposed three-UAV
    ruins system.
-4. Ruins-Urban-01 is the current validated artifact. Later navigation and
-   cooperative exploration results must be added only after repeatable trials
+4. The paper implementation is separate from these demos. Its first validated
+   module is `research/01_ruins_environment`; later mapping, navigation, and
+   cooperative-exploration modules must be added only after repeatable trials
    and recorded metrics exist.
-

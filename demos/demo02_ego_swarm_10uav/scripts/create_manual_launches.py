@@ -13,6 +13,18 @@ def replace_once(text: str, old: str, new: str, label: str) -> str:
     return text.replace(old, new, 1)
 
 
+def replace_exact_count(
+    text: str, old: str, new: str, expected: int, label: str
+) -> str:
+    actual = text.count(old)
+    if actual != expected:
+        raise SystemExit(
+            f"Expected {label} {expected} times, found {actual}; "
+            "upstream layout changed."
+        )
+    return text.replace(old, new)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("workspace", type=Path)
@@ -48,11 +60,12 @@ def main() -> None:
     (args.output / "manual_run_in_sim.launch").write_text(run_sim, encoding="utf-8")
 
     swarm = (source / "swarm.launch").read_text(encoding="utf-8")
-    swarm = replace_once(
+    swarm = replace_exact_count(
         swarm,
         "$(find ego_planner)/launch/run_in_sim.launch",
         str(args.output / "manual_run_in_sim.launch"),
-        "run_in_sim include",
+        10,
+        "ten-agent run_in_sim include",
     )
     (args.output / "manual_swarm.launch").write_text(swarm, encoding="utf-8")
 
@@ -67,4 +80,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

@@ -1,12 +1,12 @@
 cff-version: 1.2.0
-message: "If you use Ruins-Urban-01, please cite this software and the associated paper when available."
-title: "Ruins-Urban-01: A Parameterized 3D Urban-Ruins Environment for Multi-UAV Exploration"
+message: "If you use this repository, please cite the software and the associated paper when available."
+title: "Multi-UAV Cooperative Exploration in Complex Unknown Ruins Environments"
 type: software
 authors:
   - family-names: "zhanghang1122"
-repository-code: "https://github.com/zhanghang1122/ruins-urban-01"
-url: "https://github.com/zhanghang1122/ruins-urban-01"
-version: 0.5.1
+repository-code: "https://github.com/zhanghang1122/multi-uav-cooperative-exploration"
+url: "https://github.com/zhanghang1122/multi-uav-cooperative-exploration"
+version: 0.6.0
 date-released: 2026-07-25
 license: MIT
 keywords:
@@ -17,3 +17,4 @@ keywords:
   - ROS
   - 3D mapping
   - procedural generation
+  - cooperative exploration

@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.6.0 - 2026-07-25
+
+- Reframed the repository as the complete multi-UAV cooperative exploration
+  paper repository.
+- Moved Ruins-Urban-01 into the first numbered research module.
+- Kept the three historical demos separate from the paper implementation.
+- Renamed Demo 1 to reflect its obstacle-avoidance objective while preserving
+  its incomplete end-to-end status.
+- Updated repository-wide validation for the new layout.
+
 ## 0.5.1 - 2026-07-25
 
 - Updated repository, citation, license, and maintainer metadata to match the

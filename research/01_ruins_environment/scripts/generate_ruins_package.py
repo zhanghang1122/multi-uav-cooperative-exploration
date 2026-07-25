@@ -715,12 +715,15 @@ def write_obj(path: Path, boxes: list[Box], mtl_name: str):
 
 def write_mtl(path: Path):
     with path.open("w", encoding="ascii", newline="\n") as f:
-        for name, rgb in MATERIALS.items():
+        materials = list(MATERIALS.items())
+        for index, (name, rgb) in enumerate(materials):
             f.write(f"newmtl {name}\n")
             f.write(f"Kd {rgb[0]:.3f} {rgb[1]:.3f} {rgb[2]:.3f}\n")
             f.write("Ka 0.050 0.050 0.050\n")
             f.write("Ks 0.020 0.020 0.020\n")
-            f.write("d 1.0\n\n")
+            f.write("d 1.0\n")
+            if index + 1 < len(materials):
+                f.write("\n")
 
 
 def write_dae(path: Path, boxes: list[Box]):
@@ -1280,7 +1283,7 @@ def main():
     print("")
     print("Launch with:")
     print("  source ~/catkin_ws/devel/setup.bash")
-    print("  source ~/catkin_ws/src/ruins_urban_01/setup_env.sh")
+    print('  source "$(rospack find ruins_urban_01)/setup_env.sh"')
     print(f"  roslaunch ruins_urban_01 gazebo_ruins_urban_01.launch variant:={asset_key}")
 
 
@@ -1438,7 +1441,7 @@ def write_readme(summary):
 
 Ruins-Urban-01 is a reproducible, thesis-oriented 3D rubble environment for multi-UAV exploration on Ubuntu 20.04 / ROS Noetic / PX4 / Prometheus workflows.
 
-This folder is also a minimal ROS package. Put it in your Ubuntu VM under `~/catkin_ws/src/ruins_urban_01`, then build or source the workspace so `$(find ruins_urban_01)` works in launch files.
+This folder is a ROS package named `ruins_urban_01` inside the parent paper repository. Clone the parent repository under `~/catkin_ws/src`, then build or source the workspace so `$(find ruins_urban_01)` works in launch files.
 
 The source representation is the Blender Python script in `scripts/generate_ruins_urban_01_blender.py`. The generated runtime assets are:
 
@@ -1526,7 +1529,7 @@ For Gazebo Classic/PX4, add `gazebo/models` to `GAZEBO_MODEL_PATH`, then open on
 
 ```bash
 source ~/catkin_ws/devel/setup.bash
-source ~/catkin_ws/src/ruins_urban_01/setup_env.sh
+source "$(rospack find ruins_urban_01)/setup_env.sh"
 roslaunch ruins_urban_01 gazebo_ruins_urban_01.launch variant:=complex
 ```
 
@@ -1536,7 +1539,7 @@ Keep `base`, `medium`, and `complex` unchanged as fair, reproducible benchmark m
 random instances for generalization and stress tests:
 
 ```bash
-cd ~/catkin_ws/src/ruins_urban_01
+cd "$(rospack find ruins_urban_01)"
 python3 scripts/generate_random_ruins.py --profile complex
 ```
 

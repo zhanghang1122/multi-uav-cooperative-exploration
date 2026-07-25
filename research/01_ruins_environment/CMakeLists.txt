@@ -7,7 +7,6 @@ catkin_package()
 
 install(DIRECTORY
   config
-  demos
   docs
   experiments
   gazebo

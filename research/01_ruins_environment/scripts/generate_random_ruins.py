@@ -137,7 +137,7 @@ def main():
     print("")
     print("Launch with:")
     print("  source ~/catkin_ws/devel/setup.bash")
-    print("  source ~/catkin_ws/src/ruins_urban_01/setup_env.sh")
+    print('  source "$(rospack find ruins_urban_01)/setup_env.sh"')
     print(f"  roslaunch ruins_urban_01 gazebo_ruins_urban_01.launch variant:={asset_key}")
 
 

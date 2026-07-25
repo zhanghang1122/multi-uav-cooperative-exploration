@@ -1,0 +1,14 @@
+id: demo03_fuel_exploration
+status: historically_demonstrated
+verified:
+  - official_fuel_simulation_started
+  - exploration_triggered
+  - online_3d_map_growth_recorded
+limitations:
+  - single_uav
+  - upstream_simulator_not_px4
+  - no_multi_uav_task_allocation
+excluded:
+  - unfinished_fuel_prometheus_px4_bridge
+upstream_commit_at_historical_run: not_recorded
+

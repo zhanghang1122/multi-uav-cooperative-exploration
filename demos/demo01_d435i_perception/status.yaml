@@ -1,0 +1,14 @@
+id: demo01_d435i_perception
+status: partial_verified
+verified:
+  - gazebo_obstacle_visible
+  - d435i_color_stream
+  - d435i_depth_stream
+  - d435i_pointcloud_stream
+  - rviz_pointcloud_visualization
+not_verified:
+  - octomap_to_ego_end_to_end_flight
+  - autonomous_collision_free_arrival
+excluded_fixes:
+  - temporary_camera_odom_tf_bridge
+

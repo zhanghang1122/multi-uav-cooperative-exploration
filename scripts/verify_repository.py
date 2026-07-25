@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import ast
 import json
 import sys
 import xml.etree.ElementTree as ET
@@ -53,6 +54,24 @@ def main() -> int:
     require(ROOT / "CMakeLists.txt", errors)
     require(ROOT / "config" / "ruins_urban_01.yaml", errors)
     require(ROOT / "config" / "benchmark_seeds.yaml", errors)
+    require(ROOT / "THIRD_PARTY.md", errors)
+    require(ROOT / "docs" / "demo_audit.md", errors)
+
+    demo_files = (
+        "demos/README.md",
+        "demos/demo01_d435i_perception/README.md",
+        "demos/demo01_d435i_perception/status.yaml",
+        "demos/demo01_d435i_perception/evidence/d435i_streams.png",
+        "demos/demo01_d435i_perception/evidence/rviz_box_pointcloud.png",
+        "demos/demo02_ego_swarm_10uav/README.md",
+        "demos/demo02_ego_swarm_10uav/status.yaml",
+        "demos/demo02_ego_swarm_10uav/evidence/ten_agent_run.png",
+        "demos/demo03_fuel_exploration/README.md",
+        "demos/demo03_fuel_exploration/status.yaml",
+        "demos/demo03_fuel_exploration/evidence/fuel_map_growth.png",
+    )
+    for relative in demo_files:
+        require(ROOT / relative, errors)
 
     try:
         package = ET.parse(ROOT / "package.xml").getroot()
@@ -90,6 +109,22 @@ def main() -> int:
         except ET.ParseError as exc:
             errors.append(f"invalid XML {xml_file.relative_to(ROOT)}: {exc}")
 
+    for python_file in list((ROOT / "scripts").glob("*.py")) + list(
+        (ROOT / "demos").glob("*/scripts/*.py")
+    ):
+        try:
+            ast.parse(
+                python_file.read_text(encoding="utf-8"),
+                filename=str(python_file),
+            )
+        except (SyntaxError, UnicodeDecodeError, OSError) as exc:
+            errors.append(f"invalid Python {python_file.relative_to(ROOT)}: {exc}")
+
+    for status_file in (ROOT / "demos").glob("*/status.yaml"):
+        text = status_file.read_text(encoding="utf-8")
+        if "status:" not in text or "verified:" not in text:
+            errors.append(f"incomplete demo status file: {status_file.relative_to(ROOT)}")
+
     if errors:
         print("Repository validation failed:")
         for error in errors:
@@ -97,7 +132,10 @@ def main() -> int:
         return 1
 
     print("Repository validation passed.")
-    print("Checked fixed PCD, mesh, Gazebo, ROS, metadata, and clearance assets.")
+    print(
+        "Checked fixed PCD, mesh, Gazebo, ROS, metadata, demo archive, "
+        "Python syntax, and clearance assets."
+    )
     return 0
 
 

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>ruins_urban_01</name>
-  <version>0.4.0</version>
+  <version>0.5.0</version>
   <description>Ruins-Urban-01 3D rubble environment assets for UAV exploration simulation.</description>
   <maintainer email="hu5426y@users.noreply.github.com">hu5426y</maintainer>
   <license>MIT</license>

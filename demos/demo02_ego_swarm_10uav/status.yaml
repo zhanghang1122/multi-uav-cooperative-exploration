@@ -1,0 +1,13 @@
+id: demo02_ego_swarm_10uav
+status: historically_demonstrated
+verified:
+  - ten_fake_drone_agents_visible
+  - manual_start_trigger_received
+  - multi_agent_motion_recorded
+limitations:
+  - predefined_targets
+  - no_px4_sitl
+  - no_gazebo_vehicle_dynamics
+  - no_frontier_task_allocation
+upstream_commit_at_historical_run: not_recorded
+

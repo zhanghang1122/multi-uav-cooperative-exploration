@@ -48,6 +48,7 @@ columns, low-overhead sections, forced altitude changes, a partial second level,
 ```text
 .
 ├── config/                  scene parameters, geometry and benchmark seeds
+├── demos/                   audited historical demo wrappers and evidence
 ├── docs/                    design, generation and reproducibility notes
 ├── experiments/             batch-run protocol and result schema
 ├── gazebo/models/           Gazebo Classic models
@@ -166,6 +167,22 @@ The PCD maps under `maps/pcd/` are the primary integration format.
 
 These files are examples because upstream package names and topic interfaces may differ between forks. Keep upstream
 FUEL/RACER/MARSIM code in separate repositories and change only map paths, bounds, sensor topics, and vehicle namespaces.
+
+## Audited Historical Demos
+
+Earlier exercises are preserved under [`demos/`](demos/README.md), each in an
+independent directory:
+
+| Demo | Accepted claim | Important limitation |
+|---|---|---|
+| D435i perception | Gazebo obstacle sensing and RViz visualization | End-to-end EGO flight was not verified |
+| Ten-agent EGO-Swarm | Triggered multi-agent planning and motion | Uses `fake_drone` and predefined targets |
+| FUEL exploration | Official single-UAV unknown-space exploration | Not PX4 and not multi-UAV allocation |
+
+The full acceptance and exclusion record is in
+[`docs/demo_audit.md`](docs/demo_audit.md). Failed TF bridges, unfinished
+FUEL/PX4 integration, and incomplete RACER builds are deliberately excluded
+from runnable examples.
 
 ## Validation
 

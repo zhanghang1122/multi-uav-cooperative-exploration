@@ -1,0 +1,12 @@
+<launch>
+  <arg name="map_file" default="$(find ruins_urban_01)/maps/pcd/Ruins-Urban-01_medium.pcd"/>
+  <arg name="box_min_x" default="-21.0"/>
+  <arg name="box_min_y" default="-16.0"/>
+  <arg name="box_min_z" default="0.0"/>
+  <arg name="box_max_x" default="21.0"/>
+  <arg name="box_max_y" default="16.0"/>
+  <arg name="box_max_z" default="8.0"/>
+
+  <!-- FUEL/RACER map publisher: replace the original office/pillar map_pub line with this. -->
+  <node pkg="map_generator" name="map_pub" type="map_pub" output="screen" args="$(arg map_file)"/>
+</launch>

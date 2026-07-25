@@ -1,0 +1,4134 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="ruins_urban_01_medium">
+    <static>true</static>
+    <link name="000_floor_slab">
+      <pose>0.00000 0.00000 -0.08000 0.00000 0.00000 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>42.00000 32.00000 0.16000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.350 0.350 0.340 1</ambient>
+            <diffuse>0.350 0.350 0.340 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>42.00000 32.00000 0.16000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="001_north_boundary_west">
+      <pose>-11.50000 15.85000 1.55000 0.00000 0.00000 -0.01000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>19.00000 0.38000 3.10000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>19.00000 0.38000 3.10000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="002_north_boundary_east">
+      <pose>10.50000 15.90000 1.80000 0.00000 0.00000 0.01500</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>21.00000 0.42000 3.60000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>21.00000 0.42000 3.60000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="003_south_boundary_west">
+      <pose>-10.00000 -15.90000 1.75000 0.00000 0.00000 0.01200</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>22.00000 0.42000 3.50000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>22.00000 0.42000 3.50000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="004_south_boundary_east">
+      <pose>12.00000 -15.85000 1.50000 0.00000 0.00000 -0.01800</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>18.00000 0.38000 3.00000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>18.00000 0.38000 3.00000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="005_west_boundary_north">
+      <pose>-20.95000 9.15000 1.70000 0.00000 0.00000 -0.02000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.42000 13.70000 3.40000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.42000 13.70000 3.40000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="006_west_boundary_south">
+      <pose>-20.95000 -9.15000 1.70000 0.00000 0.00000 0.01500</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.42000 13.70000 3.40000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.42000 13.70000 3.40000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="007_east_boundary">
+      <pose>20.95000 0.00000 1.70000 0.00000 0.00000 -0.01000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.42000 31.80000 3.40000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.42000 31.80000 3.40000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="008_ground_corridor_g2_n1_left">
+      <pose>-13.96680 1.73807 1.57500 0.00000 0.00000 1.74751</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.18859 0.28000 3.15000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.18859 0.28000 3.15000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="009_ground_corridor_g2_n1_right">
+      <pose>-11.03320 2.26193 1.57500 0.00000 0.00000 1.74751</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.18859 0.28000 3.15000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.18859 0.28000 3.15000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="010_ground_corridor_n1_n2_left">
+      <pose>-14.78097 6.52811 1.37500 0.00000 0.00000 2.01522</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.15188 0.28000 2.75000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.15188 0.28000 2.75000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="011_ground_corridor_n1_n2_right">
+      <pose>-13.21903 7.27189 1.37500 0.00000 0.00000 2.01522</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.15188 0.28000 2.75000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.15188 0.28000 2.75000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="012_ground_corridor_n2_n3_left">
+      <pose>-14.37134 11.98117 1.57500 0.00000 0.00000 0.85197</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.81507 0.28000 3.15000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.81507 0.28000 3.15000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="013_ground_corridor_n2_n3_right">
+      <pose>-12.12866 10.01883 1.57500 0.00000 0.00000 0.85197</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.81507 0.28000 3.15000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.81507 0.28000 3.15000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="014_ground_corridor_n3_n4_left">
+      <pose>-8.75144 13.07852 1.37500 0.00000 0.00000 -0.29146</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.72015 0.28000 2.75000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.72015 0.28000 2.75000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="015_ground_corridor_n3_n4_right">
+      <pose>-9.24856 11.42148 1.37500 0.00000 0.00000 -0.29146</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.72015 0.28000 2.75000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.72015 0.28000 2.75000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="016_ground_corridor_n4_n5_left">
+      <pose>-3.94751 9.97361 1.57500 0.00000 0.00000 -1.06370</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.64782 0.28000 3.15000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.64782 0.28000 3.15000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="017_ground_corridor_n4_n5_right">
+      <pose>-6.55249 8.52639 1.57500 0.00000 0.00000 -1.06370</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.64782 0.28000 3.15000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.64782 0.28000 3.15000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="018_ground_corridor_g3_s1_left">
+      <pose>-7.03491 -2.37131 1.57500 0.00000 0.00000 -1.75391</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.99181 0.28000 3.15000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.99181 0.28000 3.15000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="019_ground_corridor_g3_s1_right">
+      <pose>-9.96509 -1.82869 1.57500 0.00000 0.00000 -1.75391</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.99181 0.28000 3.15000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.99181 0.28000 3.15000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="020_ground_corridor_s1_s2_left">
+      <pose>-11.08900 -6.91112 1.37500 0.00000 0.00000 -2.64646</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.18243 0.28000 2.75000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.18243 0.28000 2.75000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="021_ground_corridor_s1_s2_right">
+      <pose>-11.91100 -5.38888 1.37500 0.00000 0.00000 -2.64646</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.18243 0.28000 2.75000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.18243 0.28000 2.75000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="022_ground_corridor_s3_s4_left">
+      <pose>-11.37767 -11.64369 1.37500 0.00000 0.00000 -0.14190</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>3.57107 0.28000 2.75000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>3.57107 0.28000 2.75000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="023_ground_corridor_s3_s4_right">
+      <pose>-11.62233 -13.35631 1.37500 0.00000 0.00000 -0.14190</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>3.57107 0.28000 2.75000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>3.57107 0.28000 2.75000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="024_ground_corridor_s4_s5_left">
+      <pose>-5.96349 -10.19194 1.57500 0.00000 0.00000 0.49935</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.76498 0.28000 3.15000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.76498 0.28000 3.15000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="025_ground_corridor_s4_s5_right">
+      <pose>-4.53651 -12.80806 1.57500 0.00000 0.00000 0.49935</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.76498 0.28000 3.15000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.76498 0.28000 3.15000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="026_ground_corridor_g7_en1_left">
+      <pose>10.85071 3.46194 1.57500 0.00000 0.00000 1.22007</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.86578 0.28000 3.15000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.86578 0.28000 3.15000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="027_ground_corridor_g7_en1_right">
+      <pose>13.64929 2.43806 1.57500 0.00000 0.00000 1.22007</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.86578 0.28000 3.15000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.86578 0.28000 3.15000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="028_ground_corridor_en1_en2_left">
+      <pose>14.61316 6.77368 1.37500 0.00000 0.00000 0.46365</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.97214 0.28000 2.75000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.97214 0.28000 2.75000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="029_ground_corridor_en1_en2_right">
+      <pose>15.38684 5.22632 1.37500 0.00000 0.00000 0.46365</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.97214 0.28000 2.75000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.97214 0.28000 2.75000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="030_ground_corridor_en2_dead_ne_left">
+      <pose>16.03403 10.01654 1.57500 0.00000 0.00000 1.39094</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.09017 0.28000 3.15000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.09017 0.28000 3.15000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="031_ground_corridor_en2_dead_ne_right">
+      <pose>18.96597 9.48346 1.57500 0.00000 0.00000 1.39094</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.09017 0.28000 3.15000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.09017 0.28000 3.15000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="032_ground_corridor_g7_es1_left">
+      <pose>13.46759 -1.69253 1.57500 0.00000 0.00000 -1.39713</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.28705 0.28000 3.15000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.28705 0.28000 3.15000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="033_ground_corridor_g7_es1_right">
+      <pose>10.53241 -2.20747 1.57500 0.00000 0.00000 -1.39713</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.28705 0.28000 3.15000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.28705 0.28000 3.15000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="034_ground_corridor_es1_es2_left">
+      <pose>14.87840 -6.05557 1.37500 0.00000 0.00000 -0.81317</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.59313 0.28000 2.75000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.59313 0.28000 2.75000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="035_ground_corridor_es1_es2_right">
+      <pose>13.62160 -7.24443 1.37500 0.00000 0.00000 -0.81317</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.59313 0.28000 2.75000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.59313 0.28000 2.75000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="036_ground_corridor_es2_dead_se_left">
+      <pose>18.73975 -9.92350 1.57500 0.00000 0.00000 -0.98279</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.90833 0.28000 3.15000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.90833 0.28000 3.15000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="037_ground_corridor_es2_dead_se_right">
+      <pose>16.26025 -11.57650 1.57500 0.00000 0.00000 -0.98279</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.90833 0.28000 3.15000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.90833 0.28000 3.15000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="038_spine_broken_panel_00">
+      <pose>-17.05000 2.20000 1.30000 0.00000 0.00000 -0.03225</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>3.10161 0.30000 2.60000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>3.10161 0.30000 2.60000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="039_spine_broken_panel_02">
+      <pose>-7.75000 2.55000 1.55000 0.00000 0.00000 0.06886</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.90689 0.30000 3.10000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.90689 0.30000 3.10000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="040_spine_broken_panel_04">
+      <pose>0.85000 2.55000 1.42500 0.00000 0.00000 -0.07983</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.50799 0.30000 2.85000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.50799 0.30000 2.85000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="041_spine_broken_panel_05">
+      <pose>5.00000 2.05000 1.55000 0.00000 0.00000 0.08314</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.40832 0.30000 3.10000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.40832 0.30000 3.10000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="042_spine_broken_panel_06">
+      <pose>8.90000 2.47500 1.30000 0.00000 0.00000 -0.10379</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.41299 0.30000 2.60000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.41299 0.30000 2.60000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="043_spine_broken_panel_07">
+      <pose>14.10000 2.17500 1.42500 0.00000 0.00000 0.05763</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.60432 0.30000 2.85000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.60432 0.30000 2.85000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="044_spine_broken_panel_08">
+      <pose>-16.75000 -2.22500 1.55000 0.00000 0.00000 0.04835</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>3.10363 0.30000 3.10000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>3.10363 0.30000 3.10000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="045_spine_broken_panel_09">
+      <pose>-12.15000 -2.60000 1.30000 0.00000 0.00000 0.11066</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.71662 0.30000 2.60000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.71662 0.30000 2.60000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="046_spine_broken_panel_11">
+      <pose>-3.35000 -2.67500 1.55000 0.00000 0.00000 0.09233</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.71155 0.30000 3.10000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.71155 0.30000 3.10000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="047_spine_broken_panel_13">
+      <pose>5.30000 -2.60000 1.42500 0.00000 0.00000 0.11488</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.61725 0.30000 2.85000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.61725 0.30000 2.85000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="048_spine_broken_panel_14">
+      <pose>9.20000 -1.67500 1.55000 0.00000 0.00000 -0.06242</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.40468 0.30000 3.10000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.40468 0.30000 3.10000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="049_spine_broken_panel_15">
+      <pose>14.50000 -2.42500 1.30000 0.00000 0.00000 0.08314</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>3.01040 0.30000 2.60000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>3.01040 0.30000 2.60000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="050_utility_ceiling_01">
+      <pose>-13.80000 8.00000 2.72000 0.00000 0.00000 -0.45000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>6.50000 3.00000 0.28000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.350 0.350 0.340 1</ambient>
+            <diffuse>0.350 0.350 0.340 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>6.50000 3.00000 0.28000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="051_utility_ceiling_02">
+      <pose>-10.00000 12.10000 2.62000 0.00000 0.00000 -0.28000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>5.00000 2.60000 0.26000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.350 0.350 0.340 1</ambient>
+            <diffuse>0.350 0.350 0.340 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>5.00000 2.60000 0.26000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="052_fixed_column_00">
+      <pose>-17.20000 6.00000 1.75000 0.00000 0.00000 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.62000 0.62000 3.50000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.62000 0.62000 3.50000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="053_fixed_column_01">
+      <pose>-17.20000 8.40000 1.75000 0.00000 0.00000 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.62000 0.62000 3.50000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.62000 0.62000 3.50000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="054_fixed_column_03">
+      <pose>8.60000 6.00000 1.75000 0.00000 0.00000 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.62000 0.62000 3.50000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.62000 0.62000 3.50000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="055_fixed_column_07">
+      <pose>11.00000 9.00000 1.75000 0.00000 0.00000 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.62000 0.62000 3.50000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.62000 0.62000 3.50000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="056_fixed_column_08">
+      <pose>13.40000 9.00000 1.75000 0.00000 0.00000 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.62000 0.62000 3.50000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.62000 0.62000 3.50000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="057_fixed_column_09">
+      <pose>-1.00000 -12.80000 1.75000 0.00000 0.00000 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.62000 0.62000 3.50000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.62000 0.62000 3.50000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="058_fixed_column_10">
+      <pose>3.00000 -10.50000 1.75000 0.00000 0.00000 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.62000 0.62000 3.50000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.62000 0.62000 3.50000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="059_fixed_column_11">
+      <pose>8.50000 -11.80000 1.75000 0.00000 0.00000 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.62000 0.62000 3.50000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.62000 0.62000 3.50000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="060_overflight_rubble_gate">
+      <pose>-1.20000 0.35000 0.45000 0.05000 -0.06000 -0.18000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.25000 2.20000 0.90000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.25000 2.20000 0.90000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="061_underflight_hanging_gate">
+      <pose>4.00000 0.25000 2.55000 -0.04000 0.08000 -0.20000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.20000 2.40000 1.05000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.350 0.350 0.340 1</ambient>
+            <diffuse>0.350 0.350 0.340 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.20000 2.40000 1.05000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="062_east_slanted_beam">
+      <pose>9.20000 0.55000 2.85000 0.00000 0.10000 0.22000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>4.80000 0.34000 0.34000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.370 0.200 0.130 1</ambient>
+            <diffuse>0.370 0.200 0.130 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>4.80000 0.34000 0.34000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="063_upper_walkway_ua_u1">
+      <pose>-1.50000 8.75000 3.36000 0.00000 0.00000 0.61073</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>4.00328 2.45000 0.24000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.350 0.350 0.340 1</ambient>
+            <diffuse>0.350 0.350 0.340 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>4.00328 2.45000 0.24000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="064_upper_corridor_ua_u1_left">
+      <pose>-2.20823 9.76175 4.38000 0.00000 0.00000 0.61073</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>3.40328 0.22000 2.00000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>3.40328 0.22000 2.00000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="065_upper_corridor_ua_u1_right">
+      <pose>-0.79177 7.73825 4.38000 0.00000 0.00000 0.61073</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>3.40328 0.22000 2.00000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>3.40328 0.22000 2.00000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="066_upper_walkway_u1_u2">
+      <pose>4.00000 10.75000 3.36000 0.00000 0.00000 0.08314</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>3.92080 2.45000 0.24000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.350 0.350 0.340 1</ambient>
+            <diffuse>0.350 0.350 0.340 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>3.92080 2.45000 0.24000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="067_upper_corridor_u1_u2_left">
+      <pose>3.89744 11.98073 4.38000 0.00000 0.00000 0.08314</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>3.32080 0.22000 2.00000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>3.32080 0.22000 2.00000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="068_upper_corridor_u1_u2_right">
+      <pose>4.10256 9.51927 4.38000 0.00000 0.00000 0.08314</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>3.32080 0.22000 2.00000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>3.32080 0.22000 2.00000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="069_upper_walkway_u2_u3">
+      <pose>9.00000 9.25000 3.36000 0.00000 0.00000 -0.71883</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>3.21507 2.45000 0.24000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.350 0.350 0.340 1</ambient>
+            <diffuse>0.350 0.350 0.340 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>3.21507 2.45000 0.24000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="070_upper_corridor_u2_u3_left">
+      <pose>9.81325 10.17943 4.38000 0.00000 0.00000 -0.71883</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.61507 0.22000 2.00000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.61507 0.22000 2.00000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="071_upper_corridor_u2_u3_right">
+      <pose>8.18675 8.32057 4.38000 0.00000 0.00000 -0.71883</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.61507 0.22000 2.00000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.61507 0.22000 2.00000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="072_upper_walkway_u3_u4">
+      <pose>10.00000 5.25000 3.36000 0.00000 0.00000 -1.98902</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.82443 2.45000 0.24000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.350 0.350 0.340 1</ambient>
+            <diffuse>0.350 0.350 0.340 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.82443 2.45000 0.24000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="073_upper_corridor_u3_u4_left">
+      <pose>11.12856 4.74842 4.38000 0.00000 0.00000 -1.98902</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.22443 0.22000 2.00000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.22443 0.22000 2.00000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="074_upper_corridor_u3_u4_right">
+      <pose>8.87144 5.75158 4.38000 0.00000 0.00000 -1.98902</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.22443 0.22000 2.00000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.22443 0.22000 2.00000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="075_upper_walkway_u4_uc">
+      <pose>5.25000 1.90000 3.36000 0.00000 0.00000 -2.85626</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>5.71601 2.45000 0.24000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.350 0.350 0.340 1</ambient>
+            <diffuse>0.350 0.350 0.340 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>5.71601 2.45000 0.24000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="076_upper_corridor_u4_uc_left">
+      <pose>5.59762 0.71493 4.38000 0.00000 0.00000 -2.85626</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>5.11601 0.22000 2.00000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>5.11601 0.22000 2.00000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="077_upper_corridor_u4_uc_right">
+      <pose>4.90238 3.08507 4.38000 0.00000 0.00000 -2.85626</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>5.11601 0.22000 2.00000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>5.11601 0.22000 2.00000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="078_upper_walkway_uc_ua">
+      <pose>-1.25000 3.90000 3.36000 0.00000 0.00000 2.29644</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>6.18794 2.45000 0.24000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.350 0.350 0.340 1</ambient>
+            <diffuse>0.350 0.350 0.340 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>6.18794 2.45000 0.24000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="079_upper_corridor_uc_ua_left">
+      <pose>-2.17387 3.08044 4.38000 0.00000 0.00000 2.29644</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>5.58794 0.22000 2.00000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>5.58794 0.22000 2.00000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="080_upper_corridor_uc_ua_right">
+      <pose>-0.32613 4.71956 4.38000 0.00000 0.00000 2.29644</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>5.58794 0.22000 2.00000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>5.58794 0.22000 2.00000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="081_upper_node_platform_u1">
+      <pose>1.00000 10.50000 3.36000 0.00000 0.00000 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.50000 2.50000 0.24000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.350 0.350 0.340 1</ambient>
+            <diffuse>0.350 0.350 0.340 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.50000 2.50000 0.24000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="082_upper_node_platform_u2">
+      <pose>7.00000 11.00000 3.36000 0.00000 0.00000 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.50000 2.50000 0.24000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.350 0.350 0.340 1</ambient>
+            <diffuse>0.350 0.350 0.340 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.50000 2.50000 0.24000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="083_upper_node_platform_u3">
+      <pose>11.00000 7.50000 3.36000 0.00000 0.00000 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.50000 2.50000 0.24000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.350 0.350 0.340 1</ambient>
+            <diffuse>0.350 0.350 0.340 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.50000 2.50000 0.24000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="084_upper_node_platform_u4">
+      <pose>9.00000 3.00000 3.36000 0.00000 0.00000 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.50000 2.50000 0.24000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.350 0.350 0.340 1</ambient>
+            <diffuse>0.350 0.350 0.340 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.50000 2.50000 0.24000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="085_connector_a_frame_0">
+      <pose>-5.35000 7.00000 3.55000 0.00000 0.00000 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.22000 2.70000 0.42000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.370 0.200 0.130 1</ambient>
+            <diffuse>0.370 0.200 0.130 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.22000 2.70000 0.42000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="086_connector_a_frame_1">
+      <pose>-2.65000 7.00000 3.55000 0.00000 0.00000 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.22000 2.70000 0.42000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.370 0.200 0.130 1</ambient>
+            <diffuse>0.370 0.200 0.130 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.22000 2.70000 0.42000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="087_connector_a_frame_3">
+      <pose>-4.00000 8.35000 3.55000 0.00000 0.00000 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.70000 0.22000 0.42000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.370 0.200 0.130 1</ambient>
+            <diffuse>0.370 0.200 0.130 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.70000 0.22000 0.42000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="088_connector_c_frame_0">
+      <pose>0.15000 0.80000 3.55000 0.00000 0.00000 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.22000 2.70000 0.42000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.370 0.200 0.130 1</ambient>
+            <diffuse>0.370 0.200 0.130 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.22000 2.70000 0.42000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="089_connector_c_frame_1">
+      <pose>2.85000 0.80000 3.55000 0.00000 0.00000 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.22000 2.70000 0.42000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.370 0.200 0.130 1</ambient>
+            <diffuse>0.370 0.200 0.130 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.22000 2.70000 0.42000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="090_connector_c_frame_3">
+      <pose>1.50000 2.15000 3.55000 0.00000 0.00000 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.70000 0.22000 0.42000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.370 0.200 0.130 1</ambient>
+            <diffuse>0.370 0.200 0.130 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.70000 0.22000 0.42000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="091_medium_random_column_00">
+      <pose>4.37545 9.60176 1.54215 0.00000 0.00000 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.79094 0.57950 3.08430</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.79094 0.57950 3.08430</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="092_medium_random_column_01">
+      <pose>18.41635 3.04236 1.93369 0.00000 0.00000 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.75193 0.55234 3.86739</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.75193 0.55234 3.86739</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="093_medium_random_column_02">
+      <pose>-16.93869 3.57772 1.42360 0.00000 0.00000 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.70482 0.46498 2.84720</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.70482 0.46498 2.84720</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="094_medium_random_column_03">
+      <pose>15.68716 -1.18079 1.30123 0.00000 0.00000 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.68079 0.61655 2.60247</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.68079 0.61655 2.60247</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="095_medium_random_column_04">
+      <pose>3.28664 4.28935 1.71620 0.00000 0.00000 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.79444 0.82719 3.43240</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.79444 0.82719 3.43240</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="096_medium_random_column_05">
+      <pose>-5.51084 -3.06976 1.41315 0.00000 0.00000 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.47084 0.76548 2.82630</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.47084 0.76548 2.82630</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="097_medium_random_column_06">
+      <pose>-5.77268 -7.83261 1.79768 0.00000 0.00000 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.79634 0.77568 3.59535</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.79634 0.77568 3.59535</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="098_medium_random_column_07">
+      <pose>-16.72560 3.60039 1.83524 0.00000 0.00000 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.63542 0.66842 3.67047</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.63542 0.66842 3.67047</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="099_medium_random_column_08">
+      <pose>-6.31504 2.39063 1.21035 0.00000 0.00000 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.51796 0.86785 2.42069</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.51796 0.86785 2.42069</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="100_medium_random_column_09">
+      <pose>17.64515 3.34895 1.63315 0.00000 0.00000 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.57404 0.49915 3.26629</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.57404 0.49915 3.26629</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="101_medium_rubble_000">
+      <pose>10.20111 12.77657 0.33011 -0.15944 0.14779 0.32624</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.50615 0.66863 0.66022</size></box>
+        </geometry>
+          <material>
+            <ambient>0.430 0.290 0.230 1</ambient>
+            <diffuse>0.430 0.290 0.230 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.50615 0.66863 0.66022</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="102_medium_rubble_001">
+      <pose>8.82942 -12.86332 0.31580 0.15020 -0.09264 3.13293</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.44918 0.84931 0.63160</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.44918 0.84931 0.63160</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="103_medium_rubble_002">
+      <pose>0.44531 6.18012 0.38949 -0.02683 -0.14490 0.87376</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.36983 0.78126 0.77899</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.36983 0.78126 0.77899</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="104_medium_rubble_003">
+      <pose>-11.85838 -2.82477 0.49243 -0.14137 -0.03830 2.70698</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.63845 0.35689 0.98485</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.63845 0.35689 0.98485</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="105_medium_rubble_004">
+      <pose>10.42092 13.67901 0.19108 0.08624 0.09717 3.00904</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.40948 0.67061 0.38216</size></box>
+        </geometry>
+          <material>
+            <ambient>0.430 0.290 0.230 1</ambient>
+            <diffuse>0.430 0.290 0.230 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.40948 0.67061 0.38216</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="106_medium_rubble_005">
+      <pose>0.61683 13.77116 0.10418 0.13217 -0.15711 0.00430</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.38966 1.16817 0.20837</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.38966 1.16817 0.20837</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="107_medium_rubble_006">
+      <pose>-12.13976 6.87817 0.22743 0.12518 -0.15222 1.48786</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.81404 1.15641 0.45487</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.81404 1.15641 0.45487</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="108_medium_rubble_007">
+      <pose>-1.60134 11.59699 0.37093 0.08035 -0.01849 1.61252</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.48951 0.80321 0.74186</size></box>
+        </geometry>
+          <material>
+            <ambient>0.290 0.250 0.200 1</ambient>
+            <diffuse>0.290 0.250 0.200 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.48951 0.80321 0.74186</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="109_medium_rubble_008">
+      <pose>-6.93082 -7.29824 0.17242 -0.07717 -0.03730 2.42600</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.60339 1.08006 0.34484</size></box>
+        </geometry>
+          <material>
+            <ambient>0.430 0.290 0.230 1</ambient>
+            <diffuse>0.430 0.290 0.230 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.60339 1.08006 0.34484</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="110_medium_rubble_009">
+      <pose>0.07976 13.55619 0.43268 0.11655 -0.05956 1.13116</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.83933 1.11946 0.86535</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.83933 1.11946 0.86535</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="111_medium_rubble_010">
+      <pose>17.33277 4.03508 0.11808 -0.08961 -0.07105 0.03451</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.36360 0.69412 0.23616</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.36360 0.69412 0.23616</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="112_medium_rubble_011">
+      <pose>5.17766 -4.03101 0.54032 -0.09687 -0.03720 3.03580</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.16467 0.65789 1.08064</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.16467 0.65789 1.08064</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="113_medium_rubble_012">
+      <pose>-1.63152 13.12420 0.47627 -0.05520 -0.15013 2.21264</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.54456 1.07797 0.95254</size></box>
+        </geometry>
+          <material>
+            <ambient>0.430 0.290 0.230 1</ambient>
+            <diffuse>0.430 0.290 0.230 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.54456 1.07797 0.95254</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="114_medium_rubble_013">
+      <pose>11.60874 12.97579 0.14824 -0.17265 -0.04139 3.10747</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.79978 0.35999 0.29647</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.79978 0.35999 0.29647</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="115_medium_rubble_014">
+      <pose>6.34537 7.08697 0.19472 0.02694 -0.01397 2.28746</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.29559 0.43148 0.38945</size></box>
+        </geometry>
+          <material>
+            <ambient>0.290 0.250 0.200 1</ambient>
+            <diffuse>0.290 0.250 0.200 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.29559 0.43148 0.38945</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="116_medium_rubble_015">
+      <pose>3.70672 12.36690 0.25198 -0.11958 0.07832 2.84793</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.06797 0.81038 0.50395</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.06797 0.81038 0.50395</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="117_medium_rubble_016">
+      <pose>-12.65509 -13.61475 0.13843 0.04492 -0.10638 2.01976</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.30079 0.42683 0.27686</size></box>
+        </geometry>
+          <material>
+            <ambient>0.430 0.290 0.230 1</ambient>
+            <diffuse>0.430 0.290 0.230 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.30079 0.42683 0.27686</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="118_medium_rubble_017">
+      <pose>-9.90853 1.86870 0.39607 0.07894 0.09066 0.40895</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.02283 0.48749 0.79214</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.02283 0.48749 0.79214</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="119_medium_rubble_018">
+      <pose>17.24288 -1.89857 0.20262 0.08947 0.14604 0.61765</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.38914 0.51530 0.40525</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.38914 0.51530 0.40525</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="120_medium_rubble_019">
+      <pose>1.73472 12.68392 0.09622 0.03219 -0.11227 2.94375</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.32218 0.31427 0.19245</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.32218 0.31427 0.19245</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="121_medium_rubble_020">
+      <pose>1.73028 9.29517 0.38337 0.04619 0.14357 0.96046</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.09811 0.78510 0.76673</size></box>
+        </geometry>
+          <material>
+            <ambient>0.430 0.290 0.230 1</ambient>
+            <diffuse>0.430 0.290 0.230 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.09811 0.78510 0.76673</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="122_medium_rubble_021">
+      <pose>3.86083 13.84879 0.33349 -0.04968 0.10554 1.79880</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.12361 1.07119 0.66699</size></box>
+        </geometry>
+          <material>
+            <ambient>0.290 0.250 0.200 1</ambient>
+            <diffuse>0.290 0.250 0.200 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.12361 1.07119 0.66699</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="123_medium_rubble_022">
+      <pose>-8.09589 -9.58371 0.53431 0.07177 -0.06237 1.09927</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.50853 0.67239 1.06863</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.50853 0.67239 1.06863</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="124_medium_rubble_023">
+      <pose>-11.09262 3.54859 0.28201 0.07566 -0.15492 0.57102</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.33886 1.02614 0.56402</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.33886 1.02614 0.56402</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="125_medium_rubble_024">
+      <pose>-18.44382 10.15596 0.43780 0.15297 0.07016 0.96647</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.66206 0.70038 0.87561</size></box>
+        </geometry>
+          <material>
+            <ambient>0.430 0.290 0.230 1</ambient>
+            <diffuse>0.430 0.290 0.230 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.66206 0.70038 0.87561</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="126_medium_rubble_025">
+      <pose>3.79876 -9.82527 0.12467 -0.17850 -0.08355 0.31133</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.23499 0.59315 0.24934</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.23499 0.59315 0.24934</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="127_medium_rubble_026">
+      <pose>10.54978 11.79833 0.17356 -0.08693 0.13433 0.41893</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.09030 0.88882 0.34712</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.09030 0.88882 0.34712</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="128_medium_rubble_027">
+      <pose>-4.99669 3.42055 0.21033 0.11172 -0.07958 2.61295</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.48795 0.86389 0.42067</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.48795 0.86389 0.42067</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="129_medium_rubble_028">
+      <pose>-16.66562 5.03627 0.34448 -0.04706 -0.17884 1.66192</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.10829 0.95410 0.68897</size></box>
+        </geometry>
+          <material>
+            <ambient>0.430 0.290 0.230 1</ambient>
+            <diffuse>0.430 0.290 0.230 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.10829 0.95410 0.68897</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="130_medium_rubble_029">
+      <pose>-4.10247 9.97063 0.26237 0.06137 -0.17564 1.56371</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.56811 1.14106 0.52475</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.56811 1.14106 0.52475</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="131_medium_rubble_030">
+      <pose>-16.79746 -12.04286 0.29935 0.12328 -0.09924 0.02156</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.05449 0.79006 0.59870</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.05449 0.79006 0.59870</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="132_medium_rubble_031">
+      <pose>-13.10219 -9.82628 0.39870 -0.11306 -0.11869 1.98965</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.48661 0.68686 0.79740</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.48661 0.68686 0.79740</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="133_medium_rubble_032">
+      <pose>10.12676 -0.91239 0.25962 0.13016 0.02665 0.68077</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.70069 0.65649 0.51924</size></box>
+        </geometry>
+          <material>
+            <ambient>0.430 0.290 0.230 1</ambient>
+            <diffuse>0.430 0.290 0.230 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.70069 0.65649 0.51924</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="134_medium_rubble_033">
+      <pose>14.35994 10.08624 0.41600 -0.10426 0.13199 2.31641</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.42850 1.12578 0.83200</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.42850 1.12578 0.83200</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="135_medium_rubble_034">
+      <pose>-5.98738 13.50771 0.17863 -0.13088 -0.12328 0.11950</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.81638 0.64190 0.35726</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.81638 0.64190 0.35726</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="136_medium_rubble_035">
+      <pose>13.43197 -9.76920 0.44179 0.04873 -0.12495 2.88497</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.75995 0.73821 0.88359</size></box>
+        </geometry>
+          <material>
+            <ambient>0.290 0.250 0.200 1</ambient>
+            <diffuse>0.290 0.250 0.200 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.75995 0.73821 0.88359</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="137_medium_rubble_036">
+      <pose>16.31304 5.30246 0.19548 -0.16209 0.11314 1.67386</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.28448 0.38016 0.39097</size></box>
+        </geometry>
+          <material>
+            <ambient>0.430 0.290 0.230 1</ambient>
+            <diffuse>0.430 0.290 0.230 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.28448 0.38016 0.39097</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="138_medium_rubble_037">
+      <pose>-7.67990 -6.38503 0.16587 -0.01576 -0.07577 1.87779</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.47299 1.26985 0.33174</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.47299 1.26985 0.33174</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="139_medium_rubble_038">
+      <pose>3.30435 7.50020 0.13459 0.11507 0.11239 0.19378</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.10704 0.70906 0.26919</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.10704 0.70906 0.26919</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="140_medium_rubble_039">
+      <pose>1.89387 -9.78260 0.46484 -0.09648 0.11422 1.13711</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.63654 0.72721 0.92969</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.63654 0.72721 0.92969</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="141_medium_rubble_040">
+      <pose>17.99355 5.14201 0.53852 -0.02532 -0.15835 2.69720</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.79872 0.43717 1.07705</size></box>
+        </geometry>
+          <material>
+            <ambient>0.430 0.290 0.230 1</ambient>
+            <diffuse>0.430 0.290 0.230 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.79872 0.43717 1.07705</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="142_medium_rubble_041">
+      <pose>10.22839 -12.23552 0.21949 -0.03897 0.03621 0.61856</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.41985 0.64837 0.43898</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.41985 0.64837 0.43898</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="143_medium_rubble_042">
+      <pose>-16.26555 -7.36130 0.32339 -0.15875 -0.04509 2.77346</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.18964 0.75532 0.64678</size></box>
+        </geometry>
+          <material>
+            <ambient>0.290 0.250 0.200 1</ambient>
+            <diffuse>0.290 0.250 0.200 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.18964 0.75532 0.64678</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="144_medium_rubble_043">
+      <pose>-12.60352 -10.42339 0.20234 -0.09733 0.14024 0.28098</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.32514 0.34390 0.40468</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.32514 0.34390 0.40468</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="145_medium_rubble_044">
+      <pose>-7.60623 7.62908 0.25991 0.08851 0.04087 0.47875</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.61940 0.75157 0.51983</size></box>
+        </geometry>
+          <material>
+            <ambient>0.430 0.290 0.230 1</ambient>
+            <diffuse>0.430 0.290 0.230 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.61940 0.75157 0.51983</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="146_medium_rubble_045">
+      <pose>-15.62269 -13.76407 0.26961 -0.10144 -0.04863 1.60768</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.50840 0.37872 0.53922</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.50840 0.37872 0.53922</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="147_medium_rubble_046">
+      <pose>7.75467 -13.09849 0.23885 0.12281 0.05288 2.61101</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.53341 0.83139 0.47771</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.53341 0.83139 0.47771</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="148_medium_rubble_047">
+      <pose>11.21280 13.34748 0.41096 0.06299 0.05764 0.22836</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.00779 0.41499 0.82192</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.00779 0.41499 0.82192</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="149_medium_rubble_048">
+      <pose>3.00015 9.54624 0.42970 -0.10443 0.02436 1.90366</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.74362 0.90466 0.85940</size></box>
+        </geometry>
+          <material>
+            <ambient>0.430 0.290 0.230 1</ambient>
+            <diffuse>0.430 0.290 0.230 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.74362 0.90466 0.85940</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="150_medium_rubble_049">
+      <pose>1.65660 -10.11916 0.57461 -0.06272 0.12580 1.91922</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.41640 1.26011 1.14922</size></box>
+        </geometry>
+          <material>
+            <ambient>0.290 0.250 0.200 1</ambient>
+            <diffuse>0.290 0.250 0.200 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.41640 1.26011 1.14922</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="151_medium_rubble_050">
+      <pose>10.67884 -1.62389 0.15572 0.17966 0.03464 2.24487</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.53990 0.35906 0.31143</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.53990 0.35906 0.31143</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="152_medium_rubble_051">
+      <pose>-1.67333 1.64486 0.18356 0.05521 0.15692 0.30247</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.71886 0.40551 0.36712</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.71886 0.40551 0.36712</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="153_medium_collapsed_wall_00">
+      <pose>-10.34145 6.81186 0.44994 -0.03062 0.11811 0.39198</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.19832 0.37928 0.46659</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.19832 0.37928 0.46659</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="154_medium_collapsed_wall_01">
+      <pose>-17.50061 6.65100 0.41145 -0.06937 -0.03041 2.42919</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>4.59337 0.31019 0.56942</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>4.59337 0.31019 0.56942</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="155_medium_collapsed_wall_02">
+      <pose>-5.92547 -6.66791 0.56735 -0.11263 -0.17013 1.18705</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>4.63859 0.44677 0.82831</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>4.63859 0.44677 0.82831</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="156_medium_collapsed_wall_03">
+      <pose>-8.10943 4.38116 0.64043 0.07710 -0.00561 2.44093</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.09540 0.33235 0.80734</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.09540 0.33235 0.80734</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="157_medium_collapsed_wall_04">
+      <pose>8.76852 -12.22047 0.36395 -0.10881 -0.13016 0.20442</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>4.68017 0.47457 0.69651</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>4.68017 0.47457 0.69651</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="158_medium_collapsed_wall_05">
+      <pose>11.02110 -9.50407 0.44989 0.06503 -0.15449 2.17970</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>3.22131 0.46262 0.79378</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>3.22131 0.46262 0.79378</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="159_medium_collapsed_wall_06">
+      <pose>-10.35126 -9.46380 0.37524 0.05102 -0.04327 1.31099</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>3.56892 0.50386 0.68000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>3.56892 0.50386 0.68000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="160_medium_collapsed_wall_07">
+      <pose>-9.34024 5.94683 0.58685 -0.08157 -0.05757 2.20596</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>3.01681 0.37883 0.79476</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>3.01681 0.37883 0.79476</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="161_medium_collapsed_wall_08">
+      <pose>-16.98956 -2.45514 0.31794 0.02608 -0.06588 1.14532</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>3.39074 0.39579 0.56164</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>3.39074 0.39579 0.56164</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="162_medium_collapsed_wall_09">
+      <pose>17.90806 -2.80501 0.39591 -0.07705 0.03419 1.49625</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.45847 0.35641 0.46016</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.45847 0.35641 0.46016</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="163_medium_collapsed_wall_10">
+      <pose>-5.13167 -6.91049 0.34482 -0.02562 0.14027 0.85141</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.44940 0.38393 0.47716</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.44940 0.38393 0.47716</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="164_medium_collapsed_wall_11">
+      <pose>-15.17345 -5.79801 0.38239 -0.00684 -0.15364 0.34368</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.13791 0.35402 0.74547</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.13791 0.35402 0.74547</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="165_medium_collapsed_wall_12">
+      <pose>-5.73127 3.79551 0.26284 -0.07088 0.03146 1.21000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.64864 0.42953 0.39108</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.64864 0.42953 0.39108</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="166_medium_collapsed_wall_13">
+      <pose>-9.80840 -8.99616 0.40763 0.12632 0.14930 2.31840</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.98935 0.40631 0.46971</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.98935 0.40631 0.46971</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="167_medium_collapsed_wall_14">
+      <pose>0.93069 -11.10353 0.45235 -0.12940 -0.09533 1.25732</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>4.50024 0.44183 0.58700</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>4.50024 0.44183 0.58700</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="168_medium_broken_upper_slab_01">
+      <pose>3.50000 11.70000 5.70000 0.08000 -0.22000 0.12000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>4.80000 0.80000 0.34000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>4.80000 0.80000 0.34000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="169_medium_broken_upper_slab_02">
+      <pose>10.20000 3.80000 5.50000 -0.10000 0.18000 -0.40000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>3.60000 0.75000 0.30000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>3.60000 0.75000 0.30000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="170_medium_narrow_deflector_01">
+      <pose>-4.60000 -4.90000 1.60000 0.00000 0.00000 0.21109</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.86356 0.28000 2.60000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.86356 0.28000 2.60000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="171_medium_narrow_deflector_02">
+      <pose>7.75000 4.85000 1.60000 0.00000 0.00000 0.78540</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.68701 0.28000 2.50000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.68701 0.28000 2.50000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+  </model>
+</sdf>

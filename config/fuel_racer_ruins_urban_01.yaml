@@ -1,0 +1,11 @@
+# Copy or symlink the selected PCD into FUEL/RACER map_generator/resource,
+# or keep the absolute path in the map_pub args in the launch snippet.
+box_min_x: -21.0
+box_max_x: 21.0
+box_min_y: -16.0
+box_max_y: 16.0
+box_min_z: 0.0
+box_max_z: 8.0
+map_resolution: 0.15
+sensing_horizon: 8.0
+uav_count: 3

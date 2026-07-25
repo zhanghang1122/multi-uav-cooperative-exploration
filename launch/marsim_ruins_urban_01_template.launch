@@ -1,0 +1,9 @@
+<launch>
+  <arg name="map_file" default="$(find ruins_urban_01)/maps/pcd/Ruins-Urban-01_complex.pcd"/>
+  <arg name="drone_num" default="3"/>
+  <!-- MARSIM variants differ by fork. Keep this as a wiring template:
+       load the PCD map into the simulator's pointcloud map parameter, then publish
+       quadrotor command topics from Prometheus/PX4 or your planner. -->
+  <param name="/marsim/map_file" value="$(arg map_file)"/>
+  <param name="/marsim/drone_num" value="$(arg drone_num)"/>
+</launch>

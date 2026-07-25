@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use Ruins-Urban-01, please cite this software and the associated paper when available."
+title: "Ruins-Urban-01: A Parameterized 3D Urban-Ruins Environment for Multi-UAV Exploration"
+type: software
+authors:
+  - family-names: "hu5426y"
+repository-code: "https://github.com/hu5426y/ruins-urban-01"
+url: "https://github.com/hu5426y/ruins-urban-01"
+version: 0.4.0
+date-released: 2026-07-25
+license: MIT
+keywords:
+  - UAV
+  - autonomous exploration
+  - multi-robot exploration
+  - Gazebo
+  - ROS
+  - 3D mapping
+  - procedural generation

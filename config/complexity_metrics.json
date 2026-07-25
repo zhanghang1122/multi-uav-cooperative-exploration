@@ -1,0 +1,87 @@
+{
+  "base": {
+    "node_count": 23,
+    "edge_count": 24,
+    "branch_node_count": 6,
+    "branch_nodes": [
+      "g2",
+      "g3",
+      "g4",
+      "g5",
+      "n2",
+      "s2"
+    ],
+    "independent_loop_count": 2,
+    "dead_end_count": 3,
+    "dead_ends": [
+      "dead_nw",
+      "dead_sw",
+      "east_terminal"
+    ],
+    "vertical_connector_count": 0,
+    "reference_graph_length_m": 125.36
+  },
+  "medium": {
+    "node_count": 36,
+    "edge_count": 40,
+    "branch_node_count": 12,
+    "branch_nodes": [
+      "es1",
+      "g2",
+      "g3",
+      "g4",
+      "g5",
+      "g7",
+      "n2",
+      "n5",
+      "s2",
+      "s6",
+      "ua",
+      "uc"
+    ],
+    "independent_loop_count": 5,
+    "dead_end_count": 5,
+    "dead_ends": [
+      "dead_ne",
+      "dead_nw",
+      "dead_se",
+      "dead_sw",
+      "east_terminal"
+    ],
+    "vertical_connector_count": 2,
+    "reference_graph_length_m": 212.87
+  },
+  "complex": {
+    "node_count": 40,
+    "edge_count": 45,
+    "branch_node_count": 14,
+    "branch_nodes": [
+      "es1",
+      "es2",
+      "g2",
+      "g3",
+      "g4",
+      "g5",
+      "g7",
+      "n2",
+      "n5",
+      "s2",
+      "s6",
+      "u3",
+      "ua",
+      "uc"
+    ],
+    "independent_loop_count": 6,
+    "dead_end_count": 6,
+    "dead_ends": [
+      "dead_ne",
+      "dead_nw",
+      "dead_se",
+      "dead_sw",
+      "east_terminal",
+      "upper_dead"
+    ],
+    "vertical_connector_count": 3,
+    "reference_graph_length_m": 240.11
+  }
+}

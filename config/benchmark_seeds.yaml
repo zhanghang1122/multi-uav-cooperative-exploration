@@ -1,0 +1,33 @@
+benchmark_protocol_version: 1
+
+fixed_worlds:
+  - profile: base
+    seed: 240701
+  - profile: medium
+    seed: 240702
+  - profile: complex
+    seed: 240703
+
+# Development seeds may be used for debugging and parameter tuning.
+development_random_complex:
+  - 20260724
+  - 574240941
+  - 817320155
+  - 1209467331
+  - 1650382047
+
+# Keep these seeds unseen until all algorithm parameters are frozen.
+test_random_complex:
+  - 10359427
+  - 126480931
+  - 304729511
+  - 488210347
+  - 693801263
+  - 852194609
+  - 1027504821
+  - 1279043659
+  - 1513867207
+  - 1902486353
+
+repetitions_per_fixed_world: 5
+repetitions_per_random_seed: 3

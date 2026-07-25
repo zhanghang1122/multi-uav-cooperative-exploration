@@ -1,0 +1,65 @@
+scene_name: Ruins-Urban-01
+units: meters
+frame_id: map
+origin: centered_xy_floor_z0
+dimensions:
+  x: 42.0
+  y: 32.0
+  z: 8.0
+bounding_box:
+  min_x: -21.0
+  max_x: 21.0
+  min_y: -16.0
+  max_y: 16.0
+  min_z: 0.0
+  max_z: 8.0
+uav:
+  collision_diameter_D: 0.65
+  min_required_radius: 0.35
+corridors:
+  normal_width: 2.7
+  narrow_width: 1.45
+  squeeze_width: 1.22
+  vertical_connector_width: 2.2
+vertical_connectors:
+  - name: vertical_connector_a
+    center: [-4.0, 7.0]
+    z_low: 1.35
+    z_high: 4.55
+  - name: vertical_connector_b
+    center: [16.0, -8.5]
+    z_low: 1.35
+    z_high: 4.55
+  - name: vertical_connector_c
+    center: [1.5, 0.8]
+    z_low: 1.20
+    z_high: 4.55
+variants:
+  base:
+    seed: 240701
+    pcd: ../maps/pcd/Ruins-Urban-01_base.pcd
+    gazebo_world: ../gazebo/worlds/Ruins-Urban-01_base.world
+    mesh_obj: ../meshes/obj/Ruins-Urban-01_base.obj
+    mesh_dae: ../meshes/dae/Ruins-Urban-01_base.dae
+    rubble_count: 28
+    column_count: 6
+    collapsed_wall_count: 8
+  medium:
+    seed: 240702
+    pcd: ../maps/pcd/Ruins-Urban-01_medium.pcd
+    gazebo_world: ../gazebo/worlds/Ruins-Urban-01_medium.world
+    mesh_obj: ../meshes/obj/Ruins-Urban-01_medium.obj
+    mesh_dae: ../meshes/dae/Ruins-Urban-01_medium.dae
+    rubble_count: 52
+    column_count: 10
+    collapsed_wall_count: 15
+  complex:
+    seed: 240703
+    pcd: ../maps/pcd/Ruins-Urban-01_complex.pcd
+    gazebo_world: ../gazebo/worlds/Ruins-Urban-01_complex.world
+    mesh_obj: ../meshes/obj/Ruins-Urban-01_complex.obj
+    mesh_dae: ../meshes/dae/Ruins-Urban-01_complex.dae
+    rubble_count: 78
+    column_count: 14
+    collapsed_wall_count: 24
+    optional_fog_world: ../gazebo/worlds/Ruins-Urban-01_complex_fog.world

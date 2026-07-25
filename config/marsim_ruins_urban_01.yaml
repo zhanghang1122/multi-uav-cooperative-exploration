@@ -1,0 +1,16 @@
+map:
+  frame_id: map
+  pointcloud: ../maps/pcd/Ruins-Urban-01_complex.pcd
+  resolution_hint: 0.18
+  bounding_box: [-21.0, 21.0, -16.0, 16.0, 0.0, 8.0]
+lidar:
+  use_case: uav_exploration
+  max_range: 30.0
+  horizontal_fov_deg: 360.0
+  vertical_fov_deg: 90.0
+swarm:
+  uav_count: 3
+  initial_poses:
+    - [-19.0, -0.8, 1.2, 0.0]
+    - [-19.0, 0.0, 1.6, 0.0]
+    - [-19.0, 0.8, 2.0, 0.0]

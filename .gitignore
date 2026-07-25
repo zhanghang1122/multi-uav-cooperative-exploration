@@ -1,0 +1,21 @@
+__pycache__/
+*.py[cod]
+*.blend1
+*.blend2
+.idea/
+.vscode/
+
+# Generated random instances are reproducible from manifests and seeds.
+gazebo/models/ruins_urban_01_random_*/
+gazebo/worlds/Ruins-Urban-01_random_*.world
+maps/pcd/Ruins-Urban-01_random_*.pcd
+meshes/dae/Ruins-Urban-01_random_*.dae
+meshes/obj/Ruins-Urban-01_random_*.obj
+validation/generated/
+
+# Experiment output.
+experiments/results/*
+!experiments/results/.gitkeep
+*.bag
+*.db3
+*.log

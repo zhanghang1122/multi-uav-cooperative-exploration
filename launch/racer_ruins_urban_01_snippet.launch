@@ -1,0 +1,12 @@
+<launch>
+  <arg name="map_file" default="$(env HOME)/catkin_ws/src/RACER/uav_simulator/map_generator/resource/Ruins-Urban-01_complex.pcd"/>
+  <arg name="drone_num" default="3"/>
+  <!-- Use this as a replacement snippet inside RACER's swarm_exploration.launch. -->
+  <node pkg="map_generator" name="map_pub" type="map_pub" output="screen" args="$(arg map_file)"/>
+  <param name="exploration/box_min_x" value="-21.0"/>
+  <param name="exploration/box_min_y" value="-16.0"/>
+  <param name="exploration/box_min_z" value="0.0"/>
+  <param name="exploration/box_max_x" value="21.0"/>
+  <param name="exploration/box_max_y" value="16.0"/>
+  <param name="exploration/box_max_z" value="8.0"/>
+</launch>

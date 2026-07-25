@@ -3,10 +3,10 @@ message: "If you use Ruins-Urban-01, please cite this software and the associate
 title: "Ruins-Urban-01: A Parameterized 3D Urban-Ruins Environment for Multi-UAV Exploration"
 type: software
 authors:
-  - family-names: "hu5426y"
-repository-code: "https://github.com/hu5426y/ruins-urban-01"
-url: "https://github.com/hu5426y/ruins-urban-01"
-version: 0.5.0
+  - family-names: "zhanghang1122"
+repository-code: "https://github.com/zhanghang1122/ruins-urban-01"
+url: "https://github.com/zhanghang1122/ruins-urban-01"
+version: 0.5.1
 date-released: 2026-07-25
 license: MIT
 keywords:

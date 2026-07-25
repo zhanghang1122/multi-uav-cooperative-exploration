@@ -79,6 +79,12 @@ def main() -> int:
             errors.append("package.xml name must be ruins_urban_01")
         if package.findtext("license") != "MIT":
             errors.append("package.xml license must match LICENSE")
+        package_version = package.findtext("version", "")
+        citation = (ROOT / "CITATION.cff").read_text(encoding="utf-8")
+        if f"version: {package_version}" not in citation:
+            errors.append("CITATION.cff version must match package.xml")
+        if "github.com/zhanghang1122/ruins-urban-01" not in citation:
+            errors.append("CITATION.cff repository URL does not match GitHub owner")
     except (ET.ParseError, OSError) as exc:
         errors.append(f"invalid package.xml: {exc}")
 

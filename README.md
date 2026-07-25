@@ -68,7 +68,7 @@ columns, low-overhead sections, forced altitude changes, a partial second level,
 
 ```bash
 cd ~/catkin_ws/src
-git clone https://github.com/hu5426y/ruins-urban-01.git ruins_urban_01
+git clone https://github.com/zhanghang1122/ruins-urban-01.git ruins_urban_01
 
 cd ~/catkin_ws
 catkin_make

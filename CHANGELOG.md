@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.5.1 - 2026-07-25
+
+- Updated repository, citation, license, and maintainer metadata to match the
+  authenticated GitHub owner `zhanghang1122`.
+
 ## 0.5.0 - 2026-07-25
 
 - Added an audited archive for the D435i perception, ten-agent EGO-Swarm, and

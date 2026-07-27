@@ -111,6 +111,51 @@ The truth PCD is read only after the trial and never enters FUEL. The resulting
 surface recall is a controlled comparison metric, not a claim that every
 physical surface is observable from free space.
 
+## Archive a Paper Trial
+
+Every completed trial and every failed trial that produced a runtime report
+and map must be retained in a unique result directory. Failures that stop
+before map capture retain their ROS log and a failure note instead.
+For the first completed `base` run:
+
+```bash
+rosrun ruins_single_uav_exploration finalize_paper_trial.py \
+  --variant base \
+  --runtime-json /tmp/ruins_fuel_base_runtime.json \
+  --map-pcd /tmp/ruins_fuel_base_final.pcd \
+  --truth-pcd "$(rospack find ruins_urban_01)/maps/pcd/Ruins-Urban-01_base.pcd" \
+  --overlay-manifest /tmp/ruins_fuel_overlay/base/manifest.json \
+  --run-id 20260727_0114_base_uniform_height
+```
+
+The command creates:
+
+```text
+experiments/results/<run-id>/
+  manifest.json
+  runtime.json
+  final_occupancy.pcd
+  surface_coverage_tol1.json
+  surface_coverage_tol2.json
+  summary.csv
+  figure_reconstruction_topdown.svg
+  notes.md
+```
+
+The SVG is a deterministic paper figure with simulator truth, online
+reconstruction, and their top-down difference. The truth map is used only
+after the run.
+
+For interactive inspection, launch the same fixed RViz style:
+
+```bash
+roslaunch ruins_single_uav_exploration view_paper_result.launch \
+  truth_pcd:="$(rospack find ruins_urban_01)/maps/pcd/Ruins-Urban-01_base.pcd" \
+  result_pcd:="$(rospack find ruins_single_uav_exploration)/experiments/results/20260727_0114_base_uniform_height/final_occupancy.pcd"
+```
+
+This launch starts its own ROS master when no `roscore` is running.
+
 ## Pass Condition
 
 The runtime report passes only when odometry, an exploration trigger, B-spline

@@ -37,12 +37,10 @@ experiments/results/YYYYMMDD_HHMM_variant_commit/
   manifest.json
   runtime.json
   final_occupancy.pcd
-  surface_coverage.json
-  ros_topics.txt
-  ros_nodes.txt
-  t000_frontier_map.png
-  t_mid_frontier_map.png
-  t_finish_frontier_map.png
+  surface_coverage_tol1.json
+  surface_coverage_tol2.json
+  summary.csv
+  figure_reconstruction_topdown.svg
   notes.md
 ```
 
@@ -50,6 +48,18 @@ experiments/results/YYYYMMDD_HHMM_variant_commit/
 by hand. `final_occupancy.pcd` must be captured from
 `/sdf_map/occupancy_all`. The complete simulator PCD may be read only by the
 offline evaluator after the exploration process has ended.
+
+Run `finalize_paper_trial.py` after every completed trial. It copies the
+temporary runtime files into a unique result directory, computes both strict
+and relaxed surface metrics, records hashes and software provenance, and
+generates the same three-panel vector figure for every run. Manual RViz
+screenshots may be retained as supplementary evidence, but they are not the
+primary quantitative result.
+
+The paper dataset consists of all repeated trials, including failures. Failed
+trials without a captured map retain their ROS log and a failure note outside
+the finalizer. Never replace or delete a failed run. A single successful run
+is suitable for pipeline validation but not for a comparative paper claim.
 
 ## Pass Rule
 

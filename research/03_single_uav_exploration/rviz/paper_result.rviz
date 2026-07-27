@@ -1,0 +1,81 @@
+Panels:
+  - Class: rviz/Displays
+    Name: Displays
+  - Class: rviz/Views
+    Name: Views
+Visualization Manager:
+  Class: ""
+  Global Options:
+    Background Color: 250; 250; 250
+    Fixed Frame: world
+    Frame Rate: 30
+  Displays:
+    - Alpha: 0.25
+      Cell Size: 1
+      Class: rviz/Grid
+      Color: 120; 120; 120
+      Enabled: true
+      Name: Grid
+      Plane: XY
+      Plane Cell Count: 50
+      Reference Frame: <Fixed Frame>
+    - Alpha: 0.16
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 90; 90; 90
+      Color Transformer: FlatColor
+      Decay Time: 0
+      Enabled: true
+      Name: Simulator Truth
+      Position Transformer: XYZ
+      Queue Size: 2
+      Selectable: true
+      Size (m): 0.10
+      Size (Pixels): 2
+      Style: Boxes
+      Topic: /paper/ground_truth
+      Unreliable: false
+      Use Fixed Frame: true
+    - Alpha: 0.92
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 30; 170; 90
+      Color Transformer: FlatColor
+      Decay Time: 0
+      Enabled: true
+      Name: Online Reconstruction
+      Position Transformer: XYZ
+      Queue Size: 2
+      Selectable: true
+      Size (m): 0.10
+      Size (Pixels): 3
+      Style: Boxes
+      Topic: /paper/reconstruction
+      Unreliable: false
+      Use Fixed Frame: true
+  Tools:
+    - Class: rviz/Interact
+    - Class: rviz/MoveCamera
+    - Class: rviz/Select
+  Views:
+    Current:
+      Class: rviz/Orbit
+      Distance: 47
+      Focal Point:
+        X: 0
+        Y: 0
+        Z: 2
+      Name: Current View
+      Pitch: 0.75
+      Yaw: 0.8
+Window Geometry:
+  Height: 960
+  Width: 1500

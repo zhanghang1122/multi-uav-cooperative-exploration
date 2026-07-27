@@ -1,0 +1,29 @@
+<launch>
+  <arg name="truth_pcd"/>
+  <arg name="result_pcd"/>
+  <arg name="frame_id" default="world"/>
+
+  <node pkg="pcl_ros"
+        type="pcd_to_pointcloud"
+        name="paper_truth_map_publisher"
+        args="$(arg truth_pcd) 0.5"
+        output="screen">
+    <param name="frame_id" value="$(arg frame_id)"/>
+    <remap from="cloud_pcd" to="/paper/ground_truth"/>
+  </node>
+
+  <node pkg="pcl_ros"
+        type="pcd_to_pointcloud"
+        name="paper_reconstruction_publisher"
+        args="$(arg result_pcd) 0.5"
+        output="screen">
+    <param name="frame_id" value="$(arg frame_id)"/>
+    <remap from="cloud_pcd" to="/paper/reconstruction"/>
+  </node>
+
+  <node pkg="rviz"
+        type="rviz"
+        name="paper_result_rviz"
+        args="-d $(find ruins_single_uav_exploration)/rviz/paper_result.rviz"
+        output="screen"/>
+</launch>

@@ -148,7 +148,7 @@ F_1=\frac{2P_{\mathrm{map}}C_{\mathrm{map}}}
 T_p=\min\{t\mid C(t)\geq p\}
 \]
 
-建议报告 \(T_{80}\)、\(T_{90}\) 和 \(T_{95}\)，而不仅是算法自行宣布 `finish exploration` 的时刻。多机器人探索基准将探索时间定义为达到预设目标覆盖率所需的墙钟时间。
+多机器人探索基准将探索时间定义为达到预设目标覆盖率所需的墙钟时间。但文献中的 \(T_{90}\) 或 \(T_{95}\) 往往针对已知空间/面积覆盖率，不能直接套到本文当前的障碍表面召回率。应先用独立预实验选定所有对照方法都能达到的公共阈值（例如 \(T_{50}\) 或 \(T_{60}\)），在正式实验前冻结；无法达到阈值的运行记为超时/删失数据。还应报告固定时间预算下的完整率和覆盖曲线 AUC，而不仅是算法自行宣布 `finish exploration` 的时刻。
 
 **覆盖进度曲线与 AUC**
 
@@ -336,4 +336,3 @@ FUEL 和 RACER 都报告主要规划模块的计算时间。只有平均计算�
 3. Yan et al., Metrics for Performance Benchmarking of Multi-Robot Exploration. 该文系统定义探索时间、总航程、探索效率、地图完整性和地图质量：<https://yzrobot.github.io/publications/yz15iros.pdf>
 4. Faigl et al., Decentralized multi-robot exploration under low-bandwidth communications. 该文使用多环境、多次重复、时间、最长/总航程、单机覆盖和重叠分析，并报告均值和标准差：<https://link.springer.com/article/10.1007/s10514-025-10234-3>
 5. 3D reconstruction evaluation literature commonly defines completeness as ground-truth points reconstructed within a distance threshold, combines precision and recall using F-score, and reports the threshold explicitly：<https://www.mdpi.com/2571-9408/6/3/143>
-

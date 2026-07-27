@@ -1,0 +1,22 @@
+id: 02_mapping_baseline
+status: implementation_ready_runtime_pending
+version: 0.1.0
+verified:
+  - ros_package_structure
+  - launch_xml_syntax
+  - python_syntax
+  - truth_topic_isolation
+  - base_pcd_point_count_and_bounds
+  - medium_pcd_point_count_and_bounds
+  - complex_pcd_point_count_and_bounds
+pending:
+  - ubuntu_noetic_catkin_build
+  - marsim_local_sensor_cloud
+  - world_to_sensor_tf
+  - incremental_octomap_growth
+  - reference_trajectory_completion
+  - virtual_machine_performance
+prohibited_claims_until_runtime_passes:
+  - mapping_stage_completed
+  - autonomous_exploration
+  - slam_localization

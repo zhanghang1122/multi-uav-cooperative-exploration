@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>ruins_mapping_baseline</name>
+  <version>0.1.0</version>
+  <description>Online OctoMap baseline for Ruins-Urban-01 using local MARSIM LiDAR data.</description>
+  <maintainer email="zhanghang1122@users.noreply.github.com">zhanghang1122</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <exec_depend>nav_msgs</exec_depend>
+  <exec_depend>octomap_msgs</exec_depend>
+  <exec_depend>octomap_server</exec_depend>
+  <exec_depend>quadrotor_msgs</exec_depend>
+  <exec_depend>roslaunch</exec_depend>
+  <exec_depend>rospy</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+</package>

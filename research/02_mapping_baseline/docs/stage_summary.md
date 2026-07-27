@@ -18,8 +18,8 @@ map.
    later frontier extraction.
 4. A local-cloud gate gives the mapper one auditable input topic and rejects
    unexpected coordinate frames.
-5. A short fixed trajectory validates only the sensing-to-map chain. Its
-   incomplete map must not be presented as an exploration result.
+5. Stage 02 does not command motion; it validates the sensing-to-map chain at
+   the initial pose and cannot be presented as an exploration result.
 6. A lightweight UAV marker and measured odometry path make vehicle motion
    explicit in RViz without requiring an external mesh resource.
 7. The truth cloud is not displayed in the default RViz configuration.
@@ -63,13 +63,13 @@ contribution. Its role is to establish that:
 ## Current Evidence Status
 
 The repository structure, Python syntax, XML syntax, PCD format, and topic
-wiring can be checked on the Windows host. Actual ROS messages, map growth,
-trajectory completion, and virtual-machine performance require an Ubuntu 20.04
-runtime trial. Until the generated JSON report passes, this stage is
+wiring can be checked on the Windows host. Actual ROS messages, local map
+updates, and virtual-machine performance require an Ubuntu 20.04 runtime trial.
+Until the generated JSON report passes, this stage is
 `implementation_ready_runtime_pending`, not experimentally complete.
 
 ## Next Stage Gate
 
-Stage 03 may begin only after all three fixed variants pass this stage. Stage 03
-will replace the reference trajectory with online frontier detection,
-viewpoint selection, and collision-free single-UAV planning.
+Stage 03 may begin only after all three fixed variants pass this interface
+check. Stage 03 performs online frontier detection, viewpoint selection, and
+collision-free single-UAV planning without any predefined motion.

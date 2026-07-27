@@ -110,25 +110,14 @@ source ~/catkin_ws/devel/setup.bash
 roslaunch ruins_mapping_baseline runtime_validation.launch duration_s:=90
 ```
 
-Terminal 3:
-
-```bash
-source /opt/ros/noetic/setup.bash
-source ~/marsim_ws/devel/setup.bash
-source ~/catkin_ws/devel/setup.bash
-roslaunch ruins_mapping_baseline reference_trajectory.launch
-```
-
 ## 6. Inspect the Reports
 
 ```bash
 python3 -m json.tool /tmp/ruins_mapping_runtime.json
-python3 -m json.tool /tmp/ruins_mapping_trajectory.json
 ```
 
-The runtime report must contain `"passed": true`. A failure involving
-`occupied_map_grew` can mean the reference trajectory was not running during
-the 90-second monitoring window.
+The runtime report must contain `"passed": true`. Stage 02 does not move the
+UAV and does not claim complete map coverage.
 
 ## Common Failures
 

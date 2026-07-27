@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Record objective evidence that local sensing drives online map growth."""
+"""Record objective evidence for the stationary local-sensing map interface."""
 
 import json
 import os
@@ -152,10 +152,8 @@ class RuntimeMonitor:
                 "world" in {frame.lstrip("/") for frame in self.stats["octomap"].frames}
             ),
             "occupied_centers_received": self.stats["occupied_centers"].messages > 0,
-            "occupied_map_grew": (
-                self.stats["occupied_centers"].first_points is not None
-                and self.stats["occupied_centers"].max_points
-                > self.stats["occupied_centers"].first_points
+            "occupied_map_nonempty": (
+                self.stats["occupied_centers"].max_points > 0
             ),
             "mapper_input_is_not_truth_topic": (
                 self.topics["mapping_input"] != self.topics["truth_cloud"]

@@ -2,10 +2,9 @@
 
 ## Purpose
 
-This stage replaces the declared Stage 02 reference route with an online
-frontier-driven exploration decision loop. Its purpose is to establish a
-repeatable single-UAV control baseline before multi-UAV task allocation is
-introduced.
+This stage adds an online frontier-driven exploration decision loop after the
+stationary Stage 02 interface check. Its purpose is to establish a repeatable
+single-UAV autonomous baseline before multi-UAV task allocation is introduced.
 
 ## Literature Decision
 
@@ -23,7 +22,7 @@ the later multi-UAV comparison space.
 - fixed Ruins-Urban-01 PCD selection;
 - safety-inset exploration bounds and validated entrance pose;
 - input and output SHA-256 manifest;
-- RViz-compatible one-shot trigger after odometry is available;
+- position-neutral one-shot start signal after odometry is available;
 - runtime evidence for occupancy growth, B-splines, commands, path length,
   planner diagnostics, and FUEL's finish state;
 - fixed-map and unseen-seed experiment protocol.

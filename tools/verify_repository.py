@@ -109,7 +109,6 @@ def main() -> int:
         "CMakeLists.txt",
         "status.yaml",
         "config/mapping_baseline.yaml",
-        "config/reference_trajectory.yaml",
         "docs/design_basis.md",
         "docs/ubuntu20_setup.md",
         "docs/experiment_protocol.md",
@@ -117,13 +116,12 @@ def main() -> int:
         "launch/mapping_baseline.launch",
         "launch/marsim_single_uav_sensor.launch",
         "launch/octomap_online.launch",
-        "launch/reference_trajectory.launch",
         "launch/runtime_validation.launch",
         "rviz/mapping_baseline.rviz",
         "scripts/inspect_pcd.py",
         "scripts/local_cloud_gate.py",
-        "scripts/reference_trajectory.py",
         "scripts/runtime_monitor.py",
+        "scripts/uav_visualizer.py",
         "experiments/results/base_pcd_static_report.json",
         "experiments/results/medium_pcd_static_report.json",
         "experiments/results/complex_pcd_static_report.json",
@@ -218,6 +216,17 @@ def main() -> int:
         errors.append("mapping module CMake project name is incorrect")
     if "catkin_install_python" not in mapping_cmake:
         errors.append("mapping module does not install its Python nodes")
+    if "reference_trajectory" in mapping_cmake:
+        errors.append("mapping module must not install a predefined trajectory")
+
+    forbidden_mapping_routes = (
+        MAPPING_ROOT / "config" / "reference_trajectory.yaml",
+        MAPPING_ROOT / "launch" / "reference_trajectory.launch",
+        MAPPING_ROOT / "scripts" / "reference_trajectory.py",
+    )
+    for path in forbidden_mapping_routes:
+        if path.exists():
+            errors.append(f"predefined mapping route must not exist: {path}")
 
     octomap_launch = (
         MAPPING_ROOT / "launch" / "octomap_online.launch"
@@ -226,6 +235,12 @@ def main() -> int:
         errors.append("OctoMap input is not routed through the local-cloud gate")
     if "/map_generator/global_cloud" in octomap_launch:
         errors.append("OctoMap launch must not reference simulator truth cloud")
+
+    mapping_launch = (
+        MAPPING_ROOT / "launch" / "mapping_baseline.launch"
+    ).read_text(encoding="utf-8")
+    if "reference_trajectory" in mapping_launch:
+        errors.append("mapping baseline launch must not command a fixed route")
 
     mapping_status = (MAPPING_ROOT / "status.yaml").read_text(encoding="utf-8")
     expected_mapping_status = "status: implementation_ready_runtime_pending"

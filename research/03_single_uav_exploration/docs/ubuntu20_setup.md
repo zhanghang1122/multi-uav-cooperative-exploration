@@ -3,8 +3,8 @@
 ## 1. Gate Before This Stage
 
 Run and retain the Stage 02 `base`, `medium`, and `complex` runtime reports
-first. Stage 03 changes motion from a declared route to autonomous exploration;
-it must not hide an unresolved sensing or mapping failure.
+first. Stage 03 introduces motion through autonomous exploration only; it must
+not hide an unresolved sensing or mapping failure.
 
 ## 2. Install and Validate Official FUEL
 

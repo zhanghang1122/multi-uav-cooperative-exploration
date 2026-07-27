@@ -1,8 +1,8 @@
 # 02. Online 3D Mapping Baseline
 
 This ROS package connects the Ruins-Urban-01 PCD truth map to the official
-MARSIM Ubuntu 20.04 interface and incrementally builds an OctoMap from simulated
-local LiDAR measurements.
+MARSIM Ubuntu 20.04 interface and validates an OctoMap generated from simulated
+local LiDAR measurements at the initial pose.
 
 The package name is `ruins_mapping_baseline`.
 
@@ -17,10 +17,9 @@ expressed in `world`. That topic is useful for visualization but is not used by
 OctoMap: the sensor-frame cloud and MARSIM's `world -> sensor` transform are
 required for the correct ray origin and free-space update.
 
-The included short waypoint route validates sensing and mapping. It is declared
-reference motion and is not an autonomous exploration algorithm. An incomplete
-map is expected from this route; complete coverage belongs to the online
-frontier/FUEL stage.
+This package does not command vehicle motion. It validates the sensor, frame,
+and OctoMap interfaces at the initial pose. Complete map construction belongs
+exclusively to the online frontier/FUEL exploration stage.
 
 ## Data Flow
 
@@ -53,8 +52,7 @@ Complete the installation in
 source ~/marsim_ws/devel/setup.bash
 source ~/catkin_ws/devel/setup.bash
 roslaunch ruins_mapping_baseline mapping_baseline.launch \
-  variant:=base \
-  start_reference_trajectory:=false
+  variant:=base
 ```
 
 Verify that RViz shows an orange local cloud, a height-colored online occupied
@@ -72,19 +70,10 @@ source ~/catkin_ws/devel/setup.bash
 roslaunch ruins_mapping_baseline runtime_validation.launch duration_s:=90
 ```
 
-Open terminal 3:
-
-```bash
-source ~/marsim_ws/devel/setup.bash
-source ~/catkin_ws/devel/setup.bash
-roslaunch ruins_mapping_baseline reference_trajectory.launch
-```
-
-The reports are written to:
+The report is written to:
 
 ```text
 /tmp/ruins_mapping_runtime.json
-/tmp/ruins_mapping_trajectory.json
 ```
 
 Only after `base` passes should `variant:=medium` and `variant:=complex` be
@@ -106,17 +95,15 @@ The stage passes only when:
 
 1. odometry and local LiDAR clouds are published;
 2. the local-cloud gate forwards nonempty clouds in frame `sensor`;
-3. OctoMap outputs appear and occupied cells grow as the UAV moves;
+3. OctoMap outputs appear from local observations;
 4. `/mapping/input_cloud` remains different from the truth topic;
-5. the reference route finishes without timeout;
-6. the UAV marker and measured path are visible in RViz;
-7. the test is repeated on `base`, `medium`, and `complex`;
-8. screenshots, OctoMap, and JSON reports are copied into a dated experiment
+5. the UAV marker is visible in RViz;
+6. the test is repeated on `base`, `medium`, and `complex`;
+7. screenshots, OctoMap, and JSON reports are copied into a dated experiment
    directory.
 
 Map completeness is deliberately not an acceptance condition here. It becomes
-an acceptance condition only after the fixed route is replaced by online
-frontier/FUEL exploration.
+an acceptance condition in Stage 03 online frontier/FUEL exploration.
 
 Runtime evidence from Ubuntu is still required. Static repository validation
 does not claim that MARSIM ran successfully.

@@ -13,8 +13,7 @@ pending:
   - ubuntu_noetic_catkin_build
   - marsim_local_sensor_cloud
   - world_to_sensor_tf
-  - incremental_octomap_growth
-  - reference_trajectory_completion
+  - nonempty_local_octomap
   - virtual_machine_performance
 prohibited_claims_until_runtime_passes:
   - mapping_stage_completed

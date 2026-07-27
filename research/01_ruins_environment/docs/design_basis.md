@@ -52,7 +52,8 @@ Geometric complexity comes from connected structure, not random clutter alone. T
 irregular main spine, two ground-level loops, east-side branches, six dead ends, a partial upper network,
 three vertical connectors, low ceilings, hanging beams, altitude-change gates, repetitive columns, and
 occluded junctions. Rubble is generated with fixed seeds and constrained so it cannot accidentally seal
-the validated reference routes.
+the geometric clearance-test corridors. These corridors validate environment connectivity only and are
+never provided to an exploration planner.
 
 ## Intended Experimental Use
 

@@ -9,7 +9,6 @@ complete ruins map, drives incremental 3D occupancy mapping.
 
 - scene variant: `base`, `medium`, `complex`;
 - renderer: CPU for the controlled baseline;
-- reference route: fixed and version-controlled;
 - map resolution: 0.18 m;
 - LiDAR horizon: 15 m.
 
@@ -20,14 +19,12 @@ complete ruins map, drives incremental 3D occupancy mapping.
 - Mid-360 sensing pattern;
 - world frame;
 - OctoMap sensor model;
-- reference trajectory order;
 - repository commit.
 
 ## Recorded Outputs
 
 - local-cloud and occupancy-map screenshots at declared times;
 - `/tmp/ruins_mapping_runtime.json`;
-- `/tmp/ruins_mapping_trajectory.json`;
 - ROS log directory;
 - scene variant and repository commit;
 - virtual-machine CPU and memory allocation;
@@ -35,11 +32,10 @@ complete ruins map, drives incremental 3D occupancy mapping.
 
 ## Required Trial Order
 
-1. static sensor on `base`;
-2. reference route on `base`;
-3. reference route on `medium`;
-4. reference route on `complex`;
-5. one repeated `complex` run to check determinism.
+1. static sensor/interface check on `base`;
+2. static sensor/interface check on `medium`;
+3. static sensor/interface check on `complex`;
+4. one repeated `complex` check to confirm deterministic wiring.
 
 The complete truth cloud must remain hidden in the paper RViz view. A separate
 truth visualization may be captured only for a clearly labelled offline
@@ -57,7 +53,6 @@ Use these filenames:
 
 ```text
 runtime.json
-trajectory.json
 t000_local_and_map.png
 t030_local_and_map.png
 t060_local_and_map.png
@@ -67,7 +62,6 @@ notes.md
 
 ## Pass/Fail Rule
 
-A trial passes when all runtime checks pass and every reference waypoint is
-reached. A timeout, missing local cloud, missing OctoMap output, unchanged
-occupied map, or truth-topic wiring is a failed trial and must not be silently
-discarded.
+A trial passes when all runtime interface checks pass. A timeout, missing local
+cloud, missing OctoMap output, or truth-topic wiring is a failed trial and must
+not be silently discarded. This stage makes no map-completeness claim.

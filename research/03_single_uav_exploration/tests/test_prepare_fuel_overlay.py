@@ -141,6 +141,26 @@ class OverlayTest(unittest.TestCase):
             }
             self.assertEqual(upstream_before, upstream_after)
 
+    def test_start_signal_contains_no_target_offset(self):
+        source = (
+            STAGE_ROOT / "scripts" / "trigger_exploration.py"
+        ).read_text(encoding="utf-8")
+        self.assertIn(
+            "goal.pose.position.x = self.odometry.pose.pose.position.x",
+            source,
+        )
+        self.assertIn(
+            "goal.pose.position.y = self.odometry.pose.pose.position.y",
+            source,
+        )
+        self.assertIn(
+            "goal.pose.position.z = self.odometry.pose.pose.position.z",
+            source,
+        )
+        self.assertNotIn("position.x +", source)
+        self.assertNotIn("position.y +", source)
+        self.assertNotIn("position.z +", source)
+
 
 if __name__ == "__main__":
     unittest.main()

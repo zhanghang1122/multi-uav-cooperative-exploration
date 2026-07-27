@@ -1,0 +1,79 @@
+Panels:
+  - Class: rviz/Displays
+    Name: Displays
+  - Class: rviz/Views
+    Name: Views
+Visualization Manager:
+  Class: ""
+  Global Options:
+    Background Color: 48; 48; 48
+    Fixed Frame: world
+    Frame Rate: 30
+  Displays:
+    - Alpha: 0.45
+      Cell Size: 1
+      Class: rviz/Grid
+      Color: 120; 120; 120
+      Enabled: true
+      Name: Grid
+      Plane: XY
+      Plane Cell Count: 50
+      Reference Frame: <Fixed Frame>
+    - Alpha: 0.85
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 255; 180; 40
+      Color Transformer: FlatColor
+      Decay Time: 0.4
+      Enabled: true
+      Name: Local LiDAR
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 2
+      Style: Flat Squares
+      Topic: /quad0_pcl_render_node/sensor_cloud
+      Unreliable: false
+      Use Fixed Frame: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 80; 200; 120
+      Color Transformer: AxisColor
+      Decay Time: 0
+      Enabled: true
+      Name: Online Occupied Map
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 2
+      Style: Flat Squares
+      Topic: /octomap_point_cloud_centers
+      Unreliable: false
+      Use Fixed Frame: true
+  Tools:
+    - Class: rviz/Interact
+    - Class: rviz/MoveCamera
+    - Class: rviz/Select
+  Views:
+    Current:
+      Class: rviz/Orbit
+      Distance: 48
+      Focal Point:
+        X: 0
+        Y: 0
+        Z: 2
+      Name: Current View
+      Pitch: 0.7
+      Yaw: 0.8
+Window Geometry:
+  Height: 900
+  Width: 1500

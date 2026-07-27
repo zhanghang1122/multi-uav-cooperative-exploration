@@ -154,8 +154,24 @@ def map_publisher(root):
     return matches[0]
 
 
+def indent_xml(element, level=0):
+    """Indent an XML tree without requiring Python 3.9 ElementTree.indent."""
+    indentation = "\n" + level * "  "
+    child_indentation = indentation + "  "
+    children = list(element)
+    if children:
+        if not element.text or not element.text.strip():
+            element.text = child_indentation
+        for child in children:
+            indent_xml(child, level + 1)
+        if not children[-1].tail or not children[-1].tail.strip():
+            children[-1].tail = indentation
+    if level and (not element.tail or not element.tail.strip()):
+        element.tail = indentation
+
+
 def write_xml(tree, path):
-    ET.indent(tree, space="  ")
+    indent_xml(tree.getroot())
     tree.write(path, encoding="utf-8", xml_declaration=True)
 
 

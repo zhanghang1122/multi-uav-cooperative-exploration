@@ -1,0 +1,36 @@
+<launch>
+  <arg name="local_cloud_topic" default="/quad0_pcl_render_node/sensor_cloud"/>
+  <arg name="mapping_cloud_topic" default="/mapping/input_cloud"/>
+  <arg name="world_frame" default="world"/>
+  <arg name="sensor_frame" default="sensor"/>
+  <arg name="resolution" default="0.18"/>
+  <arg name="max_range" default="15.0"/>
+
+  <node pkg="ruins_mapping_baseline" type="local_cloud_gate.py"
+        name="local_cloud_gate" output="screen">
+    <param name="input_topic" value="$(arg local_cloud_topic)"/>
+    <param name="output_topic" value="$(arg mapping_cloud_topic)"/>
+    <param name="expected_frame" value="$(arg sensor_frame)"/>
+  </node>
+
+  <node pkg="octomap_server" type="octomap_server_node"
+        name="octomap_server" output="screen">
+    <remap from="cloud_in" to="$(arg mapping_cloud_topic)"/>
+    <param name="frame_id" type="string" value="$(arg world_frame)"/>
+    <param name="resolution" value="$(arg resolution)"/>
+    <param name="sensor_model/max_range" value="$(arg max_range)"/>
+    <param name="sensor_model/hit" value="0.70"/>
+    <param name="sensor_model/miss" value="0.40"/>
+    <param name="sensor_model/min" value="0.12"/>
+    <param name="sensor_model/max" value="0.97"/>
+    <param name="pointcloud_min_z" value="-0.3"/>
+    <param name="pointcloud_max_z" value="8.3"/>
+    <param name="occupancy_min_z" value="-0.3"/>
+    <param name="occupancy_max_z" value="8.3"/>
+    <param name="filter_ground" value="false"/>
+    <param name="filter_speckles" value="true"/>
+    <param name="height_map" value="false"/>
+    <param name="colored_map" value="false"/>
+    <param name="latch" value="false"/>
+  </node>
+</launch>

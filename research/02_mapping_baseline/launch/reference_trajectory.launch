@@ -1,0 +1,15 @@
+<launch>
+  <arg name="odom_topic" default="/quad_0/lidar_slam/odom"/>
+  <arg name="command_topic" default="/quad_0/planning/pos_cmd"/>
+  <arg name="config"
+       default="$(find ruins_mapping_baseline)/config/reference_trajectory.yaml"/>
+  <arg name="result_file" default="/tmp/ruins_mapping_trajectory.json"/>
+
+  <node pkg="ruins_mapping_baseline" type="reference_trajectory.py"
+        name="reference_trajectory" output="screen">
+    <rosparam command="load" file="$(arg config)"/>
+    <param name="odom_topic" value="$(arg odom_topic)"/>
+    <param name="command_topic" value="$(arg command_topic)"/>
+    <param name="result_file" value="$(arg result_file)"/>
+  </node>
+</launch>

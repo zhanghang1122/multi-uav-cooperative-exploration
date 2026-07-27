@@ -1,0 +1,24 @@
+<launch>
+  <arg name="variant" default="base"/>
+  <arg name="use_gpu" default="false"/>
+  <arg name="start_reference_trajectory" default="false"/>
+  <arg name="start_runtime_monitor" default="false"/>
+  <arg name="start_rviz" default="true"/>
+
+  <include file="$(find ruins_mapping_baseline)/launch/marsim_single_uav_sensor.launch">
+    <arg name="variant" value="$(arg variant)"/>
+    <arg name="use_gpu" value="$(arg use_gpu)"/>
+  </include>
+
+  <include file="$(find ruins_mapping_baseline)/launch/octomap_online.launch"/>
+
+  <include if="$(arg start_reference_trajectory)"
+           file="$(find ruins_mapping_baseline)/launch/reference_trajectory.launch"/>
+
+  <include if="$(arg start_runtime_monitor)"
+           file="$(find ruins_mapping_baseline)/launch/runtime_validation.launch"/>
+
+  <node if="$(arg start_rviz)" pkg="rviz" type="rviz"
+        name="mapping_baseline_rviz" output="screen"
+        args="-d $(find ruins_mapping_baseline)/rviz/mapping_baseline.rviz"/>
+</launch>

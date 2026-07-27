@@ -1,0 +1,39 @@
+<launch>
+  <arg name="variant" default="base"/>
+  <arg name="map_file"
+       default="$(find ruins_urban_01)/maps/pcd/Ruins-Urban-01_$(arg variant).pcd"/>
+  <arg name="use_gpu" default="false"/>
+  <arg name="lidar_type" default="mid360"/>
+  <arg name="downsample_resolution" default="0.18"/>
+  <arg name="init_x" default="-19.2"/>
+  <arg name="init_y" default="0.0"/>
+  <arg name="init_z" default="1.35"/>
+  <arg name="init_yaw" default="0.0"/>
+
+  <!-- The global cloud is simulator truth. Mapping nodes must never subscribe to it. -->
+  <node pkg="map_generator" name="map_pub" type="map_pub" output="screen"
+        args="$(arg map_file)">
+    <param name="add_boundary" value="0"/>
+    <param name="is_bridge" value="0"/>
+    <param name="downsample_res" value="$(arg downsample_resolution)"/>
+    <param name="map_offset_x" value="0.0"/>
+    <param name="map_offset_y" value="0.0"/>
+    <param name="map_offset_z" value="0.0"/>
+  </node>
+
+  <!-- This include matches the official hku-mars/MARSIM ubuntu20 interface. -->
+  <include file="$(find test_interface)/launch/single_drone.xml">
+    <arg name="drone_id" value="0"/>
+    <arg name="uav_num_" value="1"/>
+    <arg name="lidar_type" value="$(arg lidar_type)"/>
+    <arg name="init_x_" value="$(arg init_x)"/>
+    <arg name="init_y_" value="$(arg init_y)"/>
+    <arg name="init_z_" value="$(arg init_z)"/>
+    <arg name="init_yaw" value="$(arg init_yaw)"/>
+    <arg name="map_name_" value="$(arg map_file)"/>
+    <arg name="downsample_resolution_" value="$(arg downsample_resolution)"/>
+    <arg name="odom_topic" value="/lidar_slam/odom"/>
+    <arg name="use_gpu" value="$(arg use_gpu)"/>
+    <arg name="use_uav_extra_model_" value="0"/>
+  </include>
+</launch>

@@ -4,6 +4,7 @@
   <arg name="start_reference_trajectory" default="false"/>
   <arg name="start_runtime_monitor" default="false"/>
   <arg name="start_rviz" default="true"/>
+  <arg name="start_uav_visualizer" default="true"/>
 
   <include file="$(find ruins_mapping_baseline)/launch/marsim_single_uav_sensor.launch">
     <arg name="variant" value="$(arg variant)"/>
@@ -11,6 +12,10 @@
   </include>
 
   <include file="$(find ruins_mapping_baseline)/launch/octomap_online.launch"/>
+
+  <node if="$(arg start_uav_visualizer)"
+        pkg="ruins_mapping_baseline" type="uav_visualizer.py"
+        name="ruins_uav_visualizer" output="screen"/>
 
   <include if="$(arg start_reference_trajectory)"
            file="$(find ruins_mapping_baseline)/launch/reference_trajectory.launch"/>

@@ -1,0 +1,18 @@
+<launch>
+  <arg name="duration_s" default="900.0"/>
+  <arg name="result_file" default="/tmp/ruins_fuel_exploration_runtime.json"/>
+
+  <node pkg="ruins_single_uav_exploration"
+        type="exploration_runtime_monitor.py"
+        name="fuel_exploration_runtime_monitor"
+        output="screen">
+    <param name="duration_s" value="$(arg duration_s)"/>
+    <param name="result_file" value="$(arg result_file)"/>
+    <param name="odom_topic" value="/state_ukf/odom"/>
+    <param name="trigger_topic" value="/waypoint_generator/waypoints"/>
+    <param name="bspline_topic" value="/planning/bspline"/>
+    <param name="position_command_topic" value="/planning/pos_cmd"/>
+    <param name="occupancy_topic" value="/sdf_map/occupancy_all"/>
+    <param name="finish_log_text" value="finish exploration."/>
+  </node>
+</launch>

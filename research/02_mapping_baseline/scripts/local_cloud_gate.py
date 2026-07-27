@@ -40,6 +40,9 @@ class LocalCloudGate:
             self.rejected += 1
             rospy.logwarn_throttle(2.0, "Rejecting empty local cloud.")
             return
+        # MARSIM ubuntu20 publishes "/sensor". tf2 requires frame IDs without
+        # a leading slash, so normalize the validated message before forwarding.
+        message.header.frame_id = self.expected_frame
         self.received += 1
         self.publisher.publish(message)
         rospy.loginfo_throttle(

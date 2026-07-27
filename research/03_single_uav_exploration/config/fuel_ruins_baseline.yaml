@@ -1,0 +1,40 @@
+upstream:
+  project: HKUST-Aerial-Robotics/FUEL
+  expected_branch: main
+  license: GPL-3.0
+
+scene:
+  package: ruins_urban_01
+  variants: [base, medium, complex]
+  map_size_m: [42.0, 32.0, 10.0]
+  exploration_box_m:
+    min: [-20.65, -15.65, 0.35]
+    max: [20.65, 15.65, 7.65]
+  initial_pose: [-19.2, 0.0, 1.35]
+
+planner:
+  map_resolution_m: 0.10
+  sensor_horizon_m: 5.0
+  max_ray_length_m: 4.5
+  max_velocity_mps: 2.0
+  max_acceleration_mps2: 2.0
+  obstacle_inflation_m: 0.199
+  upstream_parameters_unchanged: true
+
+runtime:
+  duration_s: 900.0
+  trigger_delay_s: 5.0
+  finish_log_text: finish exploration.
+  result_file: /tmp/ruins_fuel_exploration_runtime.json
+
+scientific_boundary:
+  prior_information_given_to_planner:
+    - exploration_box_m
+    - initial_pose
+  prior_map_available_to_planner: false
+  obstacle_layout_available_to_planner: false
+  predefined_waypoints_available_to_planner: false
+  predefined_goal_available_to_planner: false
+  full_pcd_available_to_sensor_renderer_only: true
+  px4_used: false
+  multi_uav_used: false

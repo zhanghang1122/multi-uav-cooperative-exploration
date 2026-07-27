@@ -6,7 +6,7 @@ authors:
   - family-names: "zhanghang1122"
 repository-code: "https://github.com/zhanghang1122/multi-uav-cooperative-exploration"
 url: "https://github.com/zhanghang1122/multi-uav-cooperative-exploration"
-version: 0.7.0
+version: 0.8.0
 date-released: 2026-07-27
 license: MIT
 keywords:

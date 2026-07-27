@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.8.0 - 2026-07-27
+
+- Added the Stage 03 official FUEL single-UAV exploration adapter.
+- Added a non-destructive overlay generator for Ruins-Urban-01 map paths,
+  exploration bounds, and the validated entrance pose.
+- Added an automatic exploration trigger and objective runtime evidence monitor.
+- Added a Chinese literature method matrix, formal problem contract, Ubuntu
+  setup, and controlled experiment protocol.
+- Kept Stage 03 runtime-pending until the Ubuntu FUEL trials pass.
+
 ## 0.7.0 - 2026-07-27
 
 - Added the Stage 02 MARSIM-to-OctoMap online 3D mapping baseline.

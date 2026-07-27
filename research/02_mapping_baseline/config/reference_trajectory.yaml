@@ -6,8 +6,9 @@ start_delay_s: 3.0
 position_gain: [7.0, 7.0, 6.2]
 velocity_gain: [4.0, 4.0, 4.0]
 
-# This route follows validated centerline nodes from the environment generator.
-# It is a mapping test trajectory, not an autonomous exploration result.
+# This short route follows validated centerline nodes from the environment
+# generator. It only validates the sensing-to-map chain. Complete map coverage
+# must come from an online exploration algorithm, never from this file.
 waypoints:
   - {name: entry, x: -19.2, y: 0.0, z: 1.35, yaw: 0.0}
   - {name: g1, x: -16.0, y: 0.0, z: 1.35, yaw: -0.20}

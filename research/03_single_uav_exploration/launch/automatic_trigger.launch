@@ -1,0 +1,15 @@
+<launch>
+  <arg name="delay_s" default="5.0"/>
+  <arg name="timeout_s" default="30.0"/>
+
+  <node pkg="ruins_single_uav_exploration"
+        type="trigger_exploration.py"
+        name="fuel_ruins_automatic_trigger"
+        output="screen">
+    <param name="delay_s" value="$(arg delay_s)"/>
+    <param name="timeout_s" value="$(arg timeout_s)"/>
+    <param name="odom_topic" value="/state_ukf/odom"/>
+    <param name="goal_topic" value="/move_base_simple/goal"/>
+    <param name="frame_id" value="world"/>
+  </node>
+</launch>

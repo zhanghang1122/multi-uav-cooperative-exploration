@@ -18,9 +18,11 @@ map.
    later frontier extraction.
 4. A local-cloud gate gives the mapper one auditable input topic and rejects
    unexpected coordinate frames.
-5. A fixed centerline trajectory validates mapping without presenting scripted
-   motion as autonomous exploration.
-6. The truth cloud is not displayed in the default RViz configuration.
+5. A short fixed trajectory validates only the sensing-to-map chain. Its
+   incomplete map must not be presented as an exploration result.
+6. A lightweight UAV marker and measured odometry path make vehicle motion
+   explicit in RViz without requiring an external mesh resource.
+7. The truth cloud is not displayed in the default RViz configuration.
 
 ## Implemented Interface
 
@@ -39,6 +41,12 @@ map.
 
 /octomap_point_cloud_centers
   occupied voxel centers for visualization and growth checks
+
+/ruins/uav0_markers
+  current UAV body marker driven by the sensor transform
+
+/ruins/uav0_path
+  measured path accumulated from odometry
 ```
 
 ## Paper Relevance

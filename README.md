@@ -4,11 +4,11 @@ This is the research repository for a paper on cooperative autonomous
 exploration and 3D mapping by multiple UAVs in complex unknown ruins.
 
 The repository is organized around the paper workflow, not around one Gazebo
-world. The implemented modules currently cover the Ruins-Urban-01 environment
-and an implementation-ready MARSIM-to-OctoMap mapping baseline. Autonomous
-exploration, multi-UAV coordination, and evaluation code will be added as
-separate numbered modules only after each preceding stage passes its declared
-test.
+world. The implemented modules currently cover the Ruins-Urban-01 environment,
+an implementation-ready MARSIM-to-OctoMap mapping baseline, and a
+non-destructive adapter for the official FUEL single-UAV exploration baseline.
+Multi-UAV coordination and evaluation code will be added as separate numbered
+modules after the preceding runtime gates pass.
 
 ## Repository Structure
 
@@ -17,7 +17,8 @@ test.
 |-- research/
 |   |-- README.md
 |   |-- 01_ruins_environment/    ROS environment package and generated assets
-|   `-- 02_mapping_baseline/     MARSIM-to-OctoMap baseline; runtime pending
+|   |-- 02_mapping_baseline/     MARSIM-to-OctoMap baseline; runtime pending
+|   `-- 03_single_uav_exploration/ FUEL ruins adapter; runtime pending
 |-- demos/
 |   |-- demo01_single_uav_obstacle_avoidance/ audited single-UAV baseline
 |   |-- demo02_ego_swarm_10uav/  ten-agent EGO-Swarm baseline
@@ -34,7 +35,7 @@ test.
 The three demos are historical baselines. They are not numbered stages of the
 paper implementation and are not presented as a single integrated system.
 
-## Current Research Module
+## Current Research Modules
 
 ### 01. Ruins-Urban-01 environment
 
@@ -50,6 +51,19 @@ contains:
 
 This module is a ROS package named `ruins_urban_01`. The directory name is
 different from the ROS package name by design.
+
+### 02. Online mapping baseline
+
+[`research/02_mapping_baseline/`](research/02_mapping_baseline/README.md)
+connects local MARSIM LiDAR output to OctoMap through an auditable topic gate.
+It is implementation-ready but still requires Ubuntu runtime evidence.
+
+### 03. Single-UAV autonomous exploration
+
+[`research/03_single_uav_exploration/`](research/03_single_uav_exploration/README.md)
+generates a temporary FUEL launch overlay for Ruins-Urban-01 without editing
+the GPL-licensed upstream checkout. It also records trigger, map-growth,
+trajectory, command, and finish evidence.
 
 ## Ubuntu 20.04 Quick Start
 
@@ -77,13 +91,13 @@ The planned module order is:
 
 1. `01_ruins_environment`: environment generation and validation;
 2. `02_mapping_baseline`: MARSIM local sensing and online OctoMap baseline;
-3. `03_single_uav_exploration`: repeatable single-UAV baseline;
+3. `03_single_uav_exploration`: official FUEL single-UAV ruins baseline;
 4. `04_multi_uav_coordination`: three-UAV allocation, map sharing, and avoidance;
 5. `05_experiments`: fixed-map comparison, unseen-seed generalization, and ablation.
 
-The second module is implementation-ready but still requires its declared
-Ubuntu runtime validation. Empty or unverified implementations are not
-presented as completed experimental work.
+The second and third modules are implementation-ready but still require their
+declared Ubuntu runtime validation. Empty or unverified implementations are
+not presented as completed experimental work.
 
 ## Historical Demo Policy
 

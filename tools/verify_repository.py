@@ -13,6 +13,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 ENV_ROOT = ROOT / "research" / "01_ruins_environment"
 MAPPING_ROOT = ROOT / "research" / "02_mapping_baseline"
+EXPLORATION_ROOT = ROOT / "research" / "03_single_uav_exploration"
 DEMOS_ROOT = ROOT / "demos"
 VARIANTS = ("base", "medium", "complex")
 
@@ -130,6 +131,28 @@ def main() -> int:
     for name in mapping_files:
         require(MAPPING_ROOT / name, errors)
 
+    exploration_files = (
+        "README.md",
+        "package.xml",
+        "CMakeLists.txt",
+        "status.yaml",
+        "config/fuel_ruins_baseline.yaml",
+        "docs/experiment_protocol.md",
+        "docs/literature_method_matrix_zh.md",
+        "docs/problem_contract_zh.md",
+        "docs/stage_summary.md",
+        "docs/ubuntu20_setup.md",
+        "launch/automatic_trigger.launch",
+        "launch/runtime_validation.launch",
+        "scripts/exploration_runtime_monitor.py",
+        "scripts/prepare_fuel_overlay.py",
+        "scripts/trigger_exploration.py",
+        "tests/test_prepare_fuel_overlay.py",
+        "experiments/results/.gitkeep",
+    )
+    for name in exploration_files:
+        require(EXPLORATION_ROOT / name, errors)
+
     demo_files = (
         "README.md",
         "demo01_single_uav_obstacle_avoidance/README.md",
@@ -159,8 +182,8 @@ def main() -> int:
     )
     if expected_repository not in citation:
         errors.append("CITATION.cff does not identify the paper repository")
-    if "version: 0.7.0" not in citation:
-        errors.append("CITATION.cff version must be 0.7.0")
+    if "version: 0.8.0" not in citation:
+        errors.append("CITATION.cff version must be 0.8.0")
 
     package_path = ENV_ROOT / "package.xml"
     try:
@@ -208,6 +231,56 @@ def main() -> int:
     expected_mapping_status = "status: implementation_ready_runtime_pending"
     if expected_mapping_status not in mapping_status:
         errors.append("mapping stage must remain runtime-pending before Ubuntu evidence")
+
+    exploration_package_path = EXPLORATION_ROOT / "package.xml"
+    try:
+        exploration_package = ET.parse(exploration_package_path).getroot()
+        expected_name = "ruins_single_uav_exploration"
+        if exploration_package.findtext("name") != expected_name:
+            errors.append(
+                "exploration module ROS package name must be "
+                "ruins_single_uav_exploration"
+            )
+        if exploration_package.findtext("license") != "MIT":
+            errors.append("exploration module license must match repository LICENSE")
+    except (ET.ParseError, OSError) as exc:
+        errors.append(f"invalid exploration package.xml: {exc}")
+
+    exploration_cmake = (
+        EXPLORATION_ROOT / "CMakeLists.txt"
+    ).read_text(encoding="utf-8")
+    if "project(ruins_single_uav_exploration)" not in exploration_cmake:
+        errors.append("exploration module CMake project name is incorrect")
+    if "catkin_install_python" not in exploration_cmake:
+        errors.append("exploration module does not install its Python nodes")
+
+    exploration_status = (
+        EXPLORATION_ROOT / "status.yaml"
+    ).read_text(encoding="utf-8")
+    expected_exploration_status = "status: implementation_ready_runtime_pending"
+    if expected_exploration_status not in exploration_status:
+        errors.append(
+            "exploration stage must remain runtime-pending before Ubuntu evidence"
+        )
+
+    overlay_script = (
+        EXPLORATION_ROOT / "scripts" / "prepare_fuel_overlay.py"
+    ).read_text(encoding="utf-8")
+    if "upstream_checkout_modified" not in overlay_script:
+        errors.append("FUEL overlay generator does not declare non-modification")
+    if "map_publisher(simulator_tree.getroot()).set" not in overlay_script:
+        errors.append("FUEL overlay generator does not replace the truth-map path")
+
+    exploration_monitor = (
+        EXPLORATION_ROOT / "scripts" / "exploration_runtime_monitor.py"
+    ).read_text(encoding="utf-8")
+    for evidence in (
+        "frontier_planner_published_bspline",
+        "online_occupancy_grew",
+        "fuel_reported_finish",
+    ):
+        if evidence not in exploration_monitor:
+            errors.append(f"exploration monitor misses required evidence: {evidence}")
 
     for variant in VARIANTS:
         report_path = (
@@ -272,7 +345,8 @@ def main() -> int:
         + list((ENV_ROOT / "gazebo" / "worlds").glob("*.world"))
         + list((ENV_ROOT / "gazebo" / "models").glob("*/model.sdf"))
         + list((MAPPING_ROOT / "launch").glob("*.launch"))
-        + [package_path, mapping_package_path]
+        + list((EXPLORATION_ROOT / "launch").glob("*.launch"))
+        + [package_path, mapping_package_path, exploration_package_path]
     )
     for path in xml_files:
         check_xml(path, errors)
@@ -280,6 +354,8 @@ def main() -> int:
     python_files = (
         list((ENV_ROOT / "scripts").glob("*.py"))
         + list((MAPPING_ROOT / "scripts").glob("*.py"))
+        + list((EXPLORATION_ROOT / "scripts").glob("*.py"))
+        + list((EXPLORATION_ROOT / "tests").glob("*.py"))
         + list(DEMOS_ROOT.glob("*/scripts/*.py"))
         + list((ROOT / "tools").glob("*.py"))
     )
@@ -341,6 +417,7 @@ def main() -> int:
     print("- three audited historical demo records")
     print("- Ruins-Urban-01 ROS/XML/PCD/mesh assets")
     print("- Stage 02 mapping package, topic isolation, launch/XML, and Python syntax")
+    print("- Stage 03 FUEL overlay, runtime evidence contract, XML, and Python syntax")
     print("- LF line endings and clearance reports")
     return 0
 

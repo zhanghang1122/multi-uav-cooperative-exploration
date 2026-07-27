@@ -17,8 +17,10 @@ expressed in `world`. That topic is useful for visualization but is not used by
 OctoMap: the sensor-frame cloud and MARSIM's `world -> sensor` transform are
 required for the correct ray origin and free-space update.
 
-The included waypoint route validates sensing and mapping. It is declared
-reference motion and is not an autonomous exploration algorithm.
+The included short waypoint route validates sensing and mapping. It is declared
+reference motion and is not an autonomous exploration algorithm. An incomplete
+map is expected from this route; complete coverage belongs to the online
+frontier/FUEL stage.
 
 ## Data Flow
 
@@ -39,7 +41,8 @@ Ruins PCD truth
 - Livox Mid-360-style 360-degree simulated LiDAR;
 - OctoMap resolution: 0.18 m;
 - one simulated UAV and one shared world frame;
-- fixed `base`, `medium`, or `complex` Ruins-Urban-01 map.
+- fixed `base`, `medium`, or `complex` Ruins-Urban-01 map;
+- RViz UAV body marker and measured odometry path.
 
 ## Quick Start
 
@@ -54,8 +57,12 @@ roslaunch ruins_mapping_baseline mapping_baseline.launch \
   start_reference_trajectory:=false
 ```
 
-Verify that RViz shows an orange local cloud and a green online occupied map.
+Verify that RViz shows an orange local cloud, a height-colored online occupied
+map, the `UAV0` marker, and its cyan measured path.
 The complete truth cloud is intentionally absent from this RViz configuration.
+The orange display subscribes to `/mapping/input_cloud`, which is the validated
+MARSIM local measurement with its `"/sensor"` frame normalized to `sensor` for
+ROS Noetic tf2 compatibility.
 
 Open terminal 2:
 
@@ -102,8 +109,14 @@ The stage passes only when:
 3. OctoMap outputs appear and occupied cells grow as the UAV moves;
 4. `/mapping/input_cloud` remains different from the truth topic;
 5. the reference route finishes without timeout;
-6. the test is repeated on `base`, `medium`, and `complex`;
-7. screenshots and JSON reports are copied into a dated experiment directory.
+6. the UAV marker and measured path are visible in RViz;
+7. the test is repeated on `base`, `medium`, and `complex`;
+8. screenshots, OctoMap, and JSON reports are copied into a dated experiment
+   directory.
+
+Map completeness is deliberately not an acceptance condition here. It becomes
+an acceptance condition only after the fixed route is replaced by online
+frontier/FUEL exploration.
 
 Runtime evidence from Ubuntu is still required. Static repository validation
 does not claim that MARSIM ran successfully.

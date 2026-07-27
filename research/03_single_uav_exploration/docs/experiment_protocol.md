@@ -56,6 +56,10 @@ generates the same three-panel vector figure for every run. Manual RViz
 screenshots may be retained as supplementary evidence, but they are not the
 primary quantitative result.
 
+Metric bounds and figure bounds are recorded separately. A diagnostic run may
+display its complete search height while retaining a predeclared lower-layer
+metric volume. Never change metric bounds after inspecting a method's result.
+
 The paper dataset consists of all repeated trials, including failures. Failed
 trials without a captured map retain their ROS log and a failure note outside
 the finalizer. Never replace or delete a failed run. A single successful run

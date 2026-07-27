@@ -70,6 +70,7 @@ class FinalizePaperTrialTest(unittest.TestCase):
             self.assertIn("Simulator truth", rendered)
             self.assertIn("Online reconstruction", rendered)
             self.assertIn("Recall: 50.0%", rendered)
+            self.assertIn("display z-range: 0.00-2.00 m", rendered)
 
     def test_read_pcd_applies_bounds(self):
         module = load_script()

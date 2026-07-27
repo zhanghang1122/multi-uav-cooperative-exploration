@@ -125,6 +125,7 @@ rosrun ruins_single_uav_exploration finalize_paper_trial.py \
   --map-pcd /tmp/ruins_fuel_base_final.pcd \
   --truth-pcd "$(rospack find ruins_urban_01)/maps/pcd/Ruins-Urban-01_base.pcd" \
   --overlay-manifest /tmp/ruins_fuel_overlay/base/manifest.json \
+  --figure-bounds -20.65 -15.65 0.35 20.65 15.65 7.65 \
   --run-id 20260727_0114_base_uniform_height
 ```
 
@@ -144,7 +145,10 @@ experiments/results/<run-id>/
 
 The SVG is a deterministic paper figure with simulator truth, online
 reconstruction, and their top-down difference. The truth map is used only
-after the run.
+after the run. `--figure-bounds` affects only the displayed map. The numerical
+metric retains the variant task volume, so the first uniform-height diagnostic
+run shows its complete saved height range without changing the previously
+defined lower-layer comparison metric.
 
 For interactive inspection, launch the same fixed RViz style:
 

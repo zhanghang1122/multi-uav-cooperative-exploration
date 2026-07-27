@@ -342,9 +342,14 @@ def write_topdown_svg(path, truth_points, observed_points, bounds, resolution, r
     )
     svg.append(
         '<text class="small" x="{}" y="760">'
-        "Visualization resolution: {:.2f} m; metric tolerance: {} voxel(s)."
+        "Visualization resolution: {:.2f} m; metric tolerance: {} voxel(s); "
+        "display z-range: {:.2f}-{:.2f} m."
         "</text>".format(
-            margin, resolution, coverage["tolerance_voxels"]
+            margin,
+            resolution,
+            coverage["tolerance_voxels"],
+            bounds[2],
+            bounds[5],
         )
     )
     svg.append("</svg>")
@@ -407,7 +412,18 @@ def parse_arguments():
     parser.add_argument("--run-id")
     parser.add_argument("--resolution", type=float, default=0.1)
     parser.add_argument("--figure-resolution", type=float, default=0.2)
-    parser.add_argument("--bounds", type=float, nargs=6)
+    parser.add_argument(
+        "--bounds",
+        type=float,
+        nargs=6,
+        help="Offline metric bounds. Defaults to the variant task volume.",
+    )
+    parser.add_argument(
+        "--figure-bounds",
+        type=float,
+        nargs=6,
+        help="Display bounds. Defaults to metric bounds.",
+    )
     return parser.parse_args()
 
 
@@ -426,6 +442,7 @@ def main():
         raise ValueError("resolutions must be positive")
 
     bounds = arguments.bounds or VARIANT_BOUNDS[arguments.variant]
+    figure_bounds = arguments.figure_bounds or bounds
     run_id = arguments.run_id or datetime.now().strftime(
         "%Y%m%d_%H%M%S_{}".format(arguments.variant)
     )
@@ -445,6 +462,8 @@ def main():
     runtime = json.loads(arguments.runtime_json.read_text(encoding="utf-8-sig"))
     truth_points = read_ascii_pcd(arguments.truth_pcd, bounds)
     observed_points = read_ascii_pcd(arguments.map_pcd, bounds)
+    figure_truth_points = read_ascii_pcd(arguments.truth_pcd, figure_bounds)
+    figure_observed_points = read_ascii_pcd(arguments.map_pcd, figure_bounds)
     coverage_1 = evaluate(
         truth_points, observed_points, arguments.resolution, 1, bounds
     )
@@ -483,9 +502,9 @@ def main():
     )
     write_topdown_svg(
         run_directory / "figure_reconstruction_topdown.svg",
-        truth_points,
-        observed_points,
-        bounds,
+        figure_truth_points,
+        figure_observed_points,
+        figure_bounds,
         arguments.figure_resolution,
         runtime,
         coverage_1,
@@ -497,6 +516,7 @@ def main():
         "created_local_time": datetime.now().astimezone().isoformat(),
         "variant": arguments.variant,
         "evaluation_bounds_m": bounds,
+        "figure_bounds_m": figure_bounds,
         "metric_resolution_m": arguments.resolution,
         "figure_resolution_m": arguments.figure_resolution,
         "paper_repository_commit": git_commit(repository_root),

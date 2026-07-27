@@ -109,7 +109,7 @@ class OverlayTest(unittest.TestCase):
                 element.get("name"): element.get("value")
                 for element in simulator_include.findall("arg")
             }
-            self.assertEqual(include_args["box_max_z"], "7.65")
+            self.assertEqual(include_args["box_max_z"], "2.65")
 
             generated_simulator = ET.parse(
                 output / "fuel_simulator_base.launch"
@@ -144,6 +144,14 @@ class OverlayTest(unittest.TestCase):
                 for path in (exploration, simulator, algorithm)
             }
             self.assertEqual(upstream_before, upstream_after)
+
+    def test_variant_specific_height_bounds(self):
+        module = load_script()
+        self.assertEqual(module.exploration_box("base")["box_max_z"], "2.65")
+        self.assertEqual(module.exploration_box("medium")["box_max_z"], "5.00")
+        self.assertEqual(module.exploration_box("complex")["box_max_z"], "5.00")
+        with self.assertRaises(ValueError):
+            module.exploration_box("unknown")
 
     def test_start_signal_contains_no_target_offset(self):
         source = (

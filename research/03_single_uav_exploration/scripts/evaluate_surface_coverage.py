@@ -63,9 +63,30 @@ def matched_count(source, target, offsets):
     )
 
 
-def evaluate(truth_path, observed_path, resolution, tolerance):
-    truth = voxelize(read_ascii_pcd(truth_path), resolution)
-    observed = voxelize(read_ascii_pcd(observed_path), resolution)
+def inside_bounds(point, bounds):
+    if bounds is None:
+        return True
+    return all(
+        bounds[index] <= point[index] <= bounds[index + 3]
+        for index in range(3)
+    )
+
+
+def evaluate(truth_path, observed_path, resolution, tolerance, bounds=None):
+    truth_points = [
+        point for point in read_ascii_pcd(truth_path)
+        if inside_bounds(point, bounds)
+    ]
+    observed_points = [
+        point for point in read_ascii_pcd(observed_path)
+        if inside_bounds(point, bounds)
+    ]
+    if not truth_points:
+        raise ValueError("no truth points remain inside the evaluation bounds")
+    if not observed_points:
+        raise ValueError("no observed points remain inside the evaluation bounds")
+    truth = voxelize(truth_points, resolution)
+    observed = voxelize(observed_points, resolution)
     offsets = neighbor_offsets(tolerance)
     truth_matched = matched_count(truth, observed, offsets)
     observed_matched = matched_count(observed, truth, offsets)
@@ -86,6 +107,7 @@ def evaluate(truth_path, observed_path, resolution, tolerance):
         ),
         "resolution_m": resolution,
         "tolerance_voxels": tolerance,
+        "evaluation_bounds_m": bounds,
         "truth_pcd": str(truth_path.resolve()),
         "observed_pcd": str(observed_path.resolve()),
         "truth_voxels": len(truth),
@@ -104,6 +126,13 @@ def parse_arguments():
     parser.add_argument("--observed-pcd", required=True, type=Path)
     parser.add_argument("--resolution", type=float, default=0.1)
     parser.add_argument("--tolerance-voxels", type=int, default=1)
+    parser.add_argument(
+        "--bounds",
+        type=float,
+        nargs=6,
+        metavar=("MIN_X", "MIN_Y", "MIN_Z", "MAX_X", "MAX_Y", "MAX_Z"),
+        help="Optional XYZ evaluation volume, applied only after the trial.",
+    )
     parser.add_argument("--output", type=Path)
     return parser.parse_args()
 
@@ -114,11 +143,17 @@ def main():
         raise ValueError("--resolution must be positive")
     if arguments.tolerance_voxels < 0:
         raise ValueError("--tolerance-voxels must be non-negative")
+    if arguments.bounds is not None and any(
+        arguments.bounds[index] > arguments.bounds[index + 3]
+        for index in range(3)
+    ):
+        raise ValueError("--bounds minimums must not exceed maximums")
     payload = evaluate(
         arguments.truth_pcd,
         arguments.observed_pcd,
         arguments.resolution,
         arguments.tolerance_voxels,
+        arguments.bounds,
     )
     rendered = json.dumps(payload, indent=2, sort_keys=True)
     print(rendered)

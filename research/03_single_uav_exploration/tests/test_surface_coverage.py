@@ -65,6 +65,26 @@ class SurfaceCoverageTest(unittest.TestCase):
             self.assertEqual(result["surface_recall"], 1.0)
             self.assertEqual(result["surface_precision"], 1.0)
 
+    def test_bounds_exclude_points_outside_the_experiment_volume(self):
+        module = load_script()
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            truth = root / "truth.pcd"
+            observed = root / "observed.pcd"
+            write_pcd(truth, [(0.0, 0.0, 0.0), (0.0, 0.0, 3.0)])
+            write_pcd(observed, [(0.0, 0.0, 0.0)])
+
+            result = module.evaluate(
+                truth,
+                observed,
+                0.1,
+                0,
+                [-1.0, -1.0, -1.0, 1.0, 1.0, 1.0],
+            )
+
+            self.assertEqual(result["surface_recall"], 1.0)
+            self.assertEqual(result["truth_voxels"], 1)
+
 
 if __name__ == "__main__":
     unittest.main()

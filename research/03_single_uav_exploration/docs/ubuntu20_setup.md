@@ -108,11 +108,17 @@ rosrun ruins_single_uav_exploration evaluate_surface_coverage.py \
   --observed-pcd /tmp/ruins_fuel_base_final.pcd \
   --resolution 0.1 \
   --tolerance-voxels 1 \
+  --bounds -20.65 -15.65 0.35 20.65 15.65 2.65 \
   --output /tmp/ruins_fuel_base_coverage.json
 ```
 
 The evaluator is deliberately offline. It cannot reveal the obstacle layout
 to the planner and therefore does not weaken the unknown-environment claim.
+
+The overlay generator uses a vertical bound matched to each scene's modeled
+flight levels: `2.65 m` for `base`, and `5.00 m` for `medium` and `complex`.
+This prevents empty air above the modeled navigation structure from becoming a
+large artificial exploration task.
 
 ## 6. Repeat in Controlled Order
 

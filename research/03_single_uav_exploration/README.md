@@ -33,13 +33,19 @@ upstream launch files and writes temporary launch copies containing:
 
 - the selected Ruins-Urban-01 PCD path;
 - the 42 m by 32 m by 10 m internal map size;
-- an exploration box inset by the UAV safety radius;
+- a variant-specific exploration box inset by the UAV safety radius;
 - the validated entrance pose `[-19.2, 0.0, 1.35]`;
 - all otherwise unchanged official FUEL algorithm parameters.
 
 The map dimensions and exploration box describe only where the UAV is allowed
 to search. They reveal nothing about walls, rubble, passages, dead ends, or
 vertical connections inside that box.
+
+The vertical search limits follow the modeled flight levels. `base` is limited
+to `0.35-2.65 m` because it contains no upper navigation layer. `medium` and
+`complex` use `0.35-5.00 m` to include their `4.55 m` upper flight level while
+keeping the UAV center below the upper corridor wall tops. These are workspace
+bounds, not a route or obstacle map.
 
 The generated manifest records SHA-256 hashes of every input. The upstream
 checkout is not modified.
@@ -97,6 +103,7 @@ rosrun ruins_single_uav_exploration evaluate_surface_coverage.py \
   --observed-pcd /tmp/ruins_fuel_base_final.pcd \
   --resolution 0.1 \
   --tolerance-voxels 1 \
+  --bounds -20.65 -15.65 0.35 20.65 15.65 2.65 \
   --output /tmp/ruins_fuel_base_coverage.json
 ```
 

@@ -10,13 +10,17 @@ from pathlib import Path
 
 
 MAP_SIZE = {"x": "42.0", "y": "32.0", "z": "10.0"}
-BOX = {
+COMMON_BOX = {
     "box_min_x": "-20.65",
     "box_min_y": "-15.65",
     "box_min_z": "0.35",
     "box_max_x": "20.65",
     "box_max_y": "15.65",
-    "box_max_z": "7.65",
+}
+BOX_MAX_Z = {
+    "base": "2.65",
+    "medium": "5.00",
+    "complex": "5.00",
 }
 INITIAL_POSE = {"init_x": "-19.2", "init_y": "0.0", "init_z": "1.35"}
 VARIANTS = ("base", "medium", "complex")
@@ -24,6 +28,12 @@ VARIANTS = ("base", "medium", "complex")
 
 def repository_root():
     return Path(__file__).resolve().parents[3]
+
+
+def exploration_box(variant):
+    if variant not in BOX_MAX_Z:
+        raise ValueError(f"unsupported ruins variant: {variant}")
+    return {**COMMON_BOX, "box_max_z": BOX_MAX_Z[variant]}
 
 
 def default_pcd(variant):
@@ -183,6 +193,7 @@ def generate_overlay(workspace, pcd, output_dir, variant):
     if not pcd.is_file():
         raise FileNotFoundError(f"missing ruins PCD: {pcd}")
     validate_pcd(pcd)
+    box = exploration_box(variant)
 
     output_dir = output_dir.resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -201,12 +212,12 @@ def generate_overlay(workspace, pcd, output_dir, variant):
         set_direct_arg(exploration_root, name, value)
 
     algorithm_include = include_by_suffix(exploration_root, "algorithm.xml")
-    for name, value in BOX.items():
+    for name, value in box.items():
         set_include_arg(algorithm_include, name, value)
 
     simulator_include = include_by_suffix(exploration_root, "simulator.xml")
     simulator_include.set("file", str(simulator_output))
-    for name, value in BOX.items():
+    for name, value in box.items():
         set_include_arg(simulator_include, name, value)
 
     write_xml(exploration_tree, exploration_output)
@@ -230,14 +241,14 @@ def generate_overlay(workspace, pcd, output_dir, variant):
             "map_size_m": [float(MAP_SIZE[axis]) for axis in ("x", "y", "z")],
             "exploration_box_m": {
                 "min": [
-                    float(BOX["box_min_x"]),
-                    float(BOX["box_min_y"]),
-                    float(BOX["box_min_z"]),
+                    float(box["box_min_x"]),
+                    float(box["box_min_y"]),
+                    float(box["box_min_z"]),
                 ],
                 "max": [
-                    float(BOX["box_max_x"]),
-                    float(BOX["box_max_y"]),
-                    float(BOX["box_max_z"]),
+                    float(box["box_max_x"]),
+                    float(box["box_max_y"]),
+                    float(box["box_max_z"]),
                 ],
             },
             "initial_pose": [

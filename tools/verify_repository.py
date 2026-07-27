@@ -12,6 +12,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 ENV_ROOT = ROOT / "research" / "01_ruins_environment"
+MAPPING_ROOT = ROOT / "research" / "02_mapping_baseline"
 DEMOS_ROOT = ROOT / "demos"
 VARIANTS = ("base", "medium", "complex")
 
@@ -101,6 +102,34 @@ def main() -> int:
     for name in environment_files:
         require(ENV_ROOT / name, errors)
 
+    mapping_files = (
+        "README.md",
+        "package.xml",
+        "CMakeLists.txt",
+        "status.yaml",
+        "config/mapping_baseline.yaml",
+        "config/reference_trajectory.yaml",
+        "docs/design_basis.md",
+        "docs/ubuntu20_setup.md",
+        "docs/experiment_protocol.md",
+        "docs/stage_summary.md",
+        "launch/mapping_baseline.launch",
+        "launch/marsim_single_uav_sensor.launch",
+        "launch/octomap_online.launch",
+        "launch/reference_trajectory.launch",
+        "launch/runtime_validation.launch",
+        "rviz/mapping_baseline.rviz",
+        "scripts/inspect_pcd.py",
+        "scripts/local_cloud_gate.py",
+        "scripts/reference_trajectory.py",
+        "scripts/runtime_monitor.py",
+        "experiments/results/base_pcd_static_report.json",
+        "experiments/results/medium_pcd_static_report.json",
+        "experiments/results/complex_pcd_static_report.json",
+    )
+    for name in mapping_files:
+        require(MAPPING_ROOT / name, errors)
+
     demo_files = (
         "README.md",
         "demo01_single_uav_obstacle_avoidance/README.md",
@@ -130,8 +159,8 @@ def main() -> int:
     )
     if expected_repository not in citation:
         errors.append("CITATION.cff does not identify the paper repository")
-    if "version: 0.6.0" not in citation:
-        errors.append("CITATION.cff version must be 0.6.0")
+    if "version: 0.7.0" not in citation:
+        errors.append("CITATION.cff version must be 0.7.0")
 
     package_path = ENV_ROOT / "package.xml"
     try:
@@ -148,6 +177,51 @@ def main() -> int:
         errors.append("ruins module CMake project name is incorrect")
     if "\n  demos\n" in cmake or "\n  blender\n" in cmake:
         errors.append("ruins module installs a directory that is not part of the package")
+
+    mapping_package_path = MAPPING_ROOT / "package.xml"
+    try:
+        mapping_package = ET.parse(mapping_package_path).getroot()
+        if mapping_package.findtext("name") != "ruins_mapping_baseline":
+            errors.append(
+                "mapping module ROS package name must be ruins_mapping_baseline"
+            )
+        if mapping_package.findtext("license") != "MIT":
+            errors.append("mapping module license must match repository LICENSE")
+    except (ET.ParseError, OSError) as exc:
+        errors.append(f"invalid mapping package.xml: {exc}")
+
+    mapping_cmake = (MAPPING_ROOT / "CMakeLists.txt").read_text(encoding="utf-8")
+    if "project(ruins_mapping_baseline)" not in mapping_cmake:
+        errors.append("mapping module CMake project name is incorrect")
+    if "catkin_install_python" not in mapping_cmake:
+        errors.append("mapping module does not install its Python nodes")
+
+    octomap_launch = (
+        MAPPING_ROOT / "launch" / "octomap_online.launch"
+    ).read_text(encoding="utf-8")
+    if "/mapping/input_cloud" not in octomap_launch:
+        errors.append("OctoMap input is not routed through the local-cloud gate")
+    if "/map_generator/global_cloud" in octomap_launch:
+        errors.append("OctoMap launch must not reference simulator truth cloud")
+
+    mapping_status = (MAPPING_ROOT / "status.yaml").read_text(encoding="utf-8")
+    expected_mapping_status = "status: implementation_ready_runtime_pending"
+    if expected_mapping_status not in mapping_status:
+        errors.append("mapping stage must remain runtime-pending before Ubuntu evidence")
+
+    for variant in VARIANTS:
+        report_path = (
+            MAPPING_ROOT
+            / "experiments"
+            / "results"
+            / f"{variant}_pcd_static_report.json"
+        )
+        try:
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+            if not report.get("passed") or report.get("points", 0) <= 0:
+                errors.append(f"invalid static PCD report: {relative(report_path)}")
+        except (json.JSONDecodeError, OSError) as exc:
+            errors.append(f"invalid static PCD report {relative(report_path)}: {exc}")
 
     try:
         summary = json.loads(
@@ -197,13 +271,15 @@ def main() -> int:
         list((ENV_ROOT / "launch").glob("*.launch"))
         + list((ENV_ROOT / "gazebo" / "worlds").glob("*.world"))
         + list((ENV_ROOT / "gazebo" / "models").glob("*/model.sdf"))
-        + [package_path]
+        + list((MAPPING_ROOT / "launch").glob("*.launch"))
+        + [package_path, mapping_package_path]
     )
     for path in xml_files:
         check_xml(path, errors)
 
     python_files = (
         list((ENV_ROOT / "scripts").glob("*.py"))
+        + list((MAPPING_ROOT / "scripts").glob("*.py"))
         + list(DEMOS_ROOT.glob("*/scripts/*.py"))
         + list((ROOT / "tools").glob("*.py"))
     )
@@ -264,7 +340,8 @@ def main() -> int:
     print("- paper-repository layout and citation metadata")
     print("- three audited historical demo records")
     print("- Ruins-Urban-01 ROS/XML/PCD/mesh assets")
-    print("- Python syntax, LF line endings, and clearance reports")
+    print("- Stage 02 mapping package, topic isolation, launch/XML, and Python syntax")
+    print("- LF line endings and clearance reports")
     return 0
 
 

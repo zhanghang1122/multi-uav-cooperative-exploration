@@ -1,0 +1,29 @@
+{
+  "bounds_m": {
+    "max": [
+      21.319,
+      16.267,
+      3.877
+    ],
+    "min": [
+      -21.297,
+      -16.242,
+      -0.16
+    ]
+  },
+  "encoding": "ascii",
+  "extent_m": [
+    42.616,
+    32.509,
+    4.037
+  ],
+  "fields": [
+    "x",
+    "y",
+    "z"
+  ],
+  "file": "Ruins-Urban-01_base.pcd",
+  "passed": true,
+  "points": 101753,
+  "schema_version": 1
+}

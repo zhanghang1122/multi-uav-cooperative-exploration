@@ -173,3 +173,7 @@ FUEL, not the simulator truth cloud.
 
 This stage does not use PX4 and does not implement multi-UAV coordination.
 Those are separate integration and research questions.
+
+The complete paper argument, comparison methods, metric definitions, repeated
+trial rules, and figure/table plan are documented in
+[`docs/paper_experimental_logic_zh.md`](docs/paper_experimental_logic_zh.md).

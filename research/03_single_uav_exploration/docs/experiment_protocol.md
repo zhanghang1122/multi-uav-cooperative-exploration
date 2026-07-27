@@ -1,5 +1,10 @@
 # Stage 03 Experiment Protocol
 
+The paper-level research questions, hypotheses, metrics, controlled variables,
+comparison matrix, and statistical rules are defined in
+[`paper_experimental_logic_zh.md`](paper_experimental_logic_zh.md). This file
+specifies the Stage 03 execution details and evidence format.
+
 ## Objective
 
 Verify that an official FUEL single-UAV planner can autonomously finish the

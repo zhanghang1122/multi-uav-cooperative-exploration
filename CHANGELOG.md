@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.7.0 - 2026-07-27
+
+- Added the Stage 02 MARSIM-to-OctoMap online 3D mapping baseline.
+- Added an auditable local-cloud gate that prevents accidental truth-map input.
+- Added a declared non-autonomous reference route and runtime evidence monitor.
+- Added Ubuntu 20.04 setup, experiment protocol, and stage-summary documents.
+- Kept Stage 02 marked runtime-pending until Ubuntu evidence passes.
+
 ## 0.6.0 - 2026-07-25
 
 - Reframed the repository as the complete multi-UAV cooperative exploration

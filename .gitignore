@@ -16,6 +16,9 @@ research/01_ruins_environment/validation/generated/
 # Experiment output.
 research/01_ruins_environment/experiments/results/*
 !research/01_ruins_environment/experiments/results/.gitkeep
+research/02_mapping_baseline/experiments/results/*
+!research/02_mapping_baseline/experiments/results/.gitkeep
+!research/02_mapping_baseline/experiments/results/*_pcd_static_report.json
 *.bag
 *.db3
 *.log

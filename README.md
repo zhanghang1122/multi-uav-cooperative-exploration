@@ -4,10 +4,11 @@ This is the research repository for a paper on cooperative autonomous
 exploration and 3D mapping by multiple UAVs in complex unknown ruins.
 
 The repository is organized around the paper workflow, not around one Gazebo
-world. The current implemented research module is the Ruins-Urban-01
-environment. Mapping, autonomous exploration, multi-UAV coordination, and
-evaluation code will be added as separate numbered modules only after each
-stage has passed a repeatable test.
+world. The implemented modules currently cover the Ruins-Urban-01 environment
+and an implementation-ready MARSIM-to-OctoMap mapping baseline. Autonomous
+exploration, multi-UAV coordination, and evaluation code will be added as
+separate numbered modules only after each preceding stage passes its declared
+test.
 
 ## Repository Structure
 
@@ -15,7 +16,8 @@ stage has passed a repeatable test.
 .
 |-- research/
 |   |-- README.md
-|   `-- 01_ruins_environment/    current ROS package and generated assets
+|   |-- 01_ruins_environment/    ROS environment package and generated assets
+|   `-- 02_mapping_baseline/     MARSIM-to-OctoMap baseline; runtime pending
 |-- demos/
 |   |-- demo01_single_uav_obstacle_avoidance/ audited single-UAV baseline
 |   |-- demo02_ego_swarm_10uav/  ten-agent EGO-Swarm baseline
@@ -74,13 +76,14 @@ Do not keep another package with the same `<name>ruins_urban_01</name>` under
 The planned module order is:
 
 1. `01_ruins_environment`: environment generation and validation;
-2. `02_mapping_baseline`: common 3D occupancy-map interface and metrics;
+2. `02_mapping_baseline`: MARSIM local sensing and online OctoMap baseline;
 3. `03_single_uav_exploration`: repeatable single-UAV baseline;
 4. `04_multi_uav_coordination`: three-UAV allocation, map sharing, and avoidance;
 5. `05_experiments`: fixed-map comparison, unseen-seed generalization, and ablation.
 
-Only the first module exists today. Empty or unverified implementations are not
-published as completed work.
+The second module is implementation-ready but still requires its declared
+Ubuntu runtime validation. Empty or unverified implementations are not
+presented as completed experimental work.
 
 ## Historical Demo Policy
 

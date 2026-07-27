@@ -10,6 +10,7 @@ catkin_install_python(PROGRAMS
   scripts/local_cloud_gate.py
   scripts/reference_trajectory.py
   scripts/runtime_monitor.py
+  scripts/uav_visualizer.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

@@ -58,6 +58,10 @@ SIMULATOR_XML = """\
 class OverlayTest(unittest.TestCase):
     def test_generates_overlay_without_editing_upstream(self):
         module = load_script()
+        self.assertNotIn(
+            "ET.indent(",
+            SCRIPT_PATH.read_text(encoding="utf-8"),
+        )
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             launch_dir = (

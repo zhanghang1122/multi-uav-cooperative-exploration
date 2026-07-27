@@ -36,6 +36,8 @@ Store:
 experiments/results/YYYYMMDD_HHMM_variant_commit/
   manifest.json
   runtime.json
+  final_occupancy.pcd
+  surface_coverage.json
   ros_topics.txt
   ros_nodes.txt
   t000_frontier_map.png
@@ -45,7 +47,9 @@ experiments/results/YYYYMMDD_HHMM_variant_commit/
 ```
 
 `runtime.json` must be produced by `exploration_runtime_monitor.py`, not written
-by hand.
+by hand. `final_occupancy.pcd` must be captured from
+`/sdf_map/occupancy_all`. The complete simulator PCD may be read only by the
+offline evaluator after the exploration process has ended.
 
 ## Pass Rule
 
@@ -57,11 +61,17 @@ A trial passes only if:
 4. the trajectory server publishes position commands;
 5. the online occupancy visualization changes after the first observation;
 6. FUEL reports `finish exploration.`;
-7. no process crashes before completion.
+7. the final online occupancy PCD is saved;
+8. no process crashes before completion.
 
 Planner failure and collision-replan log counts are retained as diagnostics.
 The current monitor does not claim physical collision checking against Gazebo;
 the test uses FUEL's own internal safety callback.
+
+The offline occupied-surface voxel recall is reported for map completeness.
+Because some truth surfaces may be physically unobservable, this value is used
+for controlled comparisons across planners and scene variants rather than as
+an absolute requirement of 100 percent.
 
 ## Interpretation
 

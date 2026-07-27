@@ -80,43 +80,39 @@ rosrun ruins_single_uav_exploration prepare_fuel_overlay.py \
 Inspect `/tmp/ruins_fuel_overlay/base/manifest.json`. It must show
 `upstream_checkout_modified: false`.
 
-## 5. Run the Baseline
+## 5. Run One Complete Baseline Trial
 
-Terminal 1:
-
-```bash
-source ~/fuel_ws/devel/setup.bash
-source ~/catkin_ws/devel/setup.bash
-roslaunch /tmp/ruins_fuel_overlay/base/fuel_exploration_base.launch
-```
-
-Terminal 2:
-
-```bash
-source ~/fuel_ws/devel/setup.bash
-roslaunch exploration_manager rviz.launch
-```
-
-Terminal 3:
+Run the trial without RViz first. RViz is a viewer and is not required for
+FUEL to detect frontiers, plan trajectories, or build the map:
 
 ```bash
 source ~/fuel_ws/devel/setup.bash
 source ~/catkin_ws/devel/setup.bash
-roslaunch ruins_single_uav_exploration runtime_validation.launch \
-  duration_s:=900 \
-  result_file:=/tmp/ruins_fuel_base_runtime.json
+roslaunch ruins_single_uav_exploration autonomous_trial.launch \
+  exploration_launch:=/tmp/ruins_fuel_overlay/base/fuel_exploration_base.launch \
+  duration_s:=1800 \
+  result_file:=/tmp/ruins_fuel_base_runtime.json \
+  map_file:=/tmp/ruins_fuel_base_final.pcd
 ```
 
-Terminal 4:
+The launch waits for odometry and publishes a position-neutral start signal.
+FUEL then selects all exploration viewpoints and trajectories online. Do not
+stop the launch when the map only looks partially complete. Wait for
+`finish exploration.` or the timeout report.
+
+Evaluate the saved online map only after the trial:
 
 ```bash
-source ~/fuel_ws/devel/setup.bash
-source ~/catkin_ws/devel/setup.bash
-roslaunch ruins_single_uav_exploration automatic_trigger.launch
+rosrun ruins_single_uav_exploration evaluate_surface_coverage.py \
+  --truth-pcd "$(rospack find ruins_urban_01)/maps/pcd/Ruins-Urban-01_base.pcd" \
+  --observed-pcd /tmp/ruins_fuel_base_final.pcd \
+  --resolution 0.1 \
+  --tolerance-voxels 1 \
+  --output /tmp/ruins_fuel_base_coverage.json
 ```
 
-The trigger waits for odometry and then publishes the same goal message type
-used by RViz. It does not prescribe an exploration route.
+The evaluator is deliberately offline. It cannot reveal the obstacle layout
+to the planner and therefore does not weaken the unknown-environment claim.
 
 ## 6. Repeat in Controlled Order
 

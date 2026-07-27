@@ -6,6 +6,7 @@ find_package(catkin REQUIRED)
 catkin_package()
 
 catkin_install_python(PROGRAMS
+  scripts/evaluate_surface_coverage.py
   scripts/exploration_runtime_monitor.py
   scripts/prepare_fuel_overlay.py
   scripts/trigger_exploration.py

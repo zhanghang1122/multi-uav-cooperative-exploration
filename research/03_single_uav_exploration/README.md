@@ -70,26 +70,39 @@ rosrun ruins_single_uav_exploration prepare_fuel_overlay.py \
 roslaunch /tmp/ruins_fuel_overlay/base/fuel_exploration_base.launch
 ```
 
-Start RViz in another terminal:
-
-```bash
-source ~/fuel_ws/devel/setup.bash
-roslaunch exploration_manager rviz.launch
-```
-
-Start evidence capture and then the one-shot trigger:
+Run one uninterrupted headless trial. This is the primary validation path;
+RViz is not required for planning or map generation:
 
 ```bash
 source ~/fuel_ws/devel/setup.bash
 source ~/catkin_ws/devel/setup.bash
-roslaunch ruins_single_uav_exploration runtime_validation.launch
+roslaunch ruins_single_uav_exploration autonomous_trial.launch \
+  exploration_launch:=/tmp/ruins_fuel_overlay/base/fuel_exploration_base.launch \
+  duration_s:=1800 \
+  result_file:=/tmp/ruins_fuel_base_runtime.json \
+  map_file:=/tmp/ruins_fuel_base_final.pcd
 ```
 
+The launch starts the official FUEL simulator, the position-neutral trigger,
+the runtime monitor, and final map capture. It contains no RViz node, waypoint
+sequence, patrol route, or target coordinate. It ends when FUEL reports
+`finish exploration.` or when the 30-minute timeout is reached. A timeout is
+recorded as a failed, incomplete trial.
+
+After a completed trial, compute an offline occupied-surface coverage metric:
+
 ```bash
-source ~/fuel_ws/devel/setup.bash
-source ~/catkin_ws/devel/setup.bash
-roslaunch ruins_single_uav_exploration automatic_trigger.launch
+rosrun ruins_single_uav_exploration evaluate_surface_coverage.py \
+  --truth-pcd "$(rospack find ruins_urban_01)/maps/pcd/Ruins-Urban-01_base.pcd" \
+  --observed-pcd /tmp/ruins_fuel_base_final.pcd \
+  --resolution 0.1 \
+  --tolerance-voxels 1 \
+  --output /tmp/ruins_fuel_base_coverage.json
 ```
+
+The truth PCD is read only after the trial and never enters FUEL. The resulting
+surface recall is a controlled comparison metric, not a claim that every
+physical surface is observable from free space.
 
 ## Pass Condition
 
@@ -97,6 +110,10 @@ The runtime report passes only when odometry, an exploration trigger, B-spline
 plans, position commands, and an incrementally growing occupancy cloud are
 observed and FUEL logs `finish exploration.`. Any timeout is retained as a
 failed trial.
+
+The monitor also saves the last `/sdf_map/occupancy_all` message as an ASCII
+PCD. Therefore the final map used for evaluation is the map produced online by
+FUEL, not the simulator truth cloud.
 
 This stage does not use PX4 and does not implement multi-UAV coordination.
 Those are separate integration and research questions.

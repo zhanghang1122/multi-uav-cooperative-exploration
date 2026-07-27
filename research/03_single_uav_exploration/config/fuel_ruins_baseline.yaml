@@ -22,10 +22,18 @@ planner:
   upstream_parameters_unchanged: true
 
 runtime:
-  duration_s: 900.0
+  duration_s: 1800.0
   trigger_delay_s: 5.0
   finish_log_text: finish exploration.
   result_file: /tmp/ruins_fuel_exploration_runtime.json
+  map_file: /tmp/ruins_fuel_final_occupancy.pcd
+
+evaluation:
+  mode: offline_only
+  metric: occupied_surface_voxel_coverage
+  resolution_m: 0.10
+  tolerance_voxels: 1
+  simulator_truth_available_to_planner: false
 
 scientific_boundary:
   prior_information_given_to_planner:

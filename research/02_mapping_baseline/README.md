@@ -98,7 +98,7 @@ bounds without publishing the truth map to any mapping node.
 The stage passes only when:
 
 1. odometry and local LiDAR clouds are published;
-2. the local-cloud gate forwards nonempty clouds in frame `world`;
+2. the local-cloud gate forwards nonempty clouds in frame `sensor`;
 3. OctoMap outputs appear and occupied cells grow as the UAV moves;
 4. `/mapping/input_cloud` remains different from the truth topic;
 5. the reference route finishes without timeout;

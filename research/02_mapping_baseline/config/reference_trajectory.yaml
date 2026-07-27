@@ -1,0 +1,23 @@
+rate_hz: 20.0
+position_tolerance_m: 0.35
+hold_time_s: 1.0
+waypoint_timeout_s: 30.0
+start_delay_s: 3.0
+position_gain: [7.0, 7.0, 6.2]
+velocity_gain: [4.0, 4.0, 4.0]
+
+# This route follows validated centerline nodes from the environment generator.
+# It is a mapping test trajectory, not an autonomous exploration result.
+waypoints:
+  - {name: entry, x: -19.2, y: 0.0, z: 1.35, yaw: 0.0}
+  - {name: g1, x: -16.0, y: 0.0, z: 1.35, yaw: -0.20}
+  - {name: g2, x: -12.0, y: -0.8, z: 1.35, yaw: 0.34}
+  - {name: g3, x: -8.0, y: 0.6, z: 1.35, yaw: -0.22}
+  - {name: g4, x: -3.5, y: -0.4, z: 1.55, yaw: 0.24}
+  - {name: g5, x: 1.5, y: 0.8, z: 1.20, yaw: -0.22}
+  - {name: g6, x: 6.5, y: -0.3, z: 1.60, yaw: 0.24}
+  - {name: g7, x: 11.5, y: 0.9, z: 1.35, yaw: -0.20}
+  - {name: g8, x: 16.0, y: 0.0, z: 1.35, yaw: 0.32}
+  - {name: east_terminal, x: 19.0, y: 1.0, z: 1.35, yaw: 3.14}
+  - {name: g8_return, x: 16.0, y: 0.0, z: 1.35, yaw: 2.94}
+  - {name: g7_return, x: 11.5, y: 0.9, z: 1.35, yaw: 3.14}

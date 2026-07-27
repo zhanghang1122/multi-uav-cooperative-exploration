@@ -1,0 +1,37 @@
+frames:
+  world: world
+  expected_local_cloud: sensor
+
+topics:
+  truth_cloud: /map_generator/global_cloud
+  local_cloud: /quad0_pcl_render_node/sensor_cloud
+  mapping_input: /mapping/input_cloud
+  odometry: /quad_0/lidar_slam/odom
+  position_command: /quad_0/planning/pos_cmd
+  octomap_binary: /octomap_binary
+  occupied_centers: /octomap_point_cloud_centers
+
+lidar:
+  model: mid360
+  sensing_horizon_m: 15.0
+  sensing_rate_hz: 10.0
+  horizontal_fov_deg: 360.0
+  vertical_fov_deg: 90.0
+  cpu_renderer: true
+
+octomap:
+  resolution_m: 0.18
+  max_range_m: 15.0
+  pointcloud_min_z_m: -0.3
+  pointcloud_max_z_m: 8.3
+  occupancy_min_z_m: -0.3
+  occupancy_max_z_m: 8.3
+  filter_ground: false
+  filter_speckles: true
+
+acceptance:
+  require_odometry: true
+  require_local_cloud: true
+  require_octomap: true
+  require_occupied_growth: true
+  forbidden_mapper_input: /map_generator/global_cloud

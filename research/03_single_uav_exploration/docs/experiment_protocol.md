@@ -1,0 +1,76 @@
+# Stage 03 Experiment Protocol
+
+## Objective
+
+Verify that an official FUEL single-UAV planner can autonomously finish the
+Ruins-Urban-01 environment using only online local sensing.
+
+## Controlled Variables
+
+- FUEL checkout commit;
+- paper repository commit;
+- PCD SHA-256;
+- initial pose `[-19.2, 0.0, 1.35]`;
+- map size `[42.0, 32.0, 10.0]`;
+- exploration box inset by 0.35 m;
+- FUEL official algorithm parameters;
+- virtual-machine CPU/RAM;
+- trigger mechanism and timeout.
+
+## Trial Sequence
+
+1. official FUEL office map, one successful run;
+2. `base`, three repeated runs;
+3. `medium`, three repeated runs;
+4. `complex`, three repeated runs;
+5. at least five unseen seeded ruins after the fixed maps pass.
+
+The first implementation checkpoint requires one pass on each fixed variant.
+The repeated and unseen-seed trials belong to the paper dataset.
+
+## Evidence Per Trial
+
+Store:
+
+```text
+experiments/results/YYYYMMDD_HHMM_variant_commit/
+  manifest.json
+  runtime.json
+  ros_topics.txt
+  ros_nodes.txt
+  t000_frontier_map.png
+  t_mid_frontier_map.png
+  t_finish_frontier_map.png
+  notes.md
+```
+
+`runtime.json` must be produced by `exploration_runtime_monitor.py`, not written
+by hand.
+
+## Pass Rule
+
+A trial passes only if:
+
+1. odometry is received;
+2. the trigger reaches FUEL's waypoint bridge;
+3. at least one B-spline trajectory is published;
+4. the trajectory server publishes position commands;
+5. the online occupancy visualization changes after the first observation;
+6. FUEL reports `finish exploration.`;
+7. no process crashes before completion.
+
+Planner failure and collision-replan log counts are retained as diagnostics.
+The current monitor does not claim physical collision checking against Gazebo;
+the test uses FUEL's own internal safety callback.
+
+## Interpretation
+
+A pass demonstrates a single-UAV autonomous exploration baseline on one map.
+It does not prove that:
+
+- the method is better than another planner;
+- PX4 can execute the same trajectory;
+- three UAVs can coordinate;
+- a policy generalizes to unseen ruins.
+
+Those claims require later controlled comparisons.

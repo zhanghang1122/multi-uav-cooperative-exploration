@@ -143,12 +143,9 @@ class RuntimeMonitor:
             "local_cloud_uses_sensor_frame": (
                 "sensor" in {frame.lstrip("/") for frame in self.stats["local_cloud"].frames}
             ),
-            "mapping_input_preserves_sensor_frame": (
-                "sensor"
-                in {
-                    frame.lstrip("/")
-                    for frame in self.stats["mapping_input"].frames
-                }
+            "mapping_input_uses_normalized_sensor_frame": (
+                "sensor" in self.stats["mapping_input"].frames
+                and "/sensor" not in self.stats["mapping_input"].frames
             ),
             "octomap_received": self.stats["octomap"].messages > 0,
             "octomap_uses_world_frame": (

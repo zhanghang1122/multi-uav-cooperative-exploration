@@ -149,10 +149,11 @@ Check:
 rostopic echo -n 1 /quad0_pcl_render_node/sensor_cloud/header
 ```
 
-The expected frame for MARSIM's mapping input is `sensor`. MARSIM publishes the
-matching transform from `world` to `sensor`. Do not switch OctoMap to the
-world-coordinate visualization cloud, because its frame no longer identifies
-the correct LiDAR ray origin.
+The expected frame for MARSIM's mapping input is `sensor`. The Ubuntu 20.04 CPU
+renderer may publish the equivalent legacy name `/sensor`; the local-cloud gate
+validates it and removes the leading slash before forwarding it to tf2 and
+OctoMap. Do not switch OctoMap to the world-coordinate visualization cloud,
+because its frame no longer identifies the correct LiDAR ray origin.
 
 ### OctoMap stays empty
 

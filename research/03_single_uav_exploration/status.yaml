@@ -1,0 +1,24 @@
+id: 03_single_uav_exploration
+status: implementation_ready_runtime_pending
+version: 0.1.0
+baseline: official_fuel_with_generated_overlay
+verified:
+  - ros_package_structure
+  - launch_xml_syntax
+  - python_syntax
+  - overlay_generator_unit_test
+  - environment_truth_only_reaches_sensor_renderer
+  - fixed_map_paths_and_bounds
+pending:
+  - ubuntu_noetic_catkin_build
+  - official_fuel_office_baseline
+  - ruins_base_runtime
+  - ruins_medium_runtime
+  - ruins_complex_runtime
+  - autonomous_finish_detection
+  - collision_free_completion
+prohibited_claims_until_runtime_passes:
+  - ruins_single_uav_exploration_completed
+  - frontier_baseline_outperforms_other_methods
+  - multi_uav_coordination
+  - px4_flight_integration

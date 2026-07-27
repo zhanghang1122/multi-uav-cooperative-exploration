@@ -19,6 +19,9 @@ research/01_ruins_environment/experiments/results/*
 research/02_mapping_baseline/experiments/results/*
 !research/02_mapping_baseline/experiments/results/.gitkeep
 !research/02_mapping_baseline/experiments/results/*_pcd_static_report.json
+research/03_single_uav_exploration/experiments/results/*
+!research/03_single_uav_exploration/experiments/results/.gitkeep
+research/03_single_uav_exploration/generated/
 *.bag
 *.db3
 *.log

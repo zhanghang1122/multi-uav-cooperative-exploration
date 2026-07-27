@@ -14,7 +14,8 @@
 
 - Added the Stage 02 MARSIM-to-OctoMap online 3D mapping baseline.
 - Added an auditable local-cloud gate that prevents accidental truth-map input.
-- Added a declared non-autonomous reference route and runtime evidence monitor.
+- Added a stationary sensor-to-OctoMap interface check and runtime evidence
+  monitor without any commanded vehicle route.
 - Added Ubuntu 20.04 setup, experiment protocol, and stage-summary documents.
 - Kept Stage 02 marked runtime-pending until Ubuntu evidence passes.
 

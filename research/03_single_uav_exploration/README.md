@@ -8,10 +8,11 @@ The package name is `ruins_single_uav_exploration`.
 
 ## Why This Stage Exists
 
-Stage 02 proves only that local sensor observations can grow an online 3D map
-along a declared reference route. Stage 03 removes that route. FUEL detects
-frontiers from its current occupancy map, chooses viewpoints, plans a
-collision-free trajectory, and repeats until no frontier remains.
+Stage 02 proves only that local sensor observations can update an online 3D
+map at the initial pose. Stage 03 adds motion exclusively through autonomous
+exploration. FUEL detects frontiers from its current occupancy map, chooses
+viewpoints, plans a collision-free trajectory, and repeats until no frontier
+remains.
 
 The planner receives only the exploration box and the validated initial pose.
 It receives no prebuilt map, obstacle layout, target coordinate, waypoint

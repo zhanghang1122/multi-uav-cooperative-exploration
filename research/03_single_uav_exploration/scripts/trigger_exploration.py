@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Publish one RViz-compatible goal after FUEL odometry becomes available."""
+"""Publish a position-neutral start signal after FUEL odometry is available."""
 
 import time
 
@@ -41,13 +41,15 @@ class ExplorationTrigger:
         goal = PoseStamped()
         goal.header.stamp = rospy.Time.now()
         goal.header.frame_id = self.frame_id
-        goal.pose.position.x = self.odometry.pose.pose.position.x + 1.0
+        # Official FUEL uses this PoseStamped message to enter exploration.
+        # Reusing the measured pose prevents the trigger from encoding a target.
+        goal.pose.position.x = self.odometry.pose.pose.position.x
         goal.pose.position.y = self.odometry.pose.pose.position.y
-        goal.pose.position.z = max(self.odometry.pose.pose.position.z, 0.5)
-        goal.pose.orientation.w = 1.0
+        goal.pose.position.z = self.odometry.pose.pose.position.z
+        goal.pose.orientation = self.odometry.pose.pose.orientation
         self.publisher.publish(goal)
         rospy.loginfo(
-            "Published the one-shot FUEL exploration trigger on %s.",
+            "Published the position-neutral FUEL start signal on %s.",
             self.goal_topic,
         )
         rospy.sleep(1.0)

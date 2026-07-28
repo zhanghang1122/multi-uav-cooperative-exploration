@@ -17,6 +17,7 @@ verified:
   - offline_coverage_timeseries_implemented
   - formal_run_artifact_validator_implemented
   - fuel_baseline_decision_gate_implemented
+  - first_p0_trial_gap_summary_documented
 pending:
   - official_fuel_office_baseline
   - corrected_bounds_base_repeated_runtime

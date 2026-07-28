@@ -44,3 +44,20 @@ The overlay unit test, Python syntax, ROS XML, package metadata, environment
 paths, and non-modification invariant can be checked on the Windows host.
 Actual ROS topics, occupancy growth, trajectory execution, completion, and
 virtual-machine timing require Ubuntu 20.04 runtime trials.
+
+## 2026-07-28 Progress Summary
+
+The first `base_uniform_height` autonomous FUEL run demonstrated that the
+planner can receive a position-neutral start signal, generate online plans,
+grow an occupancy map, report completion, and save a final PCD. It is a P0
+diagnostic record only, not a paper comparison sample: its early coverage
+measurement used the full truth surface cloud and therefore has not yet
+separated reachable/observable surfaces from all simulator surfaces.
+
+The repository now includes a FUEL baseline decision gate. Every P0/P1 trial
+is archived with time-resolved evidence and diagnosed by
+`diagnose_baseline_trial.py`. A single sparse map, a single coverage value, or
+an RViz screenshot is explicitly insufficient to reject or accept FUEL. The
+next unblocked task is to execute the recorder-enabled P0 base run on Ubuntu,
+archive it, and produce `baseline_diagnosis.json` before starting repeated
+calibration or considering an alternative baseline.

@@ -38,6 +38,10 @@ class Cloud:
     fields = [Field("x"), Field("y"), Field("z")]
 
 
+class Image:
+    header = Header()
+
+
 class ProbeFormattingTest(unittest.TestCase):
     def test_cloud_summary_normalizes_frame_and_count(self):
         module = load_script()
@@ -46,6 +50,12 @@ class ProbeFormattingTest(unittest.TestCase):
         self.assertEqual(summary["points"], 8)
         self.assertEqual(summary["fields"], ["x", "y", "z"])
         self.assertEqual(summary["stamp"], {"secs": 12, "nsecs": 34})
+
+    def test_image_summary_has_frame_without_point_cloud_fields(self):
+        module = load_script()
+        summary = module.message_summary(Image(), "sensor_msgs/Image")
+        self.assertEqual(summary["frame_id"], "sensor")
+        self.assertNotIn("points", summary)
 
 
 if __name__ == "__main__":

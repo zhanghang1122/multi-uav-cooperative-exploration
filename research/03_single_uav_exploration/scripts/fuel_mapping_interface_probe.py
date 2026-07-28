@@ -24,13 +24,15 @@ def message_summary(message, message_type):
 
 
 class RuntimeInterfaceProbe:
-    def __init__(self, rospy, point_cloud_type, pose_type, odometry_type, arguments):
+    def __init__(self, rospy, point_cloud_type, image_type, pose_type, odometry_type, arguments):
         self.rospy = rospy
         self.arguments = arguments
         self.first_messages = {}
         self.subscribers = [
             rospy.Subscriber(arguments.cloud_topic, point_cloud_type,
                              lambda msg: self.record("cloud", msg, "sensor_msgs/PointCloud2"), queue_size=1),
+            rospy.Subscriber(arguments.depth_topic, image_type,
+                             lambda msg: self.record("depth", msg, "sensor_msgs/Image"), queue_size=1),
             rospy.Subscriber(arguments.sensor_pose_topic, pose_type,
                              lambda msg: self.record("sensor_pose", msg, "geometry_msgs/PoseStamped"), queue_size=1),
             rospy.Subscriber(arguments.odom_topic, odometry_type,
@@ -43,7 +45,8 @@ class RuntimeInterfaceProbe:
             self.rospy.loginfo("Captured %s: frame=%s", label, self.first_messages[label]["frame_id"])
 
     def complete(self):
-        return all(label in self.first_messages for label in ("cloud", "sensor_pose", "odometry"))
+        required_state = all(label in self.first_messages for label in ("sensor_pose", "odometry"))
+        return required_state and any(label in self.first_messages for label in ("cloud", "depth"))
 
     def payload(self):
         return {
@@ -51,6 +54,7 @@ class RuntimeInterfaceProbe:
             "mode": "read_only_runtime_interface_audit",
             "topics": {
                 "cloud": self.arguments.cloud_topic,
+                "depth": self.arguments.depth_topic,
                 "sensor_pose": self.arguments.sensor_pose_topic,
                 "odometry": self.arguments.odom_topic,
             },
@@ -58,7 +62,8 @@ class RuntimeInterfaceProbe:
             "passed": self.complete(),
             "interpretation": (
                 "This audit records message frames only. It does not publish a goal, trajectory, map, TF transform, or planner parameter. "
-                "A mapper may be connected only after the cloud frame and pose/odometry relationship are reviewed."
+                "It passes only after odometry, sensor pose, and at least one actual observation (cloud or depth) are received. "
+                "A mapper may be connected only after their frames are reviewed."
             ),
         }
 
@@ -66,6 +71,7 @@ class RuntimeInterfaceProbe:
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--cloud-topic", default="/pcl_render_node/cloud")
+    parser.add_argument("--depth-topic", default="/pcl_render_node/depth")
     parser.add_argument("--sensor-pose-topic", default="/pcl_render_node/sensor_pose")
     parser.add_argument("--odom-topic", default="/state_ukf/odom")
     parser.add_argument("--timeout-s", type=float, default=20.0)
@@ -77,10 +83,11 @@ def main():
     import rospy
     from geometry_msgs.msg import PoseStamped
     from nav_msgs.msg import Odometry
+    from sensor_msgs.msg import Image
     from sensor_msgs.msg import PointCloud2
 
     rospy.init_node("fuel_mapping_interface_probe", anonymous=True)
-    probe = RuntimeInterfaceProbe(rospy, PointCloud2, PoseStamped, Odometry, arguments)
+    probe = RuntimeInterfaceProbe(rospy, PointCloud2, Image, PoseStamped, Odometry, arguments)
     deadline = rospy.Time.now() + rospy.Duration(arguments.timeout_s)
     rate = rospy.Rate(20)
     while not rospy.is_shutdown() and rospy.Time.now() < deadline and not probe.complete():

@@ -83,9 +83,10 @@ rosrun ruins_single_uav_exploration fuel_mapping_interface_probe.py \
   --output /tmp/ruins_fuel_overlay/base/runtime_mapping_interface.json
 ```
 
-它最多等待 20 秒，记录三条话题的首条消息头和点云字段后自动退出；不发布任何
-目标、轨迹、地图或 TF。只有其结果为 `"passed": true` 后，才可决定独立全局建图器
-应直接接收传感器点云，还是需要由传感器位姿恢复观测原点。
+它最多等待 20 秒，记录里程计、传感器位姿，以及点云或深度图中实际发布者的首条
+消息头后自动退出；不发布任何目标、轨迹、地图或 TF。只有其结果为 `"passed": true`
+后，才可决定独立全局建图器应直接接收传感器点云，还是由深度图、内参和传感器位姿
+恢复三维观测。
 
 ## 03B 接受标准
 

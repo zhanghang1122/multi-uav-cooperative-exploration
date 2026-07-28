@@ -88,6 +88,35 @@ rosrun ruins_single_uav_exploration fuel_mapping_interface_probe.py \
 后，才可决定独立全局建图器应直接接收传感器点云，还是由深度图、内参和传感器位姿
 恢复三维观测。
 
+### 官方源码审计结论与实现选择
+
+对官方 FUEL `uav_simulator/local_sensing/src/pcl_render_node.cpp` 的审计表明：
+
+- `/pcl_render_node/depth` 发布的是 `32FC1`、单位为米的深度图，帧名为
+  `SQ01s/camera`；
+- `/pcl_render_node/sensor_pose` 发布同一相机在 `map` 中的位姿；
+- 源码中的 `world -> camera` TF 广播被注释；
+- launch 中的 `/pcl_render_node/cloud` 是探索器的可选接口，但渲染节点并不发布它；
+- 调试点云 `rendered_pcl` 已在 `map` 中表达，不能直接作为 OctoMap 的传感器输入，
+  因为它丢失了每束射线的运动传感器原点。
+
+因此 03B 使用 `fuel_depth_to_cloud.py`：深度图按官方内参反投影至相机坐标系，
+依据同步 `sensor_pose` 广播 `map -> SQ01s/camera`，再把相机坐标点云交给
+`octomap_server`。这一选择保持正确的射线原点和未知/自由/占据更新语义。
+
+### 03B 首次集成验证
+
+本验证不触发探索、不计入论文数据，只验证独立建图器是否正确接入 FUEL 的实际
+传感器流。启动 FUEL 后另开终端：
+
+```bash
+roslaunch ruins_single_uav_exploration fuel_global_mapping.launch
+```
+
+预期看到 `FUEL depth mapper published ... frame=SQ01s/camera`，并在
+`/octomap_point_cloud_centers` 上看到逐步更新的占据点。若出现 TF、深度编码或
+时间戳配对错误，必须先修复该接口问题；不得开始 P1 或三机实验。
+
 ## 03B 接受标准
 
 集成验证必须同时满足：

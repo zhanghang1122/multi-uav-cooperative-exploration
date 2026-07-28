@@ -100,6 +100,19 @@ corresponding `world -> sensor` transform. The integration acceptance criteria
 and metric boundary are in
 [`docs/stage_03b_global_mapping_plan_zh.md`](docs/stage_03b_global_mapping_plan_zh.md).
 
+The official FUEL renderer actually supplies a rendered depth image and camera
+pose, while its direct point-cloud input is optional. Stage 03B therefore
+reprojects the `32FC1` depth image in its camera frame, restores the dynamic
+`map -> camera` transform from the published pose, and sends that sensor-frame
+cloud to a separate OctoMap instance. This does not alter FUEL's frontier
+planner. For the integration-only check, launch FUEL first and then run:
+
+```bash
+roslaunch ruins_single_uav_exploration fuel_global_mapping.launch
+```
+
+Do not start a paper trial until this mapper has been runtime-validated.
+
 Run one uninterrupted headless trial. This is the primary validation path;
 RViz is not required for planning or map generation:
 

@@ -1,0 +1,5 @@
+<launch>
+  <arg name="config" default="$(find ruins_single_uav_exploration)/rviz/global_mapping.rviz"/>
+  <node pkg="rviz" type="rviz" name="ruins_global_mapping_rviz"
+        args="-d $(arg config)" output="screen"/>
+</launch>

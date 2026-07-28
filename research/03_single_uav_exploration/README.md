@@ -54,6 +54,16 @@ roslaunch ruins_single_uav_exploration automatic_trigger.launch
 The map is published by `octomap_server` on its standard topics, including
 `/octomap_point_cloud_centers` and `/octomap_binary`.
 
+For a read-only visualization of the independent map, run:
+
+```bash
+roslaunch ruins_single_uav_exploration view_global_mapping.launch
+```
+
+The RViz configuration uses `map` as its fixed frame and displays only the
+independent OctoMap occupied centers. It has no interactive goal tool and
+publishes no planning or control message.
+
 ## Verification
 
 Before treating a run as an experiment, verify all of the following during one

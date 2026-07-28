@@ -3,12 +3,13 @@
   <arg name="sensor_pose_topic" default="/pcl_render_node/sensor_pose"/>
   <arg name="mapping_cloud_topic" default="/ruins_global_mapping/depth_cloud_sensor"/>
   <arg name="map_frame" default="map"/>
+  <arg name="sensor_frame" default="SQ01s/camera"/>
   <arg name="resolution" default="0.10"/>
   <arg name="max_range_m" default="5.0"/>
 
   <node pkg="ruins_single_uav_exploration" type="fuel_depth_to_cloud.py"
         name="fuel_depth_to_cloud" output="screen"
-        args="--depth-topic $(arg depth_topic) --sensor-pose-topic $(arg sensor_pose_topic) --output-cloud-topic $(arg mapping_cloud_topic) --map-frame $(arg map_frame) --max-depth-m $(arg max_range_m)"/>
+        args="--depth-topic $(arg depth_topic) --sensor-pose-topic $(arg sensor_pose_topic) --output-cloud-topic $(arg mapping_cloud_topic) --map-frame $(arg map_frame) --sensor-frame $(arg sensor_frame) --max-depth-m $(arg max_range_m)"/>
 
   <node pkg="octomap_server" type="octomap_server_node"
         name="ruins_global_octomap" output="screen">

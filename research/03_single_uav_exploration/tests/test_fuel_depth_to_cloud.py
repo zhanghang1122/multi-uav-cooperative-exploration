@@ -39,6 +39,11 @@ class FuelDepthProjectionTest(unittest.TestCase):
         source = SCRIPT_PATH.read_text(encoding="utf-8")
         self.assertIn("parser.parse_args(rospy.myargv()[1:])", source)
 
+    def test_projected_cloud_uses_calibrated_sensor_frame(self):
+        source = SCRIPT_PATH.read_text(encoding="utf-8")
+        self.assertIn("sensor_frame = self.arguments.sensor_frame.lstrip(\"/\")", source)
+        self.assertIn("input header=%s", source)
+
 
 if __name__ == "__main__":
     unittest.main()

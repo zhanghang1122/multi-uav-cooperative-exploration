@@ -90,7 +90,11 @@ class FuelDepthToCloud:
         if not points:
             self.reject("no valid depth points")
             return
-        sensor_frame = message.header.frame_id.lstrip("/") or self.arguments.sensor_frame
+        # FUEL's rendered Image header can be `world`, although its sampled
+        # depth values are still in the camera optical frame. The calibrated
+        # sensor-frame argument is therefore authoritative for the projected
+        # cloud and for the TF child frame.
+        sensor_frame = self.arguments.sensor_frame.lstrip("/")
         parent_frame = pose.header.frame_id.lstrip("/") or self.arguments.map_frame
         transform = self.transform_type()
         transform.header.stamp = message.header.stamp
@@ -106,7 +110,7 @@ class FuelDepthToCloud:
         header.frame_id = sensor_frame
         self.publisher.publish(self.point_cloud2.create_cloud_xyz32(header, points))
         self.published_clouds += 1
-        self.rospy.loginfo_throttle(5.0, "FUEL depth mapper published %d clouds; latest=%d points, frame=%s", self.published_clouds, len(points), sensor_frame)
+        self.rospy.loginfo_throttle(5.0, "FUEL depth mapper published %d clouds; latest=%d points, frame=%s (input header=%s)", self.published_clouds, len(points), sensor_frame, message.header.frame_id)
 
     def reject(self, reason):
         self.rospy.logwarn_throttle(3.0, "FUEL depth mapper rejected depth: %s", reason)

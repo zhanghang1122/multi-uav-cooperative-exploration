@@ -173,6 +173,19 @@ rosrun ruins_single_uav_exploration validate_paper_run.py \
 Use `--allow-debug` only for an instrumentation rehearsal. It verifies file
 completeness but does not convert a debug run into a formal sample.
 
+After every P0/P1 run, generate the non-tuned baseline diagnosis report:
+
+```bash
+rosrun ruins_single_uav_exploration diagnose_baseline_trial.py \
+  "$(rospack find ruins_single_uav_exploration)/experiments/results/<run-id>"
+```
+
+This creates `baseline_diagnosis.json` and `baseline_diagnosis.md` beside the
+archived run. It does not score FUEL as good or bad from one map; it checks
+artifact completeness and identifies whether the next work is a pipeline fix,
+an observability audit, or repeated calibration. The decision criteria are in
+[`docs/fuel_baseline_decision_gate_zh.md`](docs/fuel_baseline_decision_gate_zh.md).
+
 The SVG is a deterministic paper figure with simulator truth, online
 reconstruction, and their top-down difference. The truth map is used only
 after the run. `--figure-bounds` affects only the displayed map. The numerical

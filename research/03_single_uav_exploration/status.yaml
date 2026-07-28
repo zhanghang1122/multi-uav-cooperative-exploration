@@ -1,6 +1,6 @@
 id: 03_single_uav_exploration
-status: diagnostic_base_runtime_passed
-version: 0.3.0
+status: fuel_baseline_decision_gate_ready
+version: 0.4.0
 baseline: official_fuel_with_generated_overlay
 verified:
   - ros_package_structure
@@ -16,6 +16,7 @@ verified:
   - paper_evidence_recorder_implemented
   - offline_coverage_timeseries_implemented
   - formal_run_artifact_validator_implemented
+  - fuel_baseline_decision_gate_implemented
 pending:
   - official_fuel_office_baseline
   - corrected_bounds_base_repeated_runtime
@@ -26,6 +27,9 @@ pending:
   - ubuntu_coverage_progress_runtime
   - ubuntu_planning_latency_runtime
   - ubuntu_ros_cpu_and_memory_runtime
+  - fuel_baseline_p0_diagnosis_report
+  - observable_truth_audit
+  - baseline_decision_after_p1_repeats
 prohibited_claims_until_runtime_passes:
   - frontier_baseline_outperforms_other_methods
   - multi_uav_coordination

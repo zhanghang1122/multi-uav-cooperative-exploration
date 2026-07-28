@@ -1,5 +1,5 @@
 schema_version: 1
-protocol_version: "0.1-draft"
+protocol_version: "0.2-draft"
 status: instrumentation_required
 
 research_claim:
@@ -89,6 +89,7 @@ experiment_phases:
   P0_debug:
     paper_statistics: false
     purpose: validate_pipeline_and_instrumentation
+    baseline_decision_gate: required
   P1_calibration:
     paper_statistics: false
     purpose: freeze_bounds_thresholds_tolerances_and_timeout
@@ -121,3 +122,14 @@ experiment_phases:
 representative_run_selection: closest_to_method_median_not_best
 failed_runs_retained: true
 paired_scene_seeds_across_methods: true
+baseline_decision_gate:
+  single_run_algorithm_judgement: prohibited
+  required_diagnostics:
+    - artifact_completeness
+    - runtime_completion
+    - observable_truth_audit
+    - repeated_calibration
+  outcomes:
+    - pipeline_or_configuration_repair
+    - stable_single_uav_baseline
+    - replace_reproducible_baseline_after_controlled_failure

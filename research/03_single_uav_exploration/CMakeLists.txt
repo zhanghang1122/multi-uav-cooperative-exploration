@@ -6,6 +6,7 @@ find_package(catkin REQUIRED)
 catkin_package()
 
 catkin_install_python(PROGRAMS
+  scripts/diagnose_baseline_trial.py
   scripts/evaluate_coverage_timeseries.py
   scripts/evaluate_surface_coverage.py
   scripts/exploration_runtime_monitor.py

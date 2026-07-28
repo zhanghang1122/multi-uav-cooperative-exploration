@@ -35,6 +35,10 @@ class FuelDepthProjectionTest(unittest.TestCase):
         self.assertEqual(points[0], (0.0, 0.0, 1.0))
         self.assertEqual(points[1], (2.0, 0.0, 2.0))
 
+    def test_roslaunch_remappings_are_filtered_before_argparse(self):
+        source = SCRIPT_PATH.read_text(encoding="utf-8")
+        self.assertIn("parser.parse_args(rospy.myargv()[1:])", source)
+
 
 if __name__ == "__main__":
     unittest.main()

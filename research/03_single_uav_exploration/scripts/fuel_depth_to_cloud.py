@@ -136,7 +136,9 @@ def main():
     parser.add_argument("--max-depth-m", type=float, default=5.0)
     parser.add_argument("--depth-scale", type=float, default=1000.0)
     parser.add_argument("--max-pose-age-s", type=float, default=0.15)
-    arguments = parser.parse_args()
+    # roslaunch appends remapping arguments such as __name:=node_name.
+    # rospy.myargv removes them before normal argparse validation.
+    arguments = parser.parse_args(rospy.myargv()[1:])
     if arguments.fx <= 0 or arguments.fy <= 0 or arguments.pixel_stride < 1 or arguments.publish_every_n < 1:
         parser.error("camera focal lengths and sampling parameters must be positive")
 

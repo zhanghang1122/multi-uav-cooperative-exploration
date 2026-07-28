@@ -29,6 +29,14 @@ normal autonomous exploration launch. In a second terminal, run:
 roslaunch ruins_single_uav_exploration fuel_global_mapping.launch
 ```
 
+If the FUEL launch is waiting for its standard start message, use this third
+terminal command. It publishes the current measured pose, so it starts
+Frontier exploration without providing a destination or route:
+
+```bash
+roslaunch ruins_single_uav_exploration automatic_trigger.launch
+```
+
 The map is published by `octomap_server` on its standard topics, including
 `/octomap_point_cloud_centers` and `/octomap_binary`.
 

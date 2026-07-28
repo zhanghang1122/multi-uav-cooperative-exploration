@@ -18,9 +18,10 @@ verified:
   - formal_run_artifact_validator_implemented
   - fuel_baseline_decision_gate_implemented
   - first_p0_trial_gap_summary_documented
+  - corrected_bounds_base_repeated_runtime
+  - base_repeatability_summary_generated
 pending:
   - official_fuel_office_baseline
-  - corrected_bounds_base_repeated_runtime
   - ruins_medium_runtime
   - ruins_complex_runtime
   - collision_free_completion

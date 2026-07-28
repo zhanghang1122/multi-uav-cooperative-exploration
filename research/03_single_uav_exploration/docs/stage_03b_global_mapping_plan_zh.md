@@ -9,6 +9,26 @@
 
 本阶段不把该问题归因于“无人机没有自主探索”。FUEL 已产生约 415 次在线重规划并以 `No coverable frontier` 结束。更合理的工程判断是：FUEL 的 `sdf_map/occupancy_all` 服务于前沿规划，不能未经验证地被当成最终三维重建产品。
 
+## 文献依据与边界
+
+本阶段不是临时把一个建图器叠到 FUEL 上，而是遵循以下三类已有研究的模块化逻辑：
+
+1. **自主探索决策。** Zhou 等提出的 FUEL 在地图被传感器更新后增量更新
+   frontier，再依次计算全局探索访问顺序、局部视点和安全轨迹；无 frontier 时
+   才终止探索。当前项目将 FUEL 限定为单机自主探索基线，而非本文创新
+   [1]。
+2. **传感器与算法的解耦验证。** Kong 等的 MARSIM 以点云环境和当前 LiDAR
+   位姿渲染观测，并通过 ROS 接口连接定位、规划和控制模块。其论文还给出
+   了 FUEL 在室内点云场景中的自主探索示例 [2]。因此，本项目必须核对真实
+   点云话题、传感器坐标系和 TF，而不能根据节点名称猜测接口。
+3. **三维占据建图。** Hornung 等的 OctoMap 以八叉树概率模型表达三维占据
+   空间，是将运动传感器观测累积为独立全局地图的成熟基线 [3]。本阶段选用
+   它作为可解释的重建输出，而不将其声称为新方法。
+
+由此得到的工程原则是：**规划器和最终重建器可以共享在线观测，但其输入、
+输出与评价必须可分离审计。** 这是当前项目为避免“用规划内部地图替代重建
+结论”而采用的实验控制措施，不宣称为任何文献的原创算法。
+
 ## 需要保持的研究边界
 
 ```text
@@ -59,3 +79,18 @@ P0 两条轨迹的简化距离/稀疏点云视线代理均接近 `1.0`，但该�
 | 结果隔离 | FUEL 规划图、独立全局图、场景真值三者文件和指标分别命名 |
 
 如果传感器只提供世界坐标点而没有传感器原点，不能直接把该点云接入 OctoMap 做自由空间射线更新。那种情况需要改用带位姿的点云融合器或补充传感器坐标系话题，不能为了得到一张图而错误接线。
+
+## 参考文献
+
+[1] B. Zhou, Y. Zhang, X. Chen, and S. Shen, "FUEL: Fast UAV Exploration
+Using Incremental Frontier Structure and Hierarchical Planning," *IEEE
+Robotics and Automation Letters*, 2021. DOI: 10.1109/LRA.2021.3054415.
+
+[2] F. Kong et al., "MARSIM: A Light-Weight Point-Realistic Simulator for
+LiDAR-Based UAVs," *IEEE Robotics and Automation Letters*, vol. 8, no. 5,
+pp. 2954-2961, 2023. DOI: 10.1109/LRA.2023.3264163.
+
+[3] A. Hornung, K. M. Wurm, M. Bennewitz, C. Stachniss, and W. Burgard,
+"OctoMap: An Efficient Probabilistic 3D Mapping Framework Based on Octrees,"
+*Autonomous Robots*, vol. 34, pp. 189-206, 2013.
+DOI: 10.1007/s10514-012-9321-0.

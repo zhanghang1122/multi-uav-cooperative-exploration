@@ -32,6 +32,22 @@ def read_csv(path):
         return list(csv.DictReader(stream))
 
 
+def read_final_static_metric(run_directory):
+    path = run_directory / "surface_coverage_tol1.json"
+    if not path.is_file():
+        return {"available": False}
+    payload = read_json(path)
+    return {
+        "available": True,
+        "surface_recall": payload.get("surface_recall"),
+        "surface_precision": payload.get("surface_precision"),
+        "surface_f1": payload.get("surface_f1"),
+        "truth_voxels": payload.get("truth_voxels"),
+        "observed_voxels": payload.get("observed_voxels"),
+        "source": "final_occupancy.pcd",
+    }
+
+
 def number(value):
     try:
         parsed = float(value)
@@ -200,7 +216,8 @@ def classify(artifacts, runtime, manifest, coverage):
 
 def render_markdown(payload):
     verdict = payload["verdict"]
-    coverage = payload["coverage"]
+    coverage = payload["coverage_time_series"]
+    final_map = payload["final_static_map"]
     frontier = payload["frontier_termination"]
     resources = payload["resources"]
     lines = [
@@ -213,14 +230,15 @@ def render_markdown(payload):
         "- Runtime passed: `{}`".format(payload["runtime_passed"]),
         "- Run class: `{}`".format(payload["run_class"]),
         "",
-        "This report does **not** label FUEL as good or bad. A single trial cannot separate algorithmic limitations from sensor visibility, reachable-space definition, map integration, parameterisation, or virtual-machine timing.",
+        "This report does **not** label FUEL as good or bad. A single trial cannot separate algorithmic limitations from sensor visibility, reachable-space definition, map integration, parameterisation, or virtual-machine timing. The cumulative observation curve and the final static PCD are intentionally reported as different metrics.",
         "",
         "## Observed Evidence",
         "",
-        "- Final occupied-surface recall: `{}`".format(coverage.get("final_surface_recall")),
-        "- Final occupied-surface precision: `{}`".format(coverage.get("final_surface_precision")),
-        "- Final occupied-surface F1: `{}`".format(coverage.get("final_surface_f1")),
-        "- Recall gain in final analysis window: `{}`".format(coverage.get("last_window_recall_gain")),
+        "- Cumulative-observation recall at end: `{}`".format(coverage.get("final_surface_recall")),
+        "- Final static-map recall: `{}`".format(final_map.get("surface_recall")),
+        "- Final static-map precision: `{}`".format(final_map.get("surface_precision")),
+        "- Final static-map F1: `{}`".format(final_map.get("surface_f1")),
+        "- Cumulative-observation recall gain in final analysis window: `{}`".format(coverage.get("last_window_recall_gain")),
         "- Path length (m): `{}`".format(payload["runtime"].get("path_length_m")),
         "- Finish time (s): `{}`".format(payload["runtime"].get("finish_time_s")),
         "- Final dormant frontier clusters: `{}`".format(frontier.get("final_dormant_frontier_clusters")),
@@ -263,6 +281,7 @@ def main():
     runtime = read_json(run_directory / "runtime.json")
     manifest = read_json(run_directory / "run_manifest.yaml")
     coverage = summarize_coverage(read_csv(run_directory / "coverage_timeseries.csv"))
+    final_static_map = read_final_static_metric(run_directory)
     timing = summarize_timing(read_csv(run_directory / "planning_timing.csv"))
     resources = summarize_resources(read_csv(run_directory / "system_resources.csv"))
     frontier_termination = summarize_frontier_termination(
@@ -281,7 +300,8 @@ def main():
         },
         "runtime_passed": runtime.get("passed") is True,
         "run_class": manifest.get("run_class"),
-        "coverage": coverage,
+        "coverage_time_series": coverage,
+        "final_static_map": final_static_map,
         "planning_timing": timing,
         "resources": resources,
         "frontier_termination": frontier_termination,

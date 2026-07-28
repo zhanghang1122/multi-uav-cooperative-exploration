@@ -25,6 +25,16 @@ class TrajectoryExposureTest(unittest.TestCase):
         )
         self.assertEqual(exposed, {(0, 0, 0)})
 
+    def test_wall_voxel_blocks_line_of_sight_to_farther_surface(self):
+        module = load_script()
+        occupied = {(3, 0, 0), (5, 0, 0)}
+        self.assertFalse(
+            module.line_of_sight_clear((0, 0, 0), (5, 0, 0), occupied)
+        )
+        self.assertTrue(
+            module.line_of_sight_clear((0, 0, 0), (3, 0, 0), occupied)
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

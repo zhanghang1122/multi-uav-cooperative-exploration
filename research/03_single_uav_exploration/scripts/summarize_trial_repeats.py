@@ -21,6 +21,14 @@ def final_coverage(path):
     return rows[-1]
 
 
+def final_static_coverage(path):
+    metric = read_json(path / "surface_coverage_tol1.json")
+    required = ("surface_recall", "surface_precision", "surface_f1")
+    if not all(key in metric for key in required):
+        raise ValueError("static coverage is incomplete: {}".format(path))
+    return metric
+
+
 def summarize(values):
     mean = statistics.mean(values)
     standard_deviation = statistics.stdev(values) if len(values) > 1 else 0.0
@@ -37,7 +45,8 @@ def summarize(values):
 
 def load_trial(path):
     runtime = read_json(path / "runtime.json")
-    coverage = final_coverage(path / "coverage_timeseries.csv")
+    cumulative_coverage = final_coverage(path / "coverage_timeseries.csv")
+    static_coverage = final_static_coverage(path)
     manifest = read_json(path / "run_manifest.yaml")
     return {
         "run_id": path.name,
@@ -45,9 +54,10 @@ def load_trial(path):
         "runtime_passed": runtime.get("passed") is True,
         "finish_time_s": float(runtime["finish_time_s"]),
         "path_length_m": float(runtime["path_length_m"]),
-        "surface_recall": float(coverage["surface_recall"]),
-        "surface_precision": float(coverage["surface_precision"]),
-        "surface_f1": float(coverage["surface_f1"]),
+        "static_surface_recall": float(static_coverage["surface_recall"]),
+        "static_surface_precision": float(static_coverage["surface_precision"]),
+        "static_surface_f1": float(static_coverage["surface_f1"]),
+        "cumulative_observation_recall": float(cumulative_coverage["surface_recall"]),
     }
 
 
@@ -57,12 +67,12 @@ def render_markdown(payload):
         "",
         "All listed runs are retained. This report does not select the best run.",
         "",
-        "| Run | Completed | Time (s) | Path (m) | Recall | Precision | F1 |",
-        "|---|---:|---:|---:|---:|---:|---:|",
+        "| Run | Completed | Time (s) | Path (m) | Static Recall | Static Precision | Static F1 | Cumulative Recall |",
+        "|---|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for row in payload["trials"]:
         lines.append(
-            "| {run_id} | {runtime_passed} | {finish_time_s:.3f} | {path_length_m:.3f} | {surface_recall:.6f} | {surface_precision:.6f} | {surface_f1:.6f} |".format(**row)
+            "| {run_id} | {runtime_passed} | {finish_time_s:.3f} | {path_length_m:.3f} | {static_surface_recall:.6f} | {static_surface_precision:.6f} | {static_surface_f1:.6f} | {cumulative_observation_recall:.6f} |".format(**row)
         )
     lines.extend([
         "",
@@ -100,9 +110,10 @@ def main():
     metrics = (
         "finish_time_s",
         "path_length_m",
-        "surface_recall",
-        "surface_precision",
-        "surface_f1",
+        "static_surface_recall",
+        "static_surface_precision",
+        "static_surface_f1",
+        "cumulative_observation_recall",
     )
     payload = {
         "schema_version": 1,

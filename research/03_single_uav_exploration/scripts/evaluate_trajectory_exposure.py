@@ -104,6 +104,59 @@ def exposed_truth_voxels(truth, poses, resolution, sensor_range_m):
     return exposed
 
 
+def line_of_sight_clear(start, target, occupied):
+    """Coarse voxel ray check; the target surface itself is not a blocker."""
+    delta = tuple(target[index] - start[index] for index in range(3))
+    steps = max(abs(value) for value in delta)
+    if steps <= 1:
+        return True
+    for step in range(1, steps):
+        ratio = step / steps
+        voxel = tuple(
+            int(round(start[index] + delta[index] * ratio))
+            for index in range(3)
+        )
+        if voxel in occupied:
+            return False
+    return True
+
+
+def line_of_sight_truth_voxels(truth, poses, resolution, sensor_range_m):
+    range_voxels = sensor_range_m / resolution
+    bucket_size = max(1, int(math.ceil(range_voxels)))
+    buckets = defaultdict(list)
+    for voxel in truth:
+        key = tuple(int(math.floor(value / bucket_size)) for value in voxel)
+        buckets[key].append(voxel)
+    radius = int(math.ceil(range_voxels / bucket_size))
+    limit_squared = range_voxels * range_voxels
+    visible = set()
+    for position in poses:
+        center = tuple(int(round(value / resolution)) for value in position)
+        center_bucket = tuple(int(math.floor(value / bucket_size)) for value in center)
+        for delta_x in range(-radius, radius + 1):
+            for delta_y in range(-radius, radius + 1):
+                for delta_z in range(-radius, radius + 1):
+                    key = (
+                        center_bucket[0] + delta_x,
+                        center_bucket[1] + delta_y,
+                        center_bucket[2] + delta_z,
+                    )
+                    for voxel in buckets.get(key, ()):
+                        if voxel in visible:
+                            continue
+                        squared_distance = sum(
+                            (voxel[index] - center[index]) ** 2
+                            for index in range(3)
+                        )
+                        if (
+                            squared_distance <= limit_squared
+                            and line_of_sight_clear(center, voxel, truth)
+                        ):
+                            visible.add(voxel)
+    return visible
+
+
 def match_count(source, target, offsets):
     return sum(
         any(
@@ -133,8 +186,12 @@ def main():
     observed = voxelize(read_ascii_pcd(arguments.observed_pcd, arguments.bounds), arguments.resolution)
     poses = read_trajectory(arguments.trajectory_csv, arguments.trajectory_sample_interval_s)
     exposed = exposed_truth_voxels(truth, poses, arguments.resolution, arguments.sensor_range_m)
+    visible = line_of_sight_truth_voxels(
+        truth, poses, arguments.resolution, arguments.sensor_range_m
+    )
     offsets = neighbor_offsets(arguments.tolerance_voxels)
     matched_exposed = match_count(exposed, observed, offsets)
+    matched_visible = match_count(visible, observed, offsets)
     payload = {
         "schema_version": 1,
         "metric": "trajectory_conditioned_range_exposure",
@@ -144,12 +201,19 @@ def main():
         "range_exposure_ratio": round(len(exposed) / len(truth), 6),
         "matched_range_exposed_truth_voxels": matched_exposed,
         "range_exposed_surface_recall": round(matched_exposed / len(exposed), 6) if exposed else 0.0,
+        "line_of_sight_visible_truth_voxels": len(visible),
+        "line_of_sight_exposure_ratio": round(len(visible) / len(truth), 6),
+        "matched_line_of_sight_visible_truth_voxels": matched_visible,
+        "line_of_sight_visible_surface_recall": (
+            round(matched_visible / len(visible), 6) if visible else 0.0
+        ),
         "sensor_range_m": arguments.sensor_range_m,
         "trajectory_samples": len(poses),
         "trajectory_sample_interval_s": arguments.trajectory_sample_interval_s,
         "important_limit": (
-            "Offline range-exposure proxy only. It does not model field of view, "
-            "occlusion, sensor noise, or reachable free space, and never enters planning."
+            "Offline proxy only. The line-of-sight test uses sparse truth voxels and "
+            "does not model field of view, sensor noise, or reachable free space. "
+            "It never enters planning."
         ),
     }
     arguments.output.parent.mkdir(parents=True, exist_ok=True)

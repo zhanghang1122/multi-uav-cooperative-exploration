@@ -1,6 +1,6 @@
 id: 03_single_uav_exploration
-status: fuel_baseline_decision_gate_ready
-version: 0.4.0
+status: global_mapping_interface_audit_ready
+version: 0.5.0
 baseline: official_fuel_with_generated_overlay
 verified:
   - ros_package_structure
@@ -20,6 +20,9 @@ verified:
   - first_p0_trial_gap_summary_documented
   - corrected_bounds_base_repeated_runtime
   - base_repeatability_summary_generated
+  - static_and_cumulative_metrics_separated
+  - fuel_overlay_interface_inspector_implemented
+  - stage_03b_global_mapping_plan_documented
 pending:
   - official_fuel_office_baseline
   - ruins_medium_runtime
@@ -32,6 +35,9 @@ pending:
   - fuel_baseline_p0_diagnosis_report
   - observable_truth_audit
   - baseline_decision_after_p1_repeats
+  - fuel_runtime_cloud_and_tf_audit
+  - independent_global_mapper_integration
+  - stage_03b_integration_validation
 prohibited_claims_until_runtime_passes:
   - frontier_baseline_outperforms_other_methods
   - multi_uav_coordination

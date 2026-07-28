@@ -76,6 +76,30 @@ rosrun ruins_single_uav_exploration prepare_fuel_overlay.py \
 roslaunch /tmp/ruins_fuel_overlay/base/fuel_exploration_base.launch
 ```
 
+## Current Mapping Boundary
+
+The two corrected-height P0 runs prove that FUEL autonomously explores the
+`base` scene, but their final static reconstruction recall is approximately
+`0.609`. They are calibration evidence, not paper comparison samples. FUEL's
+planning occupancy output is therefore retained as a diagnostic artifact while
+Stage 03B adds a separately validated global mapper using the same online
+sensor observations and odometry.
+
+Before connecting that mapper, record the actual FUEL launch wiring from the
+generated overlay. This command is read-only and does not start a simulation:
+
+```bash
+rosrun ruins_single_uav_exploration inspect_fuel_overlay.py \
+  /tmp/ruins_fuel_overlay/base/manifest.json \
+  --output /tmp/ruins_fuel_overlay/base/effective_fuel_interfaces.json
+```
+
+Do not infer the mapper input topic from a node name. The next short runtime
+audit must confirm the declared point-cloud topic, its message frame, and the
+corresponding `world -> sensor` transform. The integration acceptance criteria
+and metric boundary are in
+[`docs/stage_03b_global_mapping_plan_zh.md`](docs/stage_03b_global_mapping_plan_zh.md).
+
 Run one uninterrupted headless trial. This is the primary validation path;
 RViz is not required for planning or map generation:
 

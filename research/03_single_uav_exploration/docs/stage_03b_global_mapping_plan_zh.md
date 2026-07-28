@@ -65,6 +65,28 @@ P0 两条轨迹的简化距离/稀疏点云视线代理均接近 `1.0`，但该�
 5. 先进行一次 03B 集成验证：确认自主 FUEL 仍完成、独立地图持续增长、坐标系无错误。
 6. 只有 03B 成功后才重新运行 P1 base 正式重复试验；在此之前不进入 medium、complex 或三机。
 
+### 当前已确认的静态接口
+
+生成后的 overlay 已确认 FUEL 探索器订阅：
+
+```text
+/pcl_render_node/cloud        点云观测
+/pcl_render_node/sensor_pose  传感器在世界坐标中的位姿
+/state_ukf/odom               飞行器里程计
+```
+
+这只证明 launch 配置的重映射关系，尚未证明点云消息的实际 `frame_id`。
+启动 FUEL 后，在另一个终端执行下列只读审计器：
+
+```bash
+rosrun ruins_single_uav_exploration fuel_mapping_interface_probe.py \
+  --output /tmp/ruins_fuel_overlay/base/runtime_mapping_interface.json
+```
+
+它最多等待 20 秒，记录三条话题的首条消息头和点云字段后自动退出；不发布任何
+目标、轨迹、地图或 TF。只有其结果为 `"passed": true` 后，才可决定独立全局建图器
+应直接接收传感器点云，还是需要由传感器位姿恢复观测原点。
+
 ## 03B 接受标准
 
 集成验证必须同时满足：

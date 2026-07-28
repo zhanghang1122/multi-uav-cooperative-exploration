@@ -22,6 +22,7 @@ verified:
   - base_repeatability_summary_generated
   - static_and_cumulative_metrics_separated
   - fuel_overlay_interface_inspector_implemented
+  - fuel_runtime_interface_probe_implemented
   - stage_03b_global_mapping_plan_documented
 pending:
   - official_fuel_office_baseline

@@ -11,6 +11,7 @@ catkin_install_python(PROGRAMS
   scripts/evaluate_coverage_timeseries.py
   scripts/evaluate_surface_coverage.py
   scripts/exploration_runtime_monitor.py
+  scripts/fuel_mapping_interface_probe.py
   scripts/finalize_paper_trial.py
   scripts/inspect_fuel_overlay.py
   scripts/paper_evidence_recorder.py

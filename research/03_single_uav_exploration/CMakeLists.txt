@@ -7,10 +7,12 @@ catkin_package()
 
 catkin_install_python(PROGRAMS
   scripts/diagnose_baseline_trial.py
+  scripts/evaluate_trajectory_exposure.py
   scripts/evaluate_coverage_timeseries.py
   scripts/evaluate_surface_coverage.py
   scripts/exploration_runtime_monitor.py
   scripts/finalize_paper_trial.py
+  scripts/inspect_fuel_overlay.py
   scripts/paper_evidence_recorder.py
   scripts/prepare_fuel_overlay.py
   scripts/summarize_trial_repeats.py

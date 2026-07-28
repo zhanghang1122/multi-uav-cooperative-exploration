@@ -86,14 +86,23 @@ roslaunch ruins_single_uav_exploration autonomous_trial.launch \
   exploration_launch:=/tmp/ruins_fuel_overlay/base/fuel_exploration_base.launch \
   duration_s:=1800 \
   result_file:=/tmp/ruins_fuel_base_runtime.json \
-  map_file:=/tmp/ruins_fuel_base_final.pcd
+  map_file:=/tmp/ruins_fuel_base_final.pcd \
+  evidence_dir:=/tmp/ruins_fuel_base_evidence \
+  run_class:=debug \
+  method_id:=B1_single_fuel \
+  scene_profile:=base \
+  scene_seed:=fixed \
+  repetition:=0
 ```
 
 The launch starts the official FUEL simulator, the position-neutral trigger,
-the runtime monitor, and final map capture. It contains no RViz node, waypoint
-sequence, patrol route, or target coordinate. It ends when FUEL reports
-`finish exploration.` or when the 30-minute timeout is reached. A timeout is
-recorded as a failed, incomplete trial.
+the runtime monitor, the time-resolved paper evidence recorder, and final map
+capture. It contains no RViz node, waypoint sequence, patrol route, or target
+coordinate. The evidence recorder is read-only: it subscribes to online
+odometry, occupancy, planner logs, and simulation time, and never publishes a
+planning target. The launch ends when FUEL reports `finish exploration.` or
+when the 30-minute timeout is reached. A timeout is recorded as a failed,
+incomplete trial.
 
 After a completed trial, compute an offline occupied-surface coverage metric:
 
@@ -125,6 +134,7 @@ rosrun ruins_single_uav_exploration finalize_paper_trial.py \
   --map-pcd /tmp/ruins_fuel_base_final.pcd \
   --truth-pcd "$(rospack find ruins_urban_01)/maps/pcd/Ruins-Urban-01_base.pcd" \
   --overlay-manifest /tmp/ruins_fuel_overlay/base/manifest.json \
+  --evidence-dir /tmp/ruins_fuel_base_evidence \
   --figure-bounds -20.65 -15.65 0.35 20.65 15.65 7.65 \
   --run-id 20260727_0114_base_uniform_height
 ```
@@ -134,14 +144,34 @@ The command creates:
 ```text
 experiments/results/<run-id>/
   manifest.json
+  run_manifest.yaml
   runtime.json
+  trajectory.csv
+  occupancy_first_seen.csv
+  map_growth_timeseries.csv
+  coverage_timeseries.csv
+  planning_timing.csv
+  system_resources.csv
+  events.jsonl
+  planner_rosout.jsonl
   final_occupancy.pcd
   surface_coverage_tol1.json
   surface_coverage_tol2.json
   summary.csv
   figure_reconstruction_topdown.svg
+  software_versions.txt
   notes.md
 ```
+
+Before a run is admitted into the formal paper dataset, validate it:
+
+```bash
+rosrun ruins_single_uav_exploration validate_paper_run.py \
+  "$(rospack find ruins_single_uav_exploration)/experiments/results/<run-id>"
+```
+
+Use `--allow-debug` only for an instrumentation rehearsal. It verifies file
+completeness but does not convert a debug run into a formal sample.
 
 The SVG is a deterministic paper figure with simulator truth, online
 reconstruction, and their top-down difference. The truth map is used only
@@ -177,3 +207,12 @@ Those are separate integration and research questions.
 The complete paper argument, comparison methods, metric definitions, repeated
 trial rules, and figure/table plan are documented in
 [`docs/paper_experimental_logic_zh.md`](docs/paper_experimental_logic_zh.md).
+The literature-derived figure/table matrix, formal-run gate, and frozen data
+requirements are documented in
+[`docs/journal_figure_table_matrix_zh.md`](docs/journal_figure_table_matrix_zh.md).
+The machine-readable draft protocol is
+[`config/paper_experiment_protocol.yaml`](config/paper_experiment_protocol.yaml).
+
+Do not start a formal repeated trial while that protocol reports
+`instrumentation_required`. Runs made before all required artifacts are
+captured are engineering/debug evidence only.

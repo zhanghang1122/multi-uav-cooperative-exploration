@@ -5,6 +5,13 @@ comparison matrix, and statistical rules are defined in
 [`paper_experimental_logic_zh.md`](paper_experimental_logic_zh.md). This file
 specifies the Stage 03 execution details and evidence format.
 
+The journal-paper evidence matrix and the complete formal-run data gate are
+defined in
+[`journal_figure_table_matrix_zh.md`](journal_figure_table_matrix_zh.md).
+Until every required recorder in that document is implemented and validated,
+all runs are calibration/debug runs and must not be entered into the paper's
+formal comparison table.
+
 ## Objective
 
 Verify that an official FUEL single-UAV planner can autonomously finish the
@@ -40,12 +47,22 @@ Store:
 ```text
 experiments/results/YYYYMMDD_HHMM_variant_commit/
   manifest.json
+  run_manifest.yaml
   runtime.json
+  trajectory.csv
+  occupancy_first_seen.csv
+  map_growth_timeseries.csv
+  coverage_timeseries.csv
+  planning_timing.csv
+  system_resources.csv
+  events.jsonl
+  planner_rosout.jsonl
   final_occupancy.pcd
   surface_coverage_tol1.json
   surface_coverage_tol2.json
   summary.csv
   figure_reconstruction_topdown.svg
+  software_versions.txt
   notes.md
 ```
 
@@ -57,9 +74,11 @@ offline evaluator after the exploration process has ended.
 Run `finalize_paper_trial.py` after every completed trial. It copies the
 temporary runtime files into a unique result directory, computes both strict
 and relaxed surface metrics, records hashes and software provenance, and
-generates the same three-panel vector figure for every run. Manual RViz
-screenshots may be retained as supplementary evidence, but they are not the
-primary quantitative result.
+generates the same diagnostic three-panel vector figure for every run. When
+`--evidence-dir` is supplied it also archives the trajectory, first-observation
+voxels, planner events, timing and resource samples, then computes
+`coverage_timeseries.csv` offline. Manual RViz screenshots may be retained as
+supplementary evidence, but they are not the primary quantitative result.
 
 Metric bounds and figure bounds are recorded separately. A diagnostic run may
 display its complete search height while retaining a predeclared lower-layer

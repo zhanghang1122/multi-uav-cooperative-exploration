@@ -1,0 +1,123 @@
+schema_version: 1
+protocol_version: "0.1-draft"
+status: instrumentation_required
+
+research_claim:
+  task: bounded_unknown_3d_ruins_exploration
+  prior_route_allowed: false
+  prior_waypoints_allowed: false
+  prior_obstacle_map_allowed: false
+  manual_runtime_partition_allowed: false
+  truth_map_usage: offline_evaluation_only
+
+formal_run_gate:
+  required_artifacts:
+    - run_manifest.yaml
+    - runtime.json
+    - trajectory.csv
+    - occupancy_first_seen.csv
+    - map_growth_timeseries.csv
+    - coverage_timeseries.csv
+    - planning_timing.csv
+    - system_resources.csv
+    - events.jsonl
+    - planner_rosout.jsonl
+    - final_occupancy.pcd
+    - software_versions.txt
+    - notes.md
+  required_capabilities:
+    - timestamped_pose_recording
+    - coverage_progress_recording
+    - planning_latency_recording
+    - resource_and_realtime_factor_recording
+    - final_online_map_capture
+    - failure_timeout_collision_recording
+    - frontier_event_recording
+    - artifact_completeness_validation
+
+controlled_variables:
+  - scene_profile
+  - scene_seed
+  - truth_pcd_sha256
+  - exploration_bounds
+  - initial_poses
+  - sensor_fov
+  - sensor_range
+  - sensor_rate
+  - sensor_noise
+  - occupancy_resolution
+  - collision_diameter
+  - obstacle_inflation
+  - velocity_limit
+  - acceleration_limit
+  - yaw_rate_limit
+  - planner_parameters
+  - timeout
+  - cpu_and_memory_allocation
+  - communication_model
+
+metrics:
+  primary:
+    - success_rate
+    - time_to_frozen_coverage_threshold
+    - coverage_auc
+    - total_path_length
+    - maximum_individual_path_length
+    - surface_recall
+    - surface_precision
+    - surface_f1
+    - overlap_ratio
+  safety:
+    - collision_count
+    - minimum_obstacle_clearance
+    - minimum_inter_uav_distance
+    - planning_failure_count
+  computation:
+    - mean_decision_time
+    - p95_decision_time
+    - cpu_usage
+    - peak_memory
+    - simulation_realtime_factor
+  coordination:
+    - allocation_count
+    - reallocation_count
+    - assignment_conflict_count
+    - load_imbalance
+    - communication_bytes
+
+experiment_phases:
+  P0_debug:
+    paper_statistics: false
+    purpose: validate_pipeline_and_instrumentation
+  P1_calibration:
+    paper_statistics: false
+    purpose: freeze_bounds_thresholds_tolerances_and_timeout
+    profiles: [base, medium, complex]
+    repetitions_per_profile: 3
+  E1_single_uav:
+    paper_statistics: true
+    methods: [B1_single_fuel]
+    profiles: [base, medium, complex]
+    seeds_per_profile: 5
+    repetitions_per_seed: 3
+  E2_multi_uav_baselines:
+    paper_statistics: true
+    methods: [B2_independent_three_uav, B3_nearest_frontier]
+    minimum_repetitions_per_condition: 5
+  E3_proposed:
+    paper_statistics: true
+    methods: [M1_dynamic_frontier_topological_utility]
+    minimum_repetitions_per_condition: 5
+  E4_ablation:
+    paper_statistics: true
+    methods: [A1_no_information_gain, A2_no_overlap_penalty, A3_no_load_balance]
+    minimum_repetitions_per_condition: 5
+  E5_robustness:
+    paper_statistics: true
+    packet_loss_percent: [0, 10, 30]
+    latency_ms: [0, 100, 300]
+    minimum_repetitions_per_condition: 5
+
+representative_run_selection: closest_to_method_median_not_best
+failed_runs_retained: true
+paired_scene_seeds_across_methods: true

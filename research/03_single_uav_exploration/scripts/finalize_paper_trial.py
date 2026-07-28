@@ -11,6 +11,7 @@ import platform
 import shutil
 import socket
 import subprocess
+import sys
 from datetime import datetime
 from pathlib import Path
 
@@ -408,6 +409,11 @@ def parse_arguments():
     parser.add_argument("--map-pcd", type=Path, required=True)
     parser.add_argument("--truth-pcd", type=Path, required=True)
     parser.add_argument("--overlay-manifest", type=Path)
+    parser.add_argument(
+        "--evidence-dir",
+        type=Path,
+        help="Time-resolved evidence directory produced during the trial.",
+    )
     parser.add_argument("--results-root", type=Path)
     parser.add_argument("--run-id")
     parser.add_argument("--resolution", type=float, default=0.1)
@@ -438,6 +444,8 @@ def main():
             raise FileNotFoundError(required_path)
     if arguments.overlay_manifest is not None and not arguments.overlay_manifest.is_file():
         raise FileNotFoundError(arguments.overlay_manifest)
+    if arguments.evidence_dir is not None and not arguments.evidence_dir.is_dir():
+        raise FileNotFoundError(arguments.evidence_dir)
     if arguments.resolution <= 0.0 or arguments.figure_resolution <= 0.0:
         raise ValueError("resolutions must be positive")
 
@@ -491,6 +499,40 @@ def main():
     if arguments.overlay_manifest is not None:
         copied_files["overlay_manifest"] = run_directory / "overlay_manifest.json"
         shutil.copy2(arguments.overlay_manifest, copied_files["overlay_manifest"])
+    if arguments.evidence_dir is not None:
+        for evidence_path in sorted(arguments.evidence_dir.iterdir()):
+            if not evidence_path.is_file():
+                continue
+            destination = run_directory / evidence_path.name
+            if destination.exists():
+                raise FileExistsError(
+                    "evidence artifact conflicts with generated file: {}".format(
+                        destination
+                    )
+                )
+            shutil.copy2(evidence_path, destination)
+        first_seen = run_directory / "occupancy_first_seen.csv"
+        if first_seen.is_file():
+            subprocess.check_call(
+                [
+                    sys.executable,
+                    str(script_path.parent / "evaluate_coverage_timeseries.py"),
+                    "--truth-pcd",
+                    str(arguments.truth_pcd),
+                    "--first-seen-csv",
+                    str(first_seen),
+                    "--output",
+                    str(run_directory / "coverage_timeseries.csv"),
+                    "--resolution",
+                    str(arguments.resolution),
+                    "--tolerance-voxels",
+                    "1",
+                    "--interval-s",
+                    "2.0",
+                    "--bounds",
+                    *(str(value) for value in bounds),
+                ]
+            )
 
     write_summary_csv(
         run_directory / "summary.csv",
@@ -536,6 +578,11 @@ def main():
                 if arguments.overlay_manifest is None
                 else str(arguments.overlay_manifest.resolve())
             ),
+            "evidence_dir": (
+                None
+                if arguments.evidence_dir is None
+                else str(arguments.evidence_dir.resolve())
+            ),
         },
         "artifacts": {
             path.name: {
@@ -574,6 +621,18 @@ def main():
             runtime.get("path_length_m"),
             coverage_1["surface_recall"],
             coverage_2["surface_recall"],
+        ),
+        encoding="utf-8",
+    )
+    (run_directory / "software_versions.txt").write_text(
+        "paper_repository_commit={}\n"
+        "python={}\n"
+        "platform={}\n"
+        "hostname={}\n".format(
+            git_commit(repository_root),
+            platform.python_version(),
+            platform.platform(),
+            socket.gethostname(),
         ),
         encoding="utf-8",
     )

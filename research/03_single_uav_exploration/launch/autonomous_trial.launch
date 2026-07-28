@@ -3,6 +3,13 @@
   <arg name="duration_s" default="1800.0"/>
   <arg name="result_file" default="/tmp/ruins_fuel_base_runtime.json"/>
   <arg name="map_file" default="/tmp/ruins_fuel_base_final.pcd"/>
+  <arg name="evidence_dir" default="/tmp/ruins_fuel_base_evidence"/>
+  <arg name="protocol_version" default="0.1-draft"/>
+  <arg name="run_class" default="debug"/>
+  <arg name="method_id" default="B1_single_fuel"/>
+  <arg name="scene_profile" default="base"/>
+  <arg name="scene_seed" default="fixed"/>
+  <arg name="repetition" default="0"/>
   <arg name="trigger_delay_s" default="5.0"/>
   <arg name="trigger_timeout_s" default="60.0"/>
 
@@ -21,6 +28,28 @@
     <param name="bspline_topic" value="/planning/bspline"/>
     <param name="position_command_topic" value="/planning/pos_cmd"/>
     <param name="occupancy_topic" value="/sdf_map/occupancy_all"/>
+    <param name="finish_log_text" value="finish exploration."/>
+  </node>
+
+  <node pkg="ruins_single_uav_exploration"
+        type="paper_evidence_recorder.py"
+        name="fuel_paper_evidence_recorder"
+        output="screen">
+    <param name="duration_s" value="$(arg duration_s)"/>
+    <param name="evidence_dir" value="$(arg evidence_dir)"/>
+    <param name="protocol_version" value="$(arg protocol_version)"/>
+    <param name="run_class" value="$(arg run_class)"/>
+    <param name="method_id" value="$(arg method_id)"/>
+    <param name="scene_profile" value="$(arg scene_profile)"/>
+    <param name="scene_seed" value="$(arg scene_seed)"/>
+    <param name="repetition" value="$(arg repetition)"/>
+    <param name="pose_sample_period_s" value="0.1"/>
+    <param name="occupancy_sample_period_s" value="2.0"/>
+    <param name="resource_sample_period_s" value="1.0"/>
+    <param name="evidence_resolution_m" value="0.1"/>
+    <param name="odom_topic" value="/state_ukf/odom"/>
+    <param name="occupancy_topic" value="/sdf_map/occupancy_all"/>
+    <param name="clock_topic" value="/clock"/>
     <param name="finish_log_text" value="finish exploration."/>
   </node>
 

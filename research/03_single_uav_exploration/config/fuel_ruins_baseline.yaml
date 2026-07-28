@@ -1,0 +1,22 @@
+scene:
+  package: ruins_urban_01
+  map_size_m: [42.0, 32.0, 10.0]
+  exploration_box_m_by_variant:
+    base:
+      min: [-20.65, -15.65, 0.35]
+      max: [20.65, 15.65, 2.65]
+    medium:
+      min: [-20.65, -15.65, 0.35]
+      max: [20.65, 15.65, 5.00]
+    complex:
+      min: [-20.65, -15.65, 0.35]
+      max: [20.65, 15.65, 5.00]
+  initial_pose: [-19.2, 0.0, 1.35]
+
+scientific_boundary:
+  planner_prior_information: [exploration_box, initial_pose]
+  planner_prior_map: false
+  planner_prior_obstacle_layout: false
+  planner_predefined_waypoints: false
+  planner_predefined_goal: false
+  truth_pcd_role: local_sensor_renderer_only

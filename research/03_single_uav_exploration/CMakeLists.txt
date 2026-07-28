@@ -7,10 +7,11 @@ catkin_package()
 
 catkin_install_python(PROGRAMS
   scripts/fuel_depth_to_cloud.py
+  scripts/prepare_fuel_overlay.py
   scripts/trigger_exploration.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
-install(DIRECTORY launch
+install(DIRECTORY config launch
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )

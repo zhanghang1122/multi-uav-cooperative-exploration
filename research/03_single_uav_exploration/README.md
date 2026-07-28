@@ -20,6 +20,20 @@ occupancy map and is intended for reconstruction evaluation.
   `/pcl_render_node/sensor_pose`
 - `octomap_server`
 
+## Generate the FUEL Overlay
+
+The helper below copies only FUEL launch XML into `/tmp`; it leaves the FUEL
+checkout untouched. The full ruins PCD is supplied only to FUEL's local sensor
+renderer. The planner receives no obstacle map, route, waypoint sequence, or
+target coordinate.
+
+```bash
+rosrun ruins_single_uav_exploration prepare_fuel_overlay.py \
+  --fuel-workspace ~/fuel_ws \
+  --variant base \
+  --output-dir /tmp/ruins_fuel_overlay/base
+```
+
 ## Start
 
 Build and source the workspace containing this repository, then start FUEL's

@@ -10,6 +10,7 @@ import argparse
 import csv
 import json
 import math
+import re
 import statistics
 import subprocess
 import sys
@@ -19,6 +20,7 @@ from pathlib import Path
 
 SCRIPT_DIRECTORY = Path(__file__).resolve().parent
 VALIDATOR = SCRIPT_DIRECTORY / "validate_paper_run.py"
+DORMANT_PATTERN = re.compile(r"to visit:\s*(\d+),\s*dormant:\s*(\d+)")
 
 
 def read_json(path):
@@ -108,6 +110,9 @@ def summarize_resources(rows):
         return {"samples": 0}
     return {
         "samples": len(rows),
+        "realtime_factor_status": (
+            "available_from_ros_clock" if rtfs else "not_available_no_ros_clock"
+        ),
         "mean_realtime_factor": None if not rtfs else round(statistics.mean(rtfs), 4),
         "minimum_realtime_factor": None if not rtfs else round(min(rtfs), 4),
         "peak_ros_process_rss_mb": None if not rss else round(max(rss), 3),
@@ -123,6 +128,32 @@ def event_counts(path):
             record = json.loads(line)
             counts[str(record.get("event", "unknown"))] += 1
     return dict(sorted(counts.items()))
+
+
+def summarize_frontier_termination(path):
+    no_coverable_frontier_count = 0
+    final_to_visit = None
+    final_dormant = None
+    with path.open("r", encoding="utf-8") as stream:
+        for line in stream:
+            if not line.strip():
+                continue
+            message = str(json.loads(line).get("message", ""))
+            if "No coverable frontier." in message:
+                no_coverable_frontier_count += 1
+            match = DORMANT_PATTERN.search(message)
+            if match:
+                final_to_visit = int(match.group(1))
+                final_dormant = int(match.group(2))
+    return {
+        "no_coverable_frontier_log_count": no_coverable_frontier_count,
+        "final_to_visit": final_to_visit,
+        "final_dormant_frontier_clusters": final_dormant,
+        "interpretation": (
+            "FUEL ended because no frontier satisfied its coverability constraints. "
+            "Dormant clusters are not automatically collisions or failures; they require a reachability/visibility audit."
+        ),
+    }
 
 
 def validate_artifacts(run_directory):
@@ -170,6 +201,8 @@ def classify(artifacts, runtime, manifest, coverage):
 def render_markdown(payload):
     verdict = payload["verdict"]
     coverage = payload["coverage"]
+    frontier = payload["frontier_termination"]
+    resources = payload["resources"]
     lines = [
         "# FUEL Baseline Diagnosis",
         "",
@@ -190,6 +223,9 @@ def render_markdown(payload):
         "- Recall gain in final analysis window: `{}`".format(coverage.get("last_window_recall_gain")),
         "- Path length (m): `{}`".format(payload["runtime"].get("path_length_m")),
         "- Finish time (s): `{}`".format(payload["runtime"].get("finish_time_s")),
+        "- Final dormant frontier clusters: `{}`".format(frontier.get("final_dormant_frontier_clusters")),
+        "- No-coverable-frontier logs: `{}`".format(frontier.get("no_coverable_frontier_log_count")),
+        "- Real-time-factor status: `{}`".format(resources.get("realtime_factor_status")),
         "",
         "## Required Interpretation",
         "",
@@ -202,7 +238,7 @@ def render_markdown(payload):
         "1. Complete P0 on the upstream FUEL office example and Ruins base with the same recorder.",
         "2. Audit reachable/observable truth separately from the full simulator surface cloud.",
         "3. Run three calibration repeats on base, medium, and complex with frozen bounds and sensors.",
-        "4. Compare completion, coverage curve, path length, planning latency, and real-time factor across repeats.",
+        "4. Compare completion, coverage curve, path length, planning latency, and wall-clock resource use across repeats. Use real-time factor only when the simulator publishes /clock.",
         "5. Replace FUEL only if controlled evidence shows it cannot provide a stable, reproducible single-UAV baseline. Preserve all failed runs either way.",
         "",
     ])
@@ -229,6 +265,9 @@ def main():
     coverage = summarize_coverage(read_csv(run_directory / "coverage_timeseries.csv"))
     timing = summarize_timing(read_csv(run_directory / "planning_timing.csv"))
     resources = summarize_resources(read_csv(run_directory / "system_resources.csv"))
+    frontier_termination = summarize_frontier_termination(
+        run_directory / "planner_rosout.jsonl"
+    )
     classification, recommendations = classify(artifacts, runtime, manifest, coverage)
     payload = {
         "schema_version": 1,
@@ -245,6 +284,7 @@ def main():
         "coverage": coverage,
         "planning_timing": timing,
         "resources": resources,
+        "frontier_termination": frontier_termination,
         "events": event_counts(run_directory / "events.jsonl"),
         "verdict": {
             "classification": classification,

@@ -13,6 +13,7 @@ catkin_install_python(PROGRAMS
   scripts/finalize_paper_trial.py
   scripts/paper_evidence_recorder.py
   scripts/prepare_fuel_overlay.py
+  scripts/summarize_trial_repeats.py
   scripts/trigger_exploration.py
   scripts/validate_paper_run.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

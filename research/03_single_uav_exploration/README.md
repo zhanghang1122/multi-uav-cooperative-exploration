@@ -64,6 +64,54 @@ The RViz configuration uses `map` as its fixed frame and displays only the
 independent OctoMap occupied centers. It has no interactive goal tool and
 publishes no planning or control message.
 
+## Record a Formal Single-UAV Baseline Trial
+
+After the FUEL exploration process and the independent mapping launch are
+running, start this recorder in a separate terminal before sending FUEL's
+position-neutral start signal:
+
+```bash
+roslaunch ruins_single_uav_exploration record_single_uav_trial.launch \
+  output_dir:=/tmp/ruins_trials/B1_base_run01 \
+  scene_variant:=base \
+  max_duration_s:=1800
+```
+
+It observes only `/state_ukf/odom`, `/planning/bspline`, `/rosout_agg`, and
+the independent `/octomap_point_cloud_centers`. When FUEL reports `finish
+exploration.`, it saves these evidence files:
+
+- `trajectory.csv`: time-stamped measured vehicle trajectory;
+- `map_growth.csv`: independent occupied-voxel count over time;
+- `snapshots/`: periodic independent-map snapshots for an offline quality curve;
+- `final_independent_octomap.pcd`: final reconstruction from OctoMap only;
+- `trial_summary.json`: completion status, duration, path length, and run
+  metadata that explicitly records the absence of route, waypoint, and online
+  truth-map priors.
+
+The ground-truth ruins PCD is deliberately not an input to this node. It is
+used only later, offline, to calculate map Precision, Recall, and F1.
+
+## Offline Map Quality Evaluation
+
+After a completed trial, run the evaluator with the scene truth PCD. This is
+an offline comparison only; it cannot affect FUEL's behavior during the run.
+
+```bash
+rosrun ruins_single_uav_exploration evaluate_independent_map.py \
+  --truth-pcd "$(rospack find ruins_urban_01)/maps/pcd/Ruins-Urban-01_base.pcd" \
+  --observed-pcd /tmp/ruins_trials/B1_base_run01/final_independent_octomap.pcd \
+  --snapshot-dir /tmp/ruins_trials/B1_base_run01/snapshots \
+  --resolution-m 0.1 \
+  --tolerance-voxels 1 \
+  --output /tmp/ruins_trials/B1_base_run01/map_quality.json
+```
+
+The evaluator reports voxel-surface Precision, Recall, and F1 and writes a
+time-indexed snapshot quality curve when snapshots are present. The spatial
+resolution and tolerance are explicit run parameters and must remain identical
+across methods in a paper comparison.
+
 ## Verification
 
 Before treating a run as an experiment, verify all of the following during one

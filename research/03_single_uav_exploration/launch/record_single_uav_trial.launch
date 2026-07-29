@@ -1,0 +1,11 @@
+<launch>
+  <arg name="output_dir" />
+  <arg name="scene_variant" default="base" />
+  <arg name="max_duration_s" default="1800" />
+  <arg name="snapshot_period_s" default="60" />
+
+  <!-- Observation-only recorder. It never starts or configures FUEL. -->
+  <node pkg="ruins_single_uav_exploration" type="record_single_uav_trial.py"
+        name="ruins_single_uav_trial_recorder" output="screen"
+        args="--output-dir $(arg output_dir) --scene-variant $(arg scene_variant) --max-duration-s $(arg max_duration_s) --snapshot-period-s $(arg snapshot_period_s)" />
+</launch>

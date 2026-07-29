@@ -109,9 +109,11 @@ roslaunch ruins_single_uav_exploration formal_b1_trial.launch \
   max_duration_s:=1800
 ```
 
-The recorder is marked as required: when FUEL reports completion or the time
-limit is reached, it saves the evidence and then cleanly stops the complete
-trial. This prevents a missed recorder or an unsynchronized manual start.
+When FUEL reports completion or the time limit is reached, the recorder saves
+the evidence and exits. Wait a few seconds for FUEL to reach its stable
+`FINISH` state, then stop the remaining launch with `Ctrl+C`. Keeping teardown
+operator-controlled avoids forcing the upstream sensor renderer to terminate
+during its final callback.
 
 ## Offline Map Quality Evaluation
 

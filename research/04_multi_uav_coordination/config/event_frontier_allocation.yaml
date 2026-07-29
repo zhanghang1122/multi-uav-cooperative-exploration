@@ -1,0 +1,16 @@
+# The coordinator receives only online Frontier observations and local
+# collision-free path costs. It must never receive the ruins truth PCD.
+task_matching_radius_m: 1.25
+material_center_shift_m: 0.50
+material_gain_change_ratio: 0.25
+gain_weight: 1.0
+travel_cost_weight: 0.45
+overlap_weight: 0.60
+switch_penalty: 0.10
+
+# Reallocation is event driven. No timer-based reassignment is used.
+reallocation_events:
+  - frontier_created
+  - frontier_resolved
+  - frontier_became_unreachable
+  - vehicle_became_unavailable

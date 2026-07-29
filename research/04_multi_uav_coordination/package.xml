@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>ruins_multi_uav_coordination</name>
+  <version>0.1.0</version>
+  <description>Pure online Frontier task coordination core for the three-UAV ruins study.</description>
+  <maintainer email="zhanghang1122@users.noreply.github.com">zhanghang1122</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+</package>

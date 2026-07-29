@@ -85,9 +85,9 @@
     "reference_graph_length_m": 240.11
   },
   "challenge": {
-    "node_count": 33,
-    "edge_count": 45,
-    "branch_node_count": 16,
+    "node_count": 25,
+    "edge_count": 33,
+    "branch_node_count": 13,
     "branch_nodes": [
       "west_lobby",
       "west_n1",
@@ -101,22 +101,18 @@
       "east_core",
       "east_n2",
       "east_s2",
-      "u_core_n",
-      "u_central",
-      "u_south_w",
-      "u_east_core"
+      "central_high"
     ],
-    "independent_loop_count": 13,
-    "dead_end_count": 6,
+    "independent_loop_count": 9,
+    "dead_end_count": 5,
     "dead_ends": [
       "west_n_dead",
       "west_s_dead",
       "east_exit",
       "east_n_dead",
-      "east_s_dead",
-      "u_upper_dead"
+      "east_s_dead"
     ],
-    "vertical_connector_count": 4,
-    "reference_graph_length_m": 299.12
+    "vertical_connector_count": 3,
+    "reference_graph_length_m": 209.9
   }
 }

@@ -50,12 +50,12 @@ VARIANTS = [
     # This remains a reproducible pre-experiment scene. The paper main scene is
     # the separately frozen challenge variant below.
     Variant("complex", "Ruins-Urban-01 Complexity Pilot", 240703, 78, 14, 24, 0.18, True),
-    Variant("challenge", "Ruins-Urban-01 Challenge Ruins", 240704, 60, 8, 12, 0.16, True),
+    Variant("challenge", "Ruins-Interior-01 Main Benchmark", 240704, 42, 7, 6, 0.16, False),
 ]
 
 
 PARAMS = {
-    "scene_name": "Ruins-Urban-01",
+    "scene_name": "Ruins-Interior-01",
     "units": "meters",
     "dimensions": {"x": 42.0, "y": 32.0, "z": 8.0},
     "origin": "centered_xy_floor_z0",
@@ -81,8 +81,8 @@ PARAMS = {
         "collapsed wall slabs",
         "rubble fields",
         "columns",
-        "partial second level",
-        "multiple vertical connectors",
+        "connected high-bay volume",
+        "local low-overhead structures",
         "low-overhead passages",
         "forced altitude-change gates",
         "repetitive and low-feature geometry",
@@ -186,18 +186,13 @@ CHALLENGE_LOWER_NAV_NODES = {
     "east_s_dead": (18.0, -12.0, 1.45),
 }
 
-CHALLENGE_UPPER_NAV_NODES = {
-    "u_core_n": (-7.0, 5.0, 5.05),
-    "u_atrium_n": (-2.5, 4.0, 5.05),
-    "u_central": (2.0, 0.0, 5.05),
-    "u_south": (-2.5, -4.0, 5.05),
-    "u_south_w": (-7.0, -6.5, 5.05),
-    "u_east_n1": (8.0, 5.0, 5.05),
-    "u_east_n2": (13.0, 9.5, 5.05),
-    "u_east_core": (11.0, 0.0, 5.05),
-    "u_east_s1": (8.0, -5.0, 5.05),
-    "u_east_s2": (14.0, -10.0, 5.05),
-    "u_upper_dead": (-13.5, 10.5, 5.05),
+CHALLENGE_AERIAL_NAV_NODES = {
+    # These points are not a second floor. They lie in the open central hall
+    # and are used solely to validate that the high-volume geometry remains
+    # connected to the entry through free 3D space.
+    "atrium_high": (-2.5, 4.0, 4.15),
+    "central_high": (2.0, 0.0, 4.65),
+    "east_high": (11.0, 0.0, 4.15),
 }
 
 GROUND_BASE_EDGES = [
@@ -288,22 +283,18 @@ CHALLENGE_GROUND_EDGES = [
     ("east_s2", "east_core"), ("east_s2", "east_s_dead"),
 ]
 
-CHALLENGE_UPPER_EDGES = [
-    ("core_n", "u_core_n"), ("central", "u_central"),
-    ("core_s", "u_south_w"), ("east_core", "u_east_core"),
-    ("u_core_n", "u_atrium_n"), ("u_atrium_n", "u_central"),
-    ("u_central", "u_south"), ("u_south", "u_south_w"),
-    ("u_south_w", "u_core_n"), ("u_core_n", "u_upper_dead"),
-    ("u_central", "u_east_n1"), ("u_east_n1", "u_east_n2"),
-    ("u_east_n2", "u_east_core"), ("u_east_core", "u_central"),
-    ("u_central", "u_east_s1"), ("u_east_s1", "u_east_s2"),
-    ("u_east_s2", "u_east_core"),
+CHALLENGE_AERIAL_EDGES = [
+    ("core_n", "atrium_high"),
+    ("atrium_high", "central_high"),
+    ("central", "central_high"),
+    ("central_high", "east_high"),
+    ("east_core", "east_high"),
 ]
 
 def navigation_graph(variant: Variant):
     if variant.key == "challenge":
-        nodes = {**CHALLENGE_LOWER_NAV_NODES, **CHALLENGE_UPPER_NAV_NODES}
-        edges = CHALLENGE_GROUND_EDGES + CHALLENGE_UPPER_EDGES
+        nodes = {**CHALLENGE_LOWER_NAV_NODES, **CHALLENGE_AERIAL_NAV_NODES}
+        edges = CHALLENGE_GROUND_EDGES + CHALLENGE_AERIAL_EDGES
         return nodes, edges
     nodes = {**LOWER_NAV_NODES, **UPPER_NAV_NODES}
     edges = list(GROUND_BASE_EDGES)
@@ -648,17 +639,16 @@ def base_structure(variant: Variant) -> list[Box]:
 
 
 def challenge_structure(variant: Variant) -> list[Box]:
-    """Build a two-storey, partially collapsed urban-underground benchmark.
+    """Build the frozen continuous 3D damaged-building benchmark.
 
-    This is intentionally architectural rather than a field of randomly placed
-    blocks: intact rooms and corridors create topology, while three bounded
-    collapse zones add irregular geometry without closing the verified routes.
+    The main paper scene has no separate second floor.  It is a single connected
+    building interior with rooms, blocked sight lines, low ceilings, an open
+    high-bay hall, and localized collapse.  The high-bay validation points are
+    only a geometry oracle; no floor, route, or target is exposed to a UAV.
     """
     boxes: list[Box] = []
-    add_box(boxes, "challenge_v2_ground_slab", (0.0, 0.0, -0.10), (42.0, 32.0, 0.20), material="dark_concrete", role="floor")
+    add_box(boxes, "main_floor_slab", (0.0, 0.0, -0.10), (42.0, 32.0, 0.20), material="dark_concrete", role="floor")
 
-    # A real building envelope: a single western entrance, high exterior walls,
-    # and an interior that visibly contains two storeys rather than floating debris.
     envelope = [
         ("north", (-20.8, 15.7), (20.8, 15.7)),
         ("south", (-20.8, -15.7), (20.8, -15.7)),
@@ -667,11 +657,11 @@ def challenge_structure(variant: Variant) -> list[Box]:
         ("east", (20.8, -15.7), (20.8, 15.7)),
     ]
     for name, p0, p1 in envelope:
-        add_wall(boxes, f"challenge_v2_envelope_{name}", p0, p1, height=6.7, thickness=0.46, z=3.35, material="concrete")
+        add_wall(boxes, f"main_envelope_{name}", p0, p1, height=6.8, thickness=0.46, z=3.40, material="concrete")
 
     nodes, edges = navigation_graph(variant)
     degree = {name: 0 for name in nodes}
-    for a, b in edges:
+    for a, b in CHALLENGE_GROUND_EDGES:
         degree[a] += 1
         degree[b] += 1
 
@@ -679,262 +669,116 @@ def challenge_structure(variant: Variant) -> list[Box]:
         ("west_n1", "west_n2"), ("west_s1", "west_s2"),
         ("east_n1", "east_n2"), ("east_s1", "east_s2"),
     }
-    squeeze_edges = {("west_n1", "west_n_dead"), ("west_s1", "west_s_dead"), ("east_n2", "east_n_dead"), ("east_s2", "east_s_dead")}
+    squeeze_edges = {
+        ("west_n1", "west_n_dead"), ("west_s1", "west_s_dead"),
+        ("east_n2", "east_n_dead"), ("east_s2", "east_s_dead"),
+    }
     for idx, (a, b) in enumerate(CHALLENGE_GROUND_EDGES):
-        pa, pb = nodes[a], nodes[b]
-        # Intersections form open halls/atria. Their walls are supplied by the
-        # surrounding room shells, not by corridor tubes that would close a fork.
         if degree[a] >= 3 or degree[b] >= 3:
             continue
-        width = 2.75
-        if (a, b) in narrow_edges:
-            width = 1.55
+        width = 1.55 if (a, b) in narrow_edges else 2.75
         if (a, b) in squeeze_edges:
-            width = 1.30
+            width = 1.50
         add_corridor_walls(
             boxes,
-            f"challenge_v2_ground_{a}_{b}",
-            pa,
-            pb,
+            f"main_corridor_{a}_{b}",
+            nodes[a],
+            nodes[b],
             width=width,
-            height=2.90 + 0.15 * (idx % 3),
+            height=2.85 + 0.12 * (idx % 3),
             thickness=0.30,
-            end_gap=2.20 if degree[a] >= 3 or degree[b] >= 3 else 1.35,
+            end_gap=1.35,
             material="concrete_light" if idx % 2 else "concrete",
         )
 
-    # Full upper-floor slabs are deliberately regular architectural elements.
-    # Their gaps form an atrium and four clear vertical connections.
-    upper_slabs = [
-        ("north_west", (-13.5, 9.2), (9.0, 11.0)),
-        ("north_central", (-2.0, 10.6), (8.0, 8.2)),
-        ("north_east", (10.5, 9.0), (18.0, 11.2)),
-        ("south_west", (-13.0, -9.3), (10.0, 10.5)),
-        ("south_central", (-1.5, -10.5), (8.0, 8.2)),
-        ("south_east", (11.0, -8.8), (17.0, 12.0)),
-    ]
-    for name, center_xy, size_xy in upper_slabs:
-        add_box(
-            boxes,
-            f"challenge_v2_upper_slab_{name}",
-            (center_xy[0], center_xy[1], 3.35),
-            (size_xy[0], size_xy[1], 0.30),
-            material="concrete_light",
-            role="upper_floor",
-        )
-
-    vertical_edge_names = [(a, b) for a, b in CHALLENGE_UPPER_EDGES if abs(nodes[a][2] - nodes[b][2]) > 0.8]
-    shaft_upper_names = {a if nodes[a][2] > nodes[b][2] else b for a, b in vertical_edge_names}
-
-    # Upper circulation is physically connected by a set of wide concrete decks.
-    for a, b in CHALLENGE_UPPER_EDGES:
-        pa, pb = nodes[a], nodes[b]
-        if abs(pa[2] - pb[2]) > 0.8:
-            continue
-        dx, dy = pb[0] - pa[0], pb[1] - pa[1]
-        length = math.hypot(dx, dy)
-        ux, uy = dx / length, dy / length
-        trim_a = 1.80 if a in shaft_upper_names else 0.0
-        trim_b = 1.80 if b in shaft_upper_names else 0.0
-        p0 = (pa[0] + ux * trim_a, pa[1] + uy * trim_a, pa[2])
-        p1 = (pb[0] - ux * trim_b, pb[1] - uy * trim_b, pb[2])
-        add_segment_box(
-            boxes,
-            f"challenge_v2_upper_deck_{a}_{b}",
-            p0,
-            p1,
-            width=2.55,
-            thickness=0.28,
-            z=3.35,
-            material="concrete_light",
-            role="upper_floor",
-        )
-
-    # Second-storey rooms and corridors; no free-floating overhead plates.
-    upper_walls = [
-        ("nw_outer", (-18.5, 13.5), (-9.2, 13.5)),
-        ("nw_inner", (-18.0, 7.2), (-11.0, 7.2)),
-        ("north_service", (-5.5, 13.4), (2.5, 13.4)),
-        ("ne_outer", (5.0, 13.5), (18.5, 13.5)),
-        ("south_service", (-17.5, -13.4), (-8.0, -13.4)),
-        ("south_inner", (-5.2, -13.3), (4.0, -13.3)),
-        ("se_outer", (6.0, -13.5), (18.5, -13.5)),
-        ("east_room_a", (17.8, -5.2), (17.8, 5.0)),
-    ]
-    for idx, (name, p0, p1) in enumerate(upper_walls):
-        add_wall(
-            boxes,
-            f"challenge_v2_upper_wall_{name}",
-            p0,
-            p1,
-            height=2.75,
-            thickness=0.28,
-            z=4.88,
-            material="concrete" if idx % 2 else "concrete_light",
-        )
-
-    # Reinforced, open shafts are concrete frames, not tall loose rebar.
-    for shaft_idx, (a, b) in enumerate(vertical_edge_names):
-        low, high = (nodes[a], nodes[b]) if nodes[a][2] < nodes[b][2] else (nodes[b], nodes[a])
-        for corner_idx, (ox, oy) in enumerate(((-1.80, -1.80), (-1.80, 1.80), (1.80, -1.80), (1.80, 1.80))):
-            if near_navigation_xy(high[0] + ox, high[1] + oy, variant, margin=0.80):
-                continue
-            add_box(
-                boxes,
-                f"challenge_v2_shaft_{shaft_idx:02d}_column_{corner_idx}",
-                (high[0] + ox, high[1] + oy, 1.65),
-                (0.36, 0.36, 3.30),
-                material="concrete",
-                role="shaft_frame",
-            )
-
-    # Collapse is restricted to three identifiable zones, each bounded away
-    # from the reference centerlines. This creates inspection-relevant debris
-    # without turning the whole map into random clutter.
-    rng = random.Random(variant.seed + 404)
-    collapse_zones = [(-16.0, -8.5, 3.5, 4.5), (-11.5, 9.5, 3.5, 4.0), (12.5, -8.5, 4.5, 4.5)]
-    rubble_index = 0
-    facade_index = 0
-    rubble_per_zone = max(12, math.ceil(variant.rubble_count / len(collapse_zones)))
-    facades_per_zone = max(1, math.ceil(variant.collapsed_wall_count / len(collapse_zones)))
-    for zone_idx, (cx, cy, hx, hy) in enumerate(collapse_zones):
-        placed = 0
-        attempts = 0
-        while placed < rubble_per_zone and attempts < 1500:
-            attempts += 1
-            x = rng.uniform(cx - hx, cx + hx)
-            y = rng.uniform(cy - hy, cy + hy)
-            sx, sy, sz = rng.uniform(0.35, 1.25), rng.uniform(0.30, 1.10), rng.uniform(0.22, 0.85)
-            if near_navigation_xy(x, y, variant, margin=math.hypot(sx, sy) / 2 + 0.55):
-                continue
-            add_box(
-                boxes,
-                f"challenge_v2_rubble_{rubble_index:03d}",
-                (x, y, sz / 2),
-                (sx, sy, sz),
-                (rng.uniform(-0.25, 0.25), rng.uniform(-0.25, 0.25), rng.uniform(0.0, math.pi)),
-                "brick" if placed % 4 == 0 else "rubble",
-                "rubble",
-            )
-            rubble_index += 1
-            placed += 1
-        for local_idx in range(facades_per_zone):
-            x = cx + rng.uniform(-hx * 0.75, hx * 0.75)
-            y = cy + rng.uniform(-hy * 0.75, hy * 0.75)
-            if near_navigation_xy(x, y, variant, margin=2.4):
-                continue
-            length = rng.uniform(2.2, 4.0)
-            height = rng.uniform(1.6, 2.8)
-            add_box(
-                boxes,
-                f"challenge_v2_collapsed_facade_{facade_index:02d}",
-                (x, y, height / 2),
-                (length, 0.34, height),
-                (rng.uniform(-0.18, 0.18), rng.uniform(-0.20, 0.20), rng.uniform(0.0, math.pi)),
-                "concrete_light",
-                "collapsed_facade",
-            )
-            facade_index += 1
-
-    # Structural columns are placed in an architectural grid, never as rods.
-    for idx, (x, y) in enumerate([(-18.0, -3.5), (-18.0, 3.5), (-12.0, 13.0), (-5.0, 13.0), (6.0, 13.0), (16.0, 13.0), (16.0, -13.0), (6.0, -13.0)]):
-        if not near_navigation_xy(x, y, variant, margin=0.85):
-            add_box(boxes, f"challenge_v2_structural_column_{idx:02d}", (x, y, 3.2), (0.62, 0.62, 6.4), material="concrete")
-
-    # Each level needs its own obstacle structure.  These partitions are
-    # deliberately generated inside room-scale zones rather than scattered
-    # throughout the map: they create occlusion and alternate local routes
-    # without making either storey an empty flying volume.
-    def add_verified_partition(
-        name: str,
-        center: tuple[float, float, float],
-        size: tuple[float, float, float],
-        rpy: tuple[float, float, float],
-        material: str,
-        role: str,
-    ) -> bool:
-        candidate = Box(name=name, center=center, size=size, rpy=rpy, material=material, role=role)
-        report = validate_navigation(boxes + [candidate], variant)
-        if report["passed"] and report["min_centerline_clearance_m"] >= 0.50:
-            boxes.append(candidate)
+    def add_verified(box: Box) -> bool:
+        report = validate_navigation(boxes + [box], variant)
+        if report["passed"] and report["min_centerline_clearance_m"] >= 0.42:
+            boxes.append(box)
             return True
         return False
 
-    # Ground level: damaged room dividers, two column clusters, and three
-    # low block groups force local detours while retaining complete routes.
-    ground_rng = random.Random(variant.seed + 611)
-    ground_zones = [(-16.0, 9.0, 3.2, 3.6), (-16.0, -9.0, 3.2, 3.6), (14.5, 9.0, 3.6, 3.5), (14.5, -9.0, 3.6, 3.5), (-2.0, 10.5, 3.5, 2.5), (3.0, -10.5, 3.5, 2.5)]
-    partition_count = 0
-    attempts = 0
-    while partition_count < 18 and attempts < 3000:
-        attempts += 1
-        cx, cy, hx, hy = ground_zones[attempts % len(ground_zones)]
-        x, y = ground_rng.uniform(cx - hx, cx + hx), ground_rng.uniform(cy - hy, cy + hy)
-        length = ground_rng.uniform(1.8, 4.6)
-        if add_verified_partition(
-            f"challenge_v2_ground_partition_{partition_count:02d}",
-            (x, y, 1.45),
-            (length, 0.32, ground_rng.uniform(2.25, 3.15)),
-            (ground_rng.uniform(-0.08, 0.08), ground_rng.uniform(-0.10, 0.10), ground_rng.choice((0.0, math.pi / 2, math.pi / 4, -math.pi / 4))),
-            "concrete_light" if partition_count % 2 else "concrete",
-            "ground_partition",
-        ):
-            partition_count += 1
+    # Broken room shells create occlusion and topology.  They are not labels or
+    # preassigned areas; the names exist solely to make the model inspectable.
+    shell_walls = [
+        ("northwest_a", (-18.7, 13.0), (-13.2, 13.0)),
+        ("northwest_b", (-12.4, 13.0), (-8.6, 13.0)),
+        ("northwest_c", (-18.3, 7.7), (-14.5, 7.7)),
+        ("north_service", (-6.0, 12.8), (-1.2, 12.8)),
+        ("east_north_a", (7.0, 12.6), (11.5, 12.6)),
+        ("east_north_b", (14.0, 12.6), (18.8, 12.6)),
+        ("southwest_a", (-18.8, -12.8), (-13.0, -12.8)),
+        ("southwest_b", (-10.3, -12.8), (-6.0, -12.8)),
+        ("south_service", (-1.2, -12.6), (4.6, -12.6)),
+        ("east_south_a", (7.5, -12.8), (11.8, -12.8)),
+        ("east_south_b", (14.2, -12.8), (18.8, -12.8)),
+        ("east_inner_n", (16.8, 5.2), (16.8, 9.2)),
+        ("east_inner_s", (16.8, -9.4), (16.8, -5.0)),
+    ]
+    for idx, (name, p0, p1) in enumerate(shell_walls):
+        length = math.dist(p0, p1)
+        yaw = math.atan2(p1[1] - p0[1], p1[0] - p0[0])
+        add_verified(Box(f"main_shell_{name}", ((p0[0] + p1[0]) / 2, (p0[1] + p1[1]) / 2, 1.55), (length, 0.30, 3.10), (0.0, 0.0, yaw), "concrete" if idx % 2 else "concrete_light", "room_shell"))
 
-    block_count = 0
-    attempts = 0
-    while block_count < 12 and attempts < 2500:
-        attempts += 1
-        cx, cy, hx, hy = ground_zones[(attempts * 3) % len(ground_zones)]
-        x, y = ground_rng.uniform(cx - hx, cx + hx), ground_rng.uniform(cy - hy, cy + hy)
-        sx, sy, sz = ground_rng.uniform(0.65, 1.50), ground_rng.uniform(0.65, 1.50), ground_rng.uniform(0.75, 1.65)
-        if add_verified_partition(
-            f"challenge_v2_ground_block_{block_count:02d}",
-            (x, y, sz / 2),
-            (sx, sy, sz),
-            (0.0, 0.0, ground_rng.uniform(-0.35, 0.35)),
-            "rubble",
-            "ground_block",
-        ):
-            block_count += 1
+    # A high open atrium is the source of natural vertical frontiers.  There is
+    # deliberately no deck or upper room: upward observations are possible from
+    # the same connected free space as the ground corridors.
+    for idx, (x, y) in enumerate(((-5.2, 1.8), (-5.2, 6.2), (0.7, 6.2), (5.2, 3.4), (5.2, -3.4), (0.7, -6.2), (-5.2, -6.2))):
+        add_verified(Box(f"main_atrium_column_{idx:02d}", (x, y, 3.15), (0.58, 0.58, 6.30), material="concrete", role="structural_column"))
 
-    # Upper level: internal partitions and structural block groups form actual
-    # rooms and sight-line breaks at flight height, not an empty mezzanine.
-    upper_rng = random.Random(variant.seed + 917)
-    upper_zones = [(-15.0, 10.0, 3.0, 2.8), (-13.5, -9.5, 3.2, 2.8), (7.0, 10.5, 3.5, 2.6), (14.5, 5.0, 3.0, 3.4), (13.0, -8.5, 3.5, 2.8), (-1.5, -9.5, 2.8, 2.4)]
-    upper_partition_count = 0
-    attempts = 0
-    while upper_partition_count < 16 and attempts < 3000:
-        attempts += 1
-        cx, cy, hx, hy = upper_zones[attempts % len(upper_zones)]
-        x, y = upper_rng.uniform(cx - hx, cx + hx), upper_rng.uniform(cy - hy, cy + hy)
-        length = upper_rng.uniform(1.6, 4.2)
-        if add_verified_partition(
-            f"challenge_v2_upper_partition_{upper_partition_count:02d}",
-            (x, y, 5.05),
-            (length, 0.28, upper_rng.uniform(2.0, 2.70)),
-            (upper_rng.uniform(-0.06, 0.06), upper_rng.uniform(-0.06, 0.06), upper_rng.choice((0.0, math.pi / 2, math.pi / 4, -math.pi / 4))),
-            "concrete" if upper_partition_count % 2 else "concrete_light",
-            "upper_partition",
-        ):
-            upper_partition_count += 1
+    # Low-ceiling structures constrain sensing and altitude without becoming a
+    # hidden floor.  Their bottoms stay above the validated low-level routes.
+    overheads = [
+        ("northwest", (-15.0, 9.5, 3.55), (6.0, 4.0, 0.32)),
+        ("north_service", (-5.0, 11.5, 3.35), (5.5, 3.0, 0.30)),
+        ("southwest", (-14.5, -9.5, 3.45), (6.2, 4.0, 0.30)),
+        ("southeast", (14.5, -9.0, 3.65), (6.0, 4.8, 0.32)),
+    ]
+    for name, center, size in overheads:
+        add_verified(Box(f"main_overhead_{name}", center, size, (0.0, 0.0, 0.04 if "north" in name else -0.04), "dark_concrete", "low_overhead"))
 
-    upper_block_count = 0
-    attempts = 0
-    while upper_block_count < 10 and attempts < 2200:
-        attempts += 1
-        cx, cy, hx, hy = upper_zones[(attempts * 5) % len(upper_zones)]
-        x, y = upper_rng.uniform(cx - hx, cx + hx), upper_rng.uniform(cy - hy, cy + hy)
-        sx, sy, sz = upper_rng.uniform(0.60, 1.35), upper_rng.uniform(0.60, 1.35), upper_rng.uniform(1.00, 2.15)
-        if add_verified_partition(
-            f"challenge_v2_upper_block_{upper_block_count:02d}",
-            (x, y, 3.50 + sz / 2),
-            (sx, sy, sz),
-            (0.0, 0.0, upper_rng.uniform(-0.30, 0.30)),
-            "rubble",
-            "upper_block",
-        ):
-            upper_block_count += 1
+    # Three bounded collapse clusters replace unstructured map-wide noise.
+    rng = random.Random(variant.seed + 404)
+    collapse_zones = [(-16.0, -7.5, 2.4, 3.0), (-12.5, 10.0, 2.6, 2.8), (14.0, 8.0, 3.0, 3.0)]
+    rubble_index = 0
+    for zone_idx, (cx, cy, hx, hy) in enumerate(collapse_zones):
+        placed = 0
+        attempts = 0
+        while placed < 14 and attempts < 1200:
+            attempts += 1
+            sx, sy, sz = rng.uniform(0.40, 1.15), rng.uniform(0.35, 1.00), rng.uniform(0.25, 0.85)
+            candidate = Box(
+                f"main_collapse_{zone_idx}_{rubble_index:02d}",
+                (rng.uniform(cx - hx, cx + hx), rng.uniform(cy - hy, cy + hy), sz / 2),
+                (sx, sy, sz),
+                (rng.uniform(-0.20, 0.20), rng.uniform(-0.20, 0.20), rng.uniform(0.0, math.pi)),
+                "brick" if rubble_index % 4 == 0 else "rubble",
+                "collapse_rubble",
+            )
+            if add_verified(candidate):
+                placed += 1
+                rubble_index += 1
+        for facade_idx in range(2):
+            length = rng.uniform(2.2, 3.6)
+            height = rng.uniform(1.5, 2.4)
+            add_verified(Box(
+                f"main_collapse_facade_{zone_idx}_{facade_idx}",
+                (cx + rng.uniform(-hx * 0.45, hx * 0.45), cy + rng.uniform(-hy * 0.45, hy * 0.45), height / 2),
+                (length, 0.32, height),
+                (rng.uniform(-0.12, 0.12), rng.uniform(-0.16, 0.16), rng.uniform(0.0, math.pi)),
+                "concrete_light",
+                "collapsed_wall",
+            ))
+
+    # Controlled local barriers add alternate viewpoints and sight-line breaks.
+    partitions = [
+        (-17.0, 9.2, 2.5, 0.0), (-14.0, -10.8, 3.0, math.pi / 2),
+        (-9.0, 12.0, 2.7, math.pi / 2), (8.5, 10.5, 3.0, 0.0),
+        (12.5, 7.0, 2.6, math.pi / 2), (12.0, -11.0, 3.1, 0.0),
+        (6.8, -6.5, 2.4, math.pi / 2), (-7.2, -10.3, 2.4, 0.0),
+    ]
+    for idx, (x, y, length, yaw) in enumerate(partitions):
+        add_verified(Box(f"main_partition_{idx:02d}", (x, y, 1.35), (length, 0.30, 2.70), (0.0, 0.0, yaw), "concrete_light", "partition"))
     return boxes
 
 
@@ -1247,7 +1091,7 @@ def write_model_files(model_dir: Path, variant: Variant, boxes: list[Box], asset
   <author>
     <name>Codex generated</name>
   </author>
-  <description>Ruins-Urban-01 {variant.key} rubble exploration environment.</description>
+  <description>Ruins-Interior-01 {variant.key} autonomous exploration environment.</description>
 </model>
 """
     write_text_lf(model_dir / "model.sdf", sdf)
@@ -1328,7 +1172,7 @@ def write_launches_and_configs():
     config_dir.mkdir(parents=True, exist_ok=True)
     launch_dir.mkdir(parents=True, exist_ok=True)
 
-    yaml = f"""scene_name: Ruins-Urban-01
+    yaml = f"""scene_name: Ruins-Interior-01
 units: meters
 frame_id: map
 origin: centered_xy_floor_z0
@@ -1350,24 +1194,12 @@ corridors:
   normal_width: 2.75
   narrow_width: 1.55
   squeeze_width: 1.30
-  vertical_connector_width: 3.60
-vertical_connectors:
-  - name: vertical_connector_a
-    center: [-7.0, 5.0]
-    z_low: 1.45
-    z_high: 5.05
-  - name: vertical_connector_b
-    center: [2.0, 0.0]
-    z_low: 1.45
-    z_high: 5.05
-  - name: vertical_connector_c
-    center: [-7.0, -6.5]
-    z_low: 1.45
-    z_high: 5.05
-  - name: vertical_connector_d
-    center: [11.0, 0.0]
-    z_low: 1.45
-    z_high: 5.05
+  high_bay_min_open_width: 5.4
+  low_overhead_bottom_height: 3.2
+vertical_exploration:
+  model: connected_high_bay_not_second_floor
+  high_bay_centers: [[-2.5, 4.0, 4.15], [2.0, 0.0, 4.65], [11.0, 0.0, 4.15]]
+  route_or_floor_prior_available_to_uav: false
 variants:
 """
     for v in VARIANTS:
@@ -1851,9 +1683,9 @@ def validate_navigation(boxes: list[Box], variant: Variant) -> dict:
 
 
 def write_readme(summary):
-    readme = f"""# Ruins-Urban-01
+    readme = f"""# Ruins-Interior-01
 
-Ruins-Urban-01 is a reproducible, thesis-oriented 3D rubble environment for multi-UAV exploration on Ubuntu 20.04 / ROS Noetic / PX4 / Prometheus workflows.
+Ruins-Interior-01 is a reproducible, thesis-oriented continuous 3D damaged-building environment for multi-UAV exploration on Ubuntu 20.04 / ROS Noetic / PX4 / Prometheus workflows.
 
 This folder is a ROS package named `ruins_urban_01` inside the parent paper repository. Clone the parent repository under `~/catkin_ws/src`, then build or source the workspace so `$(find ruins_urban_01)` works in launch files.
 
@@ -1871,16 +1703,16 @@ The source representation is the Blender Python script in `scripts/generate_ruin
 - UAV collision diameter parameter: `D = 0.65 m`.
 - Normal corridor width: 2.75 m.
 - Narrow corridor width: 1.55 m.
-- Squeeze passage width: 1.30 m (challenge variant only).
-- Vertical connector clear opening: 3.60 m.
-- Features: irregular corridors, occluded forks, loops, dead ends, ground-level room partitions and block groups, upper-level room partitions and block groups, bounded rubble clusters, repeated columns, an open atrium, a true second storey, and multiple vertical connectors.
+- Squeeze passage width: 1.50 m (challenge variant only).
+- Main vertical structure: an open high-bay hall, not a second storey.
+- Features: irregular corridors, occluded forks, loops, dead ends, damaged room shells, bounded collapse clusters, structural columns, low-overhead passages, and a connected high-bay volume.
 
 The paper main `challenge` scene contains {summary['challenge']['validation']['topology']['node_count']} reference topology nodes,
 {summary['challenge']['validation']['topology']['edge_count']} traversable connections,
 {summary['challenge']['validation']['topology']['branch_node_count']} branch nodes,
 {summary['challenge']['validation']['topology']['independent_loop_count']} independent loops,
 {summary['challenge']['validation']['topology']['dead_end_count']} dead ends, and
-{summary['challenge']['validation']['topology']['vertical_connector_count']} vertical connectors.
+{summary['challenge']['validation']['topology']['vertical_connector_count']} validated altitude-changing free-space links.
 These reference paths exist only for generation-time validation and are not exposed as task partitions to the UAVs.
 
 The scene is not pre-partitioned for UAV assignment. Any naming of rooms, forks, or sections exists only for modeling and debugging. Exploration algorithms should discover frontiers online from local sensing.
@@ -1992,7 +1824,7 @@ Generation ran a basic centerline clearance check on the intended navigation gra
 
 def write_design_basis(summary):
     challenge_topology = summary["challenge"]["validation"]["topology"]
-    text = f"""# Ruins-Urban-01 v3: Literature-Informed Design Basis
+    text = f"""# Ruins-Interior-01: Literature-Informed Design Basis
 
 This scene is a compact, reproducible UAV benchmark inspired by recurring challenges reported in
 subterranean and multi-UAV exploration research. It is not a geometric copy of a DARPA course and
@@ -2012,11 +1844,20 @@ does not claim that obstacle count alone measures environmental complexity.
    and Next-Best-View Planning. Drones, 2024, 8(11):630.
    https://doi.org/10.3390/drones8110630
    Supports evaluating distributed multi-UAV 3D exploration with completion time, explored volume, and overlap.
-4. Wen C, Dong W, Xie W, Cai M, Liu R. Distributed cooperative area search method for UAV swarms based on
+4. Peng X. An autonomous Unmanned Aerial Vehicle exploration platform with a hierarchical control method for
+   post-disaster infrastructures. IET Cyber-Systems and Robotics, 2024.
+   https://doi.org/10.1049/csy2.12107
+   Supports defining a known 3D task boundary while leaving infrastructure geometry unknown, and evaluating
+   reconstructed-map accuracy and completeness separately.
+5. Campos-Macias L, Aldana-Lopez R, de la Guardia R, Parra-Vilchis J, Gomez-Gutierrez D. Autonomous
+   navigation of MAVs in unknown cluttered environments. Journal of Field Robotics, 2021, 38:307-326.
+   https://doi.org/10.1002/rob.21959
+   Supports a layered architecture: online mapping, field-of-view-safe planning, and local dynamic trajectory generation.
+6. Wen C, Dong W, Xie W, Cai M, Liu R. Distributed cooperative area search method for UAV swarms based on
    revisit mechanism. Acta Aeronautica et Astronautica Sinica, 2023, 44(11):327561.
    https://doi.org/10.7527/S1000-6893.2022.27561
    Supports online information updates and repeated-run statistical comparison rather than one scripted trajectory.
-5. GA-HP: A game-assisted hierarchical planner for multi-UAV coverage in unknown environments.
+7. GA-HP: A game-assisted hierarchical planner for multi-UAV coverage in unknown environments.
    Aerospace Science and Technology, 2025, 166:110624.
    https://doi.org/10.1016/j.ast.2025.110624
    Supports separating centralized task allocation from safe local planning in unknown environments.
@@ -2031,23 +1872,23 @@ does not claim that obstacle count alone measures environmental complexity.
 | Branch nodes | {challenge_topology['branch_node_count']} |
 | Independent loops | {challenge_topology['independent_loop_count']} |
 | Dead ends | {challenge_topology['dead_end_count']} |
-| Vertical connectors | {challenge_topology['vertical_connector_count']} |
+| Altitude-changing free-space links | {challenge_topology['vertical_connector_count']} |
 | Reference graph length | {challenge_topology['reference_graph_length_m']} m |
 | Minimum validated centerline clearance | {summary['challenge']['validation']['min_centerline_clearance_m']} m |
 | UAV collision diameter D | {PARAMS['collision_diameter_D']} m |
 | Narrow/squeeze widths | 1.55 m / 1.30 m |
 
 Geometric complexity comes from connected structure, not random clutter alone. The challenge scene combines
-multi-branch ground loops, {challenge_topology['dead_end_count']} dead ends, a true upper network,
-{challenge_topology['vertical_connector_count']} vertical flight connections, a central atrium, room shells,
-three bounded collapse zones, 18 ground-level partitions, 12 ground block groups, 16 upper-level partitions,
-10 upper block groups, rubble clusters, structural columns, and occluded junctions. All interior obstacles are
-generated with fixed seeds and constrained so they cannot accidentally seal the validated reference routes.
+multi-branch ground loops, {challenge_topology['dead_end_count']} dead ends, an open high-bay volume,
+{challenge_topology['vertical_connector_count']} altitude-changing free-space links, damaged room shells,
+three bounded collapse zones, controlled partitions, low-overhead structures, structural columns, and occluded
+junctions. It contains no separate second floor and no hidden spatial island. All interior obstacles are generated
+with fixed seeds and constrained so they cannot accidentally seal the validated reference routes.
 
 ## Intended Experimental Use
 
 - `base`: integration and single-UAV bring-up.
-- `medium`: multi-UAV debugging with two vertical connectors and five loops.
+- `medium`: multi-UAV debugging only; it is not the paper main environment.
 - `complex`: complexity pilot; do not report it as the final paper main environment.
 - `challenge`: frozen main environment for B1/B2/B3/proposed-method comparisons.
 
@@ -2057,7 +1898,8 @@ coverage, minimum inter-UAV distance, map completeness, and runtime. A single su
 evidence of autonomy.
 
 The navigation graph stored in validation files is a generator oracle used only to ensure that the world
-is physically traversable. Exploration code must not read it.
+is physically traversable. Exploration code must not read it. In particular, high-bay nodes are not floor labels,
+route priors, or targets; they only confirm that high free space is connected to the entry.
 """
     docs_dir = OUT / "docs"
     docs_dir.mkdir(parents=True, exist_ok=True)

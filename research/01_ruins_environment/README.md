@@ -1,6 +1,6 @@
-# Ruins-Urban-01
+# Ruins-Interior-01
 
-Ruins-Urban-01 is a reproducible, thesis-oriented 3D rubble environment for multi-UAV exploration on Ubuntu 20.04 / ROS Noetic / PX4 / Prometheus workflows.
+Ruins-Interior-01 is a reproducible, thesis-oriented continuous 3D damaged-building environment for multi-UAV exploration on Ubuntu 20.04 / ROS Noetic / PX4 / Prometheus workflows.
 
 This folder is a ROS package named `ruins_urban_01` inside the parent paper repository. Clone the parent repository under `~/catkin_ws/src`, then build or source the workspace so `$(find ruins_urban_01)` works in launch files.
 
@@ -18,16 +18,16 @@ The source representation is the Blender Python script in `scripts/generate_ruin
 - UAV collision diameter parameter: `D = 0.65 m`.
 - Normal corridor width: 2.75 m.
 - Narrow corridor width: 1.55 m.
-- Squeeze passage width: 1.30 m (challenge variant only).
-- Vertical connector clear opening: 3.60 m.
-- Features: irregular corridors, occluded forks, loops, dead ends, ground-level room partitions and block groups, upper-level room partitions and block groups, bounded rubble clusters, repeated columns, an open atrium, a true second storey, and multiple vertical connectors.
+- Squeeze passage width: 1.50 m (challenge variant only).
+- Main vertical structure: an open high-bay hall, not a second storey.
+- Features: irregular corridors, occluded forks, loops, dead ends, damaged room shells, bounded collapse clusters, structural columns, low-overhead passages, and a connected high-bay volume.
 
-The paper main `challenge` scene contains 33 reference topology nodes,
-45 traversable connections,
-16 branch nodes,
-13 independent loops,
-6 dead ends, and
-4 vertical connectors.
+The paper main `challenge` scene contains 25 reference topology nodes,
+33 traversable connections,
+13 branch nodes,
+9 independent loops,
+5 dead ends, and
+3 validated altitude-changing free-space links.
 These reference paths exist only for generation-time validation and are not exposed as task partitions to the UAVs.
 
 The scene is not pre-partitioned for UAV assignment. Any naming of rooms, forks, or sections exists only for modeling and debugging. Exploration algorithms should discover frontiers online from local sensing.
@@ -39,7 +39,7 @@ The scene is not pre-partitioned for UAV assignment. Any naming of rooms, forks,
 | base | 240701 | 102319 | Basic validation and single-UAV bring-up |
 | medium | 240702 | 145626 | Three-UAV debugging with denser rubble |
 | complex | 240703 | 197902 | Complexity pilot only; not final paper data |
-| challenge | 240704 | 337772 | Frozen paper main scene |
+| challenge | 240704 | 228641 | Frozen paper main scene |
 
 ## Recommended Use
 
@@ -120,7 +120,7 @@ Generation ran a basic centerline clearance check on the intended navigation gra
 | base | True | 0.412 m |
 | medium | True | 0.412 m |
 | complex | True | 0.412 m |
-| challenge | True | 0.511 m |
+| challenge | True | 0.45 m |
 
 ## Notes
 

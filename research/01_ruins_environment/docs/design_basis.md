@@ -32,22 +32,22 @@ does not claim that obstacle count alone measures environmental complexity.
 | Dimension | Challenge variant |
 |---|---:|
 | Physical size | 42 x 32 x 8 m |
-| Reference topology nodes | 46 |
-| Traversable graph edges | 55 |
-| Branch nodes | 20 |
-| Independent loops | 10 |
-| Dead ends | 7 |
-| Vertical connectors | 6 |
-| Reference graph length | 302.51 m |
-| Minimum validated centerline clearance | 0.565 m |
+| Reference topology nodes | 33 |
+| Traversable graph edges | 45 |
+| Branch nodes | 16 |
+| Independent loops | 13 |
+| Dead ends | 6 |
+| Vertical connectors | 4 |
+| Reference graph length | 299.12 m |
+| Minimum validated centerline clearance | 0.692 m |
 | UAV collision diameter D | 0.65 m |
-| Narrow/squeeze widths | 1.45 m / 1.22 m |
+| Narrow/squeeze widths | 1.55 m / 1.30 m |
 
 Geometric complexity comes from connected structure, not random clutter alone. The challenge scene combines
-an irregular main spine, multi-branch ground loops, seven dead ends, a true upper network, six altitude
-transitions, breached wall shells, tilted facade fragments, fallen slabs, rubble clusters, overhead beams,
-repetitive columns, and occluded junctions. Rubble is generated with fixed seeds and constrained so it cannot
-accidentally seal the validated reference routes.
+multi-branch ground loops, 6 dead ends, a true upper network,
+4 vertical flight connections, a central atrium, room shells,
+three bounded collapse zones, rubble clusters, structural columns, and occluded junctions. Rubble is generated
+with fixed seeds and constrained so it cannot accidentally seal the validated reference routes.
 
 ## Intended Experimental Use
 

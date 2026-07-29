@@ -17,35 +17,27 @@ uav:
   collision_diameter_D: 0.65
   min_required_radius: 0.35
 corridors:
-  normal_width: 2.7
-  narrow_width: 1.45
-  squeeze_width: 1.22
-  vertical_connector_width: 2.2
+  normal_width: 2.75
+  narrow_width: 1.55
+  squeeze_width: 1.30
+  vertical_connector_width: 3.60
 vertical_connectors:
   - name: vertical_connector_a
-    center: [-4.0, 7.0]
-    z_low: 1.35
-    z_high: 4.55
+    center: [-7.0, 5.0]
+    z_low: 1.45
+    z_high: 5.05
   - name: vertical_connector_b
-    center: [16.0, -8.5]
-    z_low: 1.35
-    z_high: 4.55
+    center: [2.0, 0.0]
+    z_low: 1.45
+    z_high: 5.05
   - name: vertical_connector_c
-    center: [1.5, 0.8]
-    z_low: 1.20
-    z_high: 4.55
+    center: [-7.0, -6.5]
+    z_low: 1.45
+    z_high: 5.05
   - name: vertical_connector_d
-    center: [-15.0, -12.0]
-    z_low: 1.35
-    z_high: 4.55
-  - name: vertical_connector_e
-    center: [-2.5, -10.0]
-    z_low: 1.35
-    z_high: 4.55
-  - name: vertical_connector_f
-    center: [6.0, -7.5]
-    z_low: 1.35
-    z_high: 4.55
+    center: [11.0, 0.0]
+    z_low: 1.45
+    z_high: 5.05
 variants:
   base:
     seed: 240701
@@ -81,6 +73,6 @@ variants:
     gazebo_world: ../gazebo/worlds/Ruins-Urban-01_challenge.world
     mesh_obj: ../meshes/obj/Ruins-Urban-01_challenge.obj
     mesh_dae: ../meshes/dae/Ruins-Urban-01_challenge.dae
-    rubble_count: 128
-    column_count: 22
-    collapsed_wall_count: 42
+    rubble_count: 60
+    column_count: 8
+    collapsed_wall_count: 12

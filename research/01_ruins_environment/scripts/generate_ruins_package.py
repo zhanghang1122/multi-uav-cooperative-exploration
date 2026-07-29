@@ -50,7 +50,7 @@ VARIANTS = [
     # This remains a reproducible pre-experiment scene. The paper main scene is
     # the separately frozen challenge variant below.
     Variant("complex", "Ruins-Urban-01 Complexity Pilot", 240703, 78, 14, 24, 0.18, True),
-    Variant("challenge", "Ruins-Urban-01 Challenge Ruins", 240704, 128, 22, 42, 0.16, True),
+    Variant("challenge", "Ruins-Urban-01 Challenge Ruins", 240704, 60, 8, 12, 0.16, True),
 ]
 
 
@@ -67,10 +67,10 @@ PARAMS = {
         "vertical_connector_width": "max(2.00, 3.1 * D)",
     },
     "corridor_widths": {
-        "normal": 2.7,
-        "narrow": 1.45,
-        "squeeze": 1.22,
-        "vertical_connector": 2.2,
+        "normal": 2.75,
+        "narrow": 1.55,
+        "squeeze": 1.30,
+        "vertical_connector": 3.60,
     },
     "features": [
         "normal corridors",
@@ -158,6 +158,48 @@ UPPER_NAV_NODES = {
     "upper_south_dead": (12.0, -12.0, 4.55),
 }
 
+# The frozen paper scene is a building-scale urban-underground ruin. These
+# centerlines exist only to reject accidentally sealed geometry during asset
+# generation. They are never exported to FUEL, Gazebo, or any exploration node.
+CHALLENGE_LOWER_NAV_NODES = {
+    "entry": (-19.0, 0.0, 1.45),
+    "west_lobby": (-15.5, 0.0, 1.45),
+    "west_n1": (-15.5, 5.5, 1.45),
+    "west_n2": (-11.0, 10.0, 1.45),
+    "west_n_dead": (-18.0, 11.5, 1.45),
+    "west_s1": (-15.5, -5.5, 1.45),
+    "west_s2": (-10.5, -10.5, 1.45),
+    "west_s_dead": (-18.0, -11.5, 1.45),
+    "core_w": (-8.0, 0.0, 1.45),
+    "core_n": (-7.0, 5.0, 1.45),
+    "core_s": (-7.0, -6.5, 1.45),
+    "atrium_n": (-2.5, 4.0, 1.45),
+    "atrium_s": (-2.5, -4.0, 1.45),
+    "central": (2.0, 0.0, 1.45),
+    "east_core": (11.0, 0.0, 1.45),
+    "east_exit": (18.0, 0.0, 1.45),
+    "east_n1": (8.0, 5.0, 1.45),
+    "east_n2": (13.0, 9.5, 1.45),
+    "east_n_dead": (18.0, 12.0, 1.45),
+    "east_s1": (8.0, -5.0, 1.45),
+    "east_s2": (14.0, -10.0, 1.45),
+    "east_s_dead": (18.0, -12.0, 1.45),
+}
+
+CHALLENGE_UPPER_NAV_NODES = {
+    "u_core_n": (-7.0, 5.0, 5.05),
+    "u_atrium_n": (-2.5, 4.0, 5.05),
+    "u_central": (2.0, 0.0, 5.05),
+    "u_south": (-2.5, -4.0, 5.05),
+    "u_south_w": (-7.0, -6.5, 5.05),
+    "u_east_n1": (8.0, 5.0, 5.05),
+    "u_east_n2": (13.0, 9.5, 5.05),
+    "u_east_core": (11.0, 0.0, 5.05),
+    "u_east_s1": (8.0, -5.0, 5.05),
+    "u_east_s2": (14.0, -10.0, 5.05),
+    "u_upper_dead": (-13.5, 10.5, 5.05),
+}
+
 GROUND_BASE_EDGES = [
     ("entry", "g1"),
     ("g1", "g2"),
@@ -228,7 +270,41 @@ UPPER_CHALLENGE_EDGES = [
     ("us7", "upper_south_dead"),
 ]
 
+CHALLENGE_GROUND_EDGES = [
+    ("entry", "west_lobby"),
+    ("west_lobby", "west_n1"), ("west_n1", "west_n2"),
+    ("west_n2", "core_n"), ("core_n", "core_w"), ("core_w", "west_lobby"),
+    ("west_n1", "west_n_dead"),
+    ("west_lobby", "west_s1"), ("west_s1", "west_s2"),
+    ("west_s2", "core_s"), ("core_s", "core_w"),
+    ("west_s1", "west_s_dead"),
+    ("core_w", "atrium_n"), ("atrium_n", "central"),
+    ("core_w", "atrium_s"), ("atrium_s", "central"),
+    ("core_n", "atrium_n"), ("core_s", "atrium_s"),
+    ("central", "east_core"), ("east_core", "east_exit"),
+    ("central", "east_n1"), ("east_n1", "east_n2"),
+    ("east_n2", "east_core"), ("east_n2", "east_n_dead"),
+    ("central", "east_s1"), ("east_s1", "east_s2"),
+    ("east_s2", "east_core"), ("east_s2", "east_s_dead"),
+]
+
+CHALLENGE_UPPER_EDGES = [
+    ("core_n", "u_core_n"), ("central", "u_central"),
+    ("core_s", "u_south_w"), ("east_core", "u_east_core"),
+    ("u_core_n", "u_atrium_n"), ("u_atrium_n", "u_central"),
+    ("u_central", "u_south"), ("u_south", "u_south_w"),
+    ("u_south_w", "u_core_n"), ("u_core_n", "u_upper_dead"),
+    ("u_central", "u_east_n1"), ("u_east_n1", "u_east_n2"),
+    ("u_east_n2", "u_east_core"), ("u_east_core", "u_central"),
+    ("u_central", "u_east_s1"), ("u_east_s1", "u_east_s2"),
+    ("u_east_s2", "u_east_core"),
+]
+
 def navigation_graph(variant: Variant):
+    if variant.key == "challenge":
+        nodes = {**CHALLENGE_LOWER_NAV_NODES, **CHALLENGE_UPPER_NAV_NODES}
+        edges = CHALLENGE_GROUND_EDGES + CHALLENGE_UPPER_EDGES
+        return nodes, edges
     nodes = {**LOWER_NAV_NODES, **UPPER_NAV_NODES}
     edges = list(GROUND_BASE_EDGES)
     if variant.key in {"medium", "complex"}:
@@ -572,151 +648,204 @@ def base_structure(variant: Variant) -> list[Box]:
 
 
 def challenge_structure(variant: Variant) -> list[Box]:
-    """Build the frozen paper main scene as a damaged urban underground layout.
+    """Build a two-storey, partially collapsed urban-underground benchmark.
 
-    The reference graph is used exclusively for collision-clearance validation.
-    It is deliberately not serialized into any runtime planning input.
+    This is intentionally architectural rather than a field of randomly placed
+    blocks: intact rooms and corridors create topology, while three bounded
+    collapse zones add irregular geometry without closing the verified routes.
     """
     boxes: list[Box] = []
-    add_box(boxes, "challenge_floor_slab", (0.0, 0.0, -0.10), (42.0, 32.0, 0.20), material="dark_concrete", role="floor")
+    add_box(boxes, "challenge_v2_ground_slab", (0.0, 0.0, -0.10), (42.0, 32.0, 0.20), material="dark_concrete", role="floor")
 
-    # Perimeter segments retain a single broad western entrance, while varied
-    # heights and slight rotations avoid the appearance of a clean office box.
-    boundary_segments = [
-        ("north_a", (-14.5, 15.78), (-2.8, 15.72), 3.4),
-        ("north_b", (-1.7, 15.80), (9.4, 15.86), 2.8),
-        ("north_c", (10.5, 15.76), (20.8, 15.82), 3.7),
-        ("south_a", (-20.8, -15.82), (-8.5, -15.74), 3.5),
-        ("south_b", (-7.2, -15.84), (4.0, -15.78), 2.9),
-        ("south_c", (5.0, -15.76), (20.8, -15.84), 3.6),
-        ("west_n", (-20.84, 15.75), (-20.90, 2.2), 3.4),
-        ("west_s", (-20.88, -2.2), (-20.82, -15.75), 3.2),
-        ("east_a", (20.84, -15.7), (20.92, -1.5), 3.3),
-        ("east_b", (20.86, -0.3), (20.90, 15.7), 3.8),
+    # A real building envelope: a single western entrance, high exterior walls,
+    # and an interior that visibly contains two storeys rather than floating debris.
+    envelope = [
+        ("north", (-20.8, 15.7), (20.8, 15.7)),
+        ("south", (-20.8, -15.7), (20.8, -15.7)),
+        ("west_n", (-20.8, 15.7), (-20.8, 2.3)),
+        ("west_s", (-20.8, -2.3), (-20.8, -15.7)),
+        ("east", (20.8, -15.7), (20.8, 15.7)),
     ]
-    for idx, (name, p0, p1, height) in enumerate(boundary_segments):
-        add_wall(
-            boxes,
-            f"challenge_boundary_{name}",
-            p0,
-            p1,
-            height=height,
-            thickness=0.42,
-            z=height / 2,
-            material="concrete" if idx % 3 else "concrete_light",
-        )
+    for name, p0, p1 in envelope:
+        add_wall(boxes, f"challenge_v2_envelope_{name}", p0, p1, height=6.7, thickness=0.46, z=3.35, material="concrete")
 
     nodes, edges = navigation_graph(variant)
     degree = {name: 0 for name in nodes}
     for a, b in edges:
         degree[a] += 1
         degree[b] += 1
+
     narrow_edges = {
-        ("n1", "n2"), ("n3", "n4"), ("s1", "s2"), ("s3", "s4"),
-        ("en1", "en2"), ("es1", "es2"), ("u2", "u3"), ("u5", "u6"),
-        ("us3", "us4"), ("us4", "us5"), ("us6", "us7"),
+        ("west_n1", "west_n2"), ("west_s1", "west_s2"),
+        ("east_n1", "east_n2"), ("east_s1", "east_s2"),
     }
-    squeeze_edges = {
-        ("n4", "n5"), ("s4", "s5"), ("en2", "dead_ne"),
-        ("u6", "ub"), ("us7", "upper_south_dead"),
-    }
-    main_spine = {
-        ("entry", "g1"), ("g1", "g2"), ("g2", "g3"), ("g3", "g4"),
-        ("g4", "g5"), ("g5", "g6"), ("g6", "g7"), ("g7", "g8"),
-    }
-    for idx, (a, b) in enumerate(edges):
+    squeeze_edges = {("west_n1", "west_n_dead"), ("west_s1", "west_s_dead"), ("east_n2", "east_n_dead"), ("east_s2", "east_s_dead")}
+    for idx, (a, b) in enumerate(CHALLENGE_GROUND_EDGES):
         pa, pb = nodes[a], nodes[b]
-        if abs(pa[2] - pb[2]) > 0.8 or pa[2] > 3.5 or pb[2] > 3.5:
+        # Intersections form open halls/atria. Their walls are supplied by the
+        # surrounding room shells, not by corridor tubes that would close a fork.
+        if degree[a] >= 3 or degree[b] >= 3:
             continue
-        width = 3.20 if (a, b) in main_spine else 2.55
+        width = 2.75
         if (a, b) in narrow_edges:
-            width = 1.45
+            width = 1.55
         if (a, b) in squeeze_edges:
-            width = 1.22
-        height = 2.55 + 0.20 * (idx % 4)
+            width = 1.30
         add_corridor_walls(
             boxes,
-            f"challenge_ground_corridor_{a}_{b}",
+            f"challenge_v2_ground_{a}_{b}",
             pa,
             pb,
             width=width,
-            height=height,
+            height=2.90 + 0.15 * (idx % 3),
             thickness=0.30,
-            end_gap=2.35 if degree[a] >= 3 or degree[b] >= 3 else 1.55,
+            end_gap=2.20 if degree[a] >= 3 or degree[b] >= 3 else 1.35,
+            material="concrete_light" if idx % 2 else "concrete",
+        )
+
+    # Full upper-floor slabs are deliberately regular architectural elements.
+    # Their gaps form an atrium and four clear vertical connections.
+    upper_slabs = [
+        ("north_west", (-13.5, 9.2), (9.0, 11.0)),
+        ("north_central", (-2.0, 10.6), (8.0, 8.2)),
+        ("north_east", (10.5, 9.0), (18.0, 11.2)),
+        ("south_west", (-13.0, -9.3), (10.0, 10.5)),
+        ("south_central", (-1.5, -10.5), (8.0, 8.2)),
+        ("south_east", (11.0, -8.8), (17.0, 12.0)),
+    ]
+    for name, center_xy, size_xy in upper_slabs:
+        add_box(
+            boxes,
+            f"challenge_v2_upper_slab_{name}",
+            (center_xy[0], center_xy[1], 3.35),
+            (size_xy[0], size_xy[1], 0.30),
+            material="concrete_light",
+            role="upper_floor",
+        )
+
+    vertical_edge_names = [(a, b) for a, b in CHALLENGE_UPPER_EDGES if abs(nodes[a][2] - nodes[b][2]) > 0.8]
+    shaft_upper_names = {a if nodes[a][2] > nodes[b][2] else b for a, b in vertical_edge_names}
+
+    # Upper circulation is physically connected by a set of wide concrete decks.
+    for a, b in CHALLENGE_UPPER_EDGES:
+        pa, pb = nodes[a], nodes[b]
+        if abs(pa[2] - pb[2]) > 0.8:
+            continue
+        dx, dy = pb[0] - pa[0], pb[1] - pa[1]
+        length = math.hypot(dx, dy)
+        ux, uy = dx / length, dy / length
+        trim_a = 1.80 if a in shaft_upper_names else 0.0
+        trim_b = 1.80 if b in shaft_upper_names else 0.0
+        p0 = (pa[0] + ux * trim_a, pa[1] + uy * trim_a, pa[2])
+        p1 = (pb[0] - ux * trim_b, pb[1] - uy * trim_b, pb[2])
+        add_segment_box(
+            boxes,
+            f"challenge_v2_upper_deck_{a}_{b}",
+            p0,
+            p1,
+            width=2.55,
+            thickness=0.28,
+            z=3.35,
+            material="concrete_light",
+            role="upper_floor",
+        )
+
+    # Second-storey rooms and corridors; no free-floating overhead plates.
+    upper_walls = [
+        ("nw_outer", (-18.5, 13.5), (-9.2, 13.5)),
+        ("nw_inner", (-18.0, 7.2), (-11.0, 7.2)),
+        ("north_service", (-5.5, 13.4), (2.5, 13.4)),
+        ("ne_outer", (5.0, 13.5), (18.5, 13.5)),
+        ("south_service", (-17.5, -13.4), (-8.0, -13.4)),
+        ("south_inner", (-5.2, -13.3), (4.0, -13.3)),
+        ("se_outer", (6.0, -13.5), (18.5, -13.5)),
+        ("east_room_a", (17.8, -5.2), (17.8, 5.0)),
+    ]
+    for idx, (name, p0, p1) in enumerate(upper_walls):
+        add_wall(
+            boxes,
+            f"challenge_v2_upper_wall_{name}",
+            p0,
+            p1,
+            height=2.75,
+            thickness=0.28,
+            z=4.88,
             material="concrete" if idx % 2 else "concrete_light",
         )
 
-    # Distinct damaged structures make the space a ruin rather than a regular maze.
-    rng = random.Random(variant.seed + 91)
-    clusters = 0
-    attempts = 0
-    while clusters < 11 and attempts < 4000:
-        attempts += 1
-        x = rng.uniform(-17.5, 17.5)
-        y = rng.uniform(-13.0, 13.0)
-        if near_navigation_xy(x, y, variant, margin=3.1):
-            continue
-        yaw = rng.uniform(0.0, math.pi)
-        facade_len = rng.uniform(3.4, 5.8)
-        facade_h = rng.uniform(2.4, 4.8)
-        add_box(
-            boxes,
-            f"challenge_broken_facade_{clusters:02d}",
-            (x, y, facade_h / 2),
-            (facade_len, 0.34, facade_h),
-            (rng.uniform(-0.18, 0.18), rng.uniform(-0.22, 0.22), yaw),
-            "concrete_light",
-            "collapsed_facade",
-        )
-        add_box(
-            boxes,
-            f"challenge_fallen_slab_{clusters:02d}",
-            (x + rng.uniform(-1.0, 1.0), y + rng.uniform(-1.0, 1.0), rng.uniform(0.65, 1.25)),
-            (rng.uniform(2.4, 4.6), rng.uniform(0.70, 1.35), 0.34),
-            (rng.uniform(-0.30, 0.30), rng.uniform(-0.30, 0.30), yaw + rng.uniform(-0.55, 0.55)),
-            "rubble",
-            "collapsed_slab",
-        )
-        for piece in range(3):
-            sx, sy, sz = rng.uniform(0.45, 1.35), rng.uniform(0.35, 1.10), rng.uniform(0.30, 0.95)
+    # Reinforced, open shafts are concrete frames, not tall loose rebar.
+    for shaft_idx, (a, b) in enumerate(vertical_edge_names):
+        low, high = (nodes[a], nodes[b]) if nodes[a][2] < nodes[b][2] else (nodes[b], nodes[a])
+        for corner_idx, (ox, oy) in enumerate(((-1.80, -1.80), (-1.80, 1.80), (1.80, -1.80), (1.80, 1.80))):
+            if near_navigation_xy(high[0] + ox, high[1] + oy, variant, margin=0.80):
+                continue
             add_box(
                 boxes,
-                f"challenge_cluster_{clusters:02d}_rubble_{piece}",
-                (x + rng.uniform(-2.0, 2.0), y + rng.uniform(-2.0, 2.0), sz / 2),
+                f"challenge_v2_shaft_{shaft_idx:02d}_column_{corner_idx}",
+                (high[0] + ox, high[1] + oy, 1.65),
+                (0.36, 0.36, 3.30),
+                material="concrete",
+                role="shaft_frame",
+            )
+
+    # Collapse is restricted to three identifiable zones, each bounded away
+    # from the reference centerlines. This creates inspection-relevant debris
+    # without turning the whole map into random clutter.
+    rng = random.Random(variant.seed + 404)
+    collapse_zones = [(-16.0, -8.5, 3.5, 4.5), (-11.5, 9.5, 3.5, 4.0), (12.5, -8.5, 4.5, 4.5)]
+    rubble_index = 0
+    facade_index = 0
+    rubble_per_zone = max(12, math.ceil(variant.rubble_count / len(collapse_zones)))
+    facades_per_zone = max(1, math.ceil(variant.collapsed_wall_count / len(collapse_zones)))
+    for zone_idx, (cx, cy, hx, hy) in enumerate(collapse_zones):
+        placed = 0
+        attempts = 0
+        while placed < rubble_per_zone and attempts < 1500:
+            attempts += 1
+            x = rng.uniform(cx - hx, cx + hx)
+            y = rng.uniform(cy - hy, cy + hy)
+            sx, sy, sz = rng.uniform(0.35, 1.25), rng.uniform(0.30, 1.10), rng.uniform(0.22, 0.85)
+            if near_navigation_xy(x, y, variant, margin=math.hypot(sx, sy) / 2 + 0.55):
+                continue
+            add_box(
+                boxes,
+                f"challenge_v2_rubble_{rubble_index:03d}",
+                (x, y, sz / 2),
                 (sx, sy, sz),
                 (rng.uniform(-0.25, 0.25), rng.uniform(-0.25, 0.25), rng.uniform(0.0, math.pi)),
-                "brick" if piece == 0 else "rubble",
+                "brick" if placed % 4 == 0 else "rubble",
                 "rubble",
             )
-        clusters += 1
+            rubble_index += 1
+            placed += 1
+        for local_idx in range(facades_per_zone):
+            x = cx + rng.uniform(-hx * 0.75, hx * 0.75)
+            y = cy + rng.uniform(-hy * 0.75, hy * 0.75)
+            if near_navigation_xy(x, y, variant, margin=2.4):
+                continue
+            length = rng.uniform(2.2, 4.0)
+            height = rng.uniform(1.6, 2.8)
+            add_box(
+                boxes,
+                f"challenge_v2_collapsed_facade_{facade_index:02d}",
+                (x, y, height / 2),
+                (length, 0.34, height),
+                (rng.uniform(-0.18, 0.18), rng.uniform(-0.20, 0.20), rng.uniform(0.0, math.pi)),
+                "concrete_light",
+                "collapsed_facade",
+            )
+            facade_index += 1
 
-    # Overhead debris makes the upper structure visually and geometrically distinct.
-    beams = 0
-    attempts = 0
-    while beams < 18 and attempts < 5000:
-        attempts += 1
-        x = rng.uniform(-18.0, 18.0)
-        y = rng.uniform(-14.0, 14.0)
-        if near_navigation_xy(x, y, variant, margin=1.45):
-            continue
-        length = rng.uniform(2.0, 5.2)
-        add_box(
-            boxes,
-            f"challenge_hanging_beam_{beams:02d}",
-            (x, y, rng.uniform(4.95, 6.20)),
-            (length, rng.uniform(0.14, 0.32), rng.uniform(0.16, 0.34)),
-            (rng.uniform(-0.24, 0.24), rng.uniform(-0.42, 0.42), rng.uniform(0.0, math.pi)),
-            "rust",
-            "hanging_debris",
-        )
-        beams += 1
-
-    # The upper network provides six actual altitude transitions, not just high decorations.
-    add_upper_network(boxes, variant)
+    # Structural columns are placed in an architectural grid, never as rods.
+    for idx, (x, y) in enumerate([(-18.0, -3.5), (-18.0, 3.5), (-12.0, 13.0), (-5.0, 13.0), (6.0, 13.0), (16.0, 13.0), (16.0, -13.0), (6.0, -13.0)]):
+        if not near_navigation_xy(x, y, variant, margin=0.85):
+            add_box(boxes, f"challenge_v2_structural_column_{idx:02d}", (x, y, 3.2), (0.62, 0.62, 6.4), material="concrete")
     return boxes
 
 
 def add_variant_obstacles(boxes: list[Box], variant: Variant):
+    if variant.key == "challenge":
+        return
     rng = random.Random(variant.seed)
 
     # Random columns are kept away from validated centerlines.
@@ -1123,35 +1252,27 @@ uav:
   collision_diameter_D: {PARAMS["collision_diameter_D"]}
   min_required_radius: {PARAMS["min_required_radius"]}
 corridors:
-  normal_width: 2.7
-  narrow_width: 1.45
-  squeeze_width: 1.22
-  vertical_connector_width: 2.2
+  normal_width: 2.75
+  narrow_width: 1.55
+  squeeze_width: 1.30
+  vertical_connector_width: 3.60
 vertical_connectors:
   - name: vertical_connector_a
-    center: [-4.0, 7.0]
-    z_low: 1.35
-    z_high: 4.55
+    center: [-7.0, 5.0]
+    z_low: 1.45
+    z_high: 5.05
   - name: vertical_connector_b
-    center: [16.0, -8.5]
-    z_low: 1.35
-    z_high: 4.55
+    center: [2.0, 0.0]
+    z_low: 1.45
+    z_high: 5.05
   - name: vertical_connector_c
-    center: [1.5, 0.8]
-    z_low: 1.20
-    z_high: 4.55
+    center: [-7.0, -6.5]
+    z_low: 1.45
+    z_high: 5.05
   - name: vertical_connector_d
-    center: [-15.0, -12.0]
-    z_low: 1.35
-    z_high: 4.55
-  - name: vertical_connector_e
-    center: [-2.5, -10.0]
-    z_low: 1.35
-    z_high: 4.55
-  - name: vertical_connector_f
-    center: [6.0, -7.5]
-    z_low: 1.35
-    z_high: 4.55
+    center: [11.0, 0.0]
+    z_low: 1.45
+    z_high: 5.05
 variants:
 """
     for v in VARIANTS:
@@ -1653,11 +1774,11 @@ The source representation is the Blender Python script in `scripts/generate_ruin
 
 - Size: 42 m x 32 m x 8 m.
 - UAV collision diameter parameter: `D = 0.65 m`.
-- Normal corridor width: 2.7 m.
-- Narrow corridor width: 1.45 m.
-- Squeeze passage width: 1.22 m (challenge variant only).
-- Vertical connector width: 2.2 m.
-- Features: irregular corridors, occluded forks, loops, dead ends, broken facades, tilted slabs, rubble clusters, repeated columns, low-feature passages, overhead debris, partial second level, and six vertical connectors.
+- Normal corridor width: 2.75 m.
+- Narrow corridor width: 1.55 m.
+- Squeeze passage width: 1.30 m (challenge variant only).
+- Vertical connector clear opening: 3.60 m.
+- Features: irregular corridors, occluded forks, loops, dead ends, broken facades, bounded rubble clusters, repeated columns, an open atrium, a true second storey, and multiple vertical connectors.
 
 The paper main `challenge` scene contains {summary['challenge']['validation']['topology']['node_count']} reference topology nodes,
 {summary['challenge']['validation']['topology']['edge_count']} traversable connections,
@@ -1819,13 +1940,13 @@ does not claim that obstacle count alone measures environmental complexity.
 | Reference graph length | {challenge_topology['reference_graph_length_m']} m |
 | Minimum validated centerline clearance | {summary['challenge']['validation']['min_centerline_clearance_m']} m |
 | UAV collision diameter D | {PARAMS['collision_diameter_D']} m |
-| Narrow/squeeze widths | 1.45 m / 1.22 m |
+| Narrow/squeeze widths | 1.55 m / 1.30 m |
 
 Geometric complexity comes from connected structure, not random clutter alone. The challenge scene combines
-an irregular main spine, multi-branch ground loops, seven dead ends, a true upper network, six altitude
-transitions, breached wall shells, tilted facade fragments, fallen slabs, rubble clusters, overhead beams,
-repetitive columns, and occluded junctions. Rubble is generated with fixed seeds and constrained so it cannot
-accidentally seal the validated reference routes.
+multi-branch ground loops, {challenge_topology['dead_end_count']} dead ends, a true upper network,
+{challenge_topology['vertical_connector_count']} vertical flight connections, a central atrium, room shells,
+three bounded collapse zones, rubble clusters, structural columns, and occluded junctions. Rubble is generated
+with fixed seeds and constrained so it cannot accidentally seal the validated reference routes.
 
 ## Intended Experimental Use
 

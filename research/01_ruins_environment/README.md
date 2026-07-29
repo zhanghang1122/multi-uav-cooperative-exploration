@@ -16,18 +16,18 @@ The source representation is the Blender Python script in `scripts/generate_ruin
 
 - Size: 42 m x 32 m x 8 m.
 - UAV collision diameter parameter: `D = 0.65 m`.
-- Normal corridor width: 2.7 m.
-- Narrow corridor width: 1.45 m.
-- Squeeze passage width: 1.22 m (challenge variant only).
-- Vertical connector width: 2.2 m.
-- Features: irregular corridors, occluded forks, loops, dead ends, broken facades, tilted slabs, rubble clusters, repeated columns, low-feature passages, overhead debris, partial second level, and six vertical connectors.
+- Normal corridor width: 2.75 m.
+- Narrow corridor width: 1.55 m.
+- Squeeze passage width: 1.30 m (challenge variant only).
+- Vertical connector clear opening: 3.60 m.
+- Features: irregular corridors, occluded forks, loops, dead ends, broken facades, bounded rubble clusters, repeated columns, an open atrium, a true second storey, and multiple vertical connectors.
 
-The paper main `challenge` scene contains 46 reference topology nodes,
-55 traversable connections,
-20 branch nodes,
-10 independent loops,
-7 dead ends, and
-6 vertical connectors.
+The paper main `challenge` scene contains 33 reference topology nodes,
+45 traversable connections,
+16 branch nodes,
+13 independent loops,
+6 dead ends, and
+4 vertical connectors.
 These reference paths exist only for generation-time validation and are not exposed as task partitions to the UAVs.
 
 The scene is not pre-partitioned for UAV assignment. Any naming of rooms, forks, or sections exists only for modeling and debugging. Exploration algorithms should discover frontiers online from local sensing.
@@ -39,7 +39,7 @@ The scene is not pre-partitioned for UAV assignment. Any naming of rooms, forks,
 | base | 240701 | 102319 | Basic validation and single-UAV bring-up |
 | medium | 240702 | 145626 | Three-UAV debugging with denser rubble |
 | complex | 240703 | 197902 | Complexity pilot only; not final paper data |
-| challenge | 240704 | 280361 | Frozen paper main scene |
+| challenge | 240704 | 305556 | Frozen paper main scene |
 
 ## Recommended Use
 
@@ -120,7 +120,7 @@ Generation ran a basic centerline clearance check on the intended navigation gra
 | base | True | 0.412 m |
 | medium | True | 0.412 m |
 | complex | True | 0.412 m |
-| challenge | True | 0.565 m |
+| challenge | True | 0.692 m |
 
 ## Notes
 

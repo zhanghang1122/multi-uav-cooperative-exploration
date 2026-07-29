@@ -1,0 +1,25 @@
+<launch>
+  <!--
+    One-command reproducible B1 trial. The included FUEL launch performs its
+    normal online exploration; this wrapper adds only independent mapping,
+    observation-only evidence recording, and the position-neutral start signal.
+  -->
+  <arg name="fuel_launch" default="/tmp/ruins_fuel_overlay/base/fuel_exploration_base.launch" />
+  <arg name="output_dir" />
+  <arg name="scene_variant" default="base" />
+  <arg name="max_duration_s" default="1800" />
+  <arg name="snapshot_period_s" default="60" />
+  <arg name="trigger_delay_s" default="5" />
+
+  <include file="$(arg fuel_launch)" />
+
+  <include file="$(find ruins_single_uav_exploration)/launch/fuel_global_mapping.launch" />
+
+  <node pkg="ruins_single_uav_exploration" type="record_single_uav_trial.py"
+        name="ruins_single_uav_trial_recorder" output="screen" required="true"
+        args="--output-dir $(arg output_dir) --scene-variant $(arg scene_variant) --max-duration-s $(arg max_duration_s) --snapshot-period-s $(arg snapshot_period_s)" />
+
+  <include file="$(find ruins_single_uav_exploration)/launch/automatic_trigger.launch">
+    <arg name="delay_s" value="$(arg trigger_delay_s)" />
+  </include>
+</launch>

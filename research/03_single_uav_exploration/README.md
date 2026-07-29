@@ -92,6 +92,27 @@ exploration.`, it saves these evidence files:
 The ground-truth ruins PCD is deliberately not an input to this node. It is
 used only later, offline, to calculate map Precision, Recall, and F1.
 
+### One-Command B1 Trial
+
+For reproducible data collection, prefer the combined launch below over
+starting four terminals by hand. It includes FUEL, the independent mapper, the
+observation-only recorder, and the position-neutral start trigger. It does not
+provide FUEL with a route, waypoint sequence, target coordinate, or truth map.
+
+First generate the temporary FUEL overlay as described above, then run:
+
+```bash
+RUN_DIR="/tmp/ruins_trials/B1_base_$(date +%Y%m%d_%H%M%S)"
+roslaunch ruins_single_uav_exploration formal_b1_trial.launch \
+  output_dir:="$RUN_DIR" \
+  scene_variant:=base \
+  max_duration_s:=1800
+```
+
+The recorder is marked as required: when FUEL reports completion or the time
+limit is reached, it saves the evidence and then cleanly stops the complete
+trial. This prevents a missed recorder or an unsynchronized manual start.
+
 ## Offline Map Quality Evaluation
 
 After a completed trial, run the evaluator with the scene truth PCD. This is

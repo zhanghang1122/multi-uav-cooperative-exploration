@@ -20,7 +20,7 @@ The source representation is the Blender Python script in `scripts/generate_ruin
 - Narrow corridor width: 1.55 m.
 - Squeeze passage width: 1.30 m (challenge variant only).
 - Vertical connector clear opening: 3.60 m.
-- Features: irregular corridors, occluded forks, loops, dead ends, broken facades, bounded rubble clusters, repeated columns, an open atrium, a true second storey, and multiple vertical connectors.
+- Features: irregular corridors, occluded forks, loops, dead ends, ground-level room partitions and block groups, upper-level room partitions and block groups, bounded rubble clusters, repeated columns, an open atrium, a true second storey, and multiple vertical connectors.
 
 The paper main `challenge` scene contains 33 reference topology nodes,
 45 traversable connections,
@@ -39,7 +39,7 @@ The scene is not pre-partitioned for UAV assignment. Any naming of rooms, forks,
 | base | 240701 | 102319 | Basic validation and single-UAV bring-up |
 | medium | 240702 | 145626 | Three-UAV debugging with denser rubble |
 | complex | 240703 | 197902 | Complexity pilot only; not final paper data |
-| challenge | 240704 | 305556 | Frozen paper main scene |
+| challenge | 240704 | 337772 | Frozen paper main scene |
 
 ## Recommended Use
 
@@ -120,7 +120,7 @@ Generation ran a basic centerline clearance check on the intended navigation gra
 | base | True | 0.412 m |
 | medium | True | 0.412 m |
 | complex | True | 0.412 m |
-| challenge | True | 0.692 m |
+| challenge | True | 0.511 m |
 
 ## Notes
 

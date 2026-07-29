@@ -2666,5 +2666,1349 @@
         </surface>
       </collision>
     </link>
+    <link name="111_challenge_v2_ground_partition_00">
+      <pose>14.91400 -8.07757 1.45000 -0.06318 0.05724 1.57080</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.37699 0.32000 2.42564</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.37699 0.32000 2.42564</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="112_challenge_v2_ground_partition_01">
+      <pose>1.23700 10.81703 1.45000 -0.07656 0.00397 1.57080</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>4.20982 0.32000 2.48393</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>4.20982 0.32000 2.48393</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="113_challenge_v2_ground_partition_02">
+      <pose>0.26871 -8.44294 1.45000 -0.00470 0.04762 -0.78540</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.35256 0.32000 2.81104</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.35256 0.32000 2.81104</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="114_challenge_v2_ground_partition_03">
+      <pose>14.61439 6.50475 1.45000 0.06267 -0.09524 0.78540</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.76082 0.32000 2.71876</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.76082 0.32000 2.71876</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="115_challenge_v2_ground_partition_04">
+      <pose>1.37261 9.52307 1.45000 -0.01615 0.04535 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.78928 0.32000 2.90257</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.78928 0.32000 2.90257</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="116_challenge_v2_ground_partition_05">
+      <pose>3.31842 -9.49085 1.45000 -0.05352 0.09346 0.78540</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>4.22028 0.32000 2.63667</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>4.22028 0.32000 2.63667</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="117_challenge_v2_ground_partition_06">
+      <pose>-14.34781 -11.79231 1.45000 -0.01012 -0.04508 0.78540</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.16197 0.32000 2.27488</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.16197 0.32000 2.27488</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="118_challenge_v2_ground_partition_07">
+      <pose>-0.94828 10.09941 1.45000 -0.04909 0.02395 -0.78540</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>3.52021 0.32000 2.87731</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>3.52021 0.32000 2.87731</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="119_challenge_v2_ground_partition_08">
+      <pose>3.35194 -10.36508 1.45000 -0.05515 -0.01278 1.57080</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.74584 0.32000 2.29015</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.74584 0.32000 2.29015</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="120_challenge_v2_ground_partition_09">
+      <pose>-15.68800 12.52079 1.45000 -0.03133 -0.09456 1.57080</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.85043 0.32000 2.62248</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.85043 0.32000 2.62248</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="121_challenge_v2_ground_partition_10">
+      <pose>11.86646 11.90265 1.45000 -0.06698 -0.05476 1.57080</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.05362 0.32000 2.47670</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.05362 0.32000 2.47670</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="122_challenge_v2_ground_partition_11">
+      <pose>-0.10700 9.44513 1.45000 -0.04907 -0.03924 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.86930 0.32000 2.52527</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.86930 0.32000 2.52527</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="123_challenge_v2_ground_partition_12">
+      <pose>2.48784 -11.16634 1.45000 0.07666 -0.03742 1.57080</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>3.87986 0.32000 2.90516</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>3.87986 0.32000 2.90516</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="124_challenge_v2_ground_partition_13">
+      <pose>-13.01359 11.65736 1.45000 -0.01971 0.07032 -0.78540</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>3.14764 0.32000 2.96001</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>3.14764 0.32000 2.96001</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="125_challenge_v2_ground_partition_14">
+      <pose>17.17269 7.96197 1.45000 0.01615 -0.03899 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.87315 0.32000 2.94251</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.87315 0.32000 2.94251</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="126_challenge_v2_ground_partition_15">
+      <pose>-3.59355 11.84738 1.45000 -0.06004 0.08678 -0.78540</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.91899 0.32000 2.37422</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.91899 0.32000 2.37422</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="127_challenge_v2_ground_partition_16">
+      <pose>4.45755 -12.30823 1.45000 0.07847 -0.04098 -0.78540</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.71298 0.32000 2.84033</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.71298 0.32000 2.84033</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="128_challenge_v2_ground_partition_17">
+      <pose>-14.48468 10.21953 1.45000 -0.06056 0.08137 0.78540</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>4.14358 0.32000 3.05913</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>4.14358 0.32000 3.05913</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="129_challenge_v2_ground_block_00">
+      <pose>-16.63920 11.45980 0.70671 0.00000 0.00000 0.24046</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.18383 0.95947 1.41342</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.18383 0.95947 1.41342</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="130_challenge_v2_ground_block_01">
+      <pose>18.07219 -10.60461 0.60655 0.00000 0.00000 -0.25960</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.77695 1.04344 1.21311</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.77695 1.04344 1.21311</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="131_challenge_v2_ground_block_02">
+      <pose>17.66653 -11.45792 0.44693 0.00000 0.00000 0.01148</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.34722 0.79430 0.89385</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.34722 0.79430 0.89385</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="132_challenge_v2_ground_block_03">
+      <pose>-16.79084 10.98253 0.38537 0.00000 0.00000 -0.29492</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.43274 0.96540 0.77074</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.43274 0.96540 0.77074</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="133_challenge_v2_ground_block_04">
+      <pose>12.77548 -9.59063 0.45158 0.00000 0.00000 -0.18546</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.04101 1.24497 0.90317</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.04101 1.24497 0.90317</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="134_challenge_v2_ground_block_05">
+      <pose>-18.04723 9.91355 0.41186 0.00000 0.00000 -0.00123</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.68747 0.72651 0.82373</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.68747 0.72651 0.82373</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="135_challenge_v2_ground_block_06">
+      <pose>11.25047 -10.18355 0.70290 0.00000 0.00000 0.09781</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.34700 0.76074 1.40580</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.34700 0.76074 1.40580</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="136_challenge_v2_ground_block_07">
+      <pose>-16.48092 12.13145 0.57962 0.00000 0.00000 0.12667</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.77194 0.69441 1.15924</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.77194 0.69441 1.15924</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="137_challenge_v2_ground_block_08">
+      <pose>-15.88314 11.00863 0.57091 0.00000 0.00000 -0.28789</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.67653 1.15775 1.14181</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.67653 1.15775 1.14181</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="138_challenge_v2_ground_block_09">
+      <pose>11.21356 -10.37186 0.72179 0.00000 0.00000 0.04614</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.18462 0.80183 1.44359</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.18462 0.80183 1.44359</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="139_challenge_v2_ground_block_10">
+      <pose>-16.87786 9.75033 0.38765 0.00000 0.00000 -0.23417</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.29092 0.93081 0.77531</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.29092 0.93081 0.77531</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="140_challenge_v2_ground_block_11">
+      <pose>-14.78621 7.87603 0.61158 0.00000 0.00000 -0.33507</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.06136 1.11231 1.22315</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.06136 1.11231 1.22315</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="141_challenge_v2_upper_partition_00">
+      <pose>-12.44552 -9.67705 5.05000 -0.03601 0.05920 1.57080</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>3.61356 0.28000 2.21575</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>3.61356 0.28000 2.21575</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="142_challenge_v2_upper_partition_01">
+      <pose>6.84128 11.00038 5.05000 0.03263 0.03172 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.74994 0.28000 2.66952</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.74994 0.28000 2.66952</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="143_challenge_v2_upper_partition_02">
+      <pose>17.48795 2.19356 5.05000 -0.03679 0.01097 1.57080</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.16513 0.28000 2.53470</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.16513 0.28000 2.53470</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="144_challenge_v2_upper_partition_03">
+      <pose>-1.29786 -11.62473 5.05000 0.02011 -0.00518 0.78540</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.82556 0.28000 2.42365</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.82556 0.28000 2.42365</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="145_challenge_v2_upper_partition_04">
+      <pose>-14.40219 8.57187 5.05000 -0.01857 -0.00030 1.57080</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.84397 0.28000 2.55377</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.84397 0.28000 2.55377</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="146_challenge_v2_upper_partition_05">
+      <pose>-14.23359 -12.03675 5.05000 -0.05683 0.02403 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.40226 0.28000 2.39411</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.40226 0.28000 2.39411</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="147_challenge_v2_upper_partition_06">
+      <pose>3.82471 12.44658 5.05000 0.04021 0.03766 0.78540</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>3.15751 0.28000 2.54002</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>3.15751 0.28000 2.54002</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="148_challenge_v2_upper_partition_07">
+      <pose>16.09433 -6.24107 5.05000 0.01337 0.01220 -0.78540</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>3.74291 0.28000 2.24151</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>3.74291 0.28000 2.24151</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="149_challenge_v2_upper_partition_08">
+      <pose>-1.93032 -11.22245 5.05000 -0.01521 -0.05962 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.02532 0.28000 2.02922</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.02532 0.28000 2.02922</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="150_challenge_v2_upper_partition_09">
+      <pose>-12.19694 -7.13914 5.05000 0.04350 0.05075 1.57080</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.10184 0.28000 2.50174</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.10184 0.28000 2.50174</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="151_challenge_v2_upper_partition_10">
+      <pose>4.39469 8.78619 5.05000 0.05326 0.03395 -0.78540</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>4.01490 0.28000 2.69312</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>4.01490 0.28000 2.69312</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="152_challenge_v2_upper_partition_11">
+      <pose>11.00398 -10.80347 5.05000 -0.03841 -0.02218 0.78540</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>3.76542 0.28000 2.64383</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>3.76542 0.28000 2.64383</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="153_challenge_v2_upper_partition_12">
+      <pose>-0.92101 -7.12836 5.05000 -0.02390 -0.02827 -0.78540</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>3.05839 0.28000 2.40345</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>3.05839 0.28000 2.40345</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="154_challenge_v2_upper_partition_13">
+      <pose>-14.72193 9.25261 5.05000 -0.03833 -0.04387 1.57080</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.68033 0.28000 2.42290</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.68033 0.28000 2.42290</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="155_challenge_v2_upper_partition_14">
+      <pose>-15.60980 -6.81054 5.05000 0.01695 0.02339 0.78540</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>2.33349 0.28000 2.61190</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>2.33349 0.28000 2.61190</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="156_challenge_v2_upper_partition_15">
+      <pose>7.15871 10.34327 5.05000 -0.01942 -0.02140 0.78540</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>3.58652 0.28000 2.00037</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>3.58652 0.28000 2.00037</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="157_challenge_v2_upper_block_00">
+      <pose>-0.81025 -7.98026 4.08965 0.00000 0.00000 0.29574</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.20338 0.62889 1.17930</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.20338 0.62889 1.17930</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="158_challenge_v2_upper_block_01">
+      <pose>15.37987 6.50528 4.08122 0.00000 0.00000 0.01271</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.20426 0.70643 1.16244</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.20426 0.70643 1.16244</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="159_challenge_v2_upper_block_02">
+      <pose>9.16800 11.79235 4.07598 0.00000 0.00000 -0.28117</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.88069 0.72136 1.15196</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.88069 0.72136 1.15196</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="160_challenge_v2_upper_block_03">
+      <pose>-14.25488 -11.23686 4.53813 0.00000 0.00000 -0.10379</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.61090 1.24882 2.07627</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.61090 1.24882 2.07627</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="161_challenge_v2_upper_block_04">
+      <pose>-12.67215 7.95005 4.46085 0.00000 0.00000 -0.08563</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.25516 1.30774 1.92171</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.25516 1.30774 1.92171</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="162_challenge_v2_upper_block_05">
+      <pose>-0.09532 -8.37367 4.07711 0.00000 0.00000 -0.09147</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.68468 1.00158 1.15422</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.68468 1.00158 1.15422</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="163_challenge_v2_upper_block_06">
+      <pose>15.14209 6.48062 4.38596 0.00000 0.00000 -0.16583</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.71710 0.72878 1.77192</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.71710 0.72878 1.77192</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="164_challenge_v2_upper_block_07">
+      <pose>4.01330 9.86880 4.37740 0.00000 0.00000 -0.01079</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.93444 0.96490 1.75481</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.93444 0.96490 1.75481</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="165_challenge_v2_upper_block_08">
+      <pose>-11.02276 -10.31180 4.17036 0.00000 0.00000 -0.18209</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.80897 0.98638 1.34072</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.80897 0.98638 1.34072</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="166_challenge_v2_upper_block_09">
+      <pose>-15.50942 7.89697 4.43072 0.00000 0.00000 0.11921</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>1.12126 0.86453 1.86144</size></box>
+        </geometry>
+          <material>
+            <ambient>0.460 0.420 0.360 1</ambient>
+            <diffuse>0.460 0.420 0.360 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>1.12126 0.86453 1.86144</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
   </model>
 </sdf>

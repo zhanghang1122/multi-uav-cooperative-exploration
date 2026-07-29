@@ -39,15 +39,16 @@ does not claim that obstacle count alone measures environmental complexity.
 | Dead ends | 6 |
 | Vertical connectors | 4 |
 | Reference graph length | 299.12 m |
-| Minimum validated centerline clearance | 0.692 m |
+| Minimum validated centerline clearance | 0.511 m |
 | UAV collision diameter D | 0.65 m |
 | Narrow/squeeze widths | 1.55 m / 1.30 m |
 
 Geometric complexity comes from connected structure, not random clutter alone. The challenge scene combines
 multi-branch ground loops, 6 dead ends, a true upper network,
 4 vertical flight connections, a central atrium, room shells,
-three bounded collapse zones, rubble clusters, structural columns, and occluded junctions. Rubble is generated
-with fixed seeds and constrained so it cannot accidentally seal the validated reference routes.
+three bounded collapse zones, 18 ground-level partitions, 12 ground block groups, 16 upper-level partitions,
+10 upper block groups, rubble clusters, structural columns, and occluded junctions. All interior obstacles are
+generated with fixed seeds and constrained so they cannot accidentally seal the validated reference routes.
 
 ## Intended Experimental Use
 

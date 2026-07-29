@@ -840,6 +840,101 @@ def challenge_structure(variant: Variant) -> list[Box]:
     for idx, (x, y) in enumerate([(-18.0, -3.5), (-18.0, 3.5), (-12.0, 13.0), (-5.0, 13.0), (6.0, 13.0), (16.0, 13.0), (16.0, -13.0), (6.0, -13.0)]):
         if not near_navigation_xy(x, y, variant, margin=0.85):
             add_box(boxes, f"challenge_v2_structural_column_{idx:02d}", (x, y, 3.2), (0.62, 0.62, 6.4), material="concrete")
+
+    # Each level needs its own obstacle structure.  These partitions are
+    # deliberately generated inside room-scale zones rather than scattered
+    # throughout the map: they create occlusion and alternate local routes
+    # without making either storey an empty flying volume.
+    def add_verified_partition(
+        name: str,
+        center: tuple[float, float, float],
+        size: tuple[float, float, float],
+        rpy: tuple[float, float, float],
+        material: str,
+        role: str,
+    ) -> bool:
+        candidate = Box(name=name, center=center, size=size, rpy=rpy, material=material, role=role)
+        report = validate_navigation(boxes + [candidate], variant)
+        if report["passed"] and report["min_centerline_clearance_m"] >= 0.50:
+            boxes.append(candidate)
+            return True
+        return False
+
+    # Ground level: damaged room dividers, two column clusters, and three
+    # low block groups force local detours while retaining complete routes.
+    ground_rng = random.Random(variant.seed + 611)
+    ground_zones = [(-16.0, 9.0, 3.2, 3.6), (-16.0, -9.0, 3.2, 3.6), (14.5, 9.0, 3.6, 3.5), (14.5, -9.0, 3.6, 3.5), (-2.0, 10.5, 3.5, 2.5), (3.0, -10.5, 3.5, 2.5)]
+    partition_count = 0
+    attempts = 0
+    while partition_count < 18 and attempts < 3000:
+        attempts += 1
+        cx, cy, hx, hy = ground_zones[attempts % len(ground_zones)]
+        x, y = ground_rng.uniform(cx - hx, cx + hx), ground_rng.uniform(cy - hy, cy + hy)
+        length = ground_rng.uniform(1.8, 4.6)
+        if add_verified_partition(
+            f"challenge_v2_ground_partition_{partition_count:02d}",
+            (x, y, 1.45),
+            (length, 0.32, ground_rng.uniform(2.25, 3.15)),
+            (ground_rng.uniform(-0.08, 0.08), ground_rng.uniform(-0.10, 0.10), ground_rng.choice((0.0, math.pi / 2, math.pi / 4, -math.pi / 4))),
+            "concrete_light" if partition_count % 2 else "concrete",
+            "ground_partition",
+        ):
+            partition_count += 1
+
+    block_count = 0
+    attempts = 0
+    while block_count < 12 and attempts < 2500:
+        attempts += 1
+        cx, cy, hx, hy = ground_zones[(attempts * 3) % len(ground_zones)]
+        x, y = ground_rng.uniform(cx - hx, cx + hx), ground_rng.uniform(cy - hy, cy + hy)
+        sx, sy, sz = ground_rng.uniform(0.65, 1.50), ground_rng.uniform(0.65, 1.50), ground_rng.uniform(0.75, 1.65)
+        if add_verified_partition(
+            f"challenge_v2_ground_block_{block_count:02d}",
+            (x, y, sz / 2),
+            (sx, sy, sz),
+            (0.0, 0.0, ground_rng.uniform(-0.35, 0.35)),
+            "rubble",
+            "ground_block",
+        ):
+            block_count += 1
+
+    # Upper level: internal partitions and structural block groups form actual
+    # rooms and sight-line breaks at flight height, not an empty mezzanine.
+    upper_rng = random.Random(variant.seed + 917)
+    upper_zones = [(-15.0, 10.0, 3.0, 2.8), (-13.5, -9.5, 3.2, 2.8), (7.0, 10.5, 3.5, 2.6), (14.5, 5.0, 3.0, 3.4), (13.0, -8.5, 3.5, 2.8), (-1.5, -9.5, 2.8, 2.4)]
+    upper_partition_count = 0
+    attempts = 0
+    while upper_partition_count < 16 and attempts < 3000:
+        attempts += 1
+        cx, cy, hx, hy = upper_zones[attempts % len(upper_zones)]
+        x, y = upper_rng.uniform(cx - hx, cx + hx), upper_rng.uniform(cy - hy, cy + hy)
+        length = upper_rng.uniform(1.6, 4.2)
+        if add_verified_partition(
+            f"challenge_v2_upper_partition_{upper_partition_count:02d}",
+            (x, y, 5.05),
+            (length, 0.28, upper_rng.uniform(2.0, 2.70)),
+            (upper_rng.uniform(-0.06, 0.06), upper_rng.uniform(-0.06, 0.06), upper_rng.choice((0.0, math.pi / 2, math.pi / 4, -math.pi / 4))),
+            "concrete" if upper_partition_count % 2 else "concrete_light",
+            "upper_partition",
+        ):
+            upper_partition_count += 1
+
+    upper_block_count = 0
+    attempts = 0
+    while upper_block_count < 10 and attempts < 2200:
+        attempts += 1
+        cx, cy, hx, hy = upper_zones[(attempts * 5) % len(upper_zones)]
+        x, y = upper_rng.uniform(cx - hx, cx + hx), upper_rng.uniform(cy - hy, cy + hy)
+        sx, sy, sz = upper_rng.uniform(0.60, 1.35), upper_rng.uniform(0.60, 1.35), upper_rng.uniform(1.00, 2.15)
+        if add_verified_partition(
+            f"challenge_v2_upper_block_{upper_block_count:02d}",
+            (x, y, 3.50 + sz / 2),
+            (sx, sy, sz),
+            (0.0, 0.0, upper_rng.uniform(-0.30, 0.30)),
+            "rubble",
+            "upper_block",
+        ):
+            upper_block_count += 1
     return boxes
 
 
@@ -1778,7 +1873,7 @@ The source representation is the Blender Python script in `scripts/generate_ruin
 - Narrow corridor width: 1.55 m.
 - Squeeze passage width: 1.30 m (challenge variant only).
 - Vertical connector clear opening: 3.60 m.
-- Features: irregular corridors, occluded forks, loops, dead ends, broken facades, bounded rubble clusters, repeated columns, an open atrium, a true second storey, and multiple vertical connectors.
+- Features: irregular corridors, occluded forks, loops, dead ends, ground-level room partitions and block groups, upper-level room partitions and block groups, bounded rubble clusters, repeated columns, an open atrium, a true second storey, and multiple vertical connectors.
 
 The paper main `challenge` scene contains {summary['challenge']['validation']['topology']['node_count']} reference topology nodes,
 {summary['challenge']['validation']['topology']['edge_count']} traversable connections,
@@ -1945,8 +2040,9 @@ does not claim that obstacle count alone measures environmental complexity.
 Geometric complexity comes from connected structure, not random clutter alone. The challenge scene combines
 multi-branch ground loops, {challenge_topology['dead_end_count']} dead ends, a true upper network,
 {challenge_topology['vertical_connector_count']} vertical flight connections, a central atrium, room shells,
-three bounded collapse zones, rubble clusters, structural columns, and occluded junctions. Rubble is generated
-with fixed seeds and constrained so it cannot accidentally seal the validated reference routes.
+three bounded collapse zones, 18 ground-level partitions, 12 ground block groups, 16 upper-level partitions,
+10 upper block groups, rubble clusters, structural columns, and occluded junctions. All interior obstacles are
+generated with fixed seeds and constrained so they cannot accidentally seal the validated reference routes.
 
 ## Intended Experimental Use
 

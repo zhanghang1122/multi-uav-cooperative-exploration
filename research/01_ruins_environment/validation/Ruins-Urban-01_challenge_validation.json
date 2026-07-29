@@ -1,6 +1,6 @@
 {
   "required_radius_m": 0.35,
-  "min_centerline_clearance_m": 0.692,
+  "min_centerline_clearance_m": 0.511,
   "topology": {
     "node_count": 33,
     "edge_count": 45,
@@ -58,8 +58,8 @@
         "west_n1",
         "west_n2"
       ],
-      "min_clearance_m": 1.148,
-      "nearest_obstacle": "challenge_v2_rubble_034"
+      "min_clearance_m": 0.511,
+      "nearest_obstacle": "challenge_v2_ground_block_11"
     },
     {
       "edge": [
@@ -90,8 +90,8 @@
         "west_n1",
         "west_n_dead"
       ],
-      "min_clearance_m": 1.75,
-      "nearest_obstacle": "challenge_v2_upper_slab_north_west"
+      "min_clearance_m": 0.586,
+      "nearest_obstacle": "challenge_v2_ground_block_00"
     },
     {
       "edge": [
@@ -210,8 +210,8 @@
         "east_n1",
         "east_n2"
       ],
-      "min_clearance_m": 1.75,
-      "nearest_obstacle": "challenge_v2_upper_slab_north_east"
+      "min_clearance_m": 1.686,
+      "nearest_obstacle": "challenge_v2_ground_partition_10"
     },
     {
       "edge": [
@@ -242,24 +242,24 @@
         "east_s1",
         "east_s2"
       ],
-      "min_clearance_m": 1.195,
-      "nearest_obstacle": "challenge_v2_rubble_042"
+      "min_clearance_m": 0.547,
+      "nearest_obstacle": "challenge_v2_ground_block_04"
     },
     {
       "edge": [
         "east_s2",
         "east_core"
       ],
-      "min_clearance_m": 0.99,
-      "nearest_obstacle": "challenge_v2_shaft_03_column_2"
+      "min_clearance_m": 0.63,
+      "nearest_obstacle": "challenge_v2_ground_block_04"
     },
     {
       "edge": [
         "east_s2",
         "east_s_dead"
       ],
-      "min_clearance_m": 1.374,
-      "nearest_obstacle": "challenge_v2_structural_column_06"
+      "min_clearance_m": 0.556,
+      "nearest_obstacle": "challenge_v2_ground_block_02"
     },
     {
       "edge": [
@@ -338,8 +338,8 @@
         "u_core_n",
         "u_upper_dead"
       ],
-      "min_clearance_m": 0.799,
-      "nearest_obstacle": "challenge_v2_upper_wall_nw_inner"
+      "min_clearance_m": 0.516,
+      "nearest_obstacle": "challenge_v2_upper_block_04"
     },
     {
       "edge": [
@@ -386,16 +386,16 @@
         "u_east_s1",
         "u_east_s2"
       ],
-      "min_clearance_m": 1.55,
-      "nearest_obstacle": "challenge_v2_upper_slab_south_east"
+      "min_clearance_m": 0.649,
+      "nearest_obstacle": "challenge_v2_upper_partition_11"
     },
     {
       "edge": [
         "u_east_s2",
         "u_east_core"
       ],
-      "min_clearance_m": 1.55,
-      "nearest_obstacle": "challenge_v2_upper_slab_south_east"
+      "min_clearance_m": 1.379,
+      "nearest_obstacle": "challenge_v2_upper_partition_11"
     }
   ],
   "blocking_edges": [],

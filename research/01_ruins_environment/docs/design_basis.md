@@ -41,20 +41,20 @@ does not claim that obstacle count alone measures environmental complexity.
 | Dimension | Challenge variant |
 |---|---:|
 | Physical size | 42 x 32 x 8 m |
-| Reference topology nodes | 25 |
-| Traversable graph edges | 33 |
-| Branch nodes | 13 |
-| Independent loops | 9 |
+| Reference topology nodes | 22 |
+| Traversable graph edges | 28 |
+| Branch nodes | 12 |
+| Independent loops | 7 |
 | Dead ends | 5 |
-| Altitude-changing free-space links | 3 |
-| Reference graph length | 209.9 m |
-| Minimum validated centerline clearance | 0.45 m |
+| Vertical complexity | low collapse, structural remnants, high-bay ceiling volume |
+| Reference graph length | 176.49 m |
+| Minimum validated centerline clearance | 0.364 m |
 | UAV collision diameter D | 0.65 m |
 | Narrow/squeeze widths | 1.55 m / 1.30 m |
 
 Geometric complexity comes from connected structure, not random clutter alone. The challenge scene combines
 multi-branch ground loops, 5 dead ends, an open high-bay volume,
-3 altitude-changing free-space links, damaged room shells,
+low collapse, structural remnants, damaged room shells,
 three bounded collapse zones, controlled partitions, low-overhead structures, structural columns, and occluded
 junctions. It contains no separate second floor and no hidden spatial island. All interior obstacles are generated
 with fixed seeds and constrained so they cannot accidentally seal the validated reference routes.
@@ -72,5 +72,5 @@ coverage, minimum inter-UAV distance, map completeness, and runtime. A single su
 evidence of autonomy.
 
 The navigation graph stored in validation files is a generator oracle used only to ensure that the world
-is physically traversable. Exploration code must not read it. In particular, high-bay nodes are not floor labels,
-route priors, or targets; they only confirm that high free space is connected to the entry.
+is physically traversable. Exploration code must not read it. The high-bay geometry is not represented by a
+floor label, route prior, or target.

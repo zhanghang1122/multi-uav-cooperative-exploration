@@ -22,12 +22,12 @@ The source representation is the Blender Python script in `scripts/generate_ruin
 - Main vertical structure: an open high-bay hall, not a second storey.
 - Features: irregular corridors, occluded forks, loops, dead ends, damaged room shells, bounded collapse clusters, structural columns, low-overhead passages, and a connected high-bay volume.
 
-The paper main `challenge` scene contains 25 reference topology nodes,
-33 traversable connections,
-13 branch nodes,
-9 independent loops,
+The paper main `challenge` scene contains 22 reference topology nodes,
+28 traversable connections,
+12 branch nodes,
+7 independent loops,
 5 dead ends, and
-3 validated altitude-changing free-space links.
+multiple obstacle-height bands and a visually open high-bay ceiling volume.
 These reference paths exist only for generation-time validation and are not exposed as task partitions to the UAVs.
 
 The scene is not pre-partitioned for UAV assignment. Any naming of rooms, forks, or sections exists only for modeling and debugging. Exploration algorithms should discover frontiers online from local sensing.
@@ -39,7 +39,7 @@ The scene is not pre-partitioned for UAV assignment. Any naming of rooms, forks,
 | base | 240701 | 102319 | Basic validation and single-UAV bring-up |
 | medium | 240702 | 145626 | Three-UAV debugging with denser rubble |
 | complex | 240703 | 197902 | Complexity pilot only; not final paper data |
-| challenge | 240704 | 228641 | Frozen paper main scene |
+| challenge | 240704 | 250527 | Frozen paper main scene |
 
 ## Recommended Use
 
@@ -120,7 +120,7 @@ Generation ran a basic centerline clearance check on the intended navigation gra
 | base | True | 0.412 m |
 | medium | True | 0.412 m |
 | complex | True | 0.412 m |
-| challenge | True | 0.45 m |
+| challenge | True | 0.364 m |
 
 ## Notes
 

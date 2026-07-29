@@ -10493,6 +10493,1046 @@
         "role": "obstacle"
       },
       {
+        "name": "main_corridor_west_lobby_west_n1_left",
+        "center": [
+          -17.025,
+          2.75,
+          1.485
+        ],
+        "size": [
+          0.7999999999999998,
+          0.3,
+          2.97
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          1.5707963267948966
+        ],
+        "material": "concrete_light",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_west_lobby_west_n1_right",
+        "center": [
+          -13.975,
+          2.75,
+          1.485
+        ],
+        "size": [
+          0.7999999999999998,
+          0.3,
+          2.97
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          1.5707963267948966
+        ],
+        "material": "concrete_light",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_west_n1_west_n2_left",
+        "center": [
+          -13.904073772597556,
+          8.404073772597556,
+          1.545
+        ],
+        "size": [
+          1.663961030678927,
+          0.3,
+          3.09
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.7853981633974483
+        ],
+        "material": "concrete",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_west_n1_west_n2_right",
+        "center": [
+          -12.595926227402444,
+          7.095926227402444,
+          1.545
+        ],
+        "size": [
+          1.663961030678927,
+          0.3,
+          3.09
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.7853981633974483
+        ],
+        "material": "concrete",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_west_n2_core_n_left",
+        "center": [
+          -7.809175065599378,
+          8.452659947520496,
+          1.425
+        ],
+        "size": [
+          1.7031242374328457,
+          0.3,
+          2.85
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          -0.8960553845713447
+        ],
+        "material": "concrete_light",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_west_n2_core_n_right",
+        "center": [
+          -10.190824934400622,
+          6.547340052479503,
+          1.425
+        ],
+        "size": [
+          1.703124237432847,
+          0.3,
+          2.85
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          -0.8960553845713446
+        ],
+        "material": "concrete_light",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_core_n_core_w_left",
+        "center": [
+          -6.004614469571347,
+          2.2009228939142695,
+          1.485
+        ],
+        "size": [
+          0.39901951359278404,
+          0.3,
+          2.97
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          -1.7681918866447761
+        ],
+        "material": "concrete",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_core_n_core_w_right",
+        "center": [
+          -8.995385530428653,
+          2.7990771060857305,
+          1.485
+        ],
+        "size": [
+          0.39901951359278404,
+          0.3,
+          2.97
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          -1.7681918866447761
+        ],
+        "material": "concrete",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_core_w_west_lobby_left",
+        "center": [
+          -11.75,
+          -1.525,
+          1.545
+        ],
+        "size": [
+          2.8000000000000007,
+          0.3,
+          3.09
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          3.141592653589793
+        ],
+        "material": "concrete_light",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_core_w_west_lobby_right",
+        "center": [
+          -11.75,
+          1.525,
+          1.545
+        ],
+        "size": [
+          2.8000000000000007,
+          0.3,
+          3.09
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          3.141592653589793
+        ],
+        "material": "concrete_light",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_west_n1_west_n_dead_left",
+        "center": [
+          -17.58076923076923,
+          8.153846153846153,
+          1.425
+        ],
+        "size": [
+          1.7999999999999998,
+          0.3,
+          2.85
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          1.9655874464946588
+        ],
+        "material": "concrete",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_west_n1_west_n_dead_right",
+        "center": [
+          -15.919230769230769,
+          8.846153846153847,
+          1.425
+        ],
+        "size": [
+          1.8000000000000016,
+          0.3,
+          2.85
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          1.9655874464946583
+        ],
+        "material": "concrete",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_west_lobby_west_s1_left",
+        "center": [
+          -13.975,
+          -2.75,
+          1.485
+        ],
+        "size": [
+          0.7999999999999998,
+          0.3,
+          2.97
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          -1.5707963267948966
+        ],
+        "material": "concrete_light",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_west_lobby_west_s1_right",
+        "center": [
+          -17.025,
+          -2.75,
+          1.485
+        ],
+        "size": [
+          0.7999999999999998,
+          0.3,
+          2.97
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          -1.5707963267948966
+        ],
+        "material": "concrete_light",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_west_s1_west_s2_left",
+        "center": [
+          -12.345926227402444,
+          -7.345926227402444,
+          1.545
+        ],
+        "size": [
+          2.3710678118654744,
+          0.3,
+          3.09
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          -0.7853981633974483
+        ],
+        "material": "concrete",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_west_s1_west_s2_right",
+        "center": [
+          -13.654073772597556,
+          -8.654073772597556,
+          1.545
+        ],
+        "size": [
+          2.3710678118654744,
+          0.3,
+          3.09
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          -0.7853981633974483
+        ],
+        "material": "concrete",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_west_s2_core_s_left",
+        "center": [
+          -9.897679459427989,
+          -7.49578047300051,
+          1.425
+        ],
+        "size": [
+          0.6150729063673248,
+          0.3,
+          2.85
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.8519663271732743
+        ],
+        "material": "concrete_light",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_west_s2_core_s_right",
+        "center": [
+          -7.602320540572011,
+          -9.50421952699949,
+          1.425
+        ],
+        "size": [
+          0.6150729063673248,
+          0.3,
+          2.85
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.8519663271732743
+        ],
+        "material": "concrete_light",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_core_s_core_w_left",
+        "center": [
+          -9.007266838917191,
+          -3.4818872059872605,
+          1.485
+        ],
+        "size": [
+          1.8764732189829538,
+          0.3,
+          2.97
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          1.723445655190162
+        ],
+        "material": "concrete",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_core_s_core_w_right",
+        "center": [
+          -5.992733161082809,
+          -3.0181127940127404,
+          1.485
+        ],
+        "size": [
+          1.8764732189829534,
+          0.3,
+          2.97
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          1.723445655190162
+        ],
+        "material": "concrete",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_west_s1_west_s_dead_left",
+        "center": [
+          -15.919230769230769,
+          -8.846153846153847,
+          1.545
+        ],
+        "size": [
+          1.8000000000000016,
+          0.3,
+          3.09
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          -1.9655874464946583
+        ],
+        "material": "concrete_light",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_west_s1_west_s_dead_right",
+        "center": [
+          -17.58076923076923,
+          -8.153846153846153,
+          1.545
+        ],
+        "size": [
+          1.7999999999999998,
+          0.3,
+          3.09
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          -1.9655874464946588
+        ],
+        "material": "concrete_light",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_core_w_atrium_n_left",
+        "center": [
+          -6.146961838954446,
+          3.233322528562362,
+          1.425
+        ],
+        "size": [
+          2.1007352543677213,
+          0.3,
+          2.85
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.628796286415433
+        ],
+        "material": "concrete",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_core_w_atrium_n_right",
+        "center": [
+          -4.353038161045554,
+          0.7666774714376376,
+          1.425
+        ],
+        "size": [
+          2.1007352543677213,
+          0.3,
+          2.85
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.628796286415433
+        ],
+        "material": "concrete",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_atrium_n_central_left",
+        "center": [
+          0.7631548542156277,
+          3.1397992109925807,
+          1.485
+        ],
+        "size": [
+          1.3207972893961475,
+          0.3,
+          2.97
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          -0.7266423406817251
+        ],
+        "material": "concrete_light",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_atrium_n_central_right",
+        "center": [
+          -1.2631548542156277,
+          0.8602007890074189,
+          1.485
+        ],
+        "size": [
+          1.3207972893961475,
+          0.3,
+          2.97
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          -0.7266423406817252
+        ],
+        "material": "concrete_light",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_core_w_atrium_s_left",
+        "center": [
+          -4.353038161045554,
+          -0.7666774714376376,
+          1.545
+        ],
+        "size": [
+          2.1007352543677213,
+          0.3,
+          3.09
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          -0.628796286415433
+        ],
+        "material": "concrete",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_core_w_atrium_s_right",
+        "center": [
+          -6.146961838954446,
+          -3.233322528562362,
+          1.545
+        ],
+        "size": [
+          2.1007352543677213,
+          0.3,
+          3.09
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          -0.628796286415433
+        ],
+        "material": "concrete",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_atrium_s_central_left",
+        "center": [
+          -1.2631548542156277,
+          -0.8602007890074189,
+          1.425
+        ],
+        "size": [
+          1.3207972893961475,
+          0.3,
+          2.85
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.7266423406817252
+        ],
+        "material": "concrete_light",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_atrium_s_central_right",
+        "center": [
+          0.7631548542156277,
+          -3.1397992109925807,
+          1.425
+        ],
+        "size": [
+          1.3207972893961475,
+          0.3,
+          2.85
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.7266423406817251
+        ],
+        "material": "concrete_light",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_core_s_atrium_s_left",
+        "center": [
+          -5.490605470047414,
+          -3.916910153914655,
+          1.545
+        ],
+        "size": [
+          0.44781507049350006,
+          0.3,
+          3.09
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.5070985043923358
+        ],
+        "material": "concrete_light",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_core_s_atrium_s_right",
+        "center": [
+          -4.009394529952586,
+          -6.583089846085345,
+          1.545
+        ],
+        "size": [
+          0.44781507049350006,
+          0.3,
+          3.09
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.5070985043923358
+        ],
+        "material": "concrete_light",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_central_east_core_left",
+        "center": [
+          6.5,
+          1.525,
+          1.425
+        ],
+        "size": [
+          4.300000000000001,
+          0.3,
+          2.85
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material": "concrete",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_central_east_core_right",
+        "center": [
+          6.5,
+          -1.525,
+          1.425
+        ],
+        "size": [
+          4.300000000000001,
+          0.3,
+          2.85
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material": "concrete",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_east_core_east_exit_left",
+        "center": [
+          14.5,
+          1.525,
+          1.485
+        ],
+        "size": [
+          2.3000000000000007,
+          0.3,
+          2.97
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material": "concrete_light",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_east_core_east_exit_right",
+        "center": [
+          14.5,
+          -1.525,
+          1.485
+        ],
+        "size": [
+          2.3000000000000007,
+          0.3,
+          2.97
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material": "concrete_light",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_central_east_n1_left",
+        "center": [
+          0.4750000000000001,
+          2.5,
+          1.545
+        ],
+        "size": [
+          0.2999999999999998,
+          0.3,
+          3.09
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          1.5707963267948966
+        ],
+        "material": "concrete",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_central_east_n1_right",
+        "center": [
+          3.525,
+          2.5,
+          1.545
+        ],
+        "size": [
+          0.2999999999999998,
+          0.3,
+          3.09
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          1.5707963267948966
+        ],
+        "material": "concrete",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_east_n1_east_n2_left",
+        "center": [
+          6.5,
+          5.925,
+          1.425
+        ],
+        "size": [
+          4.300000000000001,
+          0.3,
+          2.85
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material": "concrete_light",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_east_n1_east_n2_right",
+        "center": [
+          6.5,
+          4.075,
+          1.425
+        ],
+        "size": [
+          4.300000000000001,
+          0.3,
+          2.85
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material": "concrete_light",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_east_n2_east_core_left",
+        "center": [
+          12.525,
+          2.5,
+          1.485
+        ],
+        "size": [
+          0.2999999999999998,
+          0.3,
+          2.97
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          -1.5707963267948966
+        ],
+        "material": "concrete",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_east_n2_east_core_right",
+        "center": [
+          9.475,
+          2.5,
+          1.485
+        ],
+        "size": [
+          0.2999999999999998,
+          0.3,
+          2.97
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          -1.5707963267948966
+        ],
+        "material": "concrete",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_east_n2_east_n_dead_left",
+        "center": [
+          13.778312316902099,
+          7.766492485034089,
+          1.545
+        ],
+        "size": [
+          2.9321687612368716,
+          0.3,
+          3.09
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.5516549825285468
+        ],
+        "material": "concrete_light",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_east_n2_east_n_dead_right",
+        "center": [
+          14.721687683097901,
+          6.23350751496591,
+          1.545
+        ],
+        "size": [
+          2.932168761236872,
+          0.3,
+          3.09
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.551654982528547
+        ],
+        "material": "concrete_light",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_central_east_s1_left",
+        "center": [
+          3.525,
+          -2.5,
+          1.425
+        ],
+        "size": [
+          0.2999999999999998,
+          0.3,
+          2.85
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          -1.5707963267948966
+        ],
+        "material": "concrete",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_central_east_s1_right",
+        "center": [
+          0.4750000000000001,
+          -2.5,
+          1.425
+        ],
+        "size": [
+          0.2999999999999998,
+          0.3,
+          2.85
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          -1.5707963267948966
+        ],
+        "material": "concrete",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_east_s1_east_s2_left",
+        "center": [
+          6.5,
+          -4.075,
+          1.485
+        ],
+        "size": [
+          4.300000000000001,
+          0.3,
+          2.97
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material": "concrete_light",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_east_s1_east_s2_right",
+        "center": [
+          6.5,
+          -5.925,
+          1.485
+        ],
+        "size": [
+          4.300000000000001,
+          0.3,
+          2.97
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material": "concrete_light",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_east_s2_east_core_left",
+        "center": [
+          9.475,
+          -2.5,
+          1.545
+        ],
+        "size": [
+          0.2999999999999998,
+          0.3,
+          3.09
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          1.5707963267948966
+        ],
+        "material": "concrete",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_east_s2_east_core_right",
+        "center": [
+          12.525,
+          -2.5,
+          1.545
+        ],
+        "size": [
+          0.2999999999999998,
+          0.3,
+          3.09
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          1.5707963267948966
+        ],
+        "material": "concrete",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_east_s2_east_s_dead_left",
+        "center": [
+          14.721687683097901,
+          -6.23350751496591,
+          1.425
+        ],
+        "size": [
+          2.932168761236872,
+          0.3,
+          2.85
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          -0.551654982528547
+        ],
+        "material": "concrete_light",
+        "role": "obstacle"
+      },
+      {
+        "name": "main_corridor_east_s2_east_s_dead_right",
+        "center": [
+          13.778312316902099,
+          -7.766492485034089,
+          1.425
+        ],
+        "size": [
+          2.9321687612368716,
+          0.3,
+          2.85
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          -0.5516549825285468
+        ],
+        "material": "concrete_light",
+        "role": "obstacle"
+      },
+      {
         "name": "main_shell_northwest_a",
         "center": [
           -15.95,
@@ -10693,46 +11733,6 @@
         "role": "room_shell"
       },
       {
-        "name": "main_shell_east_inner_n",
-        "center": [
-          16.8,
-          7.199999999999999,
-          1.55
-        ],
-        "size": [
-          3.999999999999999,
-          0.3,
-          3.1
-        ],
-        "rpy": [
-          0.0,
-          0.0,
-          1.5707963267948966
-        ],
-        "material": "concrete",
-        "role": "room_shell"
-      },
-      {
-        "name": "main_shell_east_inner_s",
-        "center": [
-          16.8,
-          -7.2,
-          1.55
-        ],
-        "size": [
-          4.4,
-          0.3,
-          3.1
-        ],
-        "rpy": [
-          0.0,
-          0.0,
-          1.5707963267948966
-        ],
-        "material": "concrete_light",
-        "role": "room_shell"
-      },
-      {
         "name": "main_atrium_column_01",
         "center": [
           -5.2,
@@ -10773,6 +11773,46 @@
         "role": "structural_column"
       },
       {
+        "name": "main_atrium_column_03",
+        "center": [
+          5.2,
+          3.4,
+          3.15
+        ],
+        "size": [
+          0.58,
+          0.58,
+          6.3
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material": "concrete",
+        "role": "structural_column"
+      },
+      {
+        "name": "main_atrium_column_04",
+        "center": [
+          5.2,
+          -3.4,
+          3.15
+        ],
+        "size": [
+          0.58,
+          0.58,
+          6.3
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material": "concrete",
+        "role": "structural_column"
+      },
+      {
         "name": "main_atrium_column_05",
         "center": [
           0.7,
@@ -10793,84 +11833,124 @@
         "role": "structural_column"
       },
       {
-        "name": "main_overhead_northwest",
+        "name": "main_structure_lintel_west",
         "center": [
-          -15.0,
-          9.5,
-          3.55
+          -15.4,
+          4.05,
+          3.25
         ],
         "size": [
-          6.0,
-          4.0,
-          0.32
+          3.1,
+          0.46,
+          0.36
         ],
         "rpy": [
           0.0,
-          0.0,
-          0.04
+          0.1,
+          0.02
         ],
-        "material": "dark_concrete",
-        "role": "low_overhead"
+        "material": "concrete_light",
+        "role": "structural_remnant"
       },
       {
-        "name": "main_overhead_north_service",
+        "name": "main_structure_lintel_north",
         "center": [
-          -5.0,
-          11.5,
-          3.35
-        ],
-        "size": [
-          5.5,
-          3.0,
-          0.3
-        ],
-        "rpy": [
-          0.0,
-          0.0,
-          0.04
-        ],
-        "material": "dark_concrete",
-        "role": "low_overhead"
-      },
-      {
-        "name": "main_overhead_southwest",
-        "center": [
-          -14.5,
-          -9.5,
+          -7.3,
+          7.15,
           3.45
         ],
         "size": [
-          6.2,
-          4.0,
-          0.3
+          0.46,
+          3.25,
+          0.36
         ],
         "rpy": [
+          0.08,
           0.0,
-          0.0,
-          -0.04
+          -0.03
         ],
-        "material": "dark_concrete",
-        "role": "low_overhead"
+        "material": "concrete_light",
+        "role": "structural_remnant"
       },
       {
-        "name": "main_overhead_southeast",
+        "name": "main_structure_lintel_central",
         "center": [
-          14.5,
-          -9.0,
+          1.9,
+          -3.95,
+          3.4
+        ],
+        "size": [
+          3.45,
+          0.46,
+          0.38
+        ],
+        "rpy": [
+          -0.05,
+          0.08,
+          0.04
+        ],
+        "material": "concrete_light",
+        "role": "structural_remnant"
+      },
+      {
+        "name": "main_structure_lintel_east",
+        "center": [
+          11.0,
+          3.9,
+          3.3
+        ],
+        "size": [
+          0.48,
+          3.35,
+          0.36
+        ],
+        "rpy": [
+          0.06,
+          -0.08,
+          -0.02
+        ],
+        "material": "concrete_light",
+        "role": "structural_remnant"
+      },
+      {
+        "name": "main_structure_ceiling_fragment_north",
+        "center": [
+          14.6,
+          9.1,
           3.65
         ],
         "size": [
-          6.0,
-          4.8,
-          0.32
+          3.1,
+          1.8,
+          0.3
         ],
         "rpy": [
-          0.0,
-          0.0,
-          -0.04
+          0.1,
+          -0.16,
+          0.12
         ],
-        "material": "dark_concrete",
-        "role": "low_overhead"
+        "material": "concrete_light",
+        "role": "structural_remnant"
+      },
+      {
+        "name": "main_structure_ceiling_fragment_south",
+        "center": [
+          -11.8,
+          -9.2,
+          3.45
+        ],
+        "size": [
+          2.8,
+          1.65,
+          0.28
+        ],
+        "rpy": [
+          -0.12,
+          0.1,
+          -0.18
+        ],
+        "material": "concrete_light",
+        "role": "structural_remnant"
       },
       {
         "name": "main_collapse_0_00",
@@ -11733,21 +12813,21 @@
         "role": "collapse_rubble"
       },
       {
-        "name": "main_collapse_facade_2_0",
+        "name": "main_collapse_facade_2_1",
         "center": [
-          14.335723568958016,
-          8.057561115199764,
-          1.189016933566802
+          13.861693412646735,
+          8.535766424597767,
+          1.1228497283440535
         ],
         "size": [
-          3.502613082526606,
+          2.3192200804877334,
           0.32,
-          2.378033867133604
+          2.245699456688107
         ],
         "rpy": [
-          -0.0014103084581874592,
-          0.09597869254299499,
-          0.769009523613023
+          0.06361822647384616,
+          0.1345107700480684,
+          0.3091422086061964
         ],
         "material": "concrete_light",
         "role": "collapsed_wall"
@@ -11833,26 +12913,6 @@
         "role": "partition"
       },
       {
-        "name": "main_partition_06",
-        "center": [
-          6.8,
-          -6.5,
-          1.35
-        ],
-        "size": [
-          2.4,
-          0.3,
-          2.7
-        ],
-        "rpy": [
-          0.0,
-          0.0,
-          1.5707963267948966
-        ],
-        "material": "concrete_light",
-        "role": "partition"
-      },
-      {
         "name": "main_partition_07",
         "center": [
           -7.2,
@@ -11871,6 +12931,66 @@
         ],
         "material": "concrete_light",
         "role": "partition"
+      },
+      {
+        "name": "main_low_block_west",
+        "center": [
+          -10.8,
+          1.65,
+          0.48
+        ],
+        "size": [
+          1.4,
+          1.2,
+          0.96
+        ],
+        "rpy": [
+          0.06,
+          -0.08,
+          0.22
+        ],
+        "material": "rubble",
+        "role": "low_collapse"
+      },
+      {
+        "name": "main_low_block_east",
+        "center": [
+          8.8,
+          1.65,
+          0.46
+        ],
+        "size": [
+          1.3,
+          1.25,
+          0.92
+        ],
+        "rpy": [
+          0.04,
+          -0.12,
+          0.28
+        ],
+        "material": "rubble",
+        "role": "low_collapse"
+      },
+      {
+        "name": "main_low_block_south",
+        "center": [
+          4.9,
+          -6.65,
+          0.5
+        ],
+        "size": [
+          1.65,
+          1.05,
+          1.0
+        ],
+        "rpy": [
+          0.1,
+          0.04,
+          -0.24
+        ],
+        "material": "rubble",
+        "role": "low_collapse"
       }
     ]
   }

@@ -178,22 +178,22 @@ CHALLENGE_LOWER_NAV_NODES = {
     "central": (2.0, 0.0, 1.45),
     "east_core": (11.0, 0.0, 1.45),
     "east_exit": (18.0, 0.0, 1.45),
-    "east_n1": (8.0, 5.0, 1.45),
-    "east_n2": (13.0, 9.5, 1.45),
-    "east_n_dead": (18.0, 12.0, 1.45),
-    "east_s1": (8.0, -5.0, 1.45),
-    "east_s2": (14.0, -10.0, 1.45),
-    "east_s_dead": (18.0, -12.0, 1.45),
+    # East-side loops are orthogonal corridor loops rather than diagonal
+    # open-space triangles.  This creates real occluding turns and avoids a
+    # visually empty hall while retaining multiple alternate routes.
+    "east_n1": (2.0, 5.0, 1.45),
+    "east_n2": (11.0, 5.0, 1.45),
+    "east_n_dead": (17.5, 9.0, 1.45),
+    "east_s1": (2.0, -5.0, 1.45),
+    "east_s2": (11.0, -5.0, 1.45),
+    "east_s_dead": (17.5, -9.0, 1.45),
 }
 
-CHALLENGE_AERIAL_NAV_NODES = {
-    # These points are not a second floor. They lie in the open central hall
-    # and are used solely to validate that the high-volume geometry remains
-    # connected to the entry through free 3D space.
-    "atrium_high": (-2.5, 4.0, 4.15),
-    "central_high": (2.0, 0.0, 4.65),
-    "east_high": (11.0, 0.0, 4.15),
-}
+# The main benchmark intentionally contains no hidden upper route.  Vertical
+# complexity comes from observed obstacle height, overflight remnants and the
+# high-bay ceiling volume.  A fixed elevated QA route would be an artificial
+# assumption and could be confused with a prior supplied to the explorer.
+CHALLENGE_AERIAL_NAV_NODES = {}
 
 GROUND_BASE_EDGES = [
     ("entry", "g1"),
@@ -283,13 +283,7 @@ CHALLENGE_GROUND_EDGES = [
     ("east_s2", "east_core"), ("east_s2", "east_s_dead"),
 ]
 
-CHALLENGE_AERIAL_EDGES = [
-    ("core_n", "atrium_high"),
-    ("atrium_high", "central_high"),
-    ("central", "central_high"),
-    ("central_high", "east_high"),
-    ("east_core", "east_high"),
-]
+CHALLENGE_AERIAL_EDGES = []
 
 def navigation_graph(variant: Variant):
     if variant.key == "challenge":
@@ -673,12 +667,17 @@ def challenge_structure(variant: Variant) -> list[Box]:
         ("west_n1", "west_n_dead"), ("west_s1", "west_s_dead"),
         ("east_n2", "east_n_dead"), ("east_s2", "east_s_dead"),
     }
+    # Every corridor, including the ones that meet at a junction, needs its
+    # side walls.  The previous implementation skipped all edges adjacent to
+    # branch nodes.  That accidentally turned the entire central network into
+    # one open hall in Gazebo.  Here the walls stop short of a junction so the
+    # connection remains navigable while the building still has a real spatial
+    # skeleton and line-of-sight occlusion.
     for idx, (a, b) in enumerate(CHALLENGE_GROUND_EDGES):
-        if degree[a] >= 3 or degree[b] >= 3:
-            continue
         width = 1.55 if (a, b) in narrow_edges else 2.75
         if (a, b) in squeeze_edges:
             width = 1.50
+        junction_gap = 2.35 if degree[a] >= 3 or degree[b] >= 3 else 0.95
         add_corridor_walls(
             boxes,
             f"main_corridor_{a}_{b}",
@@ -687,13 +686,15 @@ def challenge_structure(variant: Variant) -> list[Box]:
             width=width,
             height=2.85 + 0.12 * (idx % 3),
             thickness=0.30,
-            end_gap=1.35,
+            end_gap=junction_gap,
             material="concrete_light" if idx % 2 else "concrete",
         )
 
     def add_verified(box: Box) -> bool:
-        report = validate_navigation(boxes + [box], variant)
-        if report["passed"] and report["min_centerline_clearance_m"] >= 0.42:
+        # Adding one obstacle cannot improve or worsen the clearance to any
+        # existing obstacle.  Check only the new box against the QA centerline;
+        # the full all-box validation still runs once after generation.
+        if candidate_preserves_navigation_clearance(box, variant, min_clearance=0.42):
             boxes.append(box)
             return True
         return False
@@ -726,16 +727,20 @@ def challenge_structure(variant: Variant) -> list[Box]:
     for idx, (x, y) in enumerate(((-5.2, 1.8), (-5.2, 6.2), (0.7, 6.2), (5.2, 3.4), (5.2, -3.4), (0.7, -6.2), (-5.2, -6.2))):
         add_verified(Box(f"main_atrium_column_{idx:02d}", (x, y, 3.15), (0.58, 0.58, 6.30), material="concrete", role="structural_column"))
 
-    # Low-ceiling structures constrain sensing and altitude without becoming a
-    # hidden floor.  Their bottoms stay above the validated low-level routes.
-    overheads = [
-        ("northwest", (-15.0, 9.5, 3.55), (6.0, 4.0, 0.32)),
-        ("north_service", (-5.0, 11.5, 3.35), (5.5, 3.0, 0.30)),
-        ("southwest", (-14.5, -9.5, 3.45), (6.2, 4.0, 0.30)),
-        ("southeast", (14.5, -9.0, 3.65), (6.0, 4.8, 0.32)),
+    # Local structural remnants provide genuine 3D occlusion.  They replace
+    # the former room-sized horizontal plates, which looked like unsupported
+    # black floors rather than a damaged building.  Each is short enough to be
+    # read as a lintel, ceiling fragment, or collapsed concrete member.
+    structural_remnants = [
+        ("lintel_west", (-15.4, 4.05, 3.25), (3.10, 0.46, 0.36), (0.0, 0.10, 0.02)),
+        ("lintel_north", (-7.3, 7.15, 3.45), (0.46, 3.25, 0.36), (0.08, 0.0, -0.03)),
+        ("lintel_central", (1.9, -3.95, 3.40), (3.45, 0.46, 0.38), (-0.05, 0.08, 0.04)),
+        ("lintel_east", (11.0, 3.90, 3.30), (0.48, 3.35, 0.36), (0.06, -0.08, -0.02)),
+        ("ceiling_fragment_north", (14.6, 9.1, 3.65), (3.10, 1.80, 0.30), (0.10, -0.16, 0.12)),
+        ("ceiling_fragment_south", (-11.8, -9.2, 3.45), (2.80, 1.65, 0.28), (-0.12, 0.10, -0.18)),
     ]
-    for name, center, size in overheads:
-        add_verified(Box(f"main_overhead_{name}", center, size, (0.0, 0.0, 0.04 if "north" in name else -0.04), "dark_concrete", "low_overhead"))
+    for name, center, size, rpy in structural_remnants:
+        add_verified(Box(f"main_structure_{name}", center, size, rpy, "concrete_light", "structural_remnant"))
 
     # Three bounded collapse clusters replace unstructured map-wide noise.
     rng = random.Random(variant.seed + 404)
@@ -779,6 +784,18 @@ def challenge_structure(variant: Variant) -> list[Box]:
     ]
     for idx, (x, y, length, yaw) in enumerate(partitions):
         add_verified(Box(f"main_partition_{idx:02d}", (x, y, 1.35), (length, 0.30, 2.70), (0.0, 0.0, yaw), "concrete_light", "partition"))
+
+    # Low collapsed components remain below the nominal 1.45 m flight
+    # centerline.  They create a real three-dimensional alternative (fly over
+    # or use a neighbouring loop) without creating an unphysical sealed map.
+    low_components = [
+        ("low_block_west", (-10.8, 1.65, 0.48), (1.40, 1.20, 0.96), (0.06, -0.08, 0.22)),
+        ("low_block_center", (-1.0, -1.70, 0.52), (1.55, 1.10, 1.04), (-0.08, 0.10, -0.35)),
+        ("low_block_east", (8.8, 1.65, 0.46), (1.30, 1.25, 0.92), (0.04, -0.12, 0.28)),
+        ("low_block_south", (4.9, -6.65, 0.50), (1.65, 1.05, 1.00), (0.10, 0.04, -0.24)),
+    ]
+    for name, center, size, rpy in low_components:
+        add_verified(Box(f"main_{name}", center, size, rpy, "rubble", "low_collapse"))
     return boxes
 
 
@@ -1682,6 +1699,29 @@ def validate_navigation(boxes: list[Box], variant: Variant) -> dict:
     }
 
 
+def candidate_preserves_navigation_clearance(candidate: Box, variant: Variant, min_clearance: float) -> bool:
+    """Fast generation-time test for one prospective obstacle.
+
+    The final `validate_navigation` call remains the source of truth.  This
+    helper avoids repeatedly recomputing distances to already accepted boxes
+    while placing deterministic rubble and structural remnants.
+    """
+    nodes, edges = navigation_graph(variant)
+    for a, b in edges:
+        pa, pb = nodes[a], nodes[b]
+        samples = max(5, int(math.ceil(math.dist(pa, pb) / 0.25)))
+        for i in range(samples + 1):
+            t = i / samples
+            point = (
+                pa[0] * (1 - t) + pb[0] * t,
+                pa[1] * (1 - t) + pb[1] * t,
+                pa[2] * (1 - t) + pb[2] * t,
+            )
+            if point_oriented_box_distance(point, candidate) < min_clearance:
+                return False
+    return True
+
+
 def write_readme(summary):
     readme = f"""# Ruins-Interior-01
 
@@ -1712,7 +1752,7 @@ The paper main `challenge` scene contains {summary['challenge']['validation']['t
 {summary['challenge']['validation']['topology']['branch_node_count']} branch nodes,
 {summary['challenge']['validation']['topology']['independent_loop_count']} independent loops,
 {summary['challenge']['validation']['topology']['dead_end_count']} dead ends, and
-{summary['challenge']['validation']['topology']['vertical_connector_count']} validated altitude-changing free-space links.
+multiple obstacle-height bands and a visually open high-bay ceiling volume.
 These reference paths exist only for generation-time validation and are not exposed as task partitions to the UAVs.
 
 The scene is not pre-partitioned for UAV assignment. Any naming of rooms, forks, or sections exists only for modeling and debugging. Exploration algorithms should discover frontiers online from local sensing.
@@ -1872,7 +1912,7 @@ does not claim that obstacle count alone measures environmental complexity.
 | Branch nodes | {challenge_topology['branch_node_count']} |
 | Independent loops | {challenge_topology['independent_loop_count']} |
 | Dead ends | {challenge_topology['dead_end_count']} |
-| Altitude-changing free-space links | {challenge_topology['vertical_connector_count']} |
+| Vertical complexity | low collapse, structural remnants, high-bay ceiling volume |
 | Reference graph length | {challenge_topology['reference_graph_length_m']} m |
 | Minimum validated centerline clearance | {summary['challenge']['validation']['min_centerline_clearance_m']} m |
 | UAV collision diameter D | {PARAMS['collision_diameter_D']} m |
@@ -1880,7 +1920,7 @@ does not claim that obstacle count alone measures environmental complexity.
 
 Geometric complexity comes from connected structure, not random clutter alone. The challenge scene combines
 multi-branch ground loops, {challenge_topology['dead_end_count']} dead ends, an open high-bay volume,
-{challenge_topology['vertical_connector_count']} altitude-changing free-space links, damaged room shells,
+low collapse, structural remnants, damaged room shells,
 three bounded collapse zones, controlled partitions, low-overhead structures, structural columns, and occluded
 junctions. It contains no separate second floor and no hidden spatial island. All interior obstacles are generated
 with fixed seeds and constrained so they cannot accidentally seal the validated reference routes.
@@ -1898,8 +1938,8 @@ coverage, minimum inter-UAV distance, map completeness, and runtime. A single su
 evidence of autonomy.
 
 The navigation graph stored in validation files is a generator oracle used only to ensure that the world
-is physically traversable. Exploration code must not read it. In particular, high-bay nodes are not floor labels,
-route priors, or targets; they only confirm that high free space is connected to the entry.
+is physically traversable. Exploration code must not read it. The high-bay geometry is not represented by a
+floor label, route prior, or target.
 """
     docs_dir = OUT / "docs"
     docs_dir.mkdir(parents=True, exist_ok=True)
@@ -1946,7 +1986,7 @@ def write_preview_svg(path: Path, variant: Variant, boxes: list[Box]):
         f'<rect x="{left_x}" y="{top_y}" width="{panel_w}" height="{panel_h}" fill="#303438" stroke="#70777d"/>',
         f'<rect x="{right_x}" y="{top_y}" width="{panel_w}" height="{panel_h}" fill="#303438" stroke="#70777d"/>',
         f'<text x="{left_x}" y="{top_y - 10}" fill="#d8dcdf" font-family="sans-serif" font-size="15">Ground / low level</text>',
-        f'<text x="{right_x}" y="{top_y - 10}" fill="#d8dcdf" font-family="sans-serif" font-size="15">Upper / overhead structure</text>',
+        f'<text x="{right_x}" y="{top_y - 10}" fill="#d8dcdf" font-family="sans-serif" font-size="15">Overhead / vertical structure</text>',
     ]
     for box in boxes:
         if box.role == "floor":

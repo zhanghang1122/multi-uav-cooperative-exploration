@@ -993,15 +993,15 @@
     }
   },
   "challenge": {
-    "box_count": 75,
-    "pcd_points": 228641,
+    "box_count": 131,
+    "pcd_points": 250527,
     "validation": {
       "required_radius_m": 0.35,
-      "min_centerline_clearance_m": 0.45,
+      "min_centerline_clearance_m": 0.364,
       "topology": {
-        "node_count": 25,
-        "edge_count": 33,
-        "branch_node_count": 13,
+        "node_count": 22,
+        "edge_count": 28,
+        "branch_node_count": 12,
         "branch_nodes": [
           "west_lobby",
           "west_n1",
@@ -1014,10 +1014,9 @@
           "central",
           "east_core",
           "east_n2",
-          "east_s2",
-          "central_high"
+          "east_s2"
         ],
-        "independent_loop_count": 9,
+        "independent_loop_count": 7,
         "dead_end_count": 5,
         "dead_ends": [
           "west_n_dead",
@@ -1026,8 +1025,8 @@
           "east_n_dead",
           "east_s_dead"
         ],
-        "vertical_connector_count": 3,
-        "reference_graph_length_m": 209.9
+        "vertical_connector_count": 0,
+        "reference_graph_length_m": 176.49
       },
       "checked_edges": [
         {
@@ -1035,16 +1034,16 @@
             "entry",
             "west_lobby"
           ],
-          "min_clearance_m": 2.785,
-          "nearest_obstacle": "main_envelope_west_n"
+          "min_clearance_m": 2.35,
+          "nearest_obstacle": "main_corridor_west_lobby_west_n1_left"
         },
         {
           "edge": [
             "west_lobby",
             "west_n1"
           ],
-          "min_clearance_m": 2.399,
-          "nearest_obstacle": "main_collapse_1_27"
+          "min_clearance_m": 1.375,
+          "nearest_obstacle": "main_corridor_west_lobby_west_n1_right"
         },
         {
           "edge": [
@@ -1067,24 +1066,24 @@
             "core_n",
             "core_w"
           ],
-          "min_clearance_m": 1.763,
-          "nearest_obstacle": "main_atrium_column_01"
+          "min_clearance_m": 0.364,
+          "nearest_obstacle": "main_corridor_core_w_atrium_n_left"
         },
         {
           "edge": [
             "core_w",
             "west_lobby"
           ],
-          "min_clearance_m": 4.892,
-          "nearest_obstacle": "main_collapse_0_11"
+          "min_clearance_m": 1.061,
+          "nearest_obstacle": "main_low_block_west"
         },
         {
           "edge": [
             "west_n1",
             "west_n_dead"
           ],
-          "min_clearance_m": 1.35,
-          "nearest_obstacle": "main_shell_northwest_a"
+          "min_clearance_m": 0.75,
+          "nearest_obstacle": "main_corridor_west_n1_west_n_dead_right"
         },
         {
           "edge": [
@@ -1099,8 +1098,8 @@
             "west_s1",
             "west_s2"
           ],
-          "min_clearance_m": 0.838,
-          "nearest_obstacle": "main_collapse_facade_0_1"
+          "min_clearance_m": 0.775,
+          "nearest_obstacle": "main_corridor_west_s1_west_s2_right"
         },
         {
           "edge": [
@@ -1115,8 +1114,8 @@
             "core_s",
             "core_w"
           ],
-          "min_clearance_m": 3.65,
-          "nearest_obstacle": "main_partition_07"
+          "min_clearance_m": 0.495,
+          "nearest_obstacle": "main_corridor_core_w_atrium_s_right"
         },
         {
           "edge": [
@@ -1131,168 +1130,128 @@
             "core_w",
             "atrium_n"
           ],
-          "min_clearance_m": 2.964,
-          "nearest_obstacle": "main_atrium_column_01"
+          "min_clearance_m": 0.364,
+          "nearest_obstacle": "main_corridor_core_n_core_w_left"
         },
         {
           "edge": [
             "atrium_n",
             "central"
           ],
-          "min_clearance_m": 3.075,
-          "nearest_obstacle": "main_atrium_column_01"
+          "min_clearance_m": 0.648,
+          "nearest_obstacle": "main_corridor_central_east_n1_left"
         },
         {
           "edge": [
             "core_w",
             "atrium_s"
           ],
-          "min_clearance_m": 3.481,
-          "nearest_obstacle": "main_atrium_column_05"
+          "min_clearance_m": 0.494,
+          "nearest_obstacle": "main_corridor_core_s_core_w_right"
         },
         {
           "edge": [
             "atrium_s",
             "central"
           ],
-          "min_clearance_m": 3.361,
-          "nearest_obstacle": "main_atrium_column_05"
+          "min_clearance_m": 0.648,
+          "nearest_obstacle": "main_corridor_central_east_s1_right"
         },
         {
           "edge": [
             "core_n",
             "atrium_n"
           ],
-          "min_clearance_m": 1.218,
-          "nearest_obstacle": "main_atrium_column_01"
+          "min_clearance_m": 0.661,
+          "nearest_obstacle": "main_corridor_core_w_atrium_n_left"
         },
         {
           "edge": [
             "core_s",
             "atrium_s"
           ],
-          "min_clearance_m": 3.481,
-          "nearest_obstacle": "main_atrium_column_05"
+          "min_clearance_m": 1.375,
+          "nearest_obstacle": "main_corridor_core_s_atrium_s_right"
         },
         {
           "edge": [
             "central",
             "east_core"
           ],
-          "min_clearance_m": 5.3,
-          "nearest_obstacle": "main_partition_06"
+          "min_clearance_m": 1.055,
+          "nearest_obstacle": "main_low_block_east"
         },
         {
           "edge": [
             "east_core",
             "east_exit"
           ],
-          "min_clearance_m": 2.57,
-          "nearest_obstacle": "main_envelope_east"
+          "min_clearance_m": 1.375,
+          "nearest_obstacle": "main_corridor_east_core_east_exit_left"
         },
         {
           "edge": [
             "central",
             "east_n1"
           ],
-          "min_clearance_m": 3.043,
-          "nearest_obstacle": "main_collapse_2_31"
+          "min_clearance_m": 0.647,
+          "nearest_obstacle": "main_corridor_atrium_n_central_left"
         },
         {
           "edge": [
             "east_n1",
             "east_n2"
           ],
-          "min_clearance_m": 0.949,
-          "nearest_obstacle": "main_collapse_2_32"
+          "min_clearance_m": 0.775,
+          "nearest_obstacle": "main_corridor_east_n1_east_n2_left"
         },
         {
           "edge": [
             "east_n2",
             "east_core"
           ],
-          "min_clearance_m": 0.5,
-          "nearest_obstacle": "main_collapse_facade_2_0"
+          "min_clearance_m": 1.159,
+          "nearest_obstacle": "main_collapse_2_31"
         },
         {
           "edge": [
             "east_n2",
             "east_n_dead"
           ],
-          "min_clearance_m": 0.45,
-          "nearest_obstacle": "main_shell_east_north_b"
+          "min_clearance_m": 0.645,
+          "nearest_obstacle": "main_collapse_2_39"
         },
         {
           "edge": [
             "central",
             "east_s1"
           ],
-          "min_clearance_m": 0.91,
-          "nearest_obstacle": "main_partition_06"
+          "min_clearance_m": 0.647,
+          "nearest_obstacle": "main_corridor_atrium_s_central_right"
         },
         {
           "edge": [
             "east_s1",
             "east_s2"
           ],
-          "min_clearance_m": 0.962,
-          "nearest_obstacle": "main_partition_05"
+          "min_clearance_m": 0.775,
+          "nearest_obstacle": "main_corridor_east_s1_east_s2_left"
         },
         {
           "edge": [
             "east_s2",
             "east_core"
           ],
-          "min_clearance_m": 0.962,
-          "nearest_obstacle": "main_partition_05"
+          "min_clearance_m": 1.375,
+          "nearest_obstacle": "main_corridor_east_s2_east_core_left"
         },
         {
           "edge": [
             "east_s2",
             "east_s_dead"
           ],
-          "min_clearance_m": 0.65,
-          "nearest_obstacle": "main_shell_east_south_b"
-        },
-        {
-          "edge": [
-            "core_n",
-            "atrium_high"
-          ],
-          "min_clearance_m": 1.216,
-          "nearest_obstacle": "main_atrium_column_01"
-        },
-        {
-          "edge": [
-            "atrium_high",
-            "central_high"
-          ],
-          "min_clearance_m": 3.075,
-          "nearest_obstacle": "main_atrium_column_01"
-        },
-        {
-          "edge": [
-            "central",
-            "central_high"
-          ],
-          "min_clearance_m": 5.996,
-          "nearest_obstacle": "main_atrium_column_02"
-        },
-        {
-          "edge": [
-            "central_high",
-            "east_high"
-          ],
-          "min_clearance_m": 5.558,
-          "nearest_obstacle": "main_partition_06"
-        },
-        {
-          "edge": [
-            "east_core",
-            "east_high"
-          ],
-          "min_clearance_m": 5.941,
-          "nearest_obstacle": "main_collapse_2_31"
+          "min_clearance_m": 0.75,
+          "nearest_obstacle": "main_corridor_east_s2_east_s_dead_right"
         }
       ],
       "blocking_edges": [],

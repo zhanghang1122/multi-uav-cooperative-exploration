@@ -5,7 +5,7 @@
 <rect x="55.0" y="78.0" width="504.0" height="384.0" fill="#303438" stroke="#70777d"/>
 <rect x="665.0" y="78.0" width="504.0" height="384.0" fill="#303438" stroke="#70777d"/>
 <text x="55.0" y="68.0" fill="#d8dcdf" font-family="sans-serif" font-size="15">Ground / low level</text>
-<text x="665.0" y="68.0" fill="#d8dcdf" font-family="sans-serif" font-size="15">Upper / overhead structure</text>
+<text x="665.0" y="68.0" fill="#d8dcdf" font-family="sans-serif" font-size="15">Overhead / vertical structure</text>
 <rect x="55.00" y="77.52" width="228.00" height="4.56" fill="#87857f" fill-opacity="0.88" stroke="#18191a" stroke-width="0.45" transform="rotate(0.57 169.00 79.80)"/>
 <rect x="307.00" y="76.68" width="252.00" height="5.04" fill="#87857f" fill-opacity="0.88" stroke="#18191a" stroke-width="0.45" transform="rotate(-0.86 433.00 79.20)"/>
 <rect x="917.00" y="76.68" width="252.00" height="5.04" fill="#87857f" fill-opacity="0.78" stroke="#18191a" stroke-width="0.45" transform="rotate(-0.86 1043.00 79.20)"/>

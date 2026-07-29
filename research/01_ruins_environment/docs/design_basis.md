@@ -1,4 +1,4 @@
-# Ruins-Urban-01 v2: Literature-Informed Design Basis
+# Ruins-Urban-01 v3: Literature-Informed Design Basis
 
 This scene is a compact, reproducible UAV benchmark inspired by recurring challenges reported in
 subterranean and multi-UAV exploration research. It is not a geometric copy of a DARPA course and
@@ -8,57 +8,53 @@ does not claim that obstacle count alone measures environmental complexity.
 
 1. DARPA Subterranean Challenge program overview:
    https://www.darpa.mil/research/programs/darpa-subterranean-challenge
-   The official challenge description highlights constrained passages, sharp turns, large drops and
-   climbs, inclines, steps, falling debris, and complex underground networks.
-2. CERBERUS field report:
-   https://arxiv.org/abs/2201.07067
-   Reports multi-level urban underground structures, narrow or inaccessible spaces, degraded sensing,
-   denied communications, and robot-specific local/global planning.
-3. Autonomous teamed subterranean exploration:
-   https://arxiv.org/abs/2111.06482
-   Emphasizes large-scale multi-branched topology, steep slopes, diverse geometry, communication loss,
-   map sharing, and global frontier coordination.
-4. Team MARBLE multi-agent autonomy:
-   https://arxiv.org/abs/2110.04390
-   Identifies diverse topology and terrain, degraded sensing, limited communication, and metric-topological
-   planning as core field challenges.
-5. FUEL:
-   https://github.com/HKUST-Aerial-Robotics/FUEL
-   Provides the PCD-map workflow and a strong single-UAV exploration baseline on Ubuntu 20.04/ROS Noetic.
-6. RACER:
-   https://arxiv.org/abs/2209.08533
-   Provides a decentralized multi-UAV baseline using asynchronous limited communication.
-7. MARSIM:
-   https://arxiv.org/abs/2211.10716
-   Motivates the point-cloud-first export for light-weight LiDAR and multi-UAV simulation.
+   The official description identifies autonomous mapping and navigation in human-made urban underground
+   structures, tunnels, and caves under degraded perception and difficult terrain as the target problem.
+2. Zhou B, Pan J, Gao F, Shen S. FUEL: Fast UAV Exploration Using Incremental Frontier Structure and
+   Hierarchical Planning. IEEE Robotics and Automation Letters, 2021.
+   https://doi.org/10.1109/LRA.2021.3051563
+   Supports frontier-driven autonomous exploration as the single-UAV baseline and uses bounded 3D map space.
+3. Ribeiro M, Basiri M. Efficient 3D Exploration with Distributed Multi-UAV Teams: Integrating Frontier-Based
+   and Next-Best-View Planning. Drones, 2024, 8(11):630.
+   https://doi.org/10.3390/drones8110630
+   Supports evaluating distributed multi-UAV 3D exploration with completion time, explored volume, and overlap.
+4. Wen C, Dong W, Xie W, Cai M, Liu R. Distributed cooperative area search method for UAV swarms based on
+   revisit mechanism. Acta Aeronautica et Astronautica Sinica, 2023, 44(11):327561.
+   https://doi.org/10.7527/S1000-6893.2022.27561
+   Supports online information updates and repeated-run statistical comparison rather than one scripted trajectory.
+5. GA-HP: A game-assisted hierarchical planner for multi-UAV coverage in unknown environments.
+   Aerospace Science and Technology, 2025, 166:110624.
+   https://doi.org/10.1016/j.ast.2025.110624
+   Supports separating centralized task allocation from safe local planning in unknown environments.
 
 ## Implemented Complexity Dimensions
 
-| Dimension | Complex variant |
+| Dimension | Challenge variant |
 |---|---:|
 | Physical size | 42 x 32 x 8 m |
-| Reference topology nodes | 40 |
-| Traversable graph edges | 45 |
-| Branch nodes | 14 |
-| Independent loops | 6 |
-| Dead ends | 6 |
-| Vertical connectors | 3 |
-| Reference graph length | 240.11 m |
-| Minimum validated centerline clearance | 0.394 m |
+| Reference topology nodes | 46 |
+| Traversable graph edges | 55 |
+| Branch nodes | 20 |
+| Independent loops | 10 |
+| Dead ends | 7 |
+| Vertical connectors | 6 |
+| Reference graph length | 302.51 m |
+| Minimum validated centerline clearance | 0.565 m |
 | UAV collision diameter D | 0.65 m |
 | Narrow/squeeze widths | 1.45 m / 1.22 m |
 
-Geometric complexity comes from connected structure, not random clutter alone. The scene combines an
-irregular main spine, two ground-level loops, east-side branches, six dead ends, a partial upper network,
-three vertical connectors, low ceilings, hanging beams, altitude-change gates, repetitive columns, and
-occluded junctions. Rubble is generated with fixed seeds and constrained so it cannot accidentally seal
-the validated reference routes.
+Geometric complexity comes from connected structure, not random clutter alone. The challenge scene combines
+an irregular main spine, multi-branch ground loops, seven dead ends, a true upper network, six altitude
+transitions, breached wall shells, tilted facade fragments, fallen slabs, rubble clusters, overhead beams,
+repetitive columns, and occluded junctions. Rubble is generated with fixed seeds and constrained so it cannot
+accidentally seal the validated reference routes.
 
 ## Intended Experimental Use
 
 - `base`: integration and single-UAV bring-up.
 - `medium`: multi-UAV debugging with two vertical connectors and five loops.
-- `complex`: main thesis experiments and ablation studies.
+- `complex`: complexity pilot; do not report it as the final paper main environment.
+- `challenge`: frozen main environment for B1/B2/B3/proposed-method comparisons.
 
 Run at least 20 repeated trials per method with varied start yaw, sensor noise, communication loss, and
 additional obstacle seeds. Report coverage-time curves, success rate, total fleet path length, repeated

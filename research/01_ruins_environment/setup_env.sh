@@ -7,4 +7,4 @@ export GAZEBO_MODEL_PATH="${SCRIPT_DIR}/gazebo/models${GAZEBO_MODEL_PATH:+:${GAZ
 echo "Ruins-Urban-01 is ready."
 echo "Gazebo model path added: ${SCRIPT_DIR}/gazebo/models"
 echo "Example:"
-echo "  roslaunch ruins_urban_01 gazebo_ruins_urban_01.launch variant:=complex"
+echo "  roslaunch ruins_urban_01 gazebo_ruins_urban_01.launch variant:=challenge"

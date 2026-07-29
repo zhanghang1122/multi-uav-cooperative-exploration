@@ -47,7 +47,10 @@ class Variant:
 VARIANTS = [
     Variant("base", "Ruins-Urban-01 Base", 240701, 28, 6, 8, 0.22, False),
     Variant("medium", "Ruins-Urban-01 Medium", 240702, 52, 10, 15, 0.20, True),
-    Variant("complex", "Ruins-Urban-01 Complex", 240703, 78, 14, 24, 0.18, True),
+    # This remains a reproducible pre-experiment scene. The paper main scene is
+    # the separately frozen challenge variant below.
+    Variant("complex", "Ruins-Urban-01 Complexity Pilot", 240703, 78, 14, 24, 0.18, True),
+    Variant("challenge", "Ruins-Urban-01 Challenge Ruins", 240704, 128, 22, 42, 0.16, True),
 ]
 
 
@@ -79,10 +82,11 @@ PARAMS = {
         "rubble fields",
         "columns",
         "partial second level",
-        "three vertical connectors",
+        "multiple vertical connectors",
         "low-overhead passages",
         "forced altitude-change gates",
         "repetitive and low-feature geometry",
+        "breached room shells and irregular collapse clusters",
     ],
 }
 
@@ -144,6 +148,14 @@ UPPER_NAV_NODES = {
     "u6": (11.0, -5.5, 4.55),
     "ub": (16.0, -8.5, 4.55),
     "upper_dead": (16.0, 3.0, 4.55),
+    # Challenge-only upper network. These are generation-time QA centerlines,
+    # never task partitions exposed to any UAV.
+    "us3": (-15.0, -12.0, 4.55),
+    "us4": (-8.0, -13.0, 4.55),
+    "us5": (-2.5, -10.0, 4.55),
+    "us6": (1.5, -6.0, 4.55),
+    "us7": (6.0, -7.5, 4.55),
+    "upper_south_dead": (12.0, -12.0, 4.55),
 }
 
 GROUND_BASE_EDGES = [
@@ -203,8 +215,18 @@ UPPER_COMPLEX_EDGES = [
     ("u3", "upper_dead"),
 ]
 
-ALL_NAV_EDGES = GROUND_BASE_EDGES + GROUND_EXTENDED_EDGES + UPPER_MEDIUM_EDGES + UPPER_COMPLEX_EDGES
-
+UPPER_CHALLENGE_EDGES = [
+    ("s3", "us3"),
+    ("s5", "us5"),
+    ("center_south", "us7"),
+    ("us3", "us4"),
+    ("us4", "us5"),
+    ("us5", "us6"),
+    ("us6", "us7"),
+    ("us5", "uc"),
+    ("us7", "ub"),
+    ("us7", "upper_south_dead"),
+]
 
 def navigation_graph(variant: Variant):
     nodes = {**LOWER_NAV_NODES, **UPPER_NAV_NODES}
@@ -213,6 +235,8 @@ def navigation_graph(variant: Variant):
         edges += GROUND_EXTENDED_EDGES + UPPER_MEDIUM_EDGES
     if variant.key == "complex":
         edges += UPPER_COMPLEX_EDGES
+    if variant.key == "challenge":
+        edges += GROUND_EXTENDED_EDGES + UPPER_MEDIUM_EDGES + UPPER_COMPLEX_EDGES + UPPER_CHALLENGE_EDGES
     used = {name for edge in edges for name in edge}
     return {name: nodes[name] for name in sorted(used)}, edges
 
@@ -302,9 +326,9 @@ def dist_point_to_segment_xy(p, a, b):
     return math.hypot(px - qx, py - qy)
 
 
-def near_navigation_xy(x, y, margin=1.45):
-    nodes = {**LOWER_NAV_NODES, **UPPER_NAV_NODES}
-    for a, b in ALL_NAV_EDGES:
+def near_navigation_xy(x, y, variant: Variant, margin=1.45):
+    nodes, edges = navigation_graph(variant)
+    for a, b in edges:
         pa, pb = nodes[a], nodes[b]
         if dist_point_to_segment_xy((x, y), (pa[0], pa[1]), (pb[0], pb[1])) < margin:
             return True
@@ -367,8 +391,18 @@ def add_segment_box(boxes: list[Box], name: str, p0, p1, width: float, thickness
 
 def add_upper_network(boxes: list[Box], variant: Variant):
     nodes, edges = navigation_graph(variant)
+    degree = {name: 0 for name in nodes}
+    for a, b in edges:
+        degree[a] += 1
+        degree[b] += 1
     upper_edges = []
-    connector_nodes = {"ua", "uc", "ub"}
+    active_connectors = []
+    for a, b in edges:
+        pa, pb = nodes[a], nodes[b]
+        if abs(pa[2] - pb[2]) > 0.8:
+            low, high = (pa, pb) if pa[2] < pb[2] else (pb, pa)
+            active_connectors.append((f"connector_{len(active_connectors) + 1:02d}", low, high))
+    connector_nodes = {name for _, low, high in active_connectors for name, point in nodes.items() if point in {low, high}}
     for a, b in edges:
         pa, pb = nodes[a], nodes[b]
         if abs(pa[2] - pb[2]) > 0.8:
@@ -393,18 +427,21 @@ def add_upper_network(boxes: list[Box], variant: Variant):
             "dark_concrete",
             "upper_floor",
         )
-        add_corridor_walls(
-            boxes,
-            f"upper_corridor_{a}_{b}",
-            pa,
-            pb,
-            width=2.25,
-            height=2.0,
-            z=4.38,
-            thickness=0.22,
-            end_gap=1.35,
-            material="concrete_light",
-        )
+        if variant.key != "challenge":
+            add_corridor_walls(
+                boxes,
+                f"upper_corridor_{a}_{b}",
+                pa,
+                pb,
+                width=2.25,
+                height=2.0,
+                z=4.38,
+                thickness=0.22,
+                # Junctions need a larger open volume so walls from one upper
+                # corridor cannot intrude into a crossing connector or branch.
+                end_gap=2.15 if degree[a] >= 3 or degree[b] >= 3 else 1.35,
+                material="concrete_light",
+            )
 
     used_upper_nodes = {n for edge in upper_edges for n in edge}
     for name in sorted(used_upper_nodes - connector_nodes):
@@ -419,9 +456,6 @@ def add_upper_network(boxes: list[Box], variant: Variant):
         )
 
     # Open connector shafts are framed but intentionally have no slab at the center.
-    active_connectors = [("connector_a", nodes["n5"], nodes["ua"]), ("connector_c", nodes["g5"], nodes["uc"])]
-    if variant.key == "complex":
-        active_connectors.append(("connector_b", nodes["es2"], nodes["ub"]))
     for name, low, high in active_connectors:
         x, y = high[0], high[1]
         for idx, (ox, oy, sx, sy) in enumerate(
@@ -446,6 +480,8 @@ def add_upper_network(boxes: list[Box], variant: Variant):
 
 
 def base_structure(variant: Variant) -> list[Box]:
+    if variant.key == "challenge":
+        return challenge_structure(variant)
     boxes: list[Box] = []
     add_box(boxes, "floor_slab", (0, 0, -0.08), (42.0, 32.0, 0.16), material="dark_concrete", role="floor")
     # Broken, uneven perimeter: the west wall contains the only initial opening.
@@ -458,6 +494,10 @@ def base_structure(variant: Variant) -> list[Box]:
     add_box(boxes, "east_boundary", (20.95, 0.0, 1.7), (0.42, 31.8, 3.4), (0.0, 0.0, -0.01))
 
     nodes, edges = navigation_graph(variant)
+    degree = {name: 0 for name in nodes}
+    for a, b in edges:
+        degree[a] += 1
+        degree[b] += 1
     narrow_edges = {
         ("n1", "n2"), ("n3", "n4"), ("s1", "s2"), ("s3", "s4"),
         ("en1", "en2"), ("es1", "es2"), ("u2", "u3"), ("u5", "u6"),
@@ -517,7 +557,7 @@ def base_structure(variant: Variant) -> list[Box]:
         (-1.0, -12.8), (3.0, -10.5), (8.5, -11.8),
     ]
     for idx, (x, y) in enumerate(fixed_pillars):
-        if near_navigation_xy(x, y, margin=1.05):
+        if near_navigation_xy(x, y, variant, margin=1.05):
             continue
         add_box(boxes, f"fixed_column_{idx:02d}", (x, y, 1.75), (0.62, 0.62, 3.5), material="concrete_light")
 
@@ -526,8 +566,153 @@ def base_structure(variant: Variant) -> list[Box]:
     add_box(boxes, "underflight_hanging_gate", (4.0, 0.25, 2.55), (1.2, 2.4, 1.05), (-0.04, 0.08, -0.20), "dark_concrete")
     add_box(boxes, "east_slanted_beam", (9.2, 0.55, 2.85), (4.8, 0.34, 0.34), (0.0, 0.10, 0.22), "rust")
 
-    if variant.key in {"medium", "complex"}:
+    if variant.key in {"medium", "complex", "challenge"}:
         add_upper_network(boxes, variant)
+    return boxes
+
+
+def challenge_structure(variant: Variant) -> list[Box]:
+    """Build the frozen paper main scene as a damaged urban underground layout.
+
+    The reference graph is used exclusively for collision-clearance validation.
+    It is deliberately not serialized into any runtime planning input.
+    """
+    boxes: list[Box] = []
+    add_box(boxes, "challenge_floor_slab", (0.0, 0.0, -0.10), (42.0, 32.0, 0.20), material="dark_concrete", role="floor")
+
+    # Perimeter segments retain a single broad western entrance, while varied
+    # heights and slight rotations avoid the appearance of a clean office box.
+    boundary_segments = [
+        ("north_a", (-14.5, 15.78), (-2.8, 15.72), 3.4),
+        ("north_b", (-1.7, 15.80), (9.4, 15.86), 2.8),
+        ("north_c", (10.5, 15.76), (20.8, 15.82), 3.7),
+        ("south_a", (-20.8, -15.82), (-8.5, -15.74), 3.5),
+        ("south_b", (-7.2, -15.84), (4.0, -15.78), 2.9),
+        ("south_c", (5.0, -15.76), (20.8, -15.84), 3.6),
+        ("west_n", (-20.84, 15.75), (-20.90, 2.2), 3.4),
+        ("west_s", (-20.88, -2.2), (-20.82, -15.75), 3.2),
+        ("east_a", (20.84, -15.7), (20.92, -1.5), 3.3),
+        ("east_b", (20.86, -0.3), (20.90, 15.7), 3.8),
+    ]
+    for idx, (name, p0, p1, height) in enumerate(boundary_segments):
+        add_wall(
+            boxes,
+            f"challenge_boundary_{name}",
+            p0,
+            p1,
+            height=height,
+            thickness=0.42,
+            z=height / 2,
+            material="concrete" if idx % 3 else "concrete_light",
+        )
+
+    nodes, edges = navigation_graph(variant)
+    degree = {name: 0 for name in nodes}
+    for a, b in edges:
+        degree[a] += 1
+        degree[b] += 1
+    narrow_edges = {
+        ("n1", "n2"), ("n3", "n4"), ("s1", "s2"), ("s3", "s4"),
+        ("en1", "en2"), ("es1", "es2"), ("u2", "u3"), ("u5", "u6"),
+        ("us3", "us4"), ("us4", "us5"), ("us6", "us7"),
+    }
+    squeeze_edges = {
+        ("n4", "n5"), ("s4", "s5"), ("en2", "dead_ne"),
+        ("u6", "ub"), ("us7", "upper_south_dead"),
+    }
+    main_spine = {
+        ("entry", "g1"), ("g1", "g2"), ("g2", "g3"), ("g3", "g4"),
+        ("g4", "g5"), ("g5", "g6"), ("g6", "g7"), ("g7", "g8"),
+    }
+    for idx, (a, b) in enumerate(edges):
+        pa, pb = nodes[a], nodes[b]
+        if abs(pa[2] - pb[2]) > 0.8 or pa[2] > 3.5 or pb[2] > 3.5:
+            continue
+        width = 3.20 if (a, b) in main_spine else 2.55
+        if (a, b) in narrow_edges:
+            width = 1.45
+        if (a, b) in squeeze_edges:
+            width = 1.22
+        height = 2.55 + 0.20 * (idx % 4)
+        add_corridor_walls(
+            boxes,
+            f"challenge_ground_corridor_{a}_{b}",
+            pa,
+            pb,
+            width=width,
+            height=height,
+            thickness=0.30,
+            end_gap=2.35 if degree[a] >= 3 or degree[b] >= 3 else 1.55,
+            material="concrete" if idx % 2 else "concrete_light",
+        )
+
+    # Distinct damaged structures make the space a ruin rather than a regular maze.
+    rng = random.Random(variant.seed + 91)
+    clusters = 0
+    attempts = 0
+    while clusters < 11 and attempts < 4000:
+        attempts += 1
+        x = rng.uniform(-17.5, 17.5)
+        y = rng.uniform(-13.0, 13.0)
+        if near_navigation_xy(x, y, variant, margin=3.1):
+            continue
+        yaw = rng.uniform(0.0, math.pi)
+        facade_len = rng.uniform(3.4, 5.8)
+        facade_h = rng.uniform(2.4, 4.8)
+        add_box(
+            boxes,
+            f"challenge_broken_facade_{clusters:02d}",
+            (x, y, facade_h / 2),
+            (facade_len, 0.34, facade_h),
+            (rng.uniform(-0.18, 0.18), rng.uniform(-0.22, 0.22), yaw),
+            "concrete_light",
+            "collapsed_facade",
+        )
+        add_box(
+            boxes,
+            f"challenge_fallen_slab_{clusters:02d}",
+            (x + rng.uniform(-1.0, 1.0), y + rng.uniform(-1.0, 1.0), rng.uniform(0.65, 1.25)),
+            (rng.uniform(2.4, 4.6), rng.uniform(0.70, 1.35), 0.34),
+            (rng.uniform(-0.30, 0.30), rng.uniform(-0.30, 0.30), yaw + rng.uniform(-0.55, 0.55)),
+            "rubble",
+            "collapsed_slab",
+        )
+        for piece in range(3):
+            sx, sy, sz = rng.uniform(0.45, 1.35), rng.uniform(0.35, 1.10), rng.uniform(0.30, 0.95)
+            add_box(
+                boxes,
+                f"challenge_cluster_{clusters:02d}_rubble_{piece}",
+                (x + rng.uniform(-2.0, 2.0), y + rng.uniform(-2.0, 2.0), sz / 2),
+                (sx, sy, sz),
+                (rng.uniform(-0.25, 0.25), rng.uniform(-0.25, 0.25), rng.uniform(0.0, math.pi)),
+                "brick" if piece == 0 else "rubble",
+                "rubble",
+            )
+        clusters += 1
+
+    # Overhead debris makes the upper structure visually and geometrically distinct.
+    beams = 0
+    attempts = 0
+    while beams < 18 and attempts < 5000:
+        attempts += 1
+        x = rng.uniform(-18.0, 18.0)
+        y = rng.uniform(-14.0, 14.0)
+        if near_navigation_xy(x, y, variant, margin=1.45):
+            continue
+        length = rng.uniform(2.0, 5.2)
+        add_box(
+            boxes,
+            f"challenge_hanging_beam_{beams:02d}",
+            (x, y, rng.uniform(4.95, 6.20)),
+            (length, rng.uniform(0.14, 0.32), rng.uniform(0.16, 0.34)),
+            (rng.uniform(-0.24, 0.24), rng.uniform(-0.42, 0.42), rng.uniform(0.0, math.pi)),
+            "rust",
+            "hanging_debris",
+        )
+        beams += 1
+
+    # The upper network provides six actual altitude transitions, not just high decorations.
+    add_upper_network(boxes, variant)
     return boxes
 
 
@@ -544,7 +729,7 @@ def add_variant_obstacles(boxes: list[Box], variant: Variant):
         h = rng.uniform(2.4, 4.0)
         sx = rng.uniform(0.45, 0.85)
         sy = rng.uniform(0.45, 0.9)
-        if near_navigation_xy(x, y, margin=math.hypot(sx, sy) / 2 + 0.48):
+        if near_navigation_xy(x, y, variant, margin=math.hypot(sx, sy) / 2 + 0.48):
             continue
         add_box(boxes, f"{variant.key}_random_column_{placed:02d}", (x, y, h / 2), (sx, sy, h), material="concrete")
         placed += 1
@@ -560,7 +745,7 @@ def add_variant_obstacles(boxes: list[Box], variant: Variant):
         sy = rng.uniform(0.30, 1.35)
         sz = rng.uniform(0.18, 1.15)
         margin = math.hypot(sx, sy) / 2 + (0.40 if placed % 6 == 0 else 0.52)
-        if near_navigation_xy(x, y, margin=margin):
+        if near_navigation_xy(x, y, variant, margin=margin):
             continue
         roll = rng.uniform(-0.18, 0.18)
         pitch = rng.uniform(-0.18, 0.18)
@@ -579,7 +764,7 @@ def add_variant_obstacles(boxes: list[Box], variant: Variant):
         length = rng.uniform(2.0, 4.8)
         width = rng.uniform(0.30, 0.55)
         height = rng.uniform(0.35, 0.85)
-        if near_navigation_xy(x, y, margin=math.hypot(length, width) / 2 + 0.48):
+        if near_navigation_xy(x, y, variant, margin=math.hypot(length, width) / 2 + 0.48):
             continue
         roll = rng.uniform(-0.15, 0.15)
         pitch = rng.uniform(-0.18, 0.18)
@@ -599,7 +784,7 @@ def add_variant_obstacles(boxes: list[Box], variant: Variant):
         add_box(boxes, f"{variant.key}_broken_upper_slab_02", (10.2, 3.8, 5.5), (3.6, 0.75, 0.30), (-0.10, 0.18, -0.40), "rubble")
         add_wall(boxes, f"{variant.key}_narrow_deflector_01", (-6.0, -5.2), (-3.2, -4.6), height=2.6, thickness=0.28)
         add_wall(boxes, f"{variant.key}_narrow_deflector_02", (6.8, 3.9), (8.7, 5.8), height=2.5, thickness=0.28)
-    if variant.key == "complex":
+    if variant.key in {"complex", "challenge"}:
         add_wall(boxes, "complex_dead_end_internal_01", (2.8, 4.8), (5.3, 4.5), height=3.0, thickness=0.32)
         add_wall(boxes, "complex_dead_end_internal_02", (5.3, 4.5), (5.5, 7.2), height=2.8, thickness=0.32)
         add_wall(boxes, "complex_lower_chicane_01", (-18.0, -5.0), (-15.2, -5.5), height=2.7, thickness=0.28)
@@ -609,7 +794,7 @@ def add_variant_obstacles(boxes: list[Box], variant: Variant):
             x = rng.uniform(-17.5, 17.5)
             y = rng.uniform(-13.5, 13.5)
             length = rng.uniform(1.2, 3.8)
-            if near_navigation_xy(x, y, margin=length / 2 + 0.45):
+            if near_navigation_xy(x, y, variant, margin=length / 2 + 0.45):
                 continue
             add_box(
                 boxes,
@@ -623,7 +808,7 @@ def add_variant_obstacles(boxes: list[Box], variant: Variant):
             x = rng.uniform(-18.0, 18.0)
             y = rng.uniform(-14.0, 14.0)
             length = rng.uniform(1.0, 2.8)
-            if near_navigation_xy(x, y, margin=length / 2 + 0.42):
+            if near_navigation_xy(x, y, variant, margin=length / 2 + 0.42):
                 continue
             add_box(
                 boxes,
@@ -955,6 +1140,18 @@ vertical_connectors:
     center: [1.5, 0.8]
     z_low: 1.20
     z_high: 4.55
+  - name: vertical_connector_d
+    center: [-15.0, -12.0]
+    z_low: 1.35
+    z_high: 4.55
+  - name: vertical_connector_e
+    center: [-2.5, -10.0]
+    z_low: 1.35
+    z_high: 4.55
+  - name: vertical_connector_f
+    center: [6.0, -7.5]
+    z_low: 1.35
+    z_high: 4.55
 variants:
 """
     for v in VARIANTS:
@@ -988,7 +1185,7 @@ uav_count: 3
 
     marsim_config = """map:
   frame_id: map
-  pointcloud: ../maps/pcd/Ruins-Urban-01_complex.pcd
+  pointcloud: ../maps/pcd/Ruins-Urban-01_challenge.pcd
   resolution_hint: 0.18
   bounding_box: [-21.0, 21.0, -16.0, 16.0, 0.0, 8.0]
 lidar:
@@ -1022,7 +1219,7 @@ swarm:
         write_text_lf(launch_dir / f"fuel_map_pub_ruins_urban_01_{v.key}.launch", fuel_launch)
 
     racer_launch = """<launch>
-  <arg name="map_file" default="$(env HOME)/catkin_ws/src/RACER/uav_simulator/map_generator/resource/Ruins-Urban-01_complex.pcd"/>
+  <arg name="map_file" default="$(env HOME)/catkin_ws/src/RACER/uav_simulator/map_generator/resource/Ruins-Urban-01_challenge.pcd"/>
   <arg name="drone_num" default="3"/>
   <!-- Use this as a replacement snippet inside RACER's swarm_exploration.launch. -->
   <node pkg="map_generator" name="map_pub" type="map_pub" output="screen" args="$(arg map_file)"/>
@@ -1037,7 +1234,7 @@ swarm:
     write_text_lf(launch_dir / "racer_ruins_urban_01_snippet.launch", racer_launch)
 
     marsim_launch = """<launch>
-  <arg name="map_file" default="$(find ruins_urban_01)/maps/pcd/Ruins-Urban-01_complex.pcd"/>
+  <arg name="map_file" default="$(find ruins_urban_01)/maps/pcd/Ruins-Urban-01_challenge.pcd"/>
   <arg name="drone_num" default="3"/>
   <!-- MARSIM variants differ by fork. Keep this as a wiring template:
        load the PCD map into the simulator's pointcloud map parameter, then publish
@@ -1049,7 +1246,7 @@ swarm:
     write_text_lf(launch_dir / "marsim_ruins_urban_01_template.launch", marsim_launch)
 
     gazebo_launch = """<launch>
-  <arg name="variant" default="complex"/>
+  <arg name="variant" default="challenge"/>
   <arg name="gui" default="true"/>
   <arg name="paused" default="false"/>
   <arg name="verbose" default="false"/>
@@ -1087,7 +1284,7 @@ SCENE_JSON = BASE / "config" / "scene_geometry.json"
 with SCENE_JSON.open("r", encoding="utf-8") as f:
     data = json.load(f)
 
-VARIANT = os.environ.get("RUINS_VARIANT", "complex")
+VARIANT = os.environ.get("RUINS_VARIANT", "challenge")
 if VARIANT not in data["geometry"]:
     raise ValueError(f"Unknown RUINS_VARIANT={VARIANT!r}; choose one of {sorted(data['geometry'])}")
 
@@ -1184,7 +1381,7 @@ def main():
     parser = argparse.ArgumentParser(
         description="Create a randomized but reproducible Gazebo/PCD ruins instance."
     )
-    parser.add_argument("--profile", choices=sorted(PROFILES), default="complex")
+    parser.add_argument("--profile", choices=sorted(PROFILES), default="challenge")
     parser.add_argument("--seed", type=int, help="Fixed seed. Omit it to get a new random seed.")
     parser.add_argument("--name", help="Optional generated asset suffix.")
     parser.add_argument("--clutter-scale", type=float, default=1.0)
@@ -1297,10 +1494,10 @@ def write_ros_package_files():
     package_xml = """<?xml version="1.0"?>
 <package format="2">
   <name>ruins_urban_01</name>
-  <version>0.3.0</version>
+  <version>0.6.0</version>
   <description>Ruins-Urban-01 3D rubble environment assets for UAV exploration simulation.</description>
-  <maintainer email="user@example.com">Research User</maintainer>
-  <license>Research-only</license>
+  <maintainer email="zhanghang1122@users.noreply.github.com">zhanghang1122</maintainer>
+  <license>MIT</license>
 
   <buildtool_depend>catkin</buildtool_depend>
   <exec_depend>roslaunch</exec_depend>
@@ -1322,6 +1519,7 @@ install(DIRECTORY
   blender
   config
   docs
+  experiments
   gazebo
   launch
   maps
@@ -1340,7 +1538,7 @@ export GAZEBO_MODEL_PATH="${SCRIPT_DIR}/gazebo/models${GAZEBO_MODEL_PATH:+:${GAZ
 echo "Ruins-Urban-01 is ready."
 echo "Gazebo model path added: ${SCRIPT_DIR}/gazebo/models"
 echo "Example:"
-echo "  roslaunch ruins_urban_01 gazebo_ruins_urban_01.launch variant:=complex"
+echo "  roslaunch ruins_urban_01 gazebo_ruins_urban_01.launch variant:=challenge"
 """
     write_text_lf(OUT / "package.xml", package_xml)
     write_text_lf(OUT / "CMakeLists.txt", cmake)
@@ -1457,16 +1655,16 @@ The source representation is the Blender Python script in `scripts/generate_ruin
 - UAV collision diameter parameter: `D = 0.65 m`.
 - Normal corridor width: 2.7 m.
 - Narrow corridor width: 1.45 m.
-- Squeeze passage width: 1.22 m (complex variant only).
+- Squeeze passage width: 1.22 m (challenge variant only).
 - Vertical connector width: 2.2 m.
-- Features: irregular corridors, occluded forks, loops, dead ends, collapsed walls, rubble, repeated columns, low-feature passages, low overhead sections, forced altitude changes, partial second level, and up to three vertical connectors.
+- Features: irregular corridors, occluded forks, loops, dead ends, broken facades, tilted slabs, rubble clusters, repeated columns, low-feature passages, overhead debris, partial second level, and six vertical connectors.
 
-The main `complex` scene contains {summary['complex']['validation']['topology']['node_count']} reference topology nodes,
-{summary['complex']['validation']['topology']['edge_count']} traversable connections,
-{summary['complex']['validation']['topology']['branch_node_count']} branch nodes,
-{summary['complex']['validation']['topology']['independent_loop_count']} independent loops,
-{summary['complex']['validation']['topology']['dead_end_count']} dead ends, and
-{summary['complex']['validation']['topology']['vertical_connector_count']} vertical connectors.
+The paper main `challenge` scene contains {summary['challenge']['validation']['topology']['node_count']} reference topology nodes,
+{summary['challenge']['validation']['topology']['edge_count']} traversable connections,
+{summary['challenge']['validation']['topology']['branch_node_count']} branch nodes,
+{summary['challenge']['validation']['topology']['independent_loop_count']} independent loops,
+{summary['challenge']['validation']['topology']['dead_end_count']} dead ends, and
+{summary['challenge']['validation']['topology']['vertical_connector_count']} vertical connectors.
 These reference paths exist only for generation-time validation and are not exposed as task partitions to the UAVs.
 
 The scene is not pre-partitioned for UAV assignment. Any naming of rooms, forks, or sections exists only for modeling and debugging. Exploration algorithms should discover frontiers online from local sensing.
@@ -1477,34 +1675,22 @@ The scene is not pre-partitioned for UAV assignment. Any naming of rooms, forks,
 |---|---:|---:|---|
 | base | 240701 | {summary['base']['pcd_points']} | Basic validation and single-UAV bring-up |
 | medium | 240702 | {summary['medium']['pcd_points']} | Three-UAV debugging with denser rubble |
-| complex | 240703 | {summary['complex']['pcd_points']} | Main thesis scene |
+| complex | 240703 | {summary['complex']['pcd_points']} | Complexity pilot only; not final paper data |
+| challenge | 240704 | {summary['challenge']['pcd_points']} | Frozen paper main scene |
 
 ## Recommended Use
 
-### Copy Into Ubuntu VM
-
-Option A: use the VM shared folder, copy `ruins_urban_01.zip` into Ubuntu, then:
+Update the parent Git repository inside the Ubuntu VM, then rebuild the catkin workspace:
 
 ```bash
-cd ~/catkin_ws/src
-unzip /path/to/ruins_urban_01.zip
+cd ~/catkin_ws/src/multi-uav-cooperative-exploration
+git fetch origin
+git switch verified-runtime
+git pull --ff-only
 cd ~/catkin_ws
-catkin_make
+catkin_make -j2
+source /opt/ros/noetic/setup.bash
 source devel/setup.bash
-source src/ruins_urban_01/setup_env.sh
-```
-
-Option B: if SSH is enabled in the VM:
-
-```bash
-scp ruins_urban_01.zip USER@VM_IP:~/catkin_ws/src/
-ssh USER@VM_IP
-cd ~/catkin_ws/src
-unzip ruins_urban_01.zip
-cd ~/catkin_ws
-catkin_make
-source devel/setup.bash
-source src/ruins_urban_01/setup_env.sh
 ```
 
 For FUEL/RACER, copy or symlink a selected PCD into the package's `map_generator/resource` directory, then replace the original `map_pub` PCD argument and set the exploration bounding box:
@@ -1530,17 +1716,17 @@ For Gazebo Classic/PX4, add `gazebo/models` to `GAZEBO_MODEL_PATH`, then open on
 ```bash
 source ~/catkin_ws/devel/setup.bash
 source "$(rospack find ruins_urban_01)/setup_env.sh"
-roslaunch ruins_urban_01 gazebo_ruins_urban_01.launch variant:=complex
+roslaunch ruins_urban_01 gazebo_ruins_urban_01.launch variant:=challenge
 ```
 
 ## Randomized Procedural Instances
 
-Keep `base`, `medium`, and `complex` unchanged as fair, reproducible benchmark maps. Generate additional
+Keep `base`, `medium`, `complex`, and `challenge` unchanged as fair, reproducible benchmark maps. Generate additional
 random instances for generalization and stress tests:
 
 ```bash
 cd "$(rospack find ruins_urban_01)"
-python3 scripts/generate_random_ruins.py --profile complex
+python3 scripts/generate_random_ruins.py --profile challenge
 ```
 
 The command prints the generated seed, world, PCD, and launch command. Omitting `--seed` creates a new
@@ -1548,7 +1734,7 @@ instance every time. To reproduce an exact instance or control clutter:
 
 ```bash
 python3 scripts/generate_random_ruins.py \
-  --profile complex \
+  --profile challenge \
   --seed 20260724 \
   --clutter-scale 1.20
 ```
@@ -1574,10 +1760,11 @@ Generation ran a basic centerline clearance check on the intended navigation gra
 | base | {summary['base']['validation']['passed']} | {summary['base']['validation']['min_centerline_clearance_m']} m |
 | medium | {summary['medium']['validation']['passed']} | {summary['medium']['validation']['min_centerline_clearance_m']} m |
 | complex | {summary['complex']['validation']['passed']} | {summary['complex']['validation']['min_centerline_clearance_m']} m |
+| challenge | {summary['challenge']['validation']['passed']} | {summary['challenge']['validation']['min_centerline_clearance_m']} m |
 
 ## Notes
 
-- Start development on `base`, move to `medium`, and reserve `complex` for thesis experiments.
+- Start development on `base`, move to `medium`, use `complex` only for a complexity pilot, and reserve `challenge` for paper experiments.
 - Use randomized starts, randomized obstacle seeds, and repeated trials later to prove autonomy rather than rehearsed trajectories.
 - The included topology-related names are debug names only; do not use them as ground-truth task partitions in the algorithm.
 - See `docs/design_basis.md` for the literature-informed design rationale and the limits of the benchmark.
@@ -1588,8 +1775,8 @@ Generation ran a basic centerline clearance check on the intended navigation gra
 
 
 def write_design_basis(summary):
-    complex_topology = summary["complex"]["validation"]["topology"]
-    text = f"""# Ruins-Urban-01 v2: Literature-Informed Design Basis
+    challenge_topology = summary["challenge"]["validation"]["topology"]
+    text = f"""# Ruins-Urban-01 v3: Literature-Informed Design Basis
 
 This scene is a compact, reproducible UAV benchmark inspired by recurring challenges reported in
 subterranean and multi-UAV exploration research. It is not a geometric copy of a DARPA course and
@@ -1599,57 +1786,53 @@ does not claim that obstacle count alone measures environmental complexity.
 
 1. DARPA Subterranean Challenge program overview:
    https://www.darpa.mil/research/programs/darpa-subterranean-challenge
-   The official challenge description highlights constrained passages, sharp turns, large drops and
-   climbs, inclines, steps, falling debris, and complex underground networks.
-2. CERBERUS field report:
-   https://arxiv.org/abs/2201.07067
-   Reports multi-level urban underground structures, narrow or inaccessible spaces, degraded sensing,
-   denied communications, and robot-specific local/global planning.
-3. Autonomous teamed subterranean exploration:
-   https://arxiv.org/abs/2111.06482
-   Emphasizes large-scale multi-branched topology, steep slopes, diverse geometry, communication loss,
-   map sharing, and global frontier coordination.
-4. Team MARBLE multi-agent autonomy:
-   https://arxiv.org/abs/2110.04390
-   Identifies diverse topology and terrain, degraded sensing, limited communication, and metric-topological
-   planning as core field challenges.
-5. FUEL:
-   https://github.com/HKUST-Aerial-Robotics/FUEL
-   Provides the PCD-map workflow and a strong single-UAV exploration baseline on Ubuntu 20.04/ROS Noetic.
-6. RACER:
-   https://arxiv.org/abs/2209.08533
-   Provides a decentralized multi-UAV baseline using asynchronous limited communication.
-7. MARSIM:
-   https://arxiv.org/abs/2211.10716
-   Motivates the point-cloud-first export for light-weight LiDAR and multi-UAV simulation.
+   The official description identifies autonomous mapping and navigation in human-made urban underground
+   structures, tunnels, and caves under degraded perception and difficult terrain as the target problem.
+2. Zhou B, Pan J, Gao F, Shen S. FUEL: Fast UAV Exploration Using Incremental Frontier Structure and
+   Hierarchical Planning. IEEE Robotics and Automation Letters, 2021.
+   https://doi.org/10.1109/LRA.2021.3051563
+   Supports frontier-driven autonomous exploration as the single-UAV baseline and uses bounded 3D map space.
+3. Ribeiro M, Basiri M. Efficient 3D Exploration with Distributed Multi-UAV Teams: Integrating Frontier-Based
+   and Next-Best-View Planning. Drones, 2024, 8(11):630.
+   https://doi.org/10.3390/drones8110630
+   Supports evaluating distributed multi-UAV 3D exploration with completion time, explored volume, and overlap.
+4. Wen C, Dong W, Xie W, Cai M, Liu R. Distributed cooperative area search method for UAV swarms based on
+   revisit mechanism. Acta Aeronautica et Astronautica Sinica, 2023, 44(11):327561.
+   https://doi.org/10.7527/S1000-6893.2022.27561
+   Supports online information updates and repeated-run statistical comparison rather than one scripted trajectory.
+5. GA-HP: A game-assisted hierarchical planner for multi-UAV coverage in unknown environments.
+   Aerospace Science and Technology, 2025, 166:110624.
+   https://doi.org/10.1016/j.ast.2025.110624
+   Supports separating centralized task allocation from safe local planning in unknown environments.
 
 ## Implemented Complexity Dimensions
 
-| Dimension | Complex variant |
+| Dimension | Challenge variant |
 |---|---:|
 | Physical size | 42 x 32 x 8 m |
-| Reference topology nodes | {complex_topology['node_count']} |
-| Traversable graph edges | {complex_topology['edge_count']} |
-| Branch nodes | {complex_topology['branch_node_count']} |
-| Independent loops | {complex_topology['independent_loop_count']} |
-| Dead ends | {complex_topology['dead_end_count']} |
-| Vertical connectors | {complex_topology['vertical_connector_count']} |
-| Reference graph length | {complex_topology['reference_graph_length_m']} m |
-| Minimum validated centerline clearance | {summary['complex']['validation']['min_centerline_clearance_m']} m |
+| Reference topology nodes | {challenge_topology['node_count']} |
+| Traversable graph edges | {challenge_topology['edge_count']} |
+| Branch nodes | {challenge_topology['branch_node_count']} |
+| Independent loops | {challenge_topology['independent_loop_count']} |
+| Dead ends | {challenge_topology['dead_end_count']} |
+| Vertical connectors | {challenge_topology['vertical_connector_count']} |
+| Reference graph length | {challenge_topology['reference_graph_length_m']} m |
+| Minimum validated centerline clearance | {summary['challenge']['validation']['min_centerline_clearance_m']} m |
 | UAV collision diameter D | {PARAMS['collision_diameter_D']} m |
 | Narrow/squeeze widths | 1.45 m / 1.22 m |
 
-Geometric complexity comes from connected structure, not random clutter alone. The scene combines an
-irregular main spine, two ground-level loops, east-side branches, six dead ends, a partial upper network,
-three vertical connectors, low ceilings, hanging beams, altitude-change gates, repetitive columns, and
-occluded junctions. Rubble is generated with fixed seeds and constrained so it cannot accidentally seal
-the validated reference routes.
+Geometric complexity comes from connected structure, not random clutter alone. The challenge scene combines
+an irregular main spine, multi-branch ground loops, seven dead ends, a true upper network, six altitude
+transitions, breached wall shells, tilted facade fragments, fallen slabs, rubble clusters, overhead beams,
+repetitive columns, and occluded junctions. Rubble is generated with fixed seeds and constrained so it cannot
+accidentally seal the validated reference routes.
 
 ## Intended Experimental Use
 
 - `base`: integration and single-UAV bring-up.
 - `medium`: multi-UAV debugging with two vertical connectors and five loops.
-- `complex`: main thesis experiments and ablation studies.
+- `complex`: complexity pilot; do not report it as the final paper main environment.
+- `challenge`: frozen main environment for B1/B2/B3/proposed-method comparisons.
 
 Run at least 20 repeated trials per method with varied start yaw, sensor noise, communication loss, and
 additional obstacle seeds. Report coverage-time curves, success rate, total fleet path length, repeated
@@ -1800,6 +1983,11 @@ def main():
 
     write_text_lf(OUT / "config" / "scene_geometry.json", json.dumps(scene_json, indent=2))
     write_launches_and_configs()
+    write_blender_script(OUT / "scripts" / "generate_ruins_urban_01_blender.py")
+    write_random_generator_script(OUT / "scripts" / "generate_random_ruins.py")
+    write_ros_package_files()
+    write_readme(summary)
+    write_design_basis(summary)
     write_text_lf(
         OUT / "config" / "complexity_metrics.json",
         json.dumps({key: value["validation"]["topology"] for key, value in summary.items()}, indent=2),

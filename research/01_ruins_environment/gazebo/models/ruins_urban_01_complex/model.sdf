@@ -1542,7 +1542,7 @@
       <pose>-2.20823 9.76175 4.38000 0.00000 0.00000 0.61073</pose>
       <visual name="visual">
         <geometry>
-          <box><size>3.40328 0.22000 2.00000</size></box>
+          <box><size>1.80328 0.22000 2.00000</size></box>
         </geometry>
           <material>
             <ambient>0.680 0.660 0.610 1</ambient>
@@ -1552,7 +1552,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>3.40328 0.22000 2.00000</size></box>
+          <box><size>1.80328 0.22000 2.00000</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -1566,7 +1566,7 @@
       <pose>-0.79177 7.73825 4.38000 0.00000 0.00000 0.61073</pose>
       <visual name="visual">
         <geometry>
-          <box><size>3.40328 0.22000 2.00000</size></box>
+          <box><size>1.80328 0.22000 2.00000</size></box>
         </geometry>
           <material>
             <ambient>0.680 0.660 0.610 1</ambient>
@@ -1576,7 +1576,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>3.40328 0.22000 2.00000</size></box>
+          <box><size>1.80328 0.22000 2.00000</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -1686,7 +1686,7 @@
       <pose>9.81325 10.17943 4.38000 0.00000 0.00000 -0.71883</pose>
       <visual name="visual">
         <geometry>
-          <box><size>2.61507 0.22000 2.00000</size></box>
+          <box><size>1.01507 0.22000 2.00000</size></box>
         </geometry>
           <material>
             <ambient>0.680 0.660 0.610 1</ambient>
@@ -1696,7 +1696,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>2.61507 0.22000 2.00000</size></box>
+          <box><size>1.01507 0.22000 2.00000</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -1710,7 +1710,7 @@
       <pose>8.18675 8.32057 4.38000 0.00000 0.00000 -0.71883</pose>
       <visual name="visual">
         <geometry>
-          <box><size>2.61507 0.22000 2.00000</size></box>
+          <box><size>1.01507 0.22000 2.00000</size></box>
         </geometry>
           <material>
             <ambient>0.680 0.660 0.610 1</ambient>
@@ -1720,7 +1720,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>2.61507 0.22000 2.00000</size></box>
+          <box><size>1.01507 0.22000 2.00000</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -1758,7 +1758,7 @@
       <pose>11.12856 4.74842 4.38000 0.00000 0.00000 -1.98902</pose>
       <visual name="visual">
         <geometry>
-          <box><size>2.22443 0.22000 2.00000</size></box>
+          <box><size>0.62443 0.22000 2.00000</size></box>
         </geometry>
           <material>
             <ambient>0.680 0.660 0.610 1</ambient>
@@ -1768,7 +1768,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>2.22443 0.22000 2.00000</size></box>
+          <box><size>0.62443 0.22000 2.00000</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -1782,7 +1782,7 @@
       <pose>8.87144 5.75158 4.38000 0.00000 0.00000 -1.98902</pose>
       <visual name="visual">
         <geometry>
-          <box><size>2.22443 0.22000 2.00000</size></box>
+          <box><size>0.62443 0.22000 2.00000</size></box>
         </geometry>
           <material>
             <ambient>0.680 0.660 0.610 1</ambient>
@@ -1792,7 +1792,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>2.22443 0.22000 2.00000</size></box>
+          <box><size>0.62443 0.22000 2.00000</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -1830,7 +1830,7 @@
       <pose>5.59762 0.71493 4.38000 0.00000 0.00000 -2.85626</pose>
       <visual name="visual">
         <geometry>
-          <box><size>5.11601 0.22000 2.00000</size></box>
+          <box><size>3.51601 0.22000 2.00000</size></box>
         </geometry>
           <material>
             <ambient>0.680 0.660 0.610 1</ambient>
@@ -1840,7 +1840,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>5.11601 0.22000 2.00000</size></box>
+          <box><size>3.51601 0.22000 2.00000</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -1854,7 +1854,7 @@
       <pose>4.90238 3.08507 4.38000 0.00000 0.00000 -2.85626</pose>
       <visual name="visual">
         <geometry>
-          <box><size>5.11601 0.22000 2.00000</size></box>
+          <box><size>3.51601 0.22000 2.00000</size></box>
         </geometry>
           <material>
             <ambient>0.680 0.660 0.610 1</ambient>
@@ -1864,7 +1864,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>5.11601 0.22000 2.00000</size></box>
+          <box><size>3.51601 0.22000 2.00000</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -1902,7 +1902,7 @@
       <pose>-2.17387 3.08044 4.38000 0.00000 0.00000 2.29644</pose>
       <visual name="visual">
         <geometry>
-          <box><size>5.58794 0.22000 2.00000</size></box>
+          <box><size>3.98794 0.22000 2.00000</size></box>
         </geometry>
           <material>
             <ambient>0.680 0.660 0.610 1</ambient>
@@ -1912,7 +1912,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>5.58794 0.22000 2.00000</size></box>
+          <box><size>3.98794 0.22000 2.00000</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -1926,7 +1926,7 @@
       <pose>-0.32613 4.71956 4.38000 0.00000 0.00000 2.29644</pose>
       <visual name="visual">
         <geometry>
-          <box><size>5.58794 0.22000 2.00000</size></box>
+          <box><size>3.98794 0.22000 2.00000</size></box>
         </geometry>
           <material>
             <ambient>0.680 0.660 0.610 1</ambient>
@@ -1936,7 +1936,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>5.58794 0.22000 2.00000</size></box>
+          <box><size>3.98794 0.22000 2.00000</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -1974,7 +1974,7 @@
       <pose>4.54680 -0.15642 4.38000 0.00000 0.00000 -0.70126</pose>
       <visual name="visual">
         <geometry>
-          <box><size>3.18982 0.22000 2.00000</size></box>
+          <box><size>1.58982 0.22000 2.00000</size></box>
         </geometry>
           <material>
             <ambient>0.680 0.660 0.610 1</ambient>
@@ -1984,7 +1984,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>3.18982 0.22000 2.00000</size></box>
+          <box><size>1.58982 0.22000 2.00000</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -1998,7 +1998,7 @@
       <pose>2.95320 -2.04358 4.38000 0.00000 0.00000 -0.70126</pose>
       <visual name="visual">
         <geometry>
-          <box><size>3.18982 0.22000 2.00000</size></box>
+          <box><size>1.58982 0.22000 2.00000</size></box>
         </geometry>
           <material>
             <ambient>0.680 0.660 0.610 1</ambient>
@@ -2008,7 +2008,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>3.18982 0.22000 2.00000</size></box>
+          <box><size>1.58982 0.22000 2.00000</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -2190,7 +2190,7 @@
       <pose>14.32617 6.16797 4.38000 0.00000 0.00000 -0.73282</pose>
       <visual name="visual">
         <geometry>
-          <box><size>4.02681 0.22000 2.00000</size></box>
+          <box><size>2.42681 0.22000 2.00000</size></box>
         </geometry>
           <material>
             <ambient>0.680 0.660 0.610 1</ambient>
@@ -2200,7 +2200,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>4.02681 0.22000 2.00000</size></box>
+          <box><size>2.42681 0.22000 2.00000</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -2214,7 +2214,7 @@
       <pose>12.67383 4.33203 4.38000 0.00000 0.00000 -0.73282</pose>
       <visual name="visual">
         <geometry>
-          <box><size>4.02681 0.22000 2.00000</size></box>
+          <box><size>2.42681 0.22000 2.00000</size></box>
         </geometry>
           <material>
             <ambient>0.680 0.660 0.610 1</ambient>
@@ -2224,7 +2224,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>4.02681 0.22000 2.00000</size></box>
+          <box><size>2.42681 0.22000 2.00000</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -2402,7 +2402,7 @@
         </surface>
       </collision>
     </link>
-    <link name="100_connector_a_frame_0">
+    <link name="100_connector_01_frame_0">
       <pose>-5.35000 7.00000 3.55000 0.00000 0.00000 0.00000</pose>
       <visual name="visual">
         <geometry>
@@ -2426,7 +2426,7 @@
         </surface>
       </collision>
     </link>
-    <link name="101_connector_a_frame_1">
+    <link name="101_connector_01_frame_1">
       <pose>-2.65000 7.00000 3.55000 0.00000 0.00000 0.00000</pose>
       <visual name="visual">
         <geometry>
@@ -2450,7 +2450,7 @@
         </surface>
       </collision>
     </link>
-    <link name="102_connector_a_frame_3">
+    <link name="102_connector_01_frame_3">
       <pose>-4.00000 8.35000 3.55000 0.00000 0.00000 0.00000</pose>
       <visual name="visual">
         <geometry>
@@ -2474,7 +2474,7 @@
         </surface>
       </collision>
     </link>
-    <link name="103_connector_c_frame_0">
+    <link name="103_connector_02_frame_0">
       <pose>0.15000 0.80000 3.55000 0.00000 0.00000 0.00000</pose>
       <visual name="visual">
         <geometry>
@@ -2498,7 +2498,7 @@
         </surface>
       </collision>
     </link>
-    <link name="104_connector_c_frame_1">
+    <link name="104_connector_02_frame_1">
       <pose>2.85000 0.80000 3.55000 0.00000 0.00000 0.00000</pose>
       <visual name="visual">
         <geometry>
@@ -2522,7 +2522,7 @@
         </surface>
       </collision>
     </link>
-    <link name="105_connector_c_frame_3">
+    <link name="105_connector_02_frame_3">
       <pose>1.50000 2.15000 3.55000 0.00000 0.00000 0.00000</pose>
       <visual name="visual">
         <geometry>
@@ -2546,7 +2546,7 @@
         </surface>
       </collision>
     </link>
-    <link name="106_connector_b_frame_0">
+    <link name="106_connector_03_frame_0">
       <pose>14.65000 -8.50000 3.55000 0.00000 0.00000 0.00000</pose>
       <visual name="visual">
         <geometry>
@@ -2570,7 +2570,7 @@
         </surface>
       </collision>
     </link>
-    <link name="107_connector_b_frame_1">
+    <link name="107_connector_03_frame_1">
       <pose>17.35000 -8.50000 3.55000 0.00000 0.00000 0.00000</pose>
       <visual name="visual">
         <geometry>
@@ -2594,7 +2594,7 @@
         </surface>
       </collision>
     </link>
-    <link name="108_connector_b_frame_3">
+    <link name="108_connector_03_frame_3">
       <pose>16.00000 -7.15000 3.55000 0.00000 0.00000 0.00000</pose>
       <visual name="visual">
         <geometry>

@@ -34,6 +34,18 @@ vertical_connectors:
     center: [1.5, 0.8]
     z_low: 1.20
     z_high: 4.55
+  - name: vertical_connector_d
+    center: [-15.0, -12.0]
+    z_low: 1.35
+    z_high: 4.55
+  - name: vertical_connector_e
+    center: [-2.5, -10.0]
+    z_low: 1.35
+    z_high: 4.55
+  - name: vertical_connector_f
+    center: [6.0, -7.5]
+    z_low: 1.35
+    z_high: 4.55
 variants:
   base:
     seed: 240701
@@ -63,3 +75,12 @@ variants:
     column_count: 14
     collapsed_wall_count: 24
     optional_fog_world: ../gazebo/worlds/Ruins-Urban-01_complex_fog.world
+  challenge:
+    seed: 240704
+    pcd: ../maps/pcd/Ruins-Urban-01_challenge.pcd
+    gazebo_world: ../gazebo/worlds/Ruins-Urban-01_challenge.world
+    mesh_obj: ../meshes/obj/Ruins-Urban-01_challenge.obj
+    mesh_dae: ../meshes/dae/Ruins-Urban-01_challenge.dae
+    rubble_count: 128
+    column_count: 22
+    collapsed_wall_count: 42

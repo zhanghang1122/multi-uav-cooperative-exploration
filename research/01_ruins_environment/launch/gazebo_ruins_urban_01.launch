@@ -1,5 +1,5 @@
 <launch>
-  <arg name="variant" default="complex"/>
+  <arg name="variant" default="challenge"/>
   <arg name="gui" default="true"/>
   <arg name="paused" default="false"/>
   <arg name="verbose" default="false"/>

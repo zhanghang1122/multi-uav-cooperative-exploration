@@ -1034,7 +1034,79 @@
         </surface>
       </collision>
     </link>
-    <link name="043_fixed_column_07">
+    <link name="043_fixed_column_04">
+      <pose>11.00000 6.00000 1.75000 0.00000 0.00000 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.62000 0.62000 3.50000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.62000 0.62000 3.50000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="044_fixed_column_05">
+      <pose>13.40000 6.00000 1.75000 0.00000 0.00000 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.62000 0.62000 3.50000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.62000 0.62000 3.50000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="045_fixed_column_06">
+      <pose>8.60000 9.00000 1.75000 0.00000 0.00000 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.62000 0.62000 3.50000</size></box>
+        </geometry>
+          <material>
+            <ambient>0.680 0.660 0.610 1</ambient>
+            <diffuse>0.680 0.660 0.610 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.62000 0.62000 3.50000</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="046_fixed_column_07">
       <pose>11.00000 9.00000 1.75000 0.00000 0.00000 0.00000</pose>
       <visual name="visual">
         <geometry>
@@ -1058,7 +1130,7 @@
         </surface>
       </collision>
     </link>
-    <link name="044_fixed_column_08">
+    <link name="047_fixed_column_08">
       <pose>13.40000 9.00000 1.75000 0.00000 0.00000 0.00000</pose>
       <visual name="visual">
         <geometry>
@@ -1082,7 +1154,7 @@
         </surface>
       </collision>
     </link>
-    <link name="045_fixed_column_09">
+    <link name="048_fixed_column_09">
       <pose>-1.00000 -12.80000 1.75000 0.00000 0.00000 0.00000</pose>
       <visual name="visual">
         <geometry>
@@ -1106,7 +1178,7 @@
         </surface>
       </collision>
     </link>
-    <link name="046_fixed_column_10">
+    <link name="049_fixed_column_10">
       <pose>3.00000 -10.50000 1.75000 0.00000 0.00000 0.00000</pose>
       <visual name="visual">
         <geometry>
@@ -1130,7 +1202,7 @@
         </surface>
       </collision>
     </link>
-    <link name="047_fixed_column_11">
+    <link name="050_fixed_column_11">
       <pose>8.50000 -11.80000 1.75000 0.00000 0.00000 0.00000</pose>
       <visual name="visual">
         <geometry>
@@ -1154,7 +1226,7 @@
         </surface>
       </collision>
     </link>
-    <link name="048_overflight_rubble_gate">
+    <link name="051_overflight_rubble_gate">
       <pose>-1.20000 0.35000 0.45000 0.05000 -0.06000 -0.18000</pose>
       <visual name="visual">
         <geometry>
@@ -1178,7 +1250,7 @@
         </surface>
       </collision>
     </link>
-    <link name="049_underflight_hanging_gate">
+    <link name="052_underflight_hanging_gate">
       <pose>4.00000 0.25000 2.55000 -0.04000 0.08000 -0.20000</pose>
       <visual name="visual">
         <geometry>
@@ -1202,7 +1274,7 @@
         </surface>
       </collision>
     </link>
-    <link name="050_east_slanted_beam">
+    <link name="053_east_slanted_beam">
       <pose>9.20000 0.55000 2.85000 0.00000 0.10000 0.22000</pose>
       <visual name="visual">
         <geometry>
@@ -1226,7 +1298,7 @@
         </surface>
       </collision>
     </link>
-    <link name="051_base_random_column_00">
+    <link name="054_base_random_column_00">
       <pose>-5.73317 -12.99629 1.33825 0.00000 0.00000 0.00000</pose>
       <visual name="visual">
         <geometry>
@@ -1250,7 +1322,7 @@
         </surface>
       </collision>
     </link>
-    <link name="052_base_random_column_01">
+    <link name="055_base_random_column_01">
       <pose>-8.65912 11.08855 1.59380 0.00000 0.00000 0.00000</pose>
       <visual name="visual">
         <geometry>
@@ -1274,7 +1346,7 @@
         </surface>
       </collision>
     </link>
-    <link name="053_base_random_column_02">
+    <link name="056_base_random_column_02">
       <pose>5.62630 -1.10804 1.81061 0.00000 0.00000 0.00000</pose>
       <visual name="visual">
         <geometry>
@@ -1298,7 +1370,7 @@
         </surface>
       </collision>
     </link>
-    <link name="054_base_random_column_03">
+    <link name="057_base_random_column_03">
       <pose>-4.09062 -6.09016 1.93482 0.00000 0.00000 0.00000</pose>
       <visual name="visual">
         <geometry>
@@ -1322,7 +1394,31 @@
         </surface>
       </collision>
     </link>
-    <link name="055_base_random_column_04">
+    <link name="058_base_random_column_04">
+      <pose>11.32133 7.73776 1.57901 0.00000 0.00000 0.00000</pose>
+      <visual name="visual">
+        <geometry>
+          <box><size>0.77641 0.64260 3.15802</size></box>
+        </geometry>
+          <material>
+            <ambient>0.580 0.560 0.520 1</ambient>
+            <diffuse>0.580 0.560 0.520 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box><size>0.77641 0.64260 3.15802</size></box>
+        </geometry>
+        <surface>
+          <contact><collide_bitmask>0x01</collide_bitmask></contact>
+          <friction>
+            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+    <link name="059_base_random_column_05">
       <pose>-1.16520 -5.23505 1.93866 0.00000 0.00000 0.00000</pose>
       <visual name="visual">
         <geometry>
@@ -1346,35 +1442,11 @@
         </surface>
       </collision>
     </link>
-    <link name="056_base_random_column_05">
-      <pose>0.67543 -8.46516 1.68168 0.00000 0.00000 0.00000</pose>
+    <link name="060_base_rubble_000">
+      <pose>0.69368 -8.77868 0.37933 -0.06838 0.17858 3.03112</pose>
       <visual name="visual">
         <geometry>
-          <box><size>0.45588 0.71845 3.36337</size></box>
-        </geometry>
-          <material>
-            <ambient>0.580 0.560 0.520 1</ambient>
-            <diffuse>0.580 0.560 0.520 1</diffuse>
-            <specular>0.03 0.03 0.03 1</specular>
-          </material>
-      </visual>
-      <collision name="collision">
-        <geometry>
-          <box><size>0.45588 0.71845 3.36337</size></box>
-        </geometry>
-        <surface>
-          <contact><collide_bitmask>0x01</collide_bitmask></contact>
-          <friction>
-            <ode><mu>1.0</mu><mu2>1.0</mu2></ode>
-          </friction>
-        </surface>
-      </collision>
-    </link>
-    <link name="057_base_rubble_000">
-      <pose>-7.21787 13.88923 0.39117 -0.09805 0.12096 1.06206</pose>
-      <visual name="visual">
-        <geometry>
-          <box><size>1.60428 1.02997 0.78234</size></box>
+          <box><size>1.13273 0.31544 0.75866</size></box>
         </geometry>
           <material>
             <ambient>0.430 0.290 0.230 1</ambient>
@@ -1384,7 +1456,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>1.60428 1.02997 0.78234</size></box>
+          <box><size>1.13273 0.31544 0.75866</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -1394,11 +1466,11 @@
         </surface>
       </collision>
     </link>
-    <link name="058_base_rubble_001">
-      <pose>-10.87044 -4.11797 0.19755 -0.08807 -0.08019 2.93314</pose>
+    <link name="061_base_rubble_001">
+      <pose>7.41804 3.38708 0.25396 -0.10298 -0.05295 0.09406</pose>
       <visual name="visual">
         <geometry>
-          <box><size>0.38892 0.73767 0.39510</size></box>
+          <box><size>0.64593 1.17779 0.50792</size></box>
         </geometry>
           <material>
             <ambient>0.460 0.420 0.360 1</ambient>
@@ -1408,7 +1480,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>0.38892 0.73767 0.39510</size></box>
+          <box><size>0.64593 1.17779 0.50792</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -1418,11 +1490,11 @@
         </surface>
       </collision>
     </link>
-    <link name="059_base_rubble_002">
-      <pose>4.33423 4.57661 0.54506 0.03899 -0.07527 1.39649</pose>
+    <link name="062_base_rubble_002">
+      <pose>-3.16065 -7.79097 0.54282 0.04106 0.05884 1.89598</pose>
       <visual name="visual">
         <geometry>
-          <box><size>1.13456 0.68110 1.09011</size></box>
+          <box><size>0.68196 0.59113 1.08564</size></box>
         </geometry>
           <material>
             <ambient>0.460 0.420 0.360 1</ambient>
@@ -1432,7 +1504,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>1.13456 0.68110 1.09011</size></box>
+          <box><size>0.68196 0.59113 1.08564</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -1442,11 +1514,11 @@
         </surface>
       </collision>
     </link>
-    <link name="060_base_rubble_003">
-      <pose>-11.32281 5.30799 0.45899 -0.04334 -0.13033 0.95504</pose>
+    <link name="063_base_rubble_003">
+      <pose>-5.20781 12.27135 0.30559 0.07202 -0.10332 2.14174</pose>
       <visual name="visual">
         <geometry>
-          <box><size>1.02511 0.84238 0.91799</size></box>
+          <box><size>1.14079 0.60545 0.61118</size></box>
         </geometry>
           <material>
             <ambient>0.460 0.420 0.360 1</ambient>
@@ -1456,7 +1528,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>1.02511 0.84238 0.91799</size></box>
+          <box><size>1.14079 0.60545 0.61118</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -1466,11 +1538,11 @@
         </surface>
       </collision>
     </link>
-    <link name="061_base_rubble_004">
-      <pose>-8.14902 -6.26146 0.31511 0.05409 0.03683 3.01430</pose>
+    <link name="064_base_rubble_004">
+      <pose>-14.35665 2.58318 0.34187 0.00596 0.09389 1.19255</pose>
       <visual name="visual">
         <geometry>
-          <box><size>0.68457 0.45780 0.63021</size></box>
+          <box><size>0.61264 1.02405 0.68374</size></box>
         </geometry>
           <material>
             <ambient>0.430 0.290 0.230 1</ambient>
@@ -1480,7 +1552,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>0.68457 0.45780 0.63021</size></box>
+          <box><size>0.61264 1.02405 0.68374</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -1490,11 +1562,11 @@
         </surface>
       </collision>
     </link>
-    <link name="062_base_rubble_005">
-      <pose>-16.30287 5.16851 0.42181 -0.12972 -0.05409 0.04529</pose>
+    <link name="065_base_rubble_005">
+      <pose>-13.75689 -5.48803 0.21482 -0.12590 -0.01291 2.04278</pose>
       <visual name="visual">
         <geometry>
-          <box><size>0.78905 1.13396 0.84362</size></box>
+          <box><size>0.72122 0.59020 0.42964</size></box>
         </geometry>
           <material>
             <ambient>0.460 0.420 0.360 1</ambient>
@@ -1504,7 +1576,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>0.78905 1.13396 0.84362</size></box>
+          <box><size>0.72122 0.59020 0.42964</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -1514,11 +1586,11 @@
         </surface>
       </collision>
     </link>
-    <link name="063_base_rubble_006">
-      <pose>16.17620 11.23745 0.47572 0.13746 0.03225 1.25920</pose>
+    <link name="066_base_rubble_006">
+      <pose>3.88785 12.86551 0.33204 -0.02583 -0.15363 0.22298</pose>
       <visual name="visual">
         <geometry>
-          <box><size>0.83177 1.07323 0.95145</size></box>
+          <box><size>1.57082 0.48658 0.66408</size></box>
         </geometry>
           <material>
             <ambient>0.460 0.420 0.360 1</ambient>
@@ -1528,7 +1600,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>0.83177 1.07323 0.95145</size></box>
+          <box><size>1.57082 0.48658 0.66408</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -1538,11 +1610,11 @@
         </surface>
       </collision>
     </link>
-    <link name="064_base_rubble_007">
-      <pose>-17.51172 -13.40556 0.21875 -0.05961 0.17750 1.42202</pose>
+    <link name="067_base_rubble_007">
+      <pose>7.01440 -4.54363 0.15774 -0.05409 -0.17481 2.90814</pose>
       <visual name="visual">
         <geometry>
-          <box><size>1.41498 0.48078 0.43751</size></box>
+          <box><size>1.38252 1.01835 0.31548</size></box>
         </geometry>
           <material>
             <ambient>0.290 0.250 0.200 1</ambient>
@@ -1552,7 +1624,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>1.41498 0.48078 0.43751</size></box>
+          <box><size>1.38252 1.01835 0.31548</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -1562,11 +1634,11 @@
         </surface>
       </collision>
     </link>
-    <link name="065_base_rubble_008">
-      <pose>-13.45311 12.74714 0.44861 0.04733 -0.02113 0.48557</pose>
+    <link name="068_base_rubble_008">
+      <pose>15.25083 -3.62352 0.51768 0.03225 -0.03571 0.12304</pose>
       <visual name="visual">
         <geometry>
-          <box><size>1.30584 0.46263 0.89723</size></box>
+          <box><size>1.30734 1.13507 1.03537</size></box>
         </geometry>
           <material>
             <ambient>0.430 0.290 0.230 1</ambient>
@@ -1576,7 +1648,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>1.30584 0.46263 0.89723</size></box>
+          <box><size>1.30734 1.13507 1.03537</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -1586,11 +1658,11 @@
         </surface>
       </collision>
     </link>
-    <link name="066_base_rubble_009">
-      <pose>14.35759 -9.79410 0.42858 -0.15474 -0.07947 0.27499</pose>
+    <link name="069_base_rubble_009">
+      <pose>-18.19326 8.93807 0.25219 0.17750 -0.01705 0.45858</pose>
       <visual name="visual">
         <geometry>
-          <box><size>1.49293 0.43370 0.85716</size></box>
+          <box><size>0.57383 0.57875 0.50438</size></box>
         </geometry>
           <material>
             <ambient>0.460 0.420 0.360 1</ambient>
@@ -1600,7 +1672,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>1.49293 0.43370 0.85716</size></box>
+          <box><size>0.57383 0.57875 0.50438</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -1610,11 +1682,11 @@
         </surface>
       </collision>
     </link>
-    <link name="067_base_rubble_010">
-      <pose>-2.93130 -8.26445 0.16534 0.11162 -0.10877 3.13374</pose>
+    <link name="070_base_rubble_010">
+      <pose>17.29969 6.58739 0.39626 -0.02113 -0.12436 2.75779</pose>
       <visual name="visual">
         <geometry>
-          <box><size>1.27341 0.68958 0.33067</size></box>
+          <box><size>0.55135 1.07638 0.79253</size></box>
         </geometry>
           <material>
             <ambient>0.460 0.420 0.360 1</ambient>
@@ -1624,7 +1696,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>1.27341 0.68958 0.33067</size></box>
+          <box><size>0.55135 1.07638 0.79253</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -1634,11 +1706,11 @@
         </surface>
       </collision>
     </link>
-    <link name="068_base_rubble_011">
-      <pose>16.75394 12.61214 0.51627 -0.17820 -0.08384 2.43487</pose>
+    <link name="071_base_rubble_011">
+      <pose>-8.38826 -11.54913 0.43450 -0.04643 -0.12408 2.54488</pose>
       <visual name="visual">
         <geometry>
-          <box><size>0.94204 0.34223 1.03254</size></box>
+          <box><size>0.89972 0.51508 0.86900</size></box>
         </geometry>
           <material>
             <ambient>0.460 0.420 0.360 1</ambient>
@@ -1648,7 +1720,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>0.94204 0.34223 1.03254</size></box>
+          <box><size>0.89972 0.51508 0.86900</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -1658,11 +1730,11 @@
         </surface>
       </collision>
     </link>
-    <link name="069_base_rubble_012">
-      <pose>-13.40838 -9.85091 0.42544 -0.14922 -0.08529 2.39996</pose>
+    <link name="072_base_rubble_012">
+      <pose>-17.47175 10.60928 0.46590 -0.13339 0.06822 2.30324</pose>
       <visual name="visual">
         <geometry>
-          <box><size>1.07427 0.54285 0.85087</size></box>
+          <box><size>0.35651 0.58048 0.93179</size></box>
         </geometry>
           <material>
             <ambient>0.430 0.290 0.230 1</ambient>
@@ -1672,7 +1744,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>1.07427 0.54285 0.85087</size></box>
+          <box><size>0.35651 0.58048 0.93179</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -1682,11 +1754,11 @@
         </surface>
       </collision>
     </link>
-    <link name="070_base_rubble_013">
-      <pose>18.78461 10.97267 0.36704 0.01415 0.17614 2.71624</pose>
+    <link name="073_base_rubble_013">
+      <pose>1.46314 -13.42751 0.36021 -0.09674 0.06898 0.26857</pose>
       <visual name="visual">
         <geometry>
-          <box><size>0.70161 0.34821 0.73408</size></box>
+          <box><size>0.54129 0.45559 0.72042</size></box>
         </geometry>
           <material>
             <ambient>0.460 0.420 0.360 1</ambient>
@@ -1696,7 +1768,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>0.70161 0.34821 0.73408</size></box>
+          <box><size>0.54129 0.45559 0.72042</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -1706,11 +1778,11 @@
         </surface>
       </collision>
     </link>
-    <link name="071_base_rubble_014">
-      <pose>-13.73830 -2.88504 0.16762 0.11038 -0.13824 2.40366</pose>
+    <link name="074_base_rubble_014">
+      <pose>-9.00232 7.39009 0.22118 -0.16347 0.02564 1.69424</pose>
       <visual name="visual">
         <geometry>
-          <box><size>1.38483 1.21059 0.33523</size></box>
+          <box><size>1.64263 1.23648 0.44236</size></box>
         </geometry>
           <material>
             <ambient>0.290 0.250 0.200 1</ambient>
@@ -1720,7 +1792,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>1.38483 1.21059 0.33523</size></box>
+          <box><size>1.64263 1.23648 0.44236</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -1730,11 +1802,11 @@
         </surface>
       </collision>
     </link>
-    <link name="072_base_rubble_015">
-      <pose>8.01143 13.18044 0.47689 -0.01102 0.03340 0.13703</pose>
+    <link name="075_base_rubble_015">
+      <pose>18.59276 10.20899 0.47607 0.13220 -0.12239 2.53401</pose>
       <visual name="visual">
         <geometry>
-          <box><size>0.43616 1.04897 0.95379</size></box>
+          <box><size>0.53001 0.71681 0.95215</size></box>
         </geometry>
           <material>
             <ambient>0.460 0.420 0.360 1</ambient>
@@ -1744,7 +1816,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>0.43616 1.04897 0.95379</size></box>
+          <box><size>0.53001 0.71681 0.95215</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -1754,11 +1826,11 @@
         </surface>
       </collision>
     </link>
-    <link name="073_base_rubble_016">
-      <pose>6.06109 -10.84269 0.14565 -0.15046 0.07014 0.34152</pose>
+    <link name="076_base_rubble_016">
+      <pose>8.10554 8.33616 0.11115 0.09824 0.00494 0.27383</pose>
       <visual name="visual">
         <geometry>
-          <box><size>1.22317 0.47668 0.29131</size></box>
+          <box><size>0.96019 0.92242 0.22231</size></box>
         </geometry>
           <material>
             <ambient>0.430 0.290 0.230 1</ambient>
@@ -1768,7 +1840,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>1.22317 0.47668 0.29131</size></box>
+          <box><size>0.96019 0.92242 0.22231</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -1778,11 +1850,11 @@
         </surface>
       </collision>
     </link>
-    <link name="074_base_rubble_017">
-      <pose>16.25016 13.57751 0.56872 -0.13441 -0.00656 2.19451</pose>
+    <link name="077_base_rubble_017">
+      <pose>-16.98840 -11.44090 0.41576 -0.11942 -0.13869 0.25775</pose>
       <visual name="visual">
         <geometry>
-          <box><size>1.02639 0.79825 1.13744</size></box>
+          <box><size>1.20735 0.41840 0.83152</size></box>
         </geometry>
           <material>
             <ambient>0.460 0.420 0.360 1</ambient>
@@ -1792,7 +1864,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>1.02639 0.79825 1.13744</size></box>
+          <box><size>1.20735 0.41840 0.83152</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -1802,11 +1874,11 @@
         </surface>
       </collision>
     </link>
-    <link name="075_base_rubble_018">
-      <pose>-15.56672 4.90369 0.17497 -0.01535 0.15483 0.00531</pose>
+    <link name="078_base_rubble_018">
+      <pose>7.40315 -10.95616 0.34235 -0.00917 0.17534 0.39782</pose>
       <visual name="visual">
         <geometry>
-          <box><size>0.71184 0.67047 0.34993</size></box>
+          <box><size>1.55593 1.33416 0.68469</size></box>
         </geometry>
           <material>
             <ambient>0.460 0.420 0.360 1</ambient>
@@ -1816,7 +1888,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>0.71184 0.67047 0.34993</size></box>
+          <box><size>1.55593 1.33416 0.68469</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -1826,11 +1898,11 @@
         </surface>
       </collision>
     </link>
-    <link name="076_base_rubble_019">
-      <pose>9.13644 -13.79874 0.10790 -0.03150 0.00403 1.54412</pose>
+    <link name="079_base_rubble_019">
+      <pose>-0.69200 5.55893 0.22500 -0.05298 -0.11693 1.43685</pose>
       <visual name="visual">
         <geometry>
-          <box><size>0.85671 0.73498 0.21580</size></box>
+          <box><size>0.46745 1.00889 0.44999</size></box>
         </geometry>
           <material>
             <ambient>0.460 0.420 0.360 1</ambient>
@@ -1840,7 +1912,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>0.85671 0.73498 0.21580</size></box>
+          <box><size>0.46745 1.00889 0.44999</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -1850,11 +1922,11 @@
         </surface>
       </collision>
     </link>
-    <link name="077_base_rubble_020">
-      <pose>-7.40776 8.45588 0.52630 0.08469 -0.05208 1.99271</pose>
+    <link name="080_base_rubble_020">
+      <pose>16.34330 -13.95268 0.27904 -0.03087 -0.16671 1.29589</pose>
       <visual name="visual">
         <geometry>
-          <box><size>1.48112 0.58398 1.05261</size></box>
+          <box><size>1.31256 0.30755 0.55808</size></box>
         </geometry>
           <material>
             <ambient>0.430 0.290 0.230 1</ambient>
@@ -1864,7 +1936,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>1.48112 0.58398 1.05261</size></box>
+          <box><size>1.31256 0.30755 0.55808</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -1874,11 +1946,11 @@
         </surface>
       </collision>
     </link>
-    <link name="078_base_rubble_021">
-      <pose>2.69915 2.78291 0.39769 -0.03927 0.16886 1.47737</pose>
+    <link name="081_base_rubble_021">
+      <pose>-10.41380 3.46784 0.15915 0.12396 -0.00998 0.95837</pose>
       <visual name="visual">
         <geometry>
-          <box><size>1.19486 0.75028 0.79538</size></box>
+          <box><size>0.47565 1.13349 0.31830</size></box>
         </geometry>
           <material>
             <ambient>0.290 0.250 0.200 1</ambient>
@@ -1888,7 +1960,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>1.19486 0.75028 0.79538</size></box>
+          <box><size>0.47565 1.13349 0.31830</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -1898,11 +1970,11 @@
         </surface>
       </collision>
     </link>
-    <link name="079_base_rubble_022">
-      <pose>7.08284 6.37726 0.41840 0.13874 0.11874 1.16817</pose>
+    <link name="082_base_rubble_022">
+      <pose>11.47583 10.36262 0.44660 -0.05208 0.04835 1.79394</pose>
       <visual name="visual">
         <geometry>
-          <box><size>1.27979 0.76335 0.83680</size></box>
+          <box><size>0.70159 1.24457 0.89319</size></box>
         </geometry>
           <material>
             <ambient>0.460 0.420 0.360 1</ambient>
@@ -1912,7 +1984,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>1.27979 0.76335 0.83680</size></box>
+          <box><size>0.70159 1.24457 0.89319</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -1922,11 +1994,11 @@
         </surface>
       </collision>
     </link>
-    <link name="080_base_rubble_023">
-      <pose>-1.15831 -13.45585 0.32332 -0.14360 0.04909 2.98929</pose>
+    <link name="083_base_rubble_023">
+      <pose>3.77681 4.19703 0.27959 0.16886 -0.01071 2.15636</pose>
       <visual name="visual">
         <geometry>
-          <box><size>0.43794 0.58029 0.64663</size></box>
+          <box><size>0.90749 0.96613 0.55919</size></box>
         </geometry>
           <material>
             <ambient>0.460 0.420 0.360 1</ambient>
@@ -1936,7 +2008,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>0.43794 0.58029 0.64663</size></box>
+          <box><size>0.90749 0.96613 0.55919</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -1946,11 +2018,11 @@
         </surface>
       </collision>
     </link>
-    <link name="081_base_rubble_024">
-      <pose>15.99465 13.57875 0.34692 0.01163 -0.06694 0.19300</pose>
+    <link name="084_base_rubble_024">
+      <pose>8.65485 6.02615 0.51941 0.11874 -0.04614 1.47504</pose>
       <visual name="visual">
         <geometry>
-          <box><size>1.46964 1.26387 0.69385</size></box>
+          <box><size>0.92367 1.01097 1.03883</size></box>
         </geometry>
           <material>
             <ambient>0.430 0.290 0.230 1</ambient>
@@ -1960,7 +2032,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>1.46964 1.26387 0.69385</size></box>
+          <box><size>0.92367 1.01097 1.03883</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -1970,11 +2042,11 @@
         </surface>
       </collision>
     </link>
-    <link name="082_base_rubble_025">
-      <pose>11.04423 10.11284 0.21911 -0.15143 -0.09250 0.14344</pose>
+    <link name="085_base_rubble_025">
+      <pose>-18.26151 -12.10582 0.13904 0.04909 0.16255 1.84438</pose>
       <visual name="visual">
         <geometry>
-          <box><size>1.50056 0.77903 0.43823</size></box>
+          <box><size>0.69702 0.80512 0.27808</size></box>
         </geometry>
           <material>
             <ambient>0.460 0.420 0.360 1</ambient>
@@ -1984,7 +2056,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>1.50056 0.77903 0.43823</size></box>
+          <box><size>0.69702 0.80512 0.27808</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -1994,11 +2066,11 @@
         </surface>
       </collision>
     </link>
-    <link name="083_base_rubble_026">
-      <pose>8.93717 6.25172 0.09069 -0.05547 -0.01785 1.80951</pose>
+    <link name="086_base_rubble_026">
+      <pose>15.33480 -11.73984 0.53664 0.17458 0.13005 2.88390</pose>
       <visual name="visual">
         <geometry>
-          <box><size>0.36108 1.34234 0.18138</size></box>
+          <box><size>1.18490 0.54574 1.07328</size></box>
         </geometry>
           <material>
             <ambient>0.460 0.420 0.360 1</ambient>
@@ -2008,7 +2080,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>0.36108 1.34234 0.18138</size></box>
+          <box><size>1.18490 0.54574 1.07328</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -2018,11 +2090,11 @@
         </surface>
       </collision>
     </link>
-    <link name="084_base_rubble_027">
-      <pose>-6.87141 4.88770 0.17312 0.00172 0.14474 0.56690</pose>
+    <link name="087_base_rubble_027">
+      <pose>13.72456 10.78124 0.12849 -0.09250 -0.16356 2.30966</pose>
       <visual name="visual">
         <geometry>
-          <box><size>0.44641 0.96067 0.34624</size></box>
+          <box><size>0.94308 0.57952 0.25697</size></box>
         </geometry>
           <material>
             <ambient>0.460 0.420 0.360 1</ambient>
@@ -2032,7 +2104,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>0.44641 0.96067 0.34624</size></box>
+          <box><size>0.94308 0.57952 0.25697</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -2042,11 +2114,11 @@
         </surface>
       </collision>
     </link>
-    <link name="085_base_collapsed_wall_00">
-      <pose>-11.13388 -9.43973 0.54730 -0.07699 0.11937 1.33096</pose>
+    <link name="088_base_collapsed_wall_00">
+      <pose>8.03792 -12.77844 0.43012 -0.01488 0.02735 1.00271</pose>
       <visual name="visual">
         <geometry>
-          <box><size>2.47052 0.32874 0.84238</size></box>
+          <box><size>4.77958 0.30035 0.52296</size></box>
         </geometry>
           <material>
             <ambient>0.460 0.420 0.360 1</ambient>
@@ -2056,7 +2128,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>2.47052 0.32874 0.84238</size></box>
+          <box><size>4.77958 0.30035 0.52296</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -2066,11 +2138,11 @@
         </surface>
       </collision>
     </link>
-    <link name="086_base_collapsed_wall_01">
-      <pose>-6.68665 -8.57689 0.55918 -0.00196 -0.07170 2.63649</pose>
+    <link name="089_base_collapsed_wall_01">
+      <pose>-15.33027 3.35950 0.44253 -0.09587 -0.11134 0.43019</pose>
       <visual name="visual">
         <geometry>
-          <box><size>4.24642 0.38313 0.84742</size></box>
+          <box><size>2.47987 0.42620 0.80103</size></box>
         </geometry>
           <material>
             <ambient>0.460 0.420 0.360 1</ambient>
@@ -2080,7 +2152,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>4.24642 0.38313 0.84742</size></box>
+          <box><size>2.47987 0.42620 0.80103</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -2090,7 +2162,7 @@
         </surface>
       </collision>
     </link>
-    <link name="087_base_collapsed_wall_02">
+    <link name="090_base_collapsed_wall_02">
       <pose>-9.21883 6.12506 0.33463 -0.01017 -0.02101 0.95382</pose>
       <visual name="visual">
         <geometry>
@@ -2114,7 +2186,7 @@
         </surface>
       </collision>
     </link>
-    <link name="088_base_collapsed_wall_03">
+    <link name="091_base_collapsed_wall_03">
       <pose>17.17635 -5.43029 0.47239 0.08179 -0.03468 2.84520</pose>
       <visual name="visual">
         <geometry>
@@ -2138,7 +2210,7 @@
         </surface>
       </collision>
     </link>
-    <link name="089_base_collapsed_wall_04">
+    <link name="092_base_collapsed_wall_04">
       <pose>3.55085 -12.60810 0.35840 -0.02176 -0.06719 2.27782</pose>
       <visual name="visual">
         <geometry>
@@ -2162,11 +2234,11 @@
         </surface>
       </collision>
     </link>
-    <link name="090_base_collapsed_wall_05">
-      <pose>-8.50203 -9.43506 0.54443 -0.09711 -0.10939 1.40618</pose>
+    <link name="093_base_collapsed_wall_05">
+      <pose>14.73688 -3.81142 0.38307 -0.09429 0.07663 2.42692</pose>
       <visual name="visual">
         <geometry>
-          <box><size>4.48195 0.49924 0.76153</size></box>
+          <box><size>4.60235 0.36210 0.53210</size></box>
         </geometry>
           <material>
             <ambient>0.460 0.420 0.360 1</ambient>
@@ -2176,7 +2248,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>4.48195 0.49924 0.76153</size></box>
+          <box><size>4.60235 0.36210 0.53210</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -2186,11 +2258,11 @@
         </surface>
       </collision>
     </link>
-    <link name="091_base_collapsed_wall_06">
-      <pose>15.77609 -3.21905 0.40216 0.14437 0.14571 0.97546</pose>
+    <link name="094_base_collapsed_wall_06">
+      <pose>-15.51333 -5.40140 0.39573 -0.10299 -0.04223 2.85897</pose>
       <visual name="visual">
         <geometry>
-          <box><size>2.36007 0.39973 0.59431</size></box>
+          <box><size>2.01914 0.54026 0.44094</size></box>
         </geometry>
           <material>
             <ambient>0.460 0.420 0.360 1</ambient>
@@ -2200,7 +2272,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>2.36007 0.39973 0.59431</size></box>
+          <box><size>2.01914 0.54026 0.44094</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>
@@ -2210,11 +2282,11 @@
         </surface>
       </collision>
     </link>
-    <link name="092_base_collapsed_wall_07">
-      <pose>6.49703 -11.26129 0.46106 0.09068 -0.04454 2.60702</pose>
+    <link name="095_base_collapsed_wall_07">
+      <pose>8.30137 -2.96507 0.44564 0.08909 0.11630 0.55382</pose>
       <visual name="visual">
         <geometry>
-          <box><size>2.34823 0.48203 0.49059</size></box>
+          <box><size>2.73873 0.33428 0.79320</size></box>
         </geometry>
           <material>
             <ambient>0.460 0.420 0.360 1</ambient>
@@ -2224,7 +2296,7 @@
       </visual>
       <collision name="collision">
         <geometry>
-          <box><size>2.34823 0.48203 0.49059</size></box>
+          <box><size>2.73873 0.33428 0.79320</size></box>
         </geometry>
         <surface>
           <contact><collide_bitmask>0x01</collide_bitmask></contact>

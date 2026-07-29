@@ -1,5 +1,5 @@
 <launch>
-  <arg name="map_file" default="$(env HOME)/catkin_ws/src/RACER/uav_simulator/map_generator/resource/Ruins-Urban-01_complex.pcd"/>
+  <arg name="map_file" default="$(env HOME)/catkin_ws/src/RACER/uav_simulator/map_generator/resource/Ruins-Urban-01_challenge.pcd"/>
   <arg name="drone_num" default="3"/>
   <!-- Use this as a replacement snippet inside RACER's swarm_exploration.launch. -->
   <node pkg="map_generator" name="map_pub" type="map_pub" output="screen" args="$(arg map_file)"/>

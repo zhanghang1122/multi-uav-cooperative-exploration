@@ -38,7 +38,7 @@
         "g1"
       ],
       "min_clearance_m": 1.064,
-      "nearest_obstacle": "medium_collapsed_wall_08"
+      "nearest_obstacle": "medium_collapsed_wall_13"
     },
     {
       "edge": [
@@ -61,8 +61,8 @@
         "g3",
         "g4"
       ],
-      "min_clearance_m": 1.638,
-      "nearest_obstacle": "medium_random_column_08"
+      "min_clearance_m": 1.657,
+      "nearest_obstacle": "overflight_rubble_gate"
     },
     {
       "edge": [
@@ -94,7 +94,7 @@
         "g8"
       ],
       "min_clearance_m": 0.873,
-      "nearest_obstacle": "medium_random_column_03"
+      "nearest_obstacle": "medium_random_column_04"
     },
     {
       "edge": [
@@ -102,15 +102,15 @@
         "east_terminal"
       ],
       "min_clearance_m": 0.873,
-      "nearest_obstacle": "medium_random_column_03"
+      "nearest_obstacle": "medium_random_column_04"
     },
     {
       "edge": [
         "g2",
         "n1"
       ],
-      "min_clearance_m": 1.184,
-      "nearest_obstacle": "medium_rubble_023"
+      "min_clearance_m": 1.246,
+      "nearest_obstacle": "medium_rubble_017"
     },
     {
       "edge": [
@@ -141,16 +141,16 @@
         "n4",
         "n5"
       ],
-      "min_clearance_m": 1.105,
-      "nearest_obstacle": "medium_rubble_029"
+      "min_clearance_m": 1.35,
+      "nearest_obstacle": "ground_corridor_n4_n5_left"
     },
     {
       "edge": [
         "n5",
         "g4"
       ],
-      "min_clearance_m": 1.332,
-      "nearest_obstacle": "medium_rubble_027"
+      "min_clearance_m": 1.657,
+      "nearest_obstacle": "overflight_rubble_gate"
     },
     {
       "edge": [
@@ -181,8 +181,8 @@
         "s2",
         "s3"
       ],
-      "min_clearance_m": 1.109,
-      "nearest_obstacle": "medium_rubble_031"
+      "min_clearance_m": 0.861,
+      "nearest_obstacle": "medium_rubble_016"
     },
     {
       "edge": [
@@ -205,16 +205,16 @@
         "s5",
         "s6"
       ],
-      "min_clearance_m": 2.016,
-      "nearest_obstacle": "medium_collapsed_wall_14"
+      "min_clearance_m": 2.21,
+      "nearest_obstacle": "ground_corridor_s4_s5_left"
     },
     {
       "edge": [
         "s6",
         "g5"
       ],
-      "min_clearance_m": 1.543,
-      "nearest_obstacle": "spine_broken_panel_04"
+      "min_clearance_m": 1.02,
+      "nearest_obstacle": "medium_rubble_013"
     },
     {
       "edge": [
@@ -222,7 +222,7 @@
         "dead_sw"
       ],
       "min_clearance_m": 0.97,
-      "nearest_obstacle": "medium_rubble_042"
+      "nearest_obstacle": "medium_rubble_047"
     },
     {
       "edge": [
@@ -245,8 +245,8 @@
         "en2",
         "dead_ne"
       ],
-      "min_clearance_m": 1.35,
-      "nearest_obstacle": "ground_corridor_en2_dead_ne_right"
+      "min_clearance_m": 0.86,
+      "nearest_obstacle": "medium_rubble_006"
     },
     {
       "edge": [
@@ -277,16 +277,16 @@
         "es1",
         "center_south"
       ],
-      "min_clearance_m": 1.894,
-      "nearest_obstacle": "ground_corridor_es1_es2_right"
+      "min_clearance_m": 1.476,
+      "nearest_obstacle": "medium_rubble_027"
     },
     {
       "edge": [
         "center_south",
         "s6"
       ],
-      "min_clearance_m": 2.541,
-      "nearest_obstacle": "medium_rubble_025"
+      "min_clearance_m": 1.161,
+      "nearest_obstacle": "medium_rubble_024"
     },
     {
       "edge": [
@@ -334,7 +334,7 @@
         "uc"
       ],
       "min_clearance_m": 0.79,
-      "nearest_obstacle": "connector_c_frame_1"
+      "nearest_obstacle": "connector_02_frame_1"
     },
     {
       "edge": [
@@ -342,7 +342,7 @@
         "ua"
       ],
       "min_clearance_m": 0.79,
-      "nearest_obstacle": "connector_c_frame_3"
+      "nearest_obstacle": "connector_02_frame_3"
     },
     {
       "edge": [

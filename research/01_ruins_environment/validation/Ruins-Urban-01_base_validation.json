@@ -101,8 +101,8 @@
         "g2",
         "n1"
       ],
-      "min_clearance_m": 1.159,
-      "nearest_obstacle": "base_rubble_003"
+      "min_clearance_m": 1.314,
+      "nearest_obstacle": "base_rubble_004"
     },
     {
       "edge": [
@@ -117,8 +117,8 @@
         "n2",
         "n3"
       ],
-      "min_clearance_m": 0.951,
-      "nearest_obstacle": "base_rubble_008"
+      "min_clearance_m": 1.14,
+      "nearest_obstacle": "utility_ceiling_02"
     },
     {
       "edge": [
@@ -149,8 +149,8 @@
         "n2",
         "dead_nw"
       ],
-      "min_clearance_m": 1.23,
-      "nearest_obstacle": "utility_ceiling_01"
+      "min_clearance_m": 0.751,
+      "nearest_obstacle": "base_rubble_012"
     },
     {
       "edge": [
@@ -173,8 +173,8 @@
         "s2",
         "s3"
       ],
-      "min_clearance_m": 0.698,
-      "nearest_obstacle": "base_rubble_012"
+      "min_clearance_m": 1.569,
+      "nearest_obstacle": "base_rubble_017"
     },
     {
       "edge": [
@@ -197,8 +197,8 @@
         "s5",
         "s6"
       ],
-      "min_clearance_m": 0.745,
-      "nearest_obstacle": "base_random_column_05"
+      "min_clearance_m": 1.08,
+      "nearest_obstacle": "base_rubble_000"
     },
     {
       "edge": [
@@ -213,8 +213,8 @@
         "s2",
         "dead_sw"
       ],
-      "min_clearance_m": 1.72,
-      "nearest_obstacle": "west_boundary_south"
+      "min_clearance_m": 1.549,
+      "nearest_obstacle": "base_rubble_017"
     }
   ],
   "blocking_edges": [],

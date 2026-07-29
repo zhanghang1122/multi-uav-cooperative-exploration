@@ -18,7 +18,7 @@ SCENE_JSON = BASE / "config" / "scene_geometry.json"
 with SCENE_JSON.open("r", encoding="utf-8") as f:
     data = json.load(f)
 
-VARIANT = os.environ.get("RUINS_VARIANT", "complex")
+VARIANT = os.environ.get("RUINS_VARIANT", "challenge")
 if VARIANT not in data["geometry"]:
     raise ValueError(f"Unknown RUINS_VARIANT={VARIANT!r}; choose one of {sorted(data['geometry'])}")
 

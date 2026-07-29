@@ -1,7 +1,7 @@
 {
   "base": {
-    "box_count": 93,
-    "pcd_points": 101753,
+    "box_count": 96,
+    "pcd_points": 102319,
     "validation": {
       "required_radius_m": 0.35,
       "min_centerline_clearance_m": 0.412,
@@ -105,8 +105,8 @@
             "g2",
             "n1"
           ],
-          "min_clearance_m": 1.159,
-          "nearest_obstacle": "base_rubble_003"
+          "min_clearance_m": 1.314,
+          "nearest_obstacle": "base_rubble_004"
         },
         {
           "edge": [
@@ -121,8 +121,8 @@
             "n2",
             "n3"
           ],
-          "min_clearance_m": 0.951,
-          "nearest_obstacle": "base_rubble_008"
+          "min_clearance_m": 1.14,
+          "nearest_obstacle": "utility_ceiling_02"
         },
         {
           "edge": [
@@ -131,6 +131,240 @@
           ],
           "min_clearance_m": 0.658,
           "nearest_obstacle": "base_random_column_01"
+        },
+        {
+          "edge": [
+            "n4",
+            "n5"
+          ],
+          "min_clearance_m": 1.35,
+          "nearest_obstacle": "ground_corridor_n4_n5_left"
+        },
+        {
+          "edge": [
+            "n5",
+            "g4"
+          ],
+          "min_clearance_m": 1.657,
+          "nearest_obstacle": "overflight_rubble_gate"
+        },
+        {
+          "edge": [
+            "n2",
+            "dead_nw"
+          ],
+          "min_clearance_m": 0.751,
+          "nearest_obstacle": "base_rubble_012"
+        },
+        {
+          "edge": [
+            "g3",
+            "s1"
+          ],
+          "min_clearance_m": 1.35,
+          "nearest_obstacle": "ground_corridor_g3_s1_left"
+        },
+        {
+          "edge": [
+            "s1",
+            "s2"
+          ],
+          "min_clearance_m": 0.725,
+          "nearest_obstacle": "ground_corridor_s1_s2_right"
+        },
+        {
+          "edge": [
+            "s2",
+            "s3"
+          ],
+          "min_clearance_m": 1.569,
+          "nearest_obstacle": "base_rubble_017"
+        },
+        {
+          "edge": [
+            "s3",
+            "s4"
+          ],
+          "min_clearance_m": 0.725,
+          "nearest_obstacle": "ground_corridor_s3_s4_right"
+        },
+        {
+          "edge": [
+            "s4",
+            "s5"
+          ],
+          "min_clearance_m": 0.718,
+          "nearest_obstacle": "base_random_column_00"
+        },
+        {
+          "edge": [
+            "s5",
+            "s6"
+          ],
+          "min_clearance_m": 1.08,
+          "nearest_obstacle": "base_rubble_000"
+        },
+        {
+          "edge": [
+            "s6",
+            "g5"
+          ],
+          "min_clearance_m": 1.543,
+          "nearest_obstacle": "spine_broken_panel_04"
+        },
+        {
+          "edge": [
+            "s2",
+            "dead_sw"
+          ],
+          "min_clearance_m": 1.549,
+          "nearest_obstacle": "base_rubble_017"
+        }
+      ],
+      "blocking_edges": [],
+      "passed": true
+    }
+  },
+  "medium": {
+    "box_count": 172,
+    "pcd_points": 145626,
+    "validation": {
+      "required_radius_m": 0.35,
+      "min_centerline_clearance_m": 0.412,
+      "topology": {
+        "node_count": 36,
+        "edge_count": 40,
+        "branch_node_count": 12,
+        "branch_nodes": [
+          "es1",
+          "g2",
+          "g3",
+          "g4",
+          "g5",
+          "g7",
+          "n2",
+          "n5",
+          "s2",
+          "s6",
+          "ua",
+          "uc"
+        ],
+        "independent_loop_count": 5,
+        "dead_end_count": 5,
+        "dead_ends": [
+          "dead_ne",
+          "dead_nw",
+          "dead_se",
+          "dead_sw",
+          "east_terminal"
+        ],
+        "vertical_connector_count": 2,
+        "reference_graph_length_m": 212.87
+      },
+      "checked_edges": [
+        {
+          "edge": [
+            "entry",
+            "g1"
+          ],
+          "min_clearance_m": 1.064,
+          "nearest_obstacle": "medium_collapsed_wall_13"
+        },
+        {
+          "edge": [
+            "g1",
+            "g2"
+          ],
+          "min_clearance_m": 1.033,
+          "nearest_obstacle": "ground_corridor_g2_n1_left"
+        },
+        {
+          "edge": [
+            "g2",
+            "g3"
+          ],
+          "min_clearance_m": 0.71,
+          "nearest_obstacle": "ground_corridor_g3_s1_right"
+        },
+        {
+          "edge": [
+            "g3",
+            "g4"
+          ],
+          "min_clearance_m": 1.657,
+          "nearest_obstacle": "overflight_rubble_gate"
+        },
+        {
+          "edge": [
+            "g4",
+            "g5"
+          ],
+          "min_clearance_m": 0.412,
+          "nearest_obstacle": "overflight_rubble_gate"
+        },
+        {
+          "edge": [
+            "g5",
+            "g6"
+          ],
+          "min_clearance_m": 0.533,
+          "nearest_obstacle": "underflight_hanging_gate"
+        },
+        {
+          "edge": [
+            "g6",
+            "g7"
+          ],
+          "min_clearance_m": 1.092,
+          "nearest_obstacle": "east_slanted_beam"
+        },
+        {
+          "edge": [
+            "g7",
+            "g8"
+          ],
+          "min_clearance_m": 0.873,
+          "nearest_obstacle": "medium_random_column_04"
+        },
+        {
+          "edge": [
+            "g8",
+            "east_terminal"
+          ],
+          "min_clearance_m": 0.873,
+          "nearest_obstacle": "medium_random_column_04"
+        },
+        {
+          "edge": [
+            "g2",
+            "n1"
+          ],
+          "min_clearance_m": 1.246,
+          "nearest_obstacle": "medium_rubble_017"
+        },
+        {
+          "edge": [
+            "n1",
+            "n2"
+          ],
+          "min_clearance_m": 0.725,
+          "nearest_obstacle": "ground_corridor_n1_n2_right"
+        },
+        {
+          "edge": [
+            "n2",
+            "n3"
+          ],
+          "min_clearance_m": 1.14,
+          "nearest_obstacle": "utility_ceiling_02"
+        },
+        {
+          "edge": [
+            "n3",
+            "n4"
+          ],
+          "min_clearance_m": 0.725,
+          "nearest_obstacle": "ground_corridor_n3_n4_right"
         },
         {
           "edge": [
@@ -177,242 +411,8 @@
             "s2",
             "s3"
           ],
-          "min_clearance_m": 0.698,
-          "nearest_obstacle": "base_rubble_012"
-        },
-        {
-          "edge": [
-            "s3",
-            "s4"
-          ],
-          "min_clearance_m": 0.725,
-          "nearest_obstacle": "ground_corridor_s3_s4_right"
-        },
-        {
-          "edge": [
-            "s4",
-            "s5"
-          ],
-          "min_clearance_m": 0.718,
-          "nearest_obstacle": "base_random_column_00"
-        },
-        {
-          "edge": [
-            "s5",
-            "s6"
-          ],
-          "min_clearance_m": 0.745,
-          "nearest_obstacle": "base_random_column_05"
-        },
-        {
-          "edge": [
-            "s6",
-            "g5"
-          ],
-          "min_clearance_m": 1.543,
-          "nearest_obstacle": "spine_broken_panel_04"
-        },
-        {
-          "edge": [
-            "s2",
-            "dead_sw"
-          ],
-          "min_clearance_m": 1.72,
-          "nearest_obstacle": "west_boundary_south"
-        }
-      ],
-      "blocking_edges": [],
-      "passed": true
-    }
-  },
-  "medium": {
-    "box_count": 172,
-    "pcd_points": 146476,
-    "validation": {
-      "required_radius_m": 0.35,
-      "min_centerline_clearance_m": 0.412,
-      "topology": {
-        "node_count": 36,
-        "edge_count": 40,
-        "branch_node_count": 12,
-        "branch_nodes": [
-          "es1",
-          "g2",
-          "g3",
-          "g4",
-          "g5",
-          "g7",
-          "n2",
-          "n5",
-          "s2",
-          "s6",
-          "ua",
-          "uc"
-        ],
-        "independent_loop_count": 5,
-        "dead_end_count": 5,
-        "dead_ends": [
-          "dead_ne",
-          "dead_nw",
-          "dead_se",
-          "dead_sw",
-          "east_terminal"
-        ],
-        "vertical_connector_count": 2,
-        "reference_graph_length_m": 212.87
-      },
-      "checked_edges": [
-        {
-          "edge": [
-            "entry",
-            "g1"
-          ],
-          "min_clearance_m": 1.064,
-          "nearest_obstacle": "medium_collapsed_wall_08"
-        },
-        {
-          "edge": [
-            "g1",
-            "g2"
-          ],
-          "min_clearance_m": 1.033,
-          "nearest_obstacle": "ground_corridor_g2_n1_left"
-        },
-        {
-          "edge": [
-            "g2",
-            "g3"
-          ],
-          "min_clearance_m": 0.71,
-          "nearest_obstacle": "ground_corridor_g3_s1_right"
-        },
-        {
-          "edge": [
-            "g3",
-            "g4"
-          ],
-          "min_clearance_m": 1.638,
-          "nearest_obstacle": "medium_random_column_08"
-        },
-        {
-          "edge": [
-            "g4",
-            "g5"
-          ],
-          "min_clearance_m": 0.412,
-          "nearest_obstacle": "overflight_rubble_gate"
-        },
-        {
-          "edge": [
-            "g5",
-            "g6"
-          ],
-          "min_clearance_m": 0.533,
-          "nearest_obstacle": "underflight_hanging_gate"
-        },
-        {
-          "edge": [
-            "g6",
-            "g7"
-          ],
-          "min_clearance_m": 1.092,
-          "nearest_obstacle": "east_slanted_beam"
-        },
-        {
-          "edge": [
-            "g7",
-            "g8"
-          ],
-          "min_clearance_m": 0.873,
-          "nearest_obstacle": "medium_random_column_03"
-        },
-        {
-          "edge": [
-            "g8",
-            "east_terminal"
-          ],
-          "min_clearance_m": 0.873,
-          "nearest_obstacle": "medium_random_column_03"
-        },
-        {
-          "edge": [
-            "g2",
-            "n1"
-          ],
-          "min_clearance_m": 1.184,
-          "nearest_obstacle": "medium_rubble_023"
-        },
-        {
-          "edge": [
-            "n1",
-            "n2"
-          ],
-          "min_clearance_m": 0.725,
-          "nearest_obstacle": "ground_corridor_n1_n2_right"
-        },
-        {
-          "edge": [
-            "n2",
-            "n3"
-          ],
-          "min_clearance_m": 1.14,
-          "nearest_obstacle": "utility_ceiling_02"
-        },
-        {
-          "edge": [
-            "n3",
-            "n4"
-          ],
-          "min_clearance_m": 0.725,
-          "nearest_obstacle": "ground_corridor_n3_n4_right"
-        },
-        {
-          "edge": [
-            "n4",
-            "n5"
-          ],
-          "min_clearance_m": 1.105,
-          "nearest_obstacle": "medium_rubble_029"
-        },
-        {
-          "edge": [
-            "n5",
-            "g4"
-          ],
-          "min_clearance_m": 1.332,
-          "nearest_obstacle": "medium_rubble_027"
-        },
-        {
-          "edge": [
-            "n2",
-            "dead_nw"
-          ],
-          "min_clearance_m": 1.23,
-          "nearest_obstacle": "utility_ceiling_01"
-        },
-        {
-          "edge": [
-            "g3",
-            "s1"
-          ],
-          "min_clearance_m": 1.35,
-          "nearest_obstacle": "ground_corridor_g3_s1_left"
-        },
-        {
-          "edge": [
-            "s1",
-            "s2"
-          ],
-          "min_clearance_m": 0.725,
-          "nearest_obstacle": "ground_corridor_s1_s2_right"
-        },
-        {
-          "edge": [
-            "s2",
-            "s3"
-          ],
-          "min_clearance_m": 1.109,
-          "nearest_obstacle": "medium_rubble_031"
+          "min_clearance_m": 0.861,
+          "nearest_obstacle": "medium_rubble_016"
         },
         {
           "edge": [
@@ -435,16 +435,16 @@
             "s5",
             "s6"
           ],
-          "min_clearance_m": 2.016,
-          "nearest_obstacle": "medium_collapsed_wall_14"
+          "min_clearance_m": 2.21,
+          "nearest_obstacle": "ground_corridor_s4_s5_left"
         },
         {
           "edge": [
             "s6",
             "g5"
           ],
-          "min_clearance_m": 1.543,
-          "nearest_obstacle": "spine_broken_panel_04"
+          "min_clearance_m": 1.02,
+          "nearest_obstacle": "medium_rubble_013"
         },
         {
           "edge": [
@@ -452,7 +452,7 @@
             "dead_sw"
           ],
           "min_clearance_m": 0.97,
-          "nearest_obstacle": "medium_rubble_042"
+          "nearest_obstacle": "medium_rubble_047"
         },
         {
           "edge": [
@@ -475,8 +475,8 @@
             "en2",
             "dead_ne"
           ],
-          "min_clearance_m": 1.35,
-          "nearest_obstacle": "ground_corridor_en2_dead_ne_right"
+          "min_clearance_m": 0.86,
+          "nearest_obstacle": "medium_rubble_006"
         },
         {
           "edge": [
@@ -507,16 +507,16 @@
             "es1",
             "center_south"
           ],
-          "min_clearance_m": 1.894,
-          "nearest_obstacle": "ground_corridor_es1_es2_right"
+          "min_clearance_m": 1.476,
+          "nearest_obstacle": "medium_rubble_027"
         },
         {
           "edge": [
             "center_south",
             "s6"
           ],
-          "min_clearance_m": 2.541,
-          "nearest_obstacle": "medium_rubble_025"
+          "min_clearance_m": 1.161,
+          "nearest_obstacle": "medium_rubble_024"
         },
         {
           "edge": [
@@ -564,7 +564,7 @@
             "uc"
           ],
           "min_clearance_m": 0.79,
-          "nearest_obstacle": "connector_c_frame_1"
+          "nearest_obstacle": "connector_02_frame_1"
         },
         {
           "edge": [
@@ -572,7 +572,7 @@
             "ua"
           ],
           "min_clearance_m": 0.79,
-          "nearest_obstacle": "connector_c_frame_3"
+          "nearest_obstacle": "connector_02_frame_3"
         },
         {
           "edge": [
@@ -589,10 +589,10 @@
   },
   "complex": {
     "box_count": 248,
-    "pcd_points": 201374,
+    "pcd_points": 197902,
     "validation": {
       "required_radius_m": 0.35,
-      "min_centerline_clearance_m": 0.394,
+      "min_centerline_clearance_m": 0.412,
       "topology": {
         "node_count": 40,
         "edge_count": 45,
@@ -920,16 +920,16 @@
             "u3",
             "u4"
           ],
-          "min_clearance_m": 0.868,
-          "nearest_obstacle": "upper_corridor_u3_upper_dead_right"
+          "min_clearance_m": 0.889,
+          "nearest_obstacle": "complex_broken_upper_slab_02"
         },
         {
           "edge": [
             "u4",
             "uc"
           ],
-          "min_clearance_m": 0.394,
-          "nearest_obstacle": "upper_corridor_uc_u5_left"
+          "min_clearance_m": 0.79,
+          "nearest_obstacle": "connector_02_frame_1"
         },
         {
           "edge": [
@@ -937,7 +937,7 @@
             "ua"
           ],
           "min_clearance_m": 0.79,
-          "nearest_obstacle": "connector_c_frame_3"
+          "nearest_obstacle": "connector_02_frame_3"
         },
         {
           "edge": [
@@ -952,8 +952,8 @@
             "uc",
             "u5"
           ],
-          "min_clearance_m": 0.396,
-          "nearest_obstacle": "upper_corridor_u4_uc_left"
+          "min_clearance_m": 0.79,
+          "nearest_obstacle": "connector_02_frame_1"
         },
         {
           "edge": [
@@ -969,7 +969,7 @@
             "ub"
           ],
           "min_clearance_m": 0.79,
-          "nearest_obstacle": "connector_b_frame_0"
+          "nearest_obstacle": "connector_03_frame_0"
         },
         {
           "edge": [
@@ -984,8 +984,500 @@
             "u3",
             "upper_dead"
           ],
-          "min_clearance_m": 0.869,
-          "nearest_obstacle": "upper_corridor_u3_u4_left"
+          "min_clearance_m": 1.07,
+          "nearest_obstacle": "upper_node_platform_u3"
+        }
+      ],
+      "blocking_edges": [],
+      "passed": true
+    }
+  },
+  "challenge": {
+    "box_count": 385,
+    "pcd_points": 280361,
+    "validation": {
+      "required_radius_m": 0.35,
+      "min_centerline_clearance_m": 0.565,
+      "topology": {
+        "node_count": 46,
+        "edge_count": 55,
+        "branch_node_count": 20,
+        "branch_nodes": [
+          "center_south",
+          "es1",
+          "es2",
+          "g2",
+          "g3",
+          "g4",
+          "g5",
+          "g7",
+          "n2",
+          "n5",
+          "s2",
+          "s3",
+          "s5",
+          "s6",
+          "u3",
+          "ua",
+          "ub",
+          "uc",
+          "us5",
+          "us7"
+        ],
+        "independent_loop_count": 10,
+        "dead_end_count": 7,
+        "dead_ends": [
+          "dead_ne",
+          "dead_nw",
+          "dead_se",
+          "dead_sw",
+          "east_terminal",
+          "upper_dead",
+          "upper_south_dead"
+        ],
+        "vertical_connector_count": 6,
+        "reference_graph_length_m": 302.51
+      },
+      "checked_edges": [
+        {
+          "edge": [
+            "entry",
+            "g1"
+          ],
+          "min_clearance_m": 1.151,
+          "nearest_obstacle": "challenge_rubble_057"
+        },
+        {
+          "edge": [
+            "g1",
+            "g2"
+          ],
+          "min_clearance_m": 0.831,
+          "nearest_obstacle": "challenge_rubble_016"
+        },
+        {
+          "edge": [
+            "g2",
+            "g3"
+          ],
+          "min_clearance_m": 1.249,
+          "nearest_obstacle": "challenge_collapsed_wall_18"
+        },
+        {
+          "edge": [
+            "g3",
+            "g4"
+          ],
+          "min_clearance_m": 0.944,
+          "nearest_obstacle": "challenge_random_column_06"
+        },
+        {
+          "edge": [
+            "g4",
+            "g5"
+          ],
+          "min_clearance_m": 1.57,
+          "nearest_obstacle": "challenge_rubble_092"
+        },
+        {
+          "edge": [
+            "g5",
+            "g6"
+          ],
+          "min_clearance_m": 1.6,
+          "nearest_obstacle": "challenge_ground_corridor_g5_g6_right"
+        },
+        {
+          "edge": [
+            "g6",
+            "g7"
+          ],
+          "min_clearance_m": 1.304,
+          "nearest_obstacle": "challenge_rubble_109"
+        },
+        {
+          "edge": [
+            "g7",
+            "g8"
+          ],
+          "min_clearance_m": 1.156,
+          "nearest_obstacle": "challenge_rubble_093"
+        },
+        {
+          "edge": [
+            "g8",
+            "east_terminal"
+          ],
+          "min_clearance_m": 1.156,
+          "nearest_obstacle": "challenge_rubble_093"
+        },
+        {
+          "edge": [
+            "g2",
+            "n1"
+          ],
+          "min_clearance_m": 1.217,
+          "nearest_obstacle": "challenge_collapsed_wall_02"
+        },
+        {
+          "edge": [
+            "n1",
+            "n2"
+          ],
+          "min_clearance_m": 0.602,
+          "nearest_obstacle": "challenge_random_column_15"
+        },
+        {
+          "edge": [
+            "n2",
+            "n3"
+          ],
+          "min_clearance_m": 0.829,
+          "nearest_obstacle": "challenge_broken_facade_08"
+        },
+        {
+          "edge": [
+            "n3",
+            "n4"
+          ],
+          "min_clearance_m": 0.725,
+          "nearest_obstacle": "challenge_ground_corridor_n3_n4_right"
+        },
+        {
+          "edge": [
+            "n4",
+            "n5"
+          ],
+          "min_clearance_m": 0.61,
+          "nearest_obstacle": "challenge_ground_corridor_n4_n5_right"
+        },
+        {
+          "edge": [
+            "n5",
+            "g4"
+          ],
+          "min_clearance_m": 0.755,
+          "nearest_obstacle": "challenge_random_column_04"
+        },
+        {
+          "edge": [
+            "n2",
+            "dead_nw"
+          ],
+          "min_clearance_m": 1.249,
+          "nearest_obstacle": "challenge_random_column_15"
+        },
+        {
+          "edge": [
+            "g3",
+            "s1"
+          ],
+          "min_clearance_m": 1.053,
+          "nearest_obstacle": "challenge_rubble_065"
+        },
+        {
+          "edge": [
+            "s1",
+            "s2"
+          ],
+          "min_clearance_m": 0.725,
+          "nearest_obstacle": "challenge_ground_corridor_s1_s2_right"
+        },
+        {
+          "edge": [
+            "s2",
+            "s3"
+          ],
+          "min_clearance_m": 0.627,
+          "nearest_obstacle": "challenge_ground_corridor_s2_dead_sw_left"
+        },
+        {
+          "edge": [
+            "s3",
+            "s4"
+          ],
+          "min_clearance_m": 0.725,
+          "nearest_obstacle": "challenge_ground_corridor_s3_s4_right"
+        },
+        {
+          "edge": [
+            "s4",
+            "s5"
+          ],
+          "min_clearance_m": 0.61,
+          "nearest_obstacle": "challenge_ground_corridor_s4_s5_right"
+        },
+        {
+          "edge": [
+            "s5",
+            "s6"
+          ],
+          "min_clearance_m": 0.736,
+          "nearest_obstacle": "challenge_rubble_060"
+        },
+        {
+          "edge": [
+            "s6",
+            "g5"
+          ],
+          "min_clearance_m": 1.275,
+          "nearest_obstacle": "challenge_ground_corridor_s6_g5_left"
+        },
+        {
+          "edge": [
+            "s2",
+            "dead_sw"
+          ],
+          "min_clearance_m": 0.565,
+          "nearest_obstacle": "challenge_random_column_18"
+        },
+        {
+          "edge": [
+            "g7",
+            "en1"
+          ],
+          "min_clearance_m": 1.449,
+          "nearest_obstacle": "challenge_rubble_068"
+        },
+        {
+          "edge": [
+            "en1",
+            "en2"
+          ],
+          "min_clearance_m": 0.725,
+          "nearest_obstacle": "challenge_ground_corridor_en1_en2_right"
+        },
+        {
+          "edge": [
+            "en2",
+            "dead_ne"
+          ],
+          "min_clearance_m": 0.61,
+          "nearest_obstacle": "challenge_ground_corridor_en2_dead_ne_right"
+        },
+        {
+          "edge": [
+            "g7",
+            "es1"
+          ],
+          "min_clearance_m": 1.249,
+          "nearest_obstacle": "challenge_rubble_058"
+        },
+        {
+          "edge": [
+            "es1",
+            "es2"
+          ],
+          "min_clearance_m": 0.725,
+          "nearest_obstacle": "challenge_ground_corridor_es1_es2_left"
+        },
+        {
+          "edge": [
+            "es2",
+            "dead_se"
+          ],
+          "min_clearance_m": 1.198,
+          "nearest_obstacle": "challenge_rubble_099"
+        },
+        {
+          "edge": [
+            "es1",
+            "center_south"
+          ],
+          "min_clearance_m": 1.275,
+          "nearest_obstacle": "challenge_ground_corridor_es1_center_south_left"
+        },
+        {
+          "edge": [
+            "center_south",
+            "s6"
+          ],
+          "min_clearance_m": 0.802,
+          "nearest_obstacle": "challenge_rubble_056"
+        },
+        {
+          "edge": [
+            "n5",
+            "ua"
+          ],
+          "min_clearance_m": 1.05,
+          "nearest_obstacle": "upper_walkway_uc_ua"
+        },
+        {
+          "edge": [
+            "ua",
+            "u1"
+          ],
+          "min_clearance_m": 0.741,
+          "nearest_obstacle": "challenge_broken_upper_slab_01"
+        },
+        {
+          "edge": [
+            "u1",
+            "u2"
+          ],
+          "min_clearance_m": 0.677,
+          "nearest_obstacle": "challenge_broken_upper_slab_01"
+        },
+        {
+          "edge": [
+            "u2",
+            "u3"
+          ],
+          "min_clearance_m": 1.07,
+          "nearest_obstacle": "upper_walkway_u2_u3"
+        },
+        {
+          "edge": [
+            "u3",
+            "u4"
+          ],
+          "min_clearance_m": 0.889,
+          "nearest_obstacle": "challenge_broken_upper_slab_02"
+        },
+        {
+          "edge": [
+            "u4",
+            "uc"
+          ],
+          "min_clearance_m": 0.79,
+          "nearest_obstacle": "connector_02_frame_1"
+        },
+        {
+          "edge": [
+            "uc",
+            "ua"
+          ],
+          "min_clearance_m": 0.79,
+          "nearest_obstacle": "connector_02_frame_3"
+        },
+        {
+          "edge": [
+            "g5",
+            "uc"
+          ],
+          "min_clearance_m": 1.05,
+          "nearest_obstacle": "upper_walkway_us5_uc"
+        },
+        {
+          "edge": [
+            "uc",
+            "u5"
+          ],
+          "min_clearance_m": 0.79,
+          "nearest_obstacle": "connector_02_frame_1"
+        },
+        {
+          "edge": [
+            "u5",
+            "u6"
+          ],
+          "min_clearance_m": 1.07,
+          "nearest_obstacle": "upper_node_platform_u6"
+        },
+        {
+          "edge": [
+            "u6",
+            "ub"
+          ],
+          "min_clearance_m": 0.79,
+          "nearest_obstacle": "connector_03_frame_0"
+        },
+        {
+          "edge": [
+            "es2",
+            "ub"
+          ],
+          "min_clearance_m": 1.05,
+          "nearest_obstacle": "upper_walkway_u6_ub"
+        },
+        {
+          "edge": [
+            "u3",
+            "upper_dead"
+          ],
+          "min_clearance_m": 1.07,
+          "nearest_obstacle": "upper_node_platform_u3"
+        },
+        {
+          "edge": [
+            "s3",
+            "us3"
+          ],
+          "min_clearance_m": 1.05,
+          "nearest_obstacle": "upper_walkway_us3_us4"
+        },
+        {
+          "edge": [
+            "s5",
+            "us5"
+          ],
+          "min_clearance_m": 0.77,
+          "nearest_obstacle": "challenge_rubble_060"
+        },
+        {
+          "edge": [
+            "center_south",
+            "us7"
+          ],
+          "min_clearance_m": 1.05,
+          "nearest_obstacle": "upper_walkway_us6_us7"
+        },
+        {
+          "edge": [
+            "us3",
+            "us4"
+          ],
+          "min_clearance_m": 0.79,
+          "nearest_obstacle": "connector_04_frame_1"
+        },
+        {
+          "edge": [
+            "us4",
+            "us5"
+          ],
+          "min_clearance_m": 0.79,
+          "nearest_obstacle": "connector_05_frame_0"
+        },
+        {
+          "edge": [
+            "us5",
+            "us6"
+          ],
+          "min_clearance_m": 0.79,
+          "nearest_obstacle": "connector_05_frame_3"
+        },
+        {
+          "edge": [
+            "us6",
+            "us7"
+          ],
+          "min_clearance_m": 0.79,
+          "nearest_obstacle": "connector_06_frame_0"
+        },
+        {
+          "edge": [
+            "us5",
+            "uc"
+          ],
+          "min_clearance_m": 0.79,
+          "nearest_obstacle": "connector_05_frame_3"
+        },
+        {
+          "edge": [
+            "us7",
+            "ub"
+          ],
+          "min_clearance_m": 0.79,
+          "nearest_obstacle": "connector_06_frame_1"
+        },
+        {
+          "edge": [
+            "us7",
+            "upper_south_dead"
+          ],
+          "min_clearance_m": 0.79,
+          "nearest_obstacle": "connector_06_frame_1"
         }
       ],
       "blocking_edges": [],

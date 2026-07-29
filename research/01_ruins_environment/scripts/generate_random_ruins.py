@@ -38,7 +38,7 @@ def main():
     parser = argparse.ArgumentParser(
         description="Create a randomized but reproducible Gazebo/PCD ruins instance."
     )
-    parser.add_argument("--profile", choices=sorted(PROFILES), default="complex")
+    parser.add_argument("--profile", choices=sorted(PROFILES), default="challenge")
     parser.add_argument("--seed", type=int, help="Fixed seed. Omit it to get a new random seed.")
     parser.add_argument("--name", help="Optional generated asset suffix.")
     parser.add_argument("--clutter-scale", type=float, default=1.0)

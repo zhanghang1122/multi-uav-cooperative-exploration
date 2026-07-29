@@ -6,6 +6,7 @@ find_package(catkin REQUIRED)
 catkin_package()
 
 install(DIRECTORY
+  blender
   config
   docs
   experiments

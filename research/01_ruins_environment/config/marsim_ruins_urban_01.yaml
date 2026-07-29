@@ -1,6 +1,6 @@
 map:
   frame_id: map
-  pointcloud: ../maps/pcd/Ruins-Urban-01_complex.pcd
+  pointcloud: ../maps/pcd/Ruins-Urban-01_challenge.pcd
   resolution_hint: 0.18
   bounding_box: [-21.0, 21.0, -16.0, 16.0, 0.0, 8.0]
 lidar:

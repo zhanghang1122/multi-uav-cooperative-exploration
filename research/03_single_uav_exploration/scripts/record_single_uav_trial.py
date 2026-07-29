@@ -224,8 +224,10 @@ def main():
     from sensor_msgs import point_cloud2
     from sensor_msgs.msg import PointCloud2
 
-    rospy.init_node("ruins_single_uav_trial_recorder")
+    # Parse before ROS node registration so `--help` remains usable even when
+    # roscore is intentionally not running.
     arguments = parse_arguments(rospy.myargv()[1:])
+    rospy.init_node("ruins_single_uav_trial_recorder")
     TrialRecorder(rospy, point_cloud2, Odometry, PointCloud2, Log, arguments)
     rospy.spin()
 

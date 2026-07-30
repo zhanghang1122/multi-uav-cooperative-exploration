@@ -2,6 +2,8 @@
 
 This is the first executable experiment in the cooperative-exploration study.
 It is a functional baseline, not a paper result and not a multi-UAV method.
+The frozen study-wide metric definitions are in
+[`evaluation_protocol.md`](evaluation_protocol.md).
 
 ## Method Boundary
 

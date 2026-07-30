@@ -36,11 +36,14 @@ rosrun ruins_urban_01 prepare_fuel_baseline_overlay.py \
   --output-dir /tmp/fuel_building_baseline_overlay
 ```
 
-Run the project RViz profile and the generated launch in separate terminals,
-then start it with the position-neutral trigger:
+Run the project RViz profile, a read-only recorder, and the generated launch
+in separate terminals, then start it with the position-neutral trigger:
 
 ```bash
 roslaunch ruins_urban_01 fuel_b1_rviz.launch
+rosrun ruins_urban_01 record_fuel_b1_trial.py \
+  --scene e1_structured_interior \
+  --output-dir /tmp/fuel_b1_e1_trial_01
 roslaunch ruins_urban_01 run_fuel_overlay.launch \
   overlay_file:=/tmp/fuel_building_baseline_overlay/fuel_e1_structured_interior_baseline.launch
 rosrun ruins_urban_01 trigger_position_neutral_exploration.py
@@ -50,6 +53,23 @@ The project RViz profile fixes its frame to `world` and uses a `Marker` display
 for `/planning_vis/frontier`. It visualizes the online occupancy map, current
 frontier markers, FUEL trajectory and candidate viewpoints only. It sends no
 command to the planner.
+
+After FUEL prints `finish exploration.`, the recorder waits three seconds,
+writes the final online map and exits. Evaluate that map only after the run:
+
+```bash
+rosrun ruins_urban_01 evaluate_surface_map.py \
+  --truth-pcd /tmp/damage_building_suite_v1/pcd/Coop-Building-E1-Structured-Interior.pcd \
+  --observed-pcd /tmp/fuel_b1_e1_trial_01/final_online_occupancy.pcd \
+  --resolution-m 0.1 \
+  --tolerance-voxels 1 \
+  --output /tmp/fuel_b1_e1_trial_01/map_quality.json
+```
+
+The resulting `trial_summary.json` contains completion time, flight-path
+length, online-map growth and Frontier message statistics. `map_quality.json`
+contains offline Precision, Recall and F1. The evaluator never runs during the
+experiment and cannot affect planning.
 
 The launch overlay and manifest live in `/tmp`; upstream FUEL is not modified.
 Review `manifest.json` before each run. A later recorder will collect map

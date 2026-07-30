@@ -1,0 +1,37 @@
+{
+  "scene": {
+    "key": "s2_damaged_building",
+    "title": "Building-Interior-S2 Damaged Building",
+    "dimensions_m": [
+      30.0,
+      30.0,
+      3.5
+    ],
+    "entry_pose_m": [
+      -13.0,
+      0.0,
+      1.5
+    ],
+    "corridor_normal_d": 4.0,
+    "corridor_narrow_d": 2.7,
+    "loops": 2,
+    "dead_ends": 5,
+    "room_count": 10,
+    "objective": "Paper main scene: occlusion, loops, dead ends and three-way frontier competition."
+  },
+  "box_count": 52,
+  "pcd_points": 101351,
+  "reachability": {
+    "passed": true,
+    "cell_size_m": 0.25,
+    "safety_radius_m": 0.42,
+    "free_cells": 10550,
+    "reachable_cells": 10550,
+    "reachable_fraction": 1.0
+  },
+  "runtime_inputs": {
+    "workspace_boundary_only": true,
+    "truth_assets_offline_only": true,
+    "route_or_goal_prior": false
+  }
+}

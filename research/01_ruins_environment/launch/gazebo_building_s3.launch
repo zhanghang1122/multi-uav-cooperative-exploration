@@ -1,0 +1,5 @@
+<launch>
+  <include file="$(find ruins_urban_01)/launch/gazebo_building_interior.launch">
+    <arg name="world_file" value="Building-Interior-S3-Topology-Stress.world"/>
+  </include>
+</launch>

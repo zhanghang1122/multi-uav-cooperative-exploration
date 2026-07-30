@@ -1,0 +1,37 @@
+{
+  "scene": {
+    "key": "s1_structured_office",
+    "title": "Building-Interior-S1 Structured Office",
+    "dimensions_m": [
+      18.0,
+      30.0,
+      3.0
+    ],
+    "entry_pose_m": [
+      -7.1,
+      0.0,
+      1.4
+    ],
+    "corridor_normal_d": 4.0,
+    "corridor_narrow_d": 3.0,
+    "loops": 1,
+    "dead_ends": 2,
+    "room_count": 6,
+    "objective": "Single-UAV functional and baseline comparison scene."
+  },
+  "box_count": 30,
+  "pcd_points": 59145,
+  "reachability": {
+    "passed": true,
+    "cell_size_m": 0.25,
+    "safety_radius_m": 0.42,
+    "free_cells": 6604,
+    "reachable_cells": 6604,
+    "reachable_fraction": 1.0
+  },
+  "runtime_inputs": {
+    "workspace_boundary_only": true,
+    "truth_assets_offline_only": true,
+    "route_or_goal_prior": false
+  }
+}

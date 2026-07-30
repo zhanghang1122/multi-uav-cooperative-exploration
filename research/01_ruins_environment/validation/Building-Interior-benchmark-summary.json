@@ -1,0 +1,53 @@
+[
+  {
+    "scene": "s1_structured_office",
+    "preview": "C:\\tmp\\multi-uav-verified-release\\research\\01_ruins_environment\\validation\\previews\\Building-Interior-S1-Structured-Office.png",
+    "world": "C:\\tmp\\multi-uav-verified-release\\research\\01_ruins_environment\\gazebo\\worlds\\Building-Interior-S1-Structured-Office.world",
+    "pcd": "C:\\tmp\\multi-uav-verified-release\\research\\01_ruins_environment\\maps\\pcd\\Building-Interior-S1-Structured-Office.pcd",
+    "obj": "C:\\tmp\\multi-uav-verified-release\\research\\01_ruins_environment\\meshes\\obj\\Building-Interior-S1-Structured-Office.obj",
+    "dae": "C:\\tmp\\multi-uav-verified-release\\research\\01_ruins_environment\\meshes\\dae\\Building-Interior-S1-Structured-Office.dae",
+    "validation": {
+      "passed": true,
+      "cell_size_m": 0.25,
+      "safety_radius_m": 0.42,
+      "free_cells": 6604,
+      "reachable_cells": 6604,
+      "reachable_fraction": 1.0
+    },
+    "pcd_points": 59145
+  },
+  {
+    "scene": "s2_damaged_building",
+    "preview": "C:\\tmp\\multi-uav-verified-release\\research\\01_ruins_environment\\validation\\previews\\Building-Interior-S2-Damaged-Building.png",
+    "world": "C:\\tmp\\multi-uav-verified-release\\research\\01_ruins_environment\\gazebo\\worlds\\Building-Interior-S2-Damaged-Building.world",
+    "pcd": "C:\\tmp\\multi-uav-verified-release\\research\\01_ruins_environment\\maps\\pcd\\Building-Interior-S2-Damaged-Building.pcd",
+    "obj": "C:\\tmp\\multi-uav-verified-release\\research\\01_ruins_environment\\meshes\\obj\\Building-Interior-S2-Damaged-Building.obj",
+    "dae": "C:\\tmp\\multi-uav-verified-release\\research\\01_ruins_environment\\meshes\\dae\\Building-Interior-S2-Damaged-Building.dae",
+    "validation": {
+      "passed": true,
+      "cell_size_m": 0.25,
+      "safety_radius_m": 0.42,
+      "free_cells": 10550,
+      "reachable_cells": 10550,
+      "reachable_fraction": 1.0
+    },
+    "pcd_points": 101351
+  },
+  {
+    "scene": "s3_topology_stress",
+    "preview": "C:\\tmp\\multi-uav-verified-release\\research\\01_ruins_environment\\validation\\previews\\Building-Interior-S3-Topology-Stress.png",
+    "world": "C:\\tmp\\multi-uav-verified-release\\research\\01_ruins_environment\\gazebo\\worlds\\Building-Interior-S3-Topology-Stress.world",
+    "pcd": "C:\\tmp\\multi-uav-verified-release\\research\\01_ruins_environment\\maps\\pcd\\Building-Interior-S3-Topology-Stress.pcd",
+    "obj": "C:\\tmp\\multi-uav-verified-release\\research\\01_ruins_environment\\meshes\\obj\\Building-Interior-S3-Topology-Stress.obj",
+    "dae": "C:\\tmp\\multi-uav-verified-release\\research\\01_ruins_environment\\meshes\\dae\\Building-Interior-S3-Topology-Stress.dae",
+    "validation": {
+      "passed": true,
+      "cell_size_m": 0.25,
+      "safety_radius_m": 0.42,
+      "free_cells": 14648,
+      "reachable_cells": 14648,
+      "reachable_fraction": 1.0
+    },
+    "pcd_points": 147359
+  }
+]

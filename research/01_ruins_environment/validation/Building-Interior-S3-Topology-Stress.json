@@ -1,0 +1,37 @@
+{
+  "scene": {
+    "key": "s3_topology_stress",
+    "title": "Building-Interior-S3 Topology Stress",
+    "dimensions_m": [
+      36.0,
+      36.0,
+      3.5
+    ],
+    "entry_pose_m": [
+      -16.0,
+      0.0,
+      1.5
+    ],
+    "corridor_normal_d": 4.0,
+    "corridor_narrow_d": 2.6,
+    "loops": 4,
+    "dead_ends": 8,
+    "room_count": 14,
+    "objective": "Large connected stress scene for three-UAV coordination and generalization."
+  },
+  "box_count": 92,
+  "pcd_points": 147359,
+  "reachability": {
+    "passed": true,
+    "cell_size_m": 0.25,
+    "safety_radius_m": 0.42,
+    "free_cells": 14648,
+    "reachable_cells": 14648,
+    "reachable_fraction": 1.0
+  },
+  "runtime_inputs": {
+    "workspace_boundary_only": true,
+    "truth_assets_offline_only": true,
+    "route_or_goal_prior": false
+  }
+}

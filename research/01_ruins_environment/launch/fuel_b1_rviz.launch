@@ -1,0 +1,9 @@
+<launch>
+  <!--
+    Paper-project RViz profile for the FUEL B1 baseline.  It only visualizes
+    planner outputs and the online occupancy map; it never publishes goals,
+    routes, frontiers, or map data back into FUEL.
+  -->
+  <arg name="config" default="$(find ruins_urban_01)/rviz/fuel_b1_frontier.rviz" />
+  <node pkg="rviz" type="rviz" name="fuel_b1_rviz" args="-d $(arg config)" />
+</launch>

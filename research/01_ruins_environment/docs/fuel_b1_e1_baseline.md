@@ -36,15 +36,20 @@ rosrun ruins_urban_01 prepare_fuel_baseline_overlay.py \
   --output-dir /tmp/fuel_building_baseline_overlay
 ```
 
-Run the FUEL visualizer and the generated launch in separate terminals, then
-start it with the position-neutral trigger:
+Run the project RViz profile and the generated launch in separate terminals,
+then start it with the position-neutral trigger:
 
 ```bash
-roslaunch exploration_manager rviz.launch
+roslaunch ruins_urban_01 fuel_b1_rviz.launch
 roslaunch ruins_urban_01 run_fuel_overlay.launch \
   overlay_file:=/tmp/fuel_building_baseline_overlay/fuel_e1_structured_interior_baseline.launch
 rosrun ruins_urban_01 trigger_position_neutral_exploration.py
 ```
+
+The project RViz profile fixes its frame to `world` and uses a `Marker` display
+for `/planning_vis/frontier`. It visualizes the online occupancy map, current
+frontier markers, FUEL trajectory and candidate viewpoints only. It sends no
+command to the planner.
 
 The launch overlay and manifest live in `/tmp`; upstream FUEL is not modified.
 Review `manifest.json` before each run. A later recorder will collect map

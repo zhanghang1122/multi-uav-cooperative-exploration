@@ -100,6 +100,18 @@ def parse_args():
         type=positive_float,
         help="Optional per-side planning margin. Supply this only with --collision-diameter-m.",
     )
+    parser.add_argument(
+        "--effective-planning-diameter-m",
+        type=positive_float,
+        help=(
+            "Direct planner safety-envelope diameter. Use this instead of collision diameter "
+            "+ margin when the active planner already inflates obstacles."
+        ),
+    )
+    parser.add_argument(
+        "--planning-envelope-source",
+        help="Required provenance when --effective-planning-diameter-m is used.",
+    )
     parser.add_argument("--map-resolution-m", type=positive_float, default=0.10)
     return parser.parse_args()
 
@@ -122,10 +134,20 @@ def resolved_topic(args, name):
 
 def main():
     args = parse_args()
-    if (args.collision_diameter_m is None) != (args.safety_margin_m is None):
+    collision_model_supplied = args.collision_diameter_m is not None
+    direct_envelope_supplied = args.effective_planning_diameter_m is not None
+    if collision_model_supplied != (args.safety_margin_m is not None):
         raise SystemExit(
             "--collision-diameter-m and --safety-margin-m must be supplied together or both omitted"
         )
+    if collision_model_supplied and direct_envelope_supplied:
+        raise SystemExit(
+            "use either collision diameter + safety margin or --effective-planning-diameter-m, not both"
+        )
+    if direct_envelope_supplied and not args.planning_envelope_source:
+        raise SystemExit("--planning-envelope-source is required with --effective-planning-diameter-m")
+    if args.planning_envelope_source and not direct_envelope_supplied:
+        raise SystemExit("--planning-envelope-source requires --effective-planning-diameter-m")
     rospy.init_node("ruins_platform_profile_collector", anonymous=True)
 
     odom_topic = resolved_topic(args, "odom_topic")
@@ -179,10 +201,15 @@ def main():
     while not rospy.is_shutdown() and time.time() < deadline:
         rate.sleep()
 
-    geometry_ready = args.collision_diameter_m is not None
+    geometry_ready = collision_model_supplied or direct_envelope_supplied
     effective_diameter = None
-    if geometry_ready:
+    dimension_source = "not recorded; interface audit only"
+    if collision_model_supplied:
         effective_diameter = args.collision_diameter_m + 2.0 * args.safety_margin_m
+        dimension_source = "experimenter-measured collision geometry plus per-side margin"
+    elif direct_envelope_supplied:
+        effective_diameter = args.effective_planning_diameter_m
+        dimension_source = args.planning_envelope_source
     topics = {"odometry": odom.as_dict()}
     if cloud is not None:
         topics["lidar_cloud"] = cloud.as_dict()
@@ -209,11 +236,7 @@ def main():
         "effective_planning_diameter_m": (
             round(effective_diameter, 6) if effective_diameter is not None else None
         ),
-        "dimension_source": (
-            "experimenter-measured collision geometry"
-            if geometry_ready
-            else "not recorded; interface audit only"
-        ),
+        "dimension_source": dimension_source,
     }
     profile = {
         "schema_version": 1,

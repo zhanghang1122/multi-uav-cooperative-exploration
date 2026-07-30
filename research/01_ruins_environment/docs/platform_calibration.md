@@ -43,6 +43,26 @@ rosrun ruins_urban_01 collect_platform_profile.py \
   --output /tmp/ruins_platform_profile.json
 ```
 
+### FUEL planning-envelope case
+
+When the FUEL exploration stack is the main baseline, use the active
+`sdf_map/obstacles_inflation` setting rather than inventing a separate vehicle
+diameter. In the standard `exploration_manager/launch/algorithm.xml` used by
+this project, the value is `0.199 m`; the corresponding FUEL planning envelope
+is therefore `D_eff = 2 * 0.199 = 0.398 m`.
+
+```bash
+rosrun ruins_urban_01 collect_platform_profile.py \
+  --sensor-stack marsim-os128 \
+  --effective-planning-diameter-m 0.398 \
+  --planning-envelope-source "FUEL algorithm.xml sdf_map/obstacles_inflation=0.199 m" \
+  --output /tmp/ruins_platform_profile.json
+```
+
+This value describes the planner's collision-free envelope, not a claim about
+the physical collision mesh of the MARSIM visual model. If the FUEL parameter
+changes, rerun this step and regenerate the scene constraints.
+
 A mismatch between world/map odometry and sensor-pose frames is a real
 interface issue and must be resolved before mapping or scene generation begins.
 

@@ -1,6 +1,5 @@
 <launch>
-  <!-- Generated from FUEL's locally verified traj.rviz by
-       prepare_fuel_rviz_profile.py. It is read-only visualization. -->
-  <arg name="config" default="/tmp/fuel_building_baseline_overlay/fuel_b1_rviz.rviz" />
-  <node pkg="rviz" type="rviz" name="fuel_b1_rviz" args="-d $(arg config)" />
+  <!-- Reuse FUEL's own verified RViz launch. This wrapper adds no planner
+       configuration and is deliberately kept separate from FUEL source. -->
+  <include file="$(find exploration_manager)/launch/rviz.launch" />
 </launch>

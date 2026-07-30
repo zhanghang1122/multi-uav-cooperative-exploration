@@ -35,9 +35,6 @@ rosrun ruins_urban_01 prepare_fuel_baseline_overlay.py \
   --scene e1_structured_interior \
   --output-dir /tmp/fuel_building_baseline_overlay
 
-rosrun ruins_urban_01 prepare_fuel_rviz_profile.py \
-  --fuel-workspace ~/fuel_ws \
-  --output /tmp/fuel_building_baseline_overlay/fuel_b1_rviz.rviz
 ```
 
 Run the project RViz profile, a read-only recorder, and the generated launch
@@ -53,10 +50,11 @@ roslaunch ruins_urban_01 run_fuel_overlay.launch \
 rosrun ruins_urban_01 trigger_position_neutral_exploration.py
 ```
 
-The project RViz profile is generated from the locally working FUEL
-`traj.rviz`; it fixes its frame to `world` and replaces only the `frontier`
-display with a `Marker` display for `/planning_vis/frontier`. It sends no
-command to the planner.
+The project RViz launch reuses FUEL's own verified `traj.rviz`. For the first
+run, add a `Marker` display for `/planning_vis/frontier`, then use RViz `File`
+-> `Save Config As` to store it at `~/.ros/fuel_b1_frontier.rviz`. Future runs
+can open that saved profile directly with `rviz -d ~/.ros/fuel_b1_frontier.rviz`.
+The visualizer sends no command to the planner.
 
 After FUEL prints `finish exploration.`, the recorder waits three seconds,
 writes the final online map and exits. Evaluate that map only after the run:

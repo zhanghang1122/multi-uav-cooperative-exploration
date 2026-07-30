@@ -10,7 +10,6 @@ catkin_install_python(PROGRAMS
   scripts/derive_geometry_constraints.py
   scripts/generate_damage_building_suite.py
   scripts/prepare_fuel_baseline_overlay.py
-  scripts/prepare_fuel_rviz_profile.py
   scripts/record_fuel_b1_trial.py
   scripts/evaluate_surface_map.py
   scripts/trigger_position_neutral_exploration.py

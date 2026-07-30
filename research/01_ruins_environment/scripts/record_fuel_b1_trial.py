@@ -36,6 +36,7 @@ def stamp_seconds(stamp):
 class TrialRecorder(object):
     def __init__(self, args):
         self.args = args
+        os.makedirs(self.args.output_dir, exist_ok=True)
         self.started_monotonic = time.monotonic()
         self.last_position = None
         self.path_length_m = 0.0
@@ -49,17 +50,26 @@ class TrialRecorder(object):
         self.frontier_messages = 0
         self.frontier_add_messages = 0
         self.frontier_delete_messages = 0
+        self.received_odometry = False
+        self.received_occupancy = False
 
         rospy.Subscriber(args.odom_topic, Odometry, self.on_odometry, queue_size=100)
         rospy.Subscriber(args.occupancy_topic, PointCloud2, self.on_occupancy, queue_size=1)
         rospy.Subscriber(args.frontier_topic, Marker, self.on_frontier, queue_size=100)
         rospy.Subscriber(args.planner_topic, rospy.AnyMsg, self.on_planner, queue_size=100)
         rospy.Subscriber(args.rosout_topic, Log, self.on_rosout, queue_size=1000)
+        rospy.loginfo(
+            "B1 recorder is active. Waiting for FUEL map and completion; output directory: %s",
+            self.args.output_dir,
+        )
 
     def elapsed_s(self):
         return time.monotonic() - self.started_monotonic
 
     def on_odometry(self, message):
+        if not self.received_odometry:
+            self.received_odometry = True
+            rospy.loginfo("B1 recorder received odometry on %s", self.args.odom_topic)
         position = message.pose.pose.position
         current = (position.x, position.y, position.z)
         if self.last_position is not None:
@@ -78,6 +88,9 @@ class TrialRecorder(object):
             self.trajectory_rows.append((elapsed, stamp_seconds(message.header.stamp), current[0], current[1], current[2]))
 
     def on_occupancy(self, message):
+        if not self.received_occupancy:
+            self.received_occupancy = True
+            rospy.loginfo("B1 recorder received online occupancy on %s", self.args.occupancy_topic)
         self.latest_cloud = message
         elapsed = self.elapsed_s()
         if elapsed - self.last_map_sample_s >= self.args.map_sample_period_s:
@@ -138,7 +151,6 @@ class TrialRecorder(object):
         else:
             stop_reason = "ros_shutdown"
 
-        os.makedirs(self.args.output_dir, exist_ok=True)
         trajectory_path = os.path.join(self.args.output_dir, "trajectory.csv")
         growth_path = os.path.join(self.args.output_dir, "map_growth.csv")
         map_path = os.path.join(self.args.output_dir, "final_online_occupancy.pcd")

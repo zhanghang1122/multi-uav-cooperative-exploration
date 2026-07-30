@@ -86,6 +86,12 @@ COLORS = {
 }
 
 
+def write_text_lf(path: Path, text: str):
+    """Write stable LF text on Ubuntu 20.04 / Python 3.8 and newer."""
+    with path.open("w", encoding="ascii", newline="\n") as stream:
+        stream.write(text)
+
+
 def add_box(boxes: list[Box], name: str, center, size, material="concrete", role="obstacle", yaw=0.0):
     boxes.append(Box(name, tuple(center), tuple(size), (0.0, 0.0, yaw), material, role))
 
@@ -295,11 +301,11 @@ def write_world(path: Path, scene: Scene, boxes: list[Box]):
         rr, pp, yy = box.rpy
         parts.append(f"""  <model name='{box.name}'><static>true</static><pose>{x:.4f} {y:.4f} {z:.4f} {rr:.6f} {pp:.6f} {yy:.6f}</pose><link name='link'><collision name='collision'><geometry><box><size>{sx:.4f} {sy:.4f} {sz:.4f}</size></box></geometry></collision><visual name='visual'><geometry><box><size>{sx:.4f} {sy:.4f} {sz:.4f}</size></box></geometry><material><ambient>{r:.3f} {g:.3f} {b:.3f} 1</ambient><diffuse>{r:.3f} {g:.3f} {b:.3f} 1</diffuse></material></visual></link></model>""")
     world = "\n".join(parts)
-    path.write_text(f"""<?xml version='1.0'?>
+    write_text_lf(path, f"""<?xml version='1.0'?>
 <sdf version='1.6'><world name='{scene.key}'><gravity>0 0 -9.81</gravity><scene><ambient>0.55 0.57 0.59 1</ambient><background>0.69 0.72 0.75 1</background><shadows>true</shadows></scene><include><uri>model://sun</uri></include>
 {world}
 </world></sdf>
-""", encoding="ascii", newline="\n")
+""")
 
 
 def write_svg(path: Path, scene: Scene, boxes: list[Box]):
@@ -318,7 +324,7 @@ def write_svg(path: Path, scene: Scene, boxes: list[Box]):
         items.append(f"<rect x='{x:.2f}' y='{y:.2f}' width='{box.size[0] * scale:.2f}' height='{box.size[1] * scale:.2f}' fill='{color}' stroke='#343a40' stroke-width='0.6' transform='rotate({angle:.2f} {cx:.2f} {cy:.2f})'/>")
     ex, ey = pad + (scene.entry[0] + width / 2) * scale, pad + (depth / 2 - scene.entry[1]) * scale
     items.append(f"<circle cx='{ex:.2f}' cy='{ey:.2f}' r='7' fill='#1a9b5a'/><text x='{pad}' y='{canvas_h - 8:.0f}' font-family='sans-serif' font-size='14' fill='#20252a'>{scene.title}: offline design preview only</text>")
-    path.write_text("<svg xmlns='http://www.w3.org/2000/svg' width='%.0f' height='%.0f'>%s</svg>\n" % (canvas_w, canvas_h, "".join(items)), encoding="ascii", newline="\n")
+    write_text_lf(path, "<svg xmlns='http://www.w3.org/2000/svg' width='%.0f' height='%.0f'>%s</svg>\n" % (canvas_w, canvas_h, "".join(items)))
 
 
 def png_chunk(kind: bytes, payload: bytes) -> bytes:
@@ -403,7 +409,7 @@ def generate(scene: Scene, output: Path, radius: float):
             "topology_or_room_labels_available_to_runtime": False,
         },
     }
-    (output / "validation" / f"{stem}.json").write_text(json.dumps(report, indent=2) + "\n", encoding="ascii", newline="\n")
+    write_text_lf(output / "validation" / f"{stem}.json", json.dumps(report, indent=2) + "\n")
     return report
 
 
@@ -424,7 +430,7 @@ def main():
     radius = load_radius(Path(args.platform_profile))
     wanted = SCENES if args.scene == "all" else tuple(s for s in SCENES if s.key == args.scene)
     reports = [generate(scene, Path(args.output_dir), radius) for scene in wanted]
-    (Path(args.output_dir) / "suite_summary.json").write_text(json.dumps({"planning_envelope_radius_m": radius, "reports": reports}, indent=2) + "\n", encoding="ascii", newline="\n")
+    write_text_lf(Path(args.output_dir) / "suite_summary.json", json.dumps({"planning_envelope_radius_m": radius, "reports": reports}, indent=2) + "\n")
     print(json.dumps({"output_dir": args.output_dir, "planning_envelope_radius_m": radius, "scenes": [r["scene"]["key"] for r in reports]}, indent=2))
 
 

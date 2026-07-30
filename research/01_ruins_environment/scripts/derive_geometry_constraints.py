@@ -77,7 +77,8 @@ def main():
             "obstacle_gap_min_width_m": metres(args.obstacle_gap_d),
         },
         "validation_rules": [
-            "Inflate all collision geometry by the per-side safety margin before testing free-space connectivity.",
+            "Inflate all collision geometry by the active planning envelope radius before testing free-space connectivity.",
+            "For a direct FUEL inflation input, the active planning envelope radius is effective_planning_diameter_m / 2.",
             "Every declared traversable route must remain connected after inflation.",
             "Any gap below obstacle_gap_min_width_m is labelled non-traversable, not an accidental route.",
             "The online explorer must not read this file; it is for generator and offline validation only.",

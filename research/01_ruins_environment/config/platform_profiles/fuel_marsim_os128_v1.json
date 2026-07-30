@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "profile_kind": "measured_ros_platform_interface",
+  "sensor_stack": "marsim-os128",
+  "map_resolution_m": 0.1,
+  "vehicle": {
+    "effective_planning_diameter_m": 0.398,
+    "dimension_source": "FUEL exploration_manager/launch/algorithm.xml: sdf_map/obstacles_inflation=0.199 m",
+    "safety_margin_per_side_m": null
+  },
+  "notes": [
+    "This is the validated current FUEL planning envelope, not a physical airframe measurement.",
+    "Regenerate the platform profile and scene constraints if the active FUEL inflation configuration changes.",
+    "This profile is generator and offline-validation input only; it is never supplied to an online explorer."
+  ]
+}

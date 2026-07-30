@@ -154,6 +154,98 @@ def add_overhead(boxes: list[Box], prefix: str, items):
         add_box(boxes, f"{prefix}_{index:02d}", (x, y, z), (sx, sy, 0.24), "concrete_light", "overhead")
 
 
+def iter_face_points_with_outward_normal(box: Box, step: float):
+    """Uniformly sample box faces and retain the outward normal of each point."""
+    sx, sy, sz = box.size
+    yaw = box.rpy[2]
+    cosine, sine = math.cos(yaw), math.sin(yaw)
+    faces = (
+        ("x", -sx / 2, sy, sz, (-1.0, 0.0, 0.0)),
+        ("x", sx / 2, sy, sz, (1.0, 0.0, 0.0)),
+        ("y", -sy / 2, sx, sz, (0.0, -1.0, 0.0)),
+        ("y", sy / 2, sx, sz, (0.0, 1.0, 0.0)),
+        ("z", -sz / 2, sx, sy, (0.0, 0.0, -1.0)),
+        ("z", sz / 2, sx, sy, (0.0, 0.0, 1.0)),
+    )
+    for axis, constant, length_a, length_b, local_normal in faces:
+        count_a = max(1, int(math.ceil(length_a / step)))
+        count_b = max(1, int(math.ceil(length_b / step)))
+        for index_a in range(count_a + 1):
+            value_a = -length_a / 2 + length_a * index_a / count_a
+            for index_b in range(count_b + 1):
+                value_b = -length_b / 2 + length_b * index_b / count_b
+                if axis == "x":
+                    local = (constant, value_a, value_b)
+                elif axis == "y":
+                    local = (value_a, constant, value_b)
+                else:
+                    local = (value_a, value_b, constant)
+                point = (
+                    box.center[0] + cosine * local[0] - sine * local[1],
+                    box.center[1] + sine * local[0] + cosine * local[1],
+                    box.center[2] + local[2],
+                )
+                normal = (
+                    cosine * local_normal[0] - sine * local_normal[1],
+                    sine * local_normal[0] + cosine * local_normal[1],
+                    local_normal[2],
+                )
+                yield point, normal
+
+
+def point_inside_box(point, box: Box):
+    """Strict inside test; all benchmark boxes are yaw-only rigid bodies."""
+    yaw = box.rpy[2]
+    cosine, sine = math.cos(yaw), math.sin(yaw)
+    dx, dy, dz = point[0] - box.center[0], point[1] - box.center[1], point[2] - box.center[2]
+    local_x = cosine * dx + sine * dy
+    local_y = -sine * dx + cosine * dy
+    return (
+        abs(local_x) < box.size[0] / 2
+        and abs(local_y) < box.size[1] / 2
+        and abs(dz) < box.size[2] / 2
+    )
+
+
+def write_interior_reference_pcd(path: Path, boxes: list[Box], scene: Scene, step: float):
+    """Export only interior-facing, geometrically free surface samples.
+
+    This is an *offline evaluation reference*, not a simulator input.  A point
+    is retained only when a small step along its outward face normal lies inside
+    the building volume and outside every other collision box.  It removes
+    exterior envelope faces and bottom faces that an indoor aerial sensor cannot
+    observe from reachable building space.
+    """
+    half_x, half_y = scene.size[0] / 2, scene.size[1] / 2
+    clearance = 0.035
+    points, seen = [], set()
+    for box_index, box in enumerate(boxes):
+        if box.role == "connector_marker":
+            continue
+        for point, normal in iter_face_points_with_outward_normal(box, step):
+            probe = (
+                point[0] + clearance * normal[0],
+                point[1] + clearance * normal[1],
+                point[2] + clearance * normal[2],
+            )
+            if not (-half_x < probe[0] < half_x and -half_y < probe[1] < half_y and 0.0 < probe[2] < scene.size[2]):
+                continue
+            if any(point_inside_box(probe, other) for other_index, other in enumerate(boxes) if other_index != box_index):
+                continue
+            rounded = (round(point[0], 3), round(point[1], 3), round(point[2], 3))
+            key = (int(rounded[0] * 1000), int(rounded[1] * 1000), int(rounded[2] * 1000))
+            if key not in seen:
+                seen.add(key)
+                points.append(rounded)
+    with path.open("w", encoding="ascii", newline="\n") as stream:
+        stream.write("# .PCD v0.7 - Point Cloud Data file format\n")
+        stream.write("VERSION 0.7\nFIELDS x y z\nSIZE 4 4 4\nTYPE F F F\nCOUNT 1 1 1\n")
+        stream.write("WIDTH {}\nHEIGHT 1\nVIEWPOINT 0 0 0 1 0 0 0\nPOINTS {}\nDATA ascii\n".format(len(points), len(points)))
+        for x, y, z in points:
+            stream.write("{:.3f} {:.3f} {:.3f}\n".format(x, y, z))
+    return len(points)
+
+
 def build_e1(scene: Scene) -> list[Box]:
     boxes: list[Box] = []
     envelope(boxes, scene)
@@ -391,7 +483,10 @@ def generate(scene: Scene, output: Path, radius: float):
     stem = scene.title
     write_world(output / "worlds" / f"{stem}.world", scene, boxes)
     write_mtl(output / "obj" / "damage_building_suite.mtl")
-    points = write_pcd(output / "pcd" / f"{stem}.pcd", boxes, PCD_STEP_M)
+    pcd_path = output / "pcd" / f"{stem}.pcd"
+    reference_path = output / "pcd" / f"{stem}_interior_reference.pcd"
+    points = write_pcd(pcd_path, boxes, PCD_STEP_M)
+    reference_points = write_interior_reference_pcd(reference_path, boxes, scene, PCD_STEP_M)
     write_obj(output / "obj" / f"{stem}.obj", boxes, "damage_building_suite.mtl")
     write_dae(output / "dae" / f"{stem}.dae", boxes)
     write_svg(output / "previews" / f"{stem}.svg", scene, boxes)
@@ -399,11 +494,19 @@ def generate(scene: Scene, output: Path, radius: float):
     report = {
         "schema_version": 1,
         "scene": asdict(scene),
-        "geometry": {"box_count": len(boxes), "role_counts": classify(boxes), "pcd_step_m": PCD_STEP_M, "pcd_points": points},
+        "geometry": {
+            "box_count": len(boxes),
+            "role_counts": classify(boxes),
+            "pcd_step_m": PCD_STEP_M,
+            "pcd_points": points,
+            "interior_reference_points": reference_points,
+        },
         "reachability": reachability,
         "runtime_contract": {
             "runtime_input": "bounded workspace and live onboard sensing only",
             "truth_pcd_usage": "offline evaluation only",
+            "primary_evaluation_reference": str(reference_path),
+            "reference_definition": "interior-facing geometric surfaces with a free outward probe inside the building volume",
             "route_prior_used": False,
             "goal_prior_used": False,
             "topology_or_room_labels_available_to_runtime": False,

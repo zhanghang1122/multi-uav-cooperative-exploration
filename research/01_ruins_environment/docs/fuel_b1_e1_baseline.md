@@ -61,7 +61,7 @@ writes the final online map and exits. Evaluate that map only after the run:
 
 ```bash
 rosrun ruins_urban_01 evaluate_surface_map.py \
-  --truth-pcd /tmp/damage_building_suite_v1/pcd/Coop-Building-E1-Structured-Interior.pcd \
+  --truth-pcd /tmp/damage_building_suite_v1/pcd/Coop-Building-E1-Structured-Interior_interior_reference.pcd \
   --observed-pcd /tmp/fuel_b1_e1_trial_01/final_online_occupancy.pcd \
   --resolution-m 0.1 \
   --tolerance-voxels 1 \
@@ -70,8 +70,11 @@ rosrun ruins_urban_01 evaluate_surface_map.py \
 
 The resulting `trial_summary.json` contains completion time, flight-path
 length, online-map growth and Frontier message statistics. `map_quality.json`
-contains offline Precision, Recall and F1. The evaluator never runs during the
-experiment and cannot affect planning.
+contains offline Precision, Recall and F1. The primary reference excludes
+exterior envelope faces and obstacle bottom faces that cannot be observed from
+inside the building. The full PCD remains available as a stricter supplementary
+reference. The evaluator never runs during the experiment and cannot affect
+planning.
 
 The launch overlay and manifest live in `/tmp`; upstream FUEL is not modified.
 Review `manifest.json` before each run. A later recorder will collect map

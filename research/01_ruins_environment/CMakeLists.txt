@@ -9,6 +9,8 @@ catkin_install_python(PROGRAMS
   scripts/collect_platform_profile.py
   scripts/derive_geometry_constraints.py
   scripts/generate_damage_building_suite.py
+  scripts/prepare_fuel_baseline_overlay.py
+  scripts/trigger_position_neutral_exploration.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

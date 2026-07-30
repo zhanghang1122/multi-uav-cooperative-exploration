@@ -1,0 +1,6 @@
+<launch>
+  <!-- Include a generated FUEL overlay by absolute path without copying it into
+       the upstream FUEL checkout. -->
+  <arg name="overlay_file" />
+  <include file="$(arg overlay_file)" />
+</launch>

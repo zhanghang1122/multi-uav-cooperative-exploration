@@ -18,7 +18,20 @@ import time
 import rospy
 from geometry_msgs.msg import PoseStamped
 from nav_msgs.msg import Odometry
-from sensor_msgs.msg import Image
+from sensor_msgs.msg import Image, PointCloud2
+
+
+SENSOR_STACK_DEFAULTS = {
+    "marsim-os128": {
+        "odom_topic": "/quad_0/lidar_slam/odom",
+        "cloud_topic": "/quad0_pcl_render_node/sensor_cloud",
+    },
+    "fuel-depth": {
+        "odom_topic": "/state_ukf/odom",
+        "depth_topic": "/pcl_render_node/depth",
+        "sensor_pose_topic": "/pcl_render_node/sensor_pose",
+    },
+}
 
 
 class TopicSample(object):
@@ -67,9 +80,16 @@ def parse_args():
     )
     parser.add_argument("--output", required=True, help="Profile JSON written after sampling.")
     parser.add_argument("--duration-s", type=positive_float, default=12.0)
-    parser.add_argument("--odom-topic", default="/state_ukf/odom")
-    parser.add_argument("--depth-topic", default="/pcl_render_node/depth")
-    parser.add_argument("--sensor-pose-topic", default="/pcl_render_node/sensor_pose")
+    parser.add_argument(
+        "--sensor-stack",
+        choices=sorted(SENSOR_STACK_DEFAULTS),
+        default="marsim-os128",
+        help="Measured ROS interface family. The default matches MARSIM OS128.",
+    )
+    parser.add_argument("--odom-topic", help="Override the stack default odometry topic.")
+    parser.add_argument("--cloud-topic", help="Override the MARSIM PointCloud2 topic.")
+    parser.add_argument("--depth-topic", help="Override the FUEL depth-image topic.")
+    parser.add_argument("--sensor-pose-topic", help="Override the FUEL sensor-pose topic.")
     parser.add_argument(
         "--collision-diameter-m",
         type=positive_float,
@@ -93,6 +113,13 @@ def write_json(path, value):
         stream.write("\n")
 
 
+def resolved_topic(args, name):
+    override = getattr(args, name)
+    if override:
+        return override
+    return SENSOR_STACK_DEFAULTS[args.sensor_stack].get(name)
+
+
 def main():
     args = parse_args()
     if (args.collision_diameter_m is None) != (args.safety_margin_m is None):
@@ -101,9 +128,17 @@ def main():
         )
     rospy.init_node("ruins_platform_profile_collector", anonymous=True)
 
-    odom = TopicSample(args.odom_topic, "nav_msgs/Odometry")
-    depth = TopicSample(args.depth_topic, "sensor_msgs/Image")
-    sensor_pose = TopicSample(args.sensor_pose_topic, "geometry_msgs/PoseStamped")
+    odom_topic = resolved_topic(args, "odom_topic")
+    cloud_topic = resolved_topic(args, "cloud_topic")
+    depth_topic = resolved_topic(args, "depth_topic")
+    sensor_pose_topic = resolved_topic(args, "sensor_pose_topic")
+
+    odom = TopicSample(odom_topic, "nav_msgs/Odometry")
+    cloud = TopicSample(cloud_topic, "sensor_msgs/PointCloud2") if cloud_topic else None
+    depth = TopicSample(depth_topic, "sensor_msgs/Image") if depth_topic else None
+    sensor_pose = (
+        TopicSample(sensor_pose_topic, "geometry_msgs/PoseStamped") if sensor_pose_topic else None
+    )
 
     def on_odom(message):
         odom.record(message)
@@ -120,9 +155,23 @@ def main():
     def on_sensor_pose(message):
         sensor_pose.record(message)
 
-    rospy.Subscriber(args.odom_topic, Odometry, on_odom, queue_size=20)
-    rospy.Subscriber(args.depth_topic, Image, on_depth, queue_size=5)
-    rospy.Subscriber(args.sensor_pose_topic, PoseStamped, on_sensor_pose, queue_size=20)
+    def on_cloud(message):
+        cloud.record(message)
+        cloud.details = {
+            "width_points": message.width,
+            "height_points": message.height,
+            "point_step_bytes": message.point_step,
+            "row_step_bytes": message.row_step,
+            "is_dense": message.is_dense,
+        }
+
+    rospy.Subscriber(odom_topic, Odometry, on_odom, queue_size=20)
+    if cloud is not None:
+        rospy.Subscriber(cloud_topic, PointCloud2, on_cloud, queue_size=5)
+    if depth is not None:
+        rospy.Subscriber(depth_topic, Image, on_depth, queue_size=5)
+    if sensor_pose is not None:
+        rospy.Subscriber(sensor_pose_topic, PoseStamped, on_sensor_pose, queue_size=20)
 
     deadline = time.time() + args.duration_s
     rate = rospy.Rate(20)
@@ -134,20 +183,22 @@ def main():
     effective_diameter = None
     if geometry_ready:
         effective_diameter = args.collision_diameter_m + 2.0 * args.safety_margin_m
-    topics = {
-        "odometry": odom.as_dict(),
-        "depth": depth.as_dict(),
-        "sensor_pose": sensor_pose.as_dict(),
-    }
+    topics = {"odometry": odom.as_dict()}
+    if cloud is not None:
+        topics["lidar_cloud"] = cloud.as_dict()
+    if depth is not None:
+        topics["depth"] = depth.as_dict()
+    if sensor_pose is not None:
+        topics["sensor_pose"] = sensor_pose.as_dict()
     failures = []
     for key, sample in topics.items():
         if sample["received_messages"] == 0:
             failures.append("missing_%s" % key)
         if not sample["frame_id"]:
             failures.append("missing_%s_frame" % key)
-    if odom.frame_id and sensor_pose.frame_id and odom.frame_id != sensor_pose.frame_id:
+    if sensor_pose is not None and odom.frame_id and sensor_pose.frame_id and odom.frame_id != sensor_pose.frame_id:
         failures.append("odom_sensor_pose_frame_mismatch")
-    if depth.frame_id and sensor_pose.frame_id and depth.frame_id == sensor_pose.frame_id:
+    if depth is not None and sensor_pose is not None and depth.frame_id and sensor_pose.frame_id and depth.frame_id == sensor_pose.frame_id:
         # The depth image normally belongs to the sensor frame; a pose normally
         # belongs to a world/map frame. Equality deserves explicit review.
         failures.append("depth_and_sensor_pose_share_frame_review_required")
@@ -167,6 +218,7 @@ def main():
     profile = {
         "schema_version": 1,
         "profile_kind": "measured_ros_platform_interface",
+        "sensor_stack": args.sensor_stack,
         "captured_at_unix_s": round(time.time(), 3),
         "sampling_duration_s": args.duration_s,
         "map_resolution_m": args.map_resolution_m,

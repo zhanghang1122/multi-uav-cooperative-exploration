@@ -4,9 +4,9 @@ The scene dimensions must follow the simulated aircraft actually used in the
 experiment.  Do not copy a corridor width from an unrelated paper or select it
 by appearance in Gazebo.
 
-The collector is passive. It records odometry, depth-image, and sensor-pose
-interfaces while MARSIM/FUEL is already running. It never sends a goal,
-trajectory, map, or flight-control command. Run the interface audit first;
+The collector is passive. It records the interface used by the selected stack
+while MARSIM or FUEL is already running. It never sends a goal, trajectory,
+map, or flight-control command. Run the interface audit first;
 vehicle dimensions are deliberately a separate step.
 
 ## 1. Record the platform profile
@@ -15,8 +15,14 @@ First collect the runtime interfaces without any vehicle-size estimate:
 
 ```bash
 rosrun ruins_urban_01 collect_platform_profile.py \
+  --sensor-stack marsim-os128 \
   --output /tmp/ruins_platform_interface.json
 ```
+
+`marsim-os128` records `/quad_0/lidar_slam/odom` and
+`/quad0_pcl_render_node/sensor_cloud` by default. The FUEL depth-camera stack
+is separate and must be requested explicitly with `--sensor-stack fuel-depth`.
+Do not launch MARSIM and then audit the unrelated FUEL depth topics.
 
 The result must report `passed: true`. It is not yet usable for scene geometry.
 

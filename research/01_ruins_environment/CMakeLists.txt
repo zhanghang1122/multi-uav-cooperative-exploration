@@ -5,6 +5,12 @@ find_package(catkin REQUIRED)
 
 catkin_package()
 
+catkin_install_python(PROGRAMS
+  scripts/collect_platform_profile.py
+  scripts/derive_geometry_constraints.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
 install(DIRECTORY
   config
   docs

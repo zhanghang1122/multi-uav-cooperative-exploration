@@ -51,9 +51,13 @@ obstacle avoidance and AST 2017/2022/2025 cooperative/GPS-denied studies.
 
 ```bash
 rosrun ruins_urban_01 generate_damage_building_suite.py \
-  --platform-profile /tmp/ruins_platform_profile.json \
   --output-dir /tmp/damage_building_suite_v1
 ```
+
+The default profile is the versioned
+`config/platform_profiles/fuel_marsim_os128_v1.json` in this package. A
+temporary platform-profile file may be supplied only when recalibrating the
+same verified platform; it is not required for normal experiment replay.
 
 Inspect `/tmp/damage_building_suite_v1/previews/*.svg` and each validation JSON
 before launching a world. Generation itself does not modify a runtime planner.

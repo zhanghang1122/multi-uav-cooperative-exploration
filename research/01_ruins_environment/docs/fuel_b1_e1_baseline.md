@@ -57,12 +57,16 @@ can open that saved profile directly with `rviz -d ~/.ros/fuel_b1_frontier.rviz`
 The visualizer sends no command to the planner.
 
 After FUEL prints `finish exploration.`, the recorder waits three seconds,
-writes the final online map and exits. Evaluate that map only after the run:
+writes the final online map and exits. It also writes a read-only online-map
+snapshot every 20 seconds. Snapshots are not available to FUEL and are used
+only after the run to derive the map-quality curve and time-to-coverage
+metrics. Evaluate that map only after the run:
 
 ```bash
 rosrun ruins_urban_01 evaluate_surface_map.py \
   --truth-pcd /tmp/damage_building_suite_v1/pcd/Coop-Building-E1-Structured-Interior_interior_reference.pcd \
   --observed-pcd /tmp/fuel_b1_e1_trial_01/final_online_occupancy.pcd \
+  --snapshots-csv /tmp/fuel_b1_e1_trial_01/snapshots.csv \
   --resolution-m 0.1 \
   --tolerance-voxels 1 \
   --output /tmp/fuel_b1_e1_trial_01/map_quality.json
@@ -70,7 +74,10 @@ rosrun ruins_urban_01 evaluate_surface_map.py \
 
 The resulting `trial_summary.json` contains completion time, flight-path
 length, online-map growth and Frontier message statistics. `map_quality.json`
-contains offline Precision, Recall and F1. The primary reference excludes
+contains offline Precision, Recall and F1, and, for newly collected trials,
+the surface-recall curve plus `T80`, `T90` and `T95`. `T90` means the first
+time at which the offline interior-reference surface recall reaches 90%; it is
+`null` if the trial never reaches that threshold. The primary reference excludes
 exterior envelope faces and obstacle bottom faces that cannot be observed from
 inside the building. The full PCD remains available as a stricter supplementary
 reference. The evaluator never runs during the experiment and cannot affect

@@ -4,21 +4,31 @@ The scene dimensions must follow the simulated aircraft actually used in the
 experiment.  Do not copy a corridor width from an unrelated paper or select it
 by appearance in Gazebo.
 
-The collector is passive.  It records odometry, depth-image, and sensor-pose
-interfaces while MARSIM/FUEL is already running.  It never sends a goal,
-trajectory, map, or flight-control command.
+The collector is passive. It records odometry, depth-image, and sensor-pose
+interfaces while MARSIM/FUEL is already running. It never sends a goal,
+trajectory, map, or flight-control command. Run the interface audit first;
+vehicle dimensions are deliberately a separate step.
 
 ## 1. Record the platform profile
 
-Use the collision diameter from the UAV collision geometry and select a
-per-side clearance margin.  The effective planning diameter is
+First collect the runtime interfaces without any vehicle-size estimate:
+
+```bash
+rosrun ruins_urban_01 collect_platform_profile.py \
+  --output /tmp/ruins_platform_interface.json
+```
+
+The result must report `passed: true`. It is not yet usable for scene geometry.
+
+Then obtain the collision diameter from the active simulated model and select
+a per-side clearance margin. The effective planning diameter is
 
 ```text
 D_eff = collision_diameter + 2 * safety_margin
 ```
 
-Example only (replace the two vehicle values by values measured from the
-active model):
+Repeat the collection with those measured values. Example only (replace the
+two vehicle values by values measured from the active model):
 
 ```bash
 rosrun ruins_urban_01 collect_platform_profile.py \
@@ -27,9 +37,8 @@ rosrun ruins_urban_01 collect_platform_profile.py \
   --output /tmp/ruins_platform_profile.json
 ```
 
-The result must report `passed: true`.  A mismatch between world/map odometry
-and sensor-pose frames is a real interface issue and must be resolved before
-mapping or scene generation begins.
+A mismatch between world/map odometry and sensor-pose frames is a real
+interface issue and must be resolved before mapping or scene generation begins.
 
 ## 2. Derive the geometry constraints
 

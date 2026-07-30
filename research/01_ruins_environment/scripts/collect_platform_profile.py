@@ -73,14 +73,12 @@ def parse_args():
     parser.add_argument(
         "--collision-diameter-m",
         type=positive_float,
-        required=True,
-        help="Measured maximum collision diameter of the simulated UAV body, excluding clearance.",
+        help="Optional measured UAV collision diameter, excluding clearance.",
     )
     parser.add_argument(
         "--safety-margin-m",
         type=positive_float,
-        required=True,
-        help="Per-side planning margin. It is added on both sides of the collision diameter.",
+        help="Optional per-side planning margin. Supply this only with --collision-diameter-m.",
     )
     parser.add_argument("--map-resolution-m", type=positive_float, default=0.10)
     return parser.parse_args()
@@ -97,6 +95,10 @@ def write_json(path, value):
 
 def main():
     args = parse_args()
+    if (args.collision_diameter_m is None) != (args.safety_margin_m is None):
+        raise SystemExit(
+            "--collision-diameter-m and --safety-margin-m must be supplied together or both omitted"
+        )
     rospy.init_node("ruins_platform_profile_collector", anonymous=True)
 
     odom = TopicSample(args.odom_topic, "nav_msgs/Odometry")
@@ -128,7 +130,10 @@ def main():
     while not rospy.is_shutdown() and time.time() < deadline:
         rate.sleep()
 
-    effective_diameter = args.collision_diameter_m + 2.0 * args.safety_margin_m
+    geometry_ready = args.collision_diameter_m is not None
+    effective_diameter = None
+    if geometry_ready:
+        effective_diameter = args.collision_diameter_m + 2.0 * args.safety_margin_m
     topics = {
         "odometry": odom.as_dict(),
         "depth": depth.as_dict(),
@@ -147,18 +152,26 @@ def main():
         # belongs to a world/map frame. Equality deserves explicit review.
         failures.append("depth_and_sensor_pose_share_frame_review_required")
 
+    vehicle = {
+        "collision_diameter_m": args.collision_diameter_m,
+        "safety_margin_per_side_m": args.safety_margin_m,
+        "effective_planning_diameter_m": (
+            round(effective_diameter, 6) if effective_diameter is not None else None
+        ),
+        "dimension_source": (
+            "experimenter-measured collision geometry"
+            if geometry_ready
+            else "not recorded; interface audit only"
+        ),
+    }
     profile = {
         "schema_version": 1,
         "profile_kind": "measured_ros_platform_interface",
         "captured_at_unix_s": round(time.time(), 3),
         "sampling_duration_s": args.duration_s,
         "map_resolution_m": args.map_resolution_m,
-        "vehicle": {
-            "collision_diameter_m": args.collision_diameter_m,
-            "safety_margin_per_side_m": args.safety_margin_m,
-            "effective_planning_diameter_m": round(effective_diameter, 6),
-            "dimension_source": "experimenter-measured collision geometry",
-        },
+        "vehicle": vehicle,
+        "geometry_ready": geometry_ready,
         "topics": topics,
         "passed": not failures,
         "failures": failures,
@@ -170,9 +183,12 @@ def main():
     write_json(args.output, profile)
     print(json.dumps(profile, indent=2, sort_keys=True))
     if failures:
-        rospy.logerr("Platform profile is incomplete: %s", ", ".join(failures))
+        rospy.logerr("Platform interface audit is incomplete: %s", ", ".join(failures))
         return 1
-    rospy.loginfo("Platform profile passed: %s", args.output)
+    if geometry_ready:
+        rospy.loginfo("Platform profile passed and is ready for geometry derivation: %s", args.output)
+    else:
+        rospy.loginfo("Platform interface audit passed; add measured geometry before scene derivation: %s", args.output)
     return 0
 
 

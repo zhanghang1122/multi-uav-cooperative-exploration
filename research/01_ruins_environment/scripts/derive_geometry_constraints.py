@@ -50,6 +50,11 @@ def main():
     profile = load_json(args.platform_profile)
     if not profile.get("passed"):
         raise SystemExit("platform profile did not pass; correct runtime interface issues first")
+    if not profile.get("geometry_ready"):
+        raise SystemExit(
+            "platform profile has no collision geometry; repeat collection with "
+            "--collision-diameter-m and --safety-margin-m"
+        )
     vehicle = profile.get("vehicle", {})
     diameter = vehicle.get("effective_planning_diameter_m")
     if not isinstance(diameter, (int, float)) or diameter <= 0.0:

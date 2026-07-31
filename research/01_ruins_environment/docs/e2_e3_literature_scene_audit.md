@@ -2,10 +2,10 @@
 
 ## Status
 
-**E2 and E3 from the current generator are candidate assets only. They are not
-approved for formal B1/B2/B3/P paper experiments.** Do not start E2 trials
-until the acceptance criteria in this document are verified from generated
-assets.
+**E2 and E3 were redesigned and pass the static geometry acceptance checks in
+the generator.** They remain candidate assets until their Gazebo/MARSIM sensing
+interface has been verified; only then may the fixed E2 asset be used for the
+formal B1/B2/B3/P runs.
 
 ## What the Literature Supports
 
@@ -35,26 +35,28 @@ claim reproducible:
    not represented by volume alone.
    [FUEL accepted manuscript](https://repository.hkust.edu.hk/ir/bitstream/1783.1-108720/1/033635_1.pdf).
 
-## Audit Result for the Current Candidate
+## Redesign Result and Acceptance Scope
 
-The current E2 has a suitable *scale* for a main scene: `42 x 32 x 4.2 m`
+The redesigned E2 has a suitable primary-scene scale of `42 x 32 x 4.2 m`
 (about `5645 m^3`), comparable to the `4800 m^3` FUEL large-maze benchmark.
-Its generated geometry is also nontrivial: 51 wall segments, 7 columns, 9
-equipment obstacles, 6 damage objects and 4 partial overhead elements.
+The redesigned E3 is a comparable `44 x 34 x 4.2 m`, but its workshop/storage/
+service-spine layout is not a scaled E2 copy.
 
-However, it is **not yet paper-ready** because these key quantities are only
-design labels, not independently derived from the navigable geometry:
+Each generated validation JSON now records all of the following, evaluated at
+the active `0.199 m` FUEL planning-envelope radius:
 
-- number of rooms, junctions, loops and dead ends;
-- width distribution and count of clearance-critical passages;
-- number of independently reachable exploration branches after the common
-  entry;
-- topological difference between E2 and E3;
-- density/occlusion measurements that explain why E2 is harder than E1.
+- 100% entry-connected free space on a `0.20 m` flight-slice grid;
+- three named, entry-reachable major branch anchors with grid distances;
+- doorway/cross-link throat widths in metres and relative to `D_eff`;
+- audited static topology graph node, edge, junction, terminal and cycle-rank
+  counts; and
+- geometry role counts plus physical and inflated occupied-footprint fraction.
 
-The existing 100% reachability test proves that the current collision geometry
-is connected for the configured FUEL envelope. It does **not** prove that the
-scene creates a meaningful three-UAV coordination challenge.
+The topology graph is deliberately a declared **offline audit contract**, with
+each node and edge checked for geometry reachability. It is not claimed to be
+an automatically extracted semantic map and is never supplied to a UAV at
+runtime. This distinction prevents the static scene documentation from leaking
+an online navigation prior.
 
 ## Frozen Redesign Requirements
 
@@ -68,14 +70,16 @@ and equipment must be structural causes of visibility loss or path choices, not
 random visual clutter. Partial overhead elements may be used for 3-D sensing
 occlusion, but no inaccessible second floor may be claimed.
 
-The generated E2 validation report must derive and publish:
+The generated E2 validation report must publish:
 
 - reachable-volume fraction at the configured planning envelope;
-- free-space graph node/edge count, junction count, cycle count and terminal
-  count, extracted from a declared flight-slice graph;
+- offline topology-contract node/edge count, junction count, cycle rank and
+  terminal count, with every declared node/edge verified against the inflated
+  flight-slice geometry;
 - physical passage-width distribution and the number of passages in each
   clearance band relative to `D_eff`;
-- count of entry-reachable major branches and branch workload proxies;
+- count of entry-reachable major branches and entry-to-anchor grid distances as
+  branch workload proxies;
 - geometry role counts and occupied-volume ratio.
 
 ### E3: Topology-Generalization Scene
@@ -89,7 +93,8 @@ performance is robust to a topology different from E2.
 
 ## Experimental Rule After Redesign
 
-1. Validate and visually inspect the redesigned E2/E3 reports.
+1. Regenerate, visually inspect and retain the redesigned E2/E3 validation
+   reports with the exact platform profile used.
 2. Run B1 five times on the approved E2.
 3. Run B2, B3 and P five times each on the identical E2 asset and settings.
 4. After P is frozen, run the required comparative generalization experiment on

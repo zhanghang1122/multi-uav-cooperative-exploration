@@ -51,6 +51,7 @@ class Scene:
     entry: tuple[float, float, float]
     purpose: str
     topology: dict
+    offline_audit: dict
 
 
 SCENES = (
@@ -61,22 +62,85 @@ SCENES = (
         (-12.1, 0.0, 1.5),
         "Interface check and single-UAV functional baseline; not the primary result scene.",
         {"rooms": 8, "junctions": 4, "loops": 1, "dead_ends": 2, "bottlenecks": 1, "occluding_turns": 6, "damage_clusters": 1},
+        {},
     ),
     Scene(
         "e2_damaged_building",
         "Coop-Building-E2-Damaged-Building",
         (42.0, 32.0, 4.2),
         (-20.0, 0.0, 1.5),
-        "Primary fixed scene for B1/B2/B3/P comparisons: connected damaged building with loops, branches, occlusions and bounded debris.",
-        {"rooms": 16, "junctions": 10, "loops": 4, "dead_ends": 6, "bottlenecks": 4, "occluding_turns": 18, "damage_clusters": 6},
+        "Primary fixed scene for B1/B2/B3/P comparisons: a common entry feeding three concurrently reachable damaged-building wings.",
+        {"design_role": "primary_fixed_comparison", "major_wings": 3, "cycle_rank": 3, "terminal_pockets": 5},
+        {
+            "major_branch_anchors": {
+                "north_office_wing": (-14.5, 10.8),
+                "south_utility_wing": (-14.5, -10.8),
+                "east_service_loop": (17.2, 0.0),
+            },
+            "passage_probes": (
+                ("north_wing_access", (-12.0, 4.8), "y"),
+                ("south_wing_access", (-12.0, -4.8), "y"),
+                ("east_service_access", (14.5, 0.0), "x"),
+                ("east_loop_crosslink", (11.0, 10.0), "y"),
+            ),
+            "topology_graph": {
+                "nodes": {
+                    "entry": (-18.0, 0.0), "hall_west": (-11.0, 0.0),
+                    "north": (-14.5, 10.8), "south": (-14.5, -10.8),
+                    "core_north": (3.0, 4.0), "core_south": (3.0, -4.0),
+                    "east": (17.2, 0.0), "east_north": (17.0, 11.5),
+                    "east_south": (17.0, -11.5), "north_terminal": (2.0, 13.0),
+                    "south_terminal": (1.0, -13.0), "west_terminal": (-18.0, 13.0),
+                },
+                "edges": (
+                    ("entry", "hall_west"), ("hall_west", "north"), ("hall_west", "south"),
+                    ("hall_west", "core_north"), ("hall_west", "core_south"),
+                    ("core_north", "east_north"), ("core_south", "east_south"),
+                    ("east_north", "east"), ("east_south", "east"),
+                    ("core_north", "north_terminal"), ("core_south", "south_terminal"),
+                    ("north", "west_terminal"), ("north", "core_north"), ("south", "core_south"),
+                ),
+            },
+        },
     ),
     Scene(
         "e3_industrial_wing",
         "Coop-Building-E3-Industrial-Wing",
-        (50.0, 38.0, 4.6),
-        (-24.0, 0.0, 1.5),
-        "Topology-generalization scene: workshop, service wing and storage cells rather than a scaled copy of E2.",
-        {"rooms": 20, "junctions": 14, "loops": 6, "dead_ends": 10, "bottlenecks": 6, "occluding_turns": 26, "damage_clusters": 8},
+        (44.0, 34.0, 4.2),
+        (-21.0, 0.0, 1.5),
+        "Topology-generalization scene: asymmetric workshop, storage cells and constrained service spine rather than a scaled copy of E2.",
+        {"design_role": "topology_generalization", "major_wings": 3, "cycle_rank": 2, "terminal_pockets": 7},
+        {
+            "major_branch_anchors": {
+                "north_workshop": (-9.0, 11.5),
+                "south_storage": (-12.5, -11.5),
+                "east_service_spine": (13.5, 0.0),
+            },
+            "passage_probes": (
+                ("workshop_access", (-15.0, 5.8), "y"),
+                ("storage_access", (-15.0, -5.8), "y"),
+                ("east_service_access", (16.5, 0.0), "x"),
+                ("north_service_crosslink", (12.6, 10.5), "y"),
+            ),
+            "topology_graph": {
+                "nodes": {
+                    "entry": (-19.0, 0.0), "spine_west": (-11.0, 0.0),
+                    "workshop": (-9.0, 11.5), "storage": (-12.5, -11.5),
+                    "core": (1.5, 0.0), "service": (13.5, 0.0),
+                    "service_north": (12.6, 10.5), "service_south": (12.6, -10.5),
+                    "workshop_terminal": (3.5, 15.2), "storage_terminal": (4.0, -14.0),
+                    "northwest_terminal": (-19.0, 13.5), "southwest_terminal": (-19.0, -15.5),
+                },
+                "edges": (
+                    ("entry", "spine_west"), ("spine_west", "workshop"), ("spine_west", "storage"),
+                    ("spine_west", "core"), ("core", "service"), ("service", "service_north"),
+                    ("service", "service_south"), ("service_north", "workshop"),
+                    ("service_south", "storage"), ("workshop", "workshop_terminal"),
+                    ("storage", "storage_terminal"), ("workshop", "northwest_terminal"),
+                    ("storage", "southwest_terminal"),
+                ),
+            },
+        },
     ),
 )
 
@@ -269,41 +333,50 @@ def build_e2(scene: Scene) -> list[Box]:
     boxes: list[Box] = []
     envelope(boxes, scene)
     h = scene.size[2]
-    # A damaged public/service building: main hall, north offices, south utility
-    # rooms and east service wing.  The entries in these walls make the graph
-    # connected but do not label or allocate any online exploration region.
-    add_open_wall(boxes, "e2_north_hall_boundary", (-21, 5.0), (21, 5.0), [(3.2, 2.0), (10.0, 2.2), (17.0, 2.0), (25.5, 2.2), (34.5, 2.0)], h)
-    add_open_wall(boxes, "e2_south_hall_boundary", (-21, -5.0), (21, -5.0), [(4.5, 2.0), (12.5, 2.2), (21.0, 2.0), (30.0, 2.2), (37.5, 2.0)], h)
-    # North and south wings are divided into usable rooms with offset doors;
-    # their geometry creates loops and line-of-sight breaks rather than a grid.
-    for index, x in enumerate((-14.0, -6.0, 3.0, 12.0)):
-        add_open_wall(boxes, f"e2_north_partition_{index}", (x, 5.0), (x, 16.0), [(5.0 + (index % 2), 1.9)], h)
-    for index, x in enumerate((-15.0, -7.0, 2.0, 11.0)):
-        add_open_wall(boxes, f"e2_south_partition_{index}", (x, -16.0), (x, -5.0), [(5.2 - (index % 2), 1.9)], h)
-    # East service loop with transverse connections; placement leaves real turn
-    # pockets and one 1.15 m bottleneck after the 0.199m FUEL envelope.
-    add_open_wall(boxes, "e2_east_service_outer", (14.5, -16.0), (14.5, 16.0), [(4.0, 2.0), (14.5, 2.0), (25.5, 2.0)], h)
-    add_open_wall(boxes, "e2_east_service_inner", (8.0, -13.0), (8.0, 13.0), [(4.5, 1.6), (13.0, 1.6), (21.5, 1.6)], h)
-    add_open_wall(boxes, "e2_east_service_north", (8.0, 10.0), (20.8, 10.0), [(3.5, 2.0), (9.5, 2.0)], h)
-    add_open_wall(boxes, "e2_east_service_south", (8.0, -10.0), (20.8, -10.0), [(3.5, 2.0), (9.5, 2.0)], h)
-    # Non-rectangular damaged core: it creates occlusion and decision points in
-    # the central hall while leaving 2.0m+ circulation routes around it.
-    add_wall(boxes, "e2_core_a", (-3.8, -1.8), (1.5, -1.8), 2.6, "concrete_light")
-    add_wall(boxes, "e2_core_b", (1.5, -1.8), (3.7, 1.0), 2.6, "concrete_light")
-    add_wall(boxes, "e2_core_c", (3.7, 1.0), (0.0, 2.6), 2.6, "concrete_light")
-    add_wall(boxes, "e2_core_d", (0.0, 2.6), (-3.8, 1.0), 2.6, "concrete_light")
-    add_columns(boxes, "e2_hall_column", [(-17.5, -1.6), (-11.0, 1.8), (-6.0, -2.4), (6.5, 2.0), (11.5, -2.0), (17.5, 1.6), (18.2, -3.0)], h)
+    # E2 is the fixed main scene: a common entrance hall opens into three
+    # simultaneously reachable but initially unknown wings.  These walls are
+    # collision geometry, not a runtime region partition or route annotation.
+    add_open_wall(boxes, "e2_north_hall_boundary", (-21, 4.8), (21, 4.8), [(9.0, 2.0), (17.0, 2.0), (26.0, 2.1), (34.0, 2.0)], h)
+    add_open_wall(boxes, "e2_south_hall_boundary", (-21, -4.8), (21, -4.8), [(9.0, 2.0), (17.0, 2.0), (26.0, 2.1), (34.0, 2.0)], h)
+    # North office wing: four unequal rooms, two rear links, and two short
+    # visibility blockers.  The layout creates local decisions without making
+    # a regular maze or an artificial assignment region.
+    for index, x in enumerate((-13.0, -5.0, 3.5, 11.0)):
+        add_open_wall(boxes, f"e2_north_partition_{index}", (x, 4.8), (x, 16.0), [(4.2 + (index % 2) * 1.4, 1.9)], h)
+    add_open_wall(boxes, "e2_north_rear_link", (-20.7, 12.6), (11.0, 12.6), [(7.0, 1.8), (11.7, 1.8), (16.8, 1.8), (26.0, 1.8)], 2.5, "concrete_light")
+    add_wall(boxes, "e2_north_occluder_a", (-18.2, 7.6), (-15.2, 7.6), 2.3, "concrete_light")
+    add_wall(boxes, "e2_north_occluder_b", (-1.5, 9.0), (1.5, 9.0), 2.3, "concrete_light")
+    # South utility wing is deliberately different from the north wing: deeper
+    # cells and offset rear links provide terminal pockets and local occlusion.
+    for index, x in enumerate((-13.5, -5.5, 2.5, 10.5)):
+        add_open_wall(boxes, f"e2_south_partition_{index}", (x, -16.0), (x, -4.8), [(4.4 + (index % 2) * 1.2, 1.9)], h)
+    add_open_wall(boxes, "e2_south_rear_link", (-20.7, -12.4), (10.5, -12.4), [(6.5, 1.8), (11.7, 1.8), (16.0, 1.8), (25.0, 1.8)], 2.5, "concrete_light")
+    add_wall(boxes, "e2_south_occluder_a", (-17.6, -8.0), (-14.6, -8.0), 2.3, "concrete_light")
+    add_wall(boxes, "e2_south_occluder_b", (-0.8, -9.2), (2.3, -9.2), 2.3, "concrete_light")
+    # The east service wing is a real geometric loop around a damaged core.
+    # Its two cross-links make non-greedy allocation useful after exploration.
+    add_open_wall(boxes, "e2_service_outer", (14.5, -16.0), (14.5, 16.0), [(4.0, 2.0), (16.0, 2.0), (27.5, 2.0)], h)
+    add_open_wall(boxes, "e2_service_inner", (9.0, -13.0), (9.0, 13.0), [(4.5, 1.8), (13.0, 1.8), (21.5, 1.8)], h)
+    add_open_wall(boxes, "e2_service_north_link", (9.0, 10.0), (20.8, 10.0), [(2.0, 1.9), (8.3, 1.9)], h)
+    add_open_wall(boxes, "e2_service_south_link", (9.0, -10.0), (20.8, -10.0), [(2.0, 1.9), (8.3, 1.9)], h)
+    # An irregular core breaks direct visibility through the central hall while
+    # retaining circulation on all four sides at the configured FUEL envelope.
+    add_wall(boxes, "e2_core_a", (-3.6, -1.7), (1.3, -1.7), 2.6, "concrete_light")
+    add_wall(boxes, "e2_core_b", (1.3, -1.7), (3.6, 0.7), 2.6, "concrete_light")
+    add_wall(boxes, "e2_core_c", (3.6, 0.7), (0.3, 2.7), 2.6, "concrete_light")
+    add_wall(boxes, "e2_core_d", (0.3, 2.7), (-3.6, 1.0), 2.6, "concrete_light")
+    add_columns(boxes, "e2_hall_column", [(-17.8, -1.7), (-11.0, 1.8), (-6.0, -2.4), (6.5, 2.0), (11.5, -2.0), (17.2, 2.0), (18.2, -3.0)], h)
     add_equipment(boxes, "e2_equipment", [
-        (-18.0, 9.0, 2.8, 0.75, 1.8, 0.0), (-10.0, 11.0, 3.0, 0.75, 1.8, 0.0), (-2.0, 9.0, 2.5, 0.75, 1.8, 0.0),
-        (-17.0, -11.0, 2.7, 0.8, 1.8, 0.0), (-9.5, -8.8, 2.6, 0.8, 1.8, 0.0), (0.0, -11.5, 2.5, 0.8, 1.8, 0.0),
-        (10.5, 13.0, 2.8, 0.8, 1.9, math.pi / 2), (17.5, 6.8, 2.5, 0.8, 1.9, math.pi / 2), (17.5, -6.8, 2.5, 0.8, 1.9, math.pi / 2),
+        (-18.2, 10.2, 2.8, 0.75, 1.8, 0.0), (-10.0, 10.3, 3.0, 0.75, 1.8, 0.0), (-1.8, 14.0, 2.5, 0.75, 1.8, 0.0),
+        (-17.0, -10.2, 2.7, 0.8, 1.8, 0.0), (-9.5, -8.8, 2.6, 0.8, 1.8, 0.0), (0.0, -14.0, 2.5, 0.8, 1.8, 0.0),
+        (10.8, 13.5, 2.8, 0.8, 1.9, math.pi / 2), (17.5, 6.8, 2.5, 0.8, 1.9, math.pi / 2), (17.5, -6.8, 2.5, 0.8, 1.9, math.pi / 2),
     ])
     add_damage(boxes, "e2_damage", [
-        (-16.5, 13.2, 2.6, 0.8, 1.4, 0.20), (-5.0, 13.0, 2.2, 1.0, 1.2, -0.34), (4.8, -13.0, 2.5, 0.9, 1.3, 0.25),
-        (19.0, 12.8, 1.8, 1.2, 1.1, -0.30), (19.0, -12.5, 1.8, 1.2, 1.1, 0.30), (-19.0, -13.0, 1.4, 1.1, 1.0, 0.0),
+        (-16.5, 14.2, 2.6, 0.8, 1.4, 0.20), (-5.0, 14.0, 2.2, 1.0, 1.2, -0.34), (4.8, -14.0, 2.5, 0.9, 1.3, 0.25),
+        (19.0, 13.0, 1.8, 1.2, 1.1, -0.30), (19.0, -12.5, 1.8, 1.2, 1.1, 0.30), (-19.0, -14.0, 1.4, 1.1, 1.0, 0.0),
     ])
-    # Partial overhead remains at the ceiling zone, forming 3-D observation
-    # occlusion but not inventing a hidden second floor.
+    # Ceiling-zone fragments add 3-D sensing occlusion only; they are not an
+    # inaccessible upper floor and never carry a hidden exploration task.
     add_overhead(boxes, "e2_overhead", [(-15.0, 2.8, 4.2, 0.60, 3.45), (-8.0, -2.8, 4.0, 0.60, 3.45), (8.5, 3.0, 4.0, 0.60, 3.45), (15.0, -2.8, 4.2, 0.60, 3.45)])
     return boxes
 
@@ -312,30 +385,34 @@ def build_e3(scene: Scene) -> list[Box]:
     boxes: list[Box] = []
     envelope(boxes, scene)
     h = scene.size[2]
-    # Deliberately different from E2: a north workshop, south storage rooms,
-    # and an east service spine connected by offset cross-corridors.
-    add_open_wall(boxes, "e3_workshop_boundary", (-25, 7.0), (25, 7.0), [(4.0, 2.2), (12.0, 2.0), (21.0, 2.2), (31.0, 2.0), (42.0, 2.2)], h)
-    add_open_wall(boxes, "e3_storage_boundary", (-25, -7.0), (25, -7.0), [(5.0, 2.0), (15.0, 2.2), (25.0, 2.0), (36.0, 2.2), (45.0, 2.0)], h)
-    # Workshop racks create dense, structured occlusion while the aisles are
-    # dimensioned to remain wider than the derived normal-clearance bound.
-    for i, x in enumerate((-19.0, -12.5, -6.0, 0.5, 7.0, 13.5, 20.0)):
-        add_box(boxes, f"e3_workshop_rack_{i:02d}", (x, 12.3, 1.35), (3.8, 1.0, 2.7), "brick", "equipment")
-        add_box(boxes, f"e3_workshop_rack_{i:02d}_b", (x, 16.2, 1.35), (3.8, 1.0, 2.7), "brick", "equipment")
-    # Southern storage: room walls have alternate door locations so the scene
-    # has branch decisions, loops and genuine dead ends, not parallel stripes.
-    for i, x in enumerate((-18.0, -10.0, -2.0, 7.0, 16.0)):
-        add_open_wall(boxes, f"e3_storage_partition_{i}", (x, -19.0), (x, -7.0), [(4.0 + (i % 2), 1.85)], h)
-    add_open_wall(boxes, "e3_service_spine_outer", (17.0, -19.0), (17.0, 7.0), [(4.0, 2.0), (13.0, 1.8), (21.5, 2.0)], h)
-    add_open_wall(boxes, "e3_service_spine_inner", (10.5, -16.5), (10.5, 4.5), [(3.5, 1.65), (10.5, 1.65), (17.0, 1.65)], h)
-    add_open_wall(boxes, "e3_service_link_n", (10.5, 3.5), (24.8, 3.5), [(4.0, 1.9), (11.0, 1.9)], h)
-    add_open_wall(boxes, "e3_service_link_s", (10.5, -12.5), (24.8, -12.5), [(4.0, 1.9), (11.0, 1.9)], h)
-    # Central irregular inspection spine blocks direct lines of sight.
+    # E3 is intentionally not a larger E2.  It has a long service spine,
+    # structured workshop visibility loss, and deeper asymmetric storage cells.
+    add_open_wall(boxes, "e3_workshop_boundary", (-22, 5.8), (22, 5.8), [(7.0, 2.0), (15.5, 2.0), (25.0, 2.0), (34.5, 2.0)], h)
+    add_open_wall(boxes, "e3_storage_boundary", (-22, -5.8), (22, -5.8), [(7.0, 2.0), (16.0, 2.0), (25.0, 2.0), (34.5, 2.0)], h)
+    # Rack pairs create observation occlusion, while 2.4 m aisles remain
+    # feasible after the active 0.199 m planning-envelope inflation.
+    for i, x in enumerate((-17.5, -11.5, -5.5, 0.5, 6.5)):
+        add_box(boxes, f"e3_workshop_rack_{i:02d}", (x, 10.0, 1.35), (3.1, 0.9, 2.7), "brick", "equipment")
+        add_box(boxes, f"e3_workshop_rack_{i:02d}_b", (x, 14.2, 1.35), (3.1, 0.9, 2.7), "brick", "equipment")
+    add_wall(boxes, "e3_workshop_occluder", (5.0, 8.0), (8.5, 8.0), 2.4, "concrete_light")
+    # Storage is made of unequal cells with alternating doorway positions;
+    # unlike E2 it has a predominantly serial topology and deeper terminals.
+    for i, x in enumerate((-14.0, -6.0, 2.0, 10.0)):
+        add_open_wall(boxes, f"e3_storage_partition_{i}", (x, -17.0), (x, -5.8), [(3.7 + (i % 2) * 1.5, 1.85)], h)
+    add_open_wall(boxes, "e3_storage_rear_link", (-21.7, -13.4), (10.0, -13.4), [(8.0, 1.8), (22.0, 1.8)], 2.5, "concrete_light")
+    add_wall(boxes, "e3_storage_occluder", (-18.5, -9.0), (-15.5, -9.0), 2.3, "concrete_light")
+    # A constrained east service spine yields unequal paths to the same wing.
+    add_open_wall(boxes, "e3_service_outer", (16.5, -17.0), (16.5, 17.0), [(6.5, 2.0), (17.0, 1.8), (27.5, 2.0)], h)
+    add_open_wall(boxes, "e3_service_inner", (11.0, -13.8), (11.0, 13.8), [(4.0, 1.7), (13.8, 1.7), (23.0, 1.7)], h)
+    add_open_wall(boxes, "e3_service_link_n", (11.0, 10.5), (21.8, 10.5), [(1.6, 1.9), (7.0, 1.9)], h)
+    add_open_wall(boxes, "e3_service_link_s", (11.0, -10.5), (21.8, -10.5), [(1.6, 1.9), (7.0, 1.9)], h)
+    # Central inspection spine blocks direct lines of sight across the building.
     for i, (a, b) in enumerate((((-7.0, -2.2), (-2.0, -2.2)), ((-2.0, -2.2), (-0.5, 1.0)), ((-0.5, 1.0), (4.0, 1.0)), ((4.0, 1.0), (5.5, -1.5)))):
         add_wall(boxes, f"e3_core_{i:02d}", a, b, 2.8, "concrete_light")
-    add_columns(boxes, "e3_column", [(-21.0, -2.2), (-15.0, 2.0), (-9.0, -2.5), (-3.0, 2.4), (5.0, -2.3), (12.0, 2.0), (20.0, -2.0), (21.0, 10.0), (21.0, 15.0)], h)
-    add_equipment(boxes, "e3_storage_equipment", [(-21.0, -11.0, 2.6, 0.9, 1.8, 0.0), (-14.0, -15.0, 2.6, 0.9, 1.8, 0.0), (-6.0, -11.5, 2.8, 0.9, 1.8, 0.0), (3.0, -15.0, 2.6, 0.9, 1.8, 0.0), (12.0, -15.0, 2.7, 0.9, 1.8, 0.0), (21.0, -16.0, 2.4, 0.9, 1.8, 0.0)])
-    add_damage(boxes, "e3_damage", [(-22.0, 4.5, 2.8, 1.2, 1.3, 0.28), (-14.0, -17.0, 2.0, 1.0, 1.2, -0.28), (-4.0, -17.0, 2.2, 1.0, 1.2, 0.20), (6.0, -17.0, 2.2, 1.0, 1.2, -0.18), (19.5, -8.0, 2.5, 1.0, 1.2, 0.35), (22.0, 5.5, 2.4, 1.1, 1.2, -0.25), (1.0, 5.5, 2.0, 0.9, 1.2, 0.20), (-9.0, 5.5, 2.0, 0.9, 1.2, -0.20)])
-    add_overhead(boxes, "e3_overhead", [(-17.0, 3.2, 4.5, 0.60, 3.75), (-9.0, -3.2, 4.2, 0.60, 3.75), (1.0, 3.2, 4.2, 0.60, 3.75), (9.0, -3.2, 4.2, 0.60, 3.75), (18.0, 1.8, 4.0, 0.60, 3.75), (20.0, 10.0, 3.5, 0.60, 3.75)])
+    add_columns(boxes, "e3_column", [(-18.5, -2.2), (-12.0, 2.0), (-6.0, -2.5), (0.0, 2.4), (6.0, -2.3), (12.0, 2.0), (19.0, -2.0), (19.0, 11.5)], h)
+    add_equipment(boxes, "e3_storage_equipment", [(-19.0, -10.5, 2.6, 0.9, 1.8, 0.0), (-12.0, -15.0, 2.6, 0.9, 1.8, 0.0), (-5.0, -10.5, 2.8, 0.9, 1.8, 0.0), (3.0, -15.0, 2.6, 0.9, 1.8, 0.0), (12.0, -15.0, 2.7, 0.9, 1.8, 0.0), (19.0, -14.5, 2.4, 0.9, 1.8, 0.0)])
+    add_damage(boxes, "e3_damage", [(-20.0, 4.2, 2.8, 1.2, 1.3, 0.28), (-13.0, -15.0, 2.0, 1.0, 1.2, -0.28), (-3.5, -15.0, 2.2, 1.0, 1.2, 0.20), (6.0, -15.0, 2.2, 1.0, 1.2, -0.18), (19.0, -8.0, 2.5, 1.0, 1.2, 0.35), (20.0, 5.5, 2.4, 1.1, 1.2, -0.25), (1.0, 5.5, 2.0, 0.9, 1.2, 0.20), (-9.0, 5.5, 2.0, 0.9, 1.2, -0.20)])
+    add_overhead(boxes, "e3_overhead", [(-17.0, 3.2, 4.5, 0.60, 3.45), (-9.0, -3.2, 4.2, 0.60, 3.45), (1.0, 3.2, 4.2, 0.60, 3.45), (9.0, -3.2, 4.2, 0.60, 3.45), (18.0, 1.8, 4.0, 0.60, 3.45), (19.0, 10.0, 3.5, 0.60, 3.45)])
     return boxes
 
 
@@ -353,8 +430,8 @@ def footprint_contains(x: float, y: float, box: Box, inflation: float) -> bool:
     return abs(lx) <= box.size[0] / 2 + inflation and abs(ly) <= box.size[1] / 2 + inflation
 
 
-def validate_connectivity(boxes: list[Box], scene: Scene, radius: float, cell=0.20) -> dict:
-    """Offline QA: all free cells must be reachable after FUEL-envelope inflation."""
+def build_flight_slice_grid(boxes: list[Box], scene: Scene, radius: float, cell=0.20) -> dict:
+    """Rasterize collision geometry for offline flight-slice QA only."""
     width, depth, _ = scene.size
     nx, ny = int(width / cell), int(depth / cell)
     blocked = set()
@@ -364,20 +441,183 @@ def validate_connectivity(boxes: list[Box], scene: Scene, radius: float, cell=0.
             x = -width / 2 + (ix + 0.5) * cell
             if any(footprint_contains(x, y, box, radius) for box in boxes):
                 blocked.add((ix, iy))
-    sx, sy = int((scene.entry[0] + width / 2) / cell), int((scene.entry[1] + depth / 2) / cell)
-    if (sx, sy) in blocked:
-        raise RuntimeError(f"{scene.key}: entry is blocked after planning-envelope inflation")
-    seen, queue = {(sx, sy)}, deque([(sx, sy)])
+    return {"nx": nx, "ny": ny, "cell": cell, "blocked": blocked}
+
+
+def cell_for_point(scene: Scene, grid: dict, point) -> tuple[int, int]:
+    width, depth, _ = scene.size
+    ix = int((point[0] + width / 2) / grid["cell"])
+    iy = int((point[1] + depth / 2) / grid["cell"])
+    return min(grid["nx"] - 1, max(0, ix)), min(grid["ny"] - 1, max(0, iy))
+
+
+def flood_distances(grid: dict, source: tuple[int, int]) -> dict:
+    """Four-connected grid distances used only to audit the static geometry."""
+    if source in grid["blocked"]:
+        return {}
+    distances, queue = {source: 0}, deque([source])
     while queue:
         ix, iy = queue.popleft()
         for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
             nxt = ix + dx, iy + dy
-            if 0 <= nxt[0] < nx and 0 <= nxt[1] < ny and nxt not in blocked and nxt not in seen:
-                seen.add(nxt)
+            if 0 <= nxt[0] < grid["nx"] and 0 <= nxt[1] < grid["ny"] and nxt not in grid["blocked"] and nxt not in distances:
+                distances[nxt] = distances[(ix, iy)] + 1
                 queue.append(nxt)
+    return distances
+
+
+def validate_connectivity(boxes: list[Box], scene: Scene, radius: float, cell=0.20) -> dict:
+    """Offline QA: all free cells must be reachable after FUEL-envelope inflation."""
+    grid = build_flight_slice_grid(boxes, scene, radius, cell)
+    width, depth, _ = scene.size
+    nx, ny, blocked = grid["nx"], grid["ny"], grid["blocked"]
+    sx, sy = int((scene.entry[0] + width / 2) / cell), int((scene.entry[1] + depth / 2) / cell)
+    if (sx, sy) in blocked:
+        raise RuntimeError(f"{scene.key}: entry is blocked after planning-envelope inflation")
+    seen = flood_distances(grid, (sx, sy))
     free = nx * ny - len(blocked)
     ratio = len(seen) / max(1, free)
-    return {"passed": ratio >= 0.985, "flight_slice_z_m": FLIGHT_SLICE_Z, "grid_resolution_m": cell, "planning_envelope_radius_m": radius, "free_cells": free, "reachable_cells": len(seen), "reachable_fraction": round(ratio, 6)}
+    return {
+        "passed": ratio >= 0.985,
+        "flight_slice_z_m": FLIGHT_SLICE_Z,
+        "grid_resolution_m": cell,
+        "planning_envelope_radius_m": radius,
+        "free_cells": free,
+        "reachable_cells": len(seen),
+        "reachable_fraction": round(ratio, 6),
+        "inflated_occupied_footprint_fraction": round(len(blocked) / float(nx * ny), 6),
+    }
+
+
+def scan_passage_width(scene: Scene, grid: dict, point, longitudinal_axis: str) -> float:
+    """Estimate free width orthogonal to a declared passage centerline.
+
+    The probe is a static QA measurement.  It is never exported to Gazebo,
+    FUEL, MARSIM or the online cooperative controller.
+    """
+    origin = cell_for_point(scene, grid, point)
+    if origin in grid["blocked"]:
+        return 0.0
+    dx, dy = (0, 1) if longitudinal_axis == "x" else (1, 0)
+    left = right = 0
+    for sign in (-1, 1):
+        count = 0
+        while True:
+            candidate = (origin[0] + sign * dx * (count + 1), origin[1] + sign * dy * (count + 1))
+            if not (0 <= candidate[0] < grid["nx"] and 0 <= candidate[1] < grid["ny"]) or candidate in grid["blocked"]:
+                break
+            count += 1
+        if sign < 0:
+            left = count
+        else:
+            right = count
+    return round((left + right + 1) * grid["cell"], 3)
+
+
+def audit_scene_contract(boxes: list[Box], scene: Scene, radius: float, cell=0.20) -> dict:
+    """Validate declared offline complexity probes against collision geometry.
+
+    The topology graph is an audit artifact that documents the intended static
+    test scene.  It is excluded from all runtime assets and is not available to
+    any exploration method.
+    """
+    if not scene.offline_audit:
+        return {"available": False}
+    physical_grid = build_flight_slice_grid(boxes, scene, 0.0, cell)
+    planning_grid = build_flight_slice_grid(boxes, scene, radius, cell)
+    entry_cell = cell_for_point(scene, planning_grid, scene.entry)
+    entry_distances = flood_distances(planning_grid, entry_cell)
+    diameter = 2.0 * radius
+
+    anchors = {}
+    for name, point in scene.offline_audit["major_branch_anchors"].items():
+        cell_id = cell_for_point(scene, planning_grid, point)
+        distance = entry_distances.get(cell_id)
+        anchors[name] = {
+            "point_xy_m": list(point),
+            "free_after_inflation": cell_id not in planning_grid["blocked"],
+            "reachable_from_entry": distance is not None,
+            "shortest_grid_distance_m": None if distance is None else round(distance * cell, 3),
+        }
+
+    probes = {}
+    for name, point, axis in scene.offline_audit["passage_probes"]:
+        physical_width = scan_passage_width(scene, physical_grid, point, axis)
+        planning_width = scan_passage_width(scene, planning_grid, point, axis)
+        probes[name] = {
+            "point_xy_m": list(point),
+            "longitudinal_axis": axis,
+            "physical_width_m": physical_width,
+            "planning_free_width_m": planning_width,
+            "physical_width_over_D_eff": None if diameter <= 0 else round(physical_width / diameter, 3),
+        }
+    ratios = [item["physical_width_over_D_eff"] for item in probes.values() if item["physical_width_over_D_eff"] is not None]
+    width_bands = {"<3D_eff": 0, "3D_eff_to_<4D_eff": 0, "4D_eff_to_<5D_eff": 0, ">=5D_eff": 0}
+    for ratio in ratios:
+        if ratio < 3.0:
+            width_bands["<3D_eff"] += 1
+        elif ratio < 4.0:
+            width_bands["3D_eff_to_<4D_eff"] += 1
+        elif ratio < 5.0:
+            width_bands["4D_eff_to_<5D_eff"] += 1
+        else:
+            width_bands[">=5D_eff"] += 1
+
+    contract = scene.offline_audit["topology_graph"]
+    node_cells = {name: cell_for_point(scene, planning_grid, point) for name, point in contract["nodes"].items()}
+    node_status = {
+        name: {
+            "point_xy_m": list(contract["nodes"][name]),
+            "free_after_inflation": cell_id not in planning_grid["blocked"],
+            "reachable_from_entry": cell_id in entry_distances,
+        }
+        for name, cell_id in node_cells.items()
+    }
+    degrees = Counter()
+    edge_routes = []
+    distance_cache = {}
+    for left, right in contract["edges"]:
+        degrees[left] += 1
+        degrees[right] += 1
+        if left not in distance_cache:
+            distance_cache[left] = flood_distances(planning_grid, node_cells[left])
+        steps = distance_cache[left].get(node_cells[right])
+        edge_routes.append({"from": left, "to": right, "reachable": steps is not None, "shortest_grid_distance_m": None if steps is None else round(steps * cell, 3)})
+    vertices, edges = len(contract["nodes"]), len(contract["edges"])
+    graph_summary = {
+        "interpretation": "offline declared topology contract with grid-validated nodes and edges; never a runtime navigation graph",
+        "node_count": vertices,
+        "edge_count": edges,
+        "junction_count": sum(1 for degree in degrees.values() if degree >= 3),
+        "terminal_count": sum(1 for degree in degrees.values() if degree == 1),
+        "cycle_rank": edges - vertices + 1,
+        "nodes": node_status,
+        "edges": edge_routes,
+    }
+    passed = (
+        all(item["reachable_from_entry"] for item in anchors.values())
+        and all(item["planning_free_width_m"] >= diameter for item in probes.values())
+        and all(item["reachable_from_entry"] for item in node_status.values())
+        and all(item["reachable"] for item in edge_routes)
+    )
+    return {
+        "available": True,
+        "passed": passed,
+        "effective_planning_diameter_m": round(diameter, 3),
+        "major_branch_count": len(anchors),
+        "major_branch_anchors": anchors,
+        "passage_probes": probes,
+        "passage_width_summary": {
+            "interpretation": "static doorway/cross-link throat probes, not a runtime traversability map",
+            "probe_count": len(probes),
+            "physical_width_min_m": min((item["physical_width_m"] for item in probes.values()), default=None),
+            "physical_width_max_m": max((item["physical_width_m"] for item in probes.values()), default=None),
+            "count_by_physical_width_over_D_eff": width_bands,
+        },
+        "declared_topology_graph": graph_summary,
+        "physical_occupied_footprint_fraction": round(len(physical_grid["blocked"]) / float(physical_grid["nx"] * physical_grid["ny"]), 6),
+        "planning_occupied_footprint_fraction": round(len(planning_grid["blocked"]) / float(planning_grid["nx"] * planning_grid["ny"]), 6),
+    }
 
 
 def write_world(path: Path, scene: Scene, boxes: list[Box]):
@@ -478,6 +718,9 @@ def generate(scene: Scene, output: Path, radius: float):
     reachability = validate_connectivity(boxes, scene, radius)
     if not reachability["passed"]:
         raise RuntimeError(f"{scene.key} rejected by connectivity QA: {reachability}")
+    scene_audit = audit_scene_contract(boxes, scene, radius)
+    if scene_audit.get("available") and not scene_audit["passed"]:
+        raise RuntimeError(f"{scene.key} rejected by topology/clearance QA: {scene_audit}")
     for folder in ("worlds", "pcd", "obj", "dae", "previews", "validation"):
         (output / folder).mkdir(parents=True, exist_ok=True)
     stem = scene.title
@@ -502,6 +745,7 @@ def generate(scene: Scene, output: Path, radius: float):
             "interior_reference_points": reference_points,
         },
         "reachability": reachability,
+        "offline_scene_audit": scene_audit,
         "runtime_contract": {
             "runtime_input": "bounded workspace and live onboard sensing only",
             "truth_pcd_usage": "offline evaluation only",

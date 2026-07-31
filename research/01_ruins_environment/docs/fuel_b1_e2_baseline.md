@@ -1,5 +1,10 @@
 # B1: FUEL Single-UAV Frontier Baseline in E2
 
+> **Paused:** do not run this procedure until the E2 redesign and validation
+> criteria in [`e2_e3_literature_scene_audit.md`](e2_e3_literature_scene_audit.md)
+> have been satisfied. The current generated E2 is a candidate, not a formal
+> paper scene.
+
 E2 is the fixed primary damaged-building scene for the paper comparison. This
 document defines the B1 reference experiment only: one UAV, official FUEL
 Frontier exploration, five independent repetitions. It is the reference row

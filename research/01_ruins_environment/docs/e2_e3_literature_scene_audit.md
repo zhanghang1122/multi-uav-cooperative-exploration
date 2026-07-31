@@ -1,11 +1,12 @@
-# E2/E3 Literature-Grounded Scene Audit
+# E2/E3 Literature-Grounded Scene Review
 
 ## Status
 
-**E2 and E3 were redesigned and pass the static geometry acceptance checks in
-the generator.** They remain candidate assets until their Gazebo/MARSIM sensing
-interface has been verified; only then may the fixed E2 asset be used for the
-formal B1/B2/B3/P runs.
+**The current E2/E3 assets are retired from the formal paper protocol.** They
+pass only a limited static reachability check. That check establishes neither a
+meaningful three-UAV coordination challenge nor journal-quality environmental
+complexity. They may be retained as generator smoke tests, but no B1/B2/B3/P
+result from them may be presented as a paper comparison result.
 
 ## What the Literature Supports
 
@@ -35,65 +36,114 @@ claim reproducible:
    not represented by volume alone.
    [FUEL accepted manuscript](https://repository.hkust.edu.hk/ir/bitstream/1783.1-108720/1/033635_1.pdf).
 
-## Redesign Result and Acceptance Scope
+## What the Current Assets Do Not Establish
 
-The redesigned E2 has a suitable primary-scene scale of `42 x 32 x 4.2 m`
-(about `5645 m^3`), comparable to the `4800 m^3` FUEL large-maze benchmark.
-The redesigned E3 is a comparable `44 x 34 x 4.2 m`, but its workshop/storage/
-service-spine layout is not a scaled E2 copy.
+The current E2 has a `42 x 32 x 4.2 m` envelope. Its volume is comparable to
+the `20 x 80 x 3 m` FUEL maze, but volume alone is not a complexity argument.
+The current branch-anchor distances are approximately `20.2 m`, `20.0 m` and
+`41.6 m`. This produces an avoidable two-to-one workload imbalance before a
+coordination method has made any decision. It would confound an experiment
+whose claim is better task allocation among three UAVs.
 
-Each generated validation JSON now records all of the following, evaluated at
-the active `0.199 m` FUEL planning-envelope radius:
+Further, its declared narrow passages are `1.6--2.0 m`, or roughly
+`4.0--5.0 D_eff` for the active FUEL envelope (`D_eff = 0.398 m`). They are
+safe and useful for an interface test, but do not by themselves test constrained
+navigation. Its large open central area, sparse local occluders and few
+overhead elements also make the exploration burden visually and topologically
+weaker than a damaged-building main benchmark should be. The current E3 has the
+same issue in a different layout. Neither asset may be described as matching a
+published benchmark merely because it contains rooms, walls and boxes.
 
-- 100% entry-connected free space on a `0.20 m` flight-slice grid;
-- three named, entry-reachable major branch anchors with grid distances;
-- doorway/cross-link throat widths in metres and relative to `D_eff`;
-- audited static topology graph node, edge, junction, terminal and cycle-rank
-  counts; and
-- geometry role counts plus physical and inflated occupied-footprint fraction.
+There is also no defensible journal rule such as "N rooms plus M obstacles is
+complex". Published environments are designed around a hypothesis: FUEL uses
+cluttered rooms, a bridge and a long maze to expose planning/visibility limits;
+the distributed three-UAV study uses city and forest scenes and finds that a
+third UAV only helps when the environment has sufficient spatial complexity.
+Consequently, this project must quantify *its own* controlled topology,
+visibility and clearance characteristics rather than copy arbitrary object
+counts.
 
-The topology graph is deliberately a declared **offline audit contract**, with
-each node and edge checked for geometry reachability. It is not claimed to be
-an automatically extracted semantic map and is never supplied to a UAV at
-runtime. This distinction prevents the static scene documentation from leaking
-an online navigation prior.
+## V2 Design Basis Before Any New Simulation
 
-## Frozen Redesign Requirements
+The next assets must be designed and accepted as a controlled benchmark suite,
+not as a collection of visually different rooms. The values below are project
+acceptance criteria derived to test the stated cooperative-exploration claim;
+they are not falsely presented as mandatory values from a single paper.
 
-### E2: Primary Damaged-Building Comparison Scene
+### Common Runtime Contract
 
-E2 must be a connected damaged indoor building with one common launch area and
-three initially unknown, concurrently reachable wings. Each wing must contain
-occlusion and at least one local decision; two or more cross-connections must
-create loops; terminal pockets must create dead-end decisions. Damage, columns
-and equipment must be structural causes of visibility loss or path choices, not
-random visual clutter. Partial overhead elements may be used for 3-D sensing
-occlusion, but no inaccessible second floor may be claimed.
+- One fixed geometry and fixed sensor/control profile are used for all B1, B2,
+  B3 and P trials on E2.
+- The online system receives only its local sensor data, current pose estimate
+  and the prescribed bounded exploration volume. It receives no route,
+  waypoint list, room label, static graph, branch assignment or truth map.
+- Every declared topology/visibility/clearance value is an offline audit only.
+- The same FUEL collision envelope is used for scene validation and execution.
+  With the current profile this is `D_eff = 0.398 m`.
+- All externally reported map quality remains an offline comparison between the
+  generated ground-truth PCD and the final online map.
 
-The generated E2 validation report must publish:
+### E2-V2: Fixed Primary Cooperative-Exploration Scene
+
+E2-V2 is a one-storey, partially damaged public/industrial building. It does
+not claim a hidden second floor. Its complexity must arise from a common
+entry, obstructed visibility, alternative routes, loops, terminal pockets and
+three concurrently discoverable workload regions.
+
+The design target is:
+
+- a short entry foyer that prevents immediate line-of-sight access to all
+  branches;
+- three entry-reachable wings with comparable entry-to-frontier route scales
+  (target spread no greater than 25% before online allocation);
+- at least two local choices per wing, at least one terminal pocket per wing,
+  and multiple cross-wing alternatives so that revisits and allocation choices
+  are consequential;
+- a mixture of wide (`>= 2.0 m`), normal (`1.2--1.6 m`) and challenging
+  (`0.9--1.2 m`) physical clearances, all validated after inflation. A
+  challenging clearance remains greater than about `2.3 D_eff`; no
+  non-flyable decorative bottleneck is permitted;
+- structural columns, partial walls, equipment groups and damage clusters
+  distributed across all wings. Each object class must create either occlusion,
+  a route choice, or a local sensing challenge; purely decorative clutter is
+  prohibited; and
+- partial-height/overhead damage only where it changes three-dimensional
+  sensing or path choice and where the associated free space is physically
+  reachable. It must not create a fictitious upper floor.
+
+The E2-V2 audit must publish:
 
 - reachable-volume fraction at the configured planning envelope;
+- route-length distribution to three branch anchors, including its spread;
 - offline topology-contract node/edge count, junction count, cycle rank and
-  terminal count, with every declared node/edge verified against the inflated
-  flight-slice geometry;
-- physical passage-width distribution and the number of passages in each
-  clearance band relative to `D_eff`;
-- count of entry-reachable major branches and entry-to-anchor grid distances as
-  branch workload proxies;
-- geometry role counts and occupied-volume ratio.
+  terminal count, with every declared node/edge verified against inflated
+  geometry;
+- physical clearance distribution and the number of verified passages in each
+  clearance class relative to `D_eff`;
+- initial sensor-visibility audit from the launch pose, plus per-wing occlusion
+  and obstacle-role counts; and
+- geometry role counts and physical/inflated occupied-footprint fraction.
 
-### E3: Topology-Generalization Scene
+### E3-V2: Fixed Generalization Scene
 
-E3 must retain the same sensor model, planning envelope and comparable scale,
-but use a different topology rather than simply adding more obstacles. The
-target is an asymmetric service/workshop structure: a long constrained spine,
-side rooms, rack-induced occlusion and unequal branch lengths. It must pass the
-same validation and must not be used to tune P. E3 evaluates whether B3/P
-performance is robust to a topology different from E2.
+E3-V2 retains the same sensor model, planning envelope and comparable total
+size, but has a deliberately different topology: a constrained service spine,
+asymmetric side bays, rack/damage occlusion and unequal branch lengths. It is
+not used to tune P. It is used after P is frozen to test whether the B3/P
+difference persists outside E2's balanced three-wing structure. It must pass
+the same offline reachability, clearance, topology and visibility audits.
+
+## Implementation Gate
+
+No scene-generation code is changed again until an E2-V2/E3-V2 parameter
+table and an audit algorithm have been reviewed together. The next code change
+must generate both scenes and the exact offline audit reports described above.
+Only after visual inspection and sensor-interface validation may E2-V2 enter
+the five-repeat B1 baseline protocol.
 
 ## Experimental Rule After Redesign
 
-1. Regenerate, visually inspect and retain the redesigned E2/E3 validation
+1. Regenerate, visually inspect and retain the accepted E2-V2/E3-V2 validation
    reports with the exact platform profile used.
 2. Run B1 five times on the approved E2.
 3. Run B2, B3 and P five times each on the identical E2 asset and settings.

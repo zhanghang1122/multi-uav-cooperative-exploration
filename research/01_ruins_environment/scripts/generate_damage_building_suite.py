@@ -66,78 +66,90 @@ SCENES = (
     ),
     Scene(
         "e2_damaged_building",
-        "Coop-Building-E2-Damaged-Building",
-        (42.0, 32.0, 4.2),
-        (-20.0, 0.0, 1.5),
-        "Primary fixed scene for B1/B2/B3/P comparisons: a common entry feeding three concurrently reachable damaged-building wings.",
-        {"design_role": "primary_fixed_comparison", "major_wings": 3, "cycle_rank": 3, "terminal_pockets": 5},
+        "Coop-Building-E2V2-Damaged-Branch-Loop",
+        (46.0, 36.0, 4.2),
+        (-21.4, 0.0, 1.5),
+        "Primary fixed scene for B1/B2/B3/P comparisons: a partially damaged single-storey building with a screened entry, three comparable unknown wings, loops and terminal pockets.",
+        {"design_role": "primary_fixed_comparison", "major_wings": 3, "cycle_rank": 1, "terminal_pockets": 5, "scene_revision": "v2"},
         {
             "major_branch_anchors": {
-                "north_office_wing": (-14.5, 10.8),
-                "south_utility_wing": (-14.5, -10.8),
-                "east_service_loop": (17.2, 0.0),
+                "north_damaged_wing": (7.0, 14.5),
+                "south_damaged_wing": (7.0, -14.5),
+                "east_service_loop": (18.0, 0.0),
             },
             "passage_probes": (
-                ("north_wing_access", (-12.0, 4.8), "y"),
-                ("south_wing_access", (-12.0, -4.8), "y"),
-                ("east_service_access", (14.5, 0.0), "x"),
-                ("east_loop_crosslink", (11.0, 10.0), "y"),
+                ("north_access", (-10.0, 3.6), "y"),
+                ("south_access", (-10.0, -3.6), "y"),
+                ("north_east_gate", (8.0, 8.0), "x"),
+                ("south_east_gate", (8.0, -8.0), "x"),
+                ("east_north_crosslink_inner", (11.0, 10.0), "y"),
+                ("east_north_crosslink_outer", (18.6, 10.0), "y"),
+                ("east_south_crosslink_inner", (11.0, -10.0), "y"),
+                ("east_south_crosslink_outer", (18.6, -10.0), "y"),
             ),
+            "branch_distance_max_spread_ratio": 0.25,
             "topology_graph": {
                 "nodes": {
-                    "entry": (-18.0, 0.0), "hall_west": (-11.0, 0.0),
-                    "north": (-14.5, 10.8), "south": (-14.5, -10.8),
-                    "core_north": (3.0, 4.0), "core_south": (3.0, -4.0),
-                    "east": (17.2, 0.0), "east_north": (17.0, 11.5),
-                    "east_south": (17.0, -11.5), "north_terminal": (2.0, 13.0),
-                    "south_terminal": (1.0, -13.0), "west_terminal": (-18.0, 13.0),
+                    "entry": (-21.4, 0.0), "foyer": (-16.0, 0.0), "hub": (-10.0, 0.0),
+                    "north_gate": (-10.0, 5.5), "north_inner": (-1.5, 8.7),
+                    "north_anchor": (7.0, 14.5), "north_terminal": (13.0, 15.2),
+                    "south_gate": (-10.0, -5.5), "south_inner": (-1.5, -9.3),
+                    "south_anchor": (7.0, -14.5), "south_terminal": (13.0, -15.2),
+                    "east_north": (12.0, 8.0), "east_south": (12.0, -8.0),
+                    "east_anchor": (18.0, 0.0), "east_north_terminal": (20.7, 12.9),
+                    "east_south_terminal": (20.7, -14.1),
                 },
                 "edges": (
-                    ("entry", "hall_west"), ("hall_west", "north"), ("hall_west", "south"),
-                    ("hall_west", "core_north"), ("hall_west", "core_south"),
-                    ("core_north", "east_north"), ("core_south", "east_south"),
-                    ("east_north", "east"), ("east_south", "east"),
-                    ("core_north", "north_terminal"), ("core_south", "south_terminal"),
-                    ("north", "west_terminal"), ("north", "core_north"), ("south", "core_south"),
+                    ("entry", "foyer"), ("foyer", "hub"),
+                    ("hub", "north_gate"), ("north_gate", "north_inner"),
+                    ("north_inner", "north_anchor"), ("north_anchor", "north_terminal"),
+                    ("hub", "south_gate"), ("south_gate", "south_inner"),
+                    ("south_inner", "south_anchor"), ("south_anchor", "south_terminal"),
+                    ("north_inner", "east_north"), ("south_inner", "east_south"),
+                    ("east_north", "east_anchor"), ("east_south", "east_anchor"),
+                    ("east_anchor", "east_north_terminal"), ("east_anchor", "east_south_terminal"),
                 ),
             },
         },
     ),
     Scene(
         "e3_industrial_wing",
-        "Coop-Building-E3-Industrial-Wing",
-        (44.0, 34.0, 4.2),
-        (-21.0, 0.0, 1.5),
-        "Topology-generalization scene: asymmetric workshop, storage cells and constrained service spine rather than a scaled copy of E2.",
-        {"design_role": "topology_generalization", "major_wings": 3, "cycle_rank": 2, "terminal_pockets": 7},
+        "Coop-Building-E3V2-Industrial-Spine",
+        (48.0, 38.0, 4.2),
+        (-22.4, 0.0, 1.5),
+        "Topology-generalization scene: asymmetric workshop, damaged storage cells and an S-shaped service spine rather than a scaled E2 copy.",
+        {"design_role": "topology_generalization", "major_wings": 3, "cycle_rank": 2, "terminal_pockets": 5, "scene_revision": "v2"},
         {
             "major_branch_anchors": {
-                "north_workshop": (-9.0, 11.5),
-                "south_storage": (-12.5, -11.5),
-                "east_service_spine": (13.5, 0.0),
+                "north_rack_workshop": (5.0, 15.0),
+                "south_storage_cells": (3.0, -15.0),
+                "east_service_spine": (19.0, 0.0),
             },
             "passage_probes": (
-                ("workshop_access", (-15.0, 5.8), "y"),
-                ("storage_access", (-15.0, -5.8), "y"),
-                ("east_service_access", (16.5, 0.0), "x"),
-                ("north_service_crosslink", (12.6, 10.5), "y"),
+                ("workshop_access", (-11.0, 4.0), "y"),
+                ("storage_access", (-11.0, -4.0), "y"),
+                ("service_north_gate", (9.0, 8.5), "x"),
+                ("service_south_gate", (9.0, -8.5), "x"),
+                ("service_north_crosslink_inner", (12.0, 11.0), "y"),
+                ("service_north_crosslink_outer", (19.5, 11.0), "y"),
+                ("service_south_crosslink_inner", (12.0, -11.0), "y"),
+                ("service_south_crosslink_outer", (19.5, -11.0), "y"),
             ),
             "topology_graph": {
                 "nodes": {
-                    "entry": (-19.0, 0.0), "spine_west": (-11.0, 0.0),
-                    "workshop": (-9.0, 11.5), "storage": (-12.5, -11.5),
-                    "core": (1.5, 0.0), "service": (13.5, 0.0),
-                    "service_north": (12.6, 10.5), "service_south": (12.6, -10.5),
-                    "workshop_terminal": (3.5, 15.2), "storage_terminal": (4.0, -14.0),
-                    "northwest_terminal": (-19.0, 13.5), "southwest_terminal": (-19.0, -15.5),
+                    "entry": (-22.4, 0.0), "foyer": (-16.0, 0.0), "spine_west": (-10.0, 0.0),
+                    "workshop": (5.0, 15.0), "storage": (3.0, -15.0), "core": (1.5, 0.0),
+                    "service": (19.0, 0.0), "service_north": (13.0, 8.5), "service_south": (13.0, -8.5),
+                    "workshop_terminal": (11.0, 17.0), "storage_terminal": (10.0, -17.0),
+                    "northwest_terminal": (-18.0, 16.0), "southwest_terminal": (-18.0, -16.0),
                 },
                 "edges": (
-                    ("entry", "spine_west"), ("spine_west", "workshop"), ("spine_west", "storage"),
-                    ("spine_west", "core"), ("core", "service"), ("service", "service_north"),
-                    ("service", "service_south"), ("service_north", "workshop"),
-                    ("service_south", "storage"), ("workshop", "workshop_terminal"),
-                    ("storage", "storage_terminal"), ("workshop", "northwest_terminal"),
-                    ("storage", "southwest_terminal"),
+                    ("entry", "foyer"), ("foyer", "spine_west"), ("spine_west", "workshop"),
+                    ("spine_west", "storage"), ("spine_west", "core"), ("core", "service"),
+                    ("service", "service_north"), ("service", "service_south"),
+                    ("service_north", "workshop"), ("service_south", "storage"),
+                    ("workshop", "workshop_terminal"), ("storage", "storage_terminal"),
+                    ("workshop", "northwest_terminal"), ("storage", "southwest_terminal"),
                 ),
             },
         },
@@ -333,51 +345,58 @@ def build_e2(scene: Scene) -> list[Box]:
     boxes: list[Box] = []
     envelope(boxes, scene)
     h = scene.size[2]
-    # E2 is the fixed main scene: a common entrance hall opens into three
-    # simultaneously reachable but initially unknown wings.  These walls are
-    # collision geometry, not a runtime region partition or route annotation.
-    add_open_wall(boxes, "e2_north_hall_boundary", (-21, 4.8), (21, 4.8), [(9.0, 2.0), (17.0, 2.0), (26.0, 2.1), (34.0, 2.0)], h)
-    add_open_wall(boxes, "e2_south_hall_boundary", (-21, -4.8), (21, -4.8), [(9.0, 2.0), (17.0, 2.0), (26.0, 2.1), (34.0, 2.0)], h)
-    # North office wing: four unequal rooms, two rear links, and two short
-    # visibility blockers.  The layout creates local decisions without making
-    # a regular maze or an artificial assignment region.
-    for index, x in enumerate((-13.0, -5.0, 3.5, 11.0)):
-        add_open_wall(boxes, f"e2_north_partition_{index}", (x, 4.8), (x, 16.0), [(4.2 + (index % 2) * 1.4, 1.9)], h)
-    add_open_wall(boxes, "e2_north_rear_link", (-20.7, 12.6), (11.0, 12.6), [(7.0, 1.8), (11.7, 1.8), (16.8, 1.8), (26.0, 1.8)], 2.5, "concrete_light")
-    add_wall(boxes, "e2_north_occluder_a", (-18.2, 7.6), (-15.2, 7.6), 2.3, "concrete_light")
-    add_wall(boxes, "e2_north_occluder_b", (-1.5, 9.0), (1.5, 9.0), 2.3, "concrete_light")
-    # South utility wing is deliberately different from the north wing: deeper
-    # cells and offset rear links provide terminal pockets and local occlusion.
-    for index, x in enumerate((-13.5, -5.5, 2.5, 10.5)):
-        add_open_wall(boxes, f"e2_south_partition_{index}", (x, -16.0), (x, -4.8), [(4.4 + (index % 2) * 1.2, 1.9)], h)
-    add_open_wall(boxes, "e2_south_rear_link", (-20.7, -12.4), (10.5, -12.4), [(6.5, 1.8), (11.7, 1.8), (16.0, 1.8), (25.0, 1.8)], 2.5, "concrete_light")
-    add_wall(boxes, "e2_south_occluder_a", (-17.6, -8.0), (-14.6, -8.0), 2.3, "concrete_light")
-    add_wall(boxes, "e2_south_occluder_b", (-0.8, -9.2), (2.3, -9.2), 2.3, "concrete_light")
-    # The east service wing is a real geometric loop around a damaged core.
-    # Its two cross-links make non-greedy allocation useful after exploration.
-    add_open_wall(boxes, "e2_service_outer", (14.5, -16.0), (14.5, 16.0), [(4.0, 2.0), (16.0, 2.0), (27.5, 2.0)], h)
-    add_open_wall(boxes, "e2_service_inner", (9.0, -13.0), (9.0, 13.0), [(4.5, 1.8), (13.0, 1.8), (21.5, 1.8)], h)
-    add_open_wall(boxes, "e2_service_north_link", (9.0, 10.0), (20.8, 10.0), [(2.0, 1.9), (8.3, 1.9)], h)
-    add_open_wall(boxes, "e2_service_south_link", (9.0, -10.0), (20.8, -10.0), [(2.0, 1.9), (8.3, 1.9)], h)
-    # An irregular core breaks direct visibility through the central hall while
-    # retaining circulation on all four sides at the configured FUEL envelope.
-    add_wall(boxes, "e2_core_a", (-3.6, -1.7), (1.3, -1.7), 2.6, "concrete_light")
-    add_wall(boxes, "e2_core_b", (1.3, -1.7), (3.6, 0.7), 2.6, "concrete_light")
-    add_wall(boxes, "e2_core_c", (3.6, 0.7), (0.3, 2.7), 2.6, "concrete_light")
-    add_wall(boxes, "e2_core_d", (0.3, 2.7), (-3.6, 1.0), 2.6, "concrete_light")
-    add_columns(boxes, "e2_hall_column", [(-17.8, -1.7), (-11.0, 1.8), (-6.0, -2.4), (6.5, 2.0), (11.5, -2.0), (17.2, 2.0), (18.2, -3.0)], h)
+    # E2-V2 is a damaged building, not a random obstacle field. The common
+    # entry has a staggered foyer so that the three wings cannot all be observed
+    # from the launch pose. The walls below define physical structure only.
+    add_wall(boxes, "e2_foyer_north", (-22.8, 3.6), (-13.0, 3.6), h)
+    add_wall(boxes, "e2_foyer_south", (-22.8, -3.6), (-13.0, -3.6), h)
+    add_wall(boxes, "e2_foyer_baffle_a", (-18.2, -3.6), (-18.2, 0.9), 2.65, "concrete_light")
+    add_wall(boxes, "e2_foyer_baffle_b", (-15.0, 3.6), (-15.0, -0.9), 2.65, "concrete_light")
+    # A hub separates the three exploration directions. The north and south
+    # boundaries have several different doorway scales; the east wing is only
+    # reachable through the north/south gates, creating a real loop decision.
+    add_open_wall(boxes, "e2_north_boundary", (-13.0, 3.6), (8.0, 3.6), [(3.0, 2.0), (11.0, 1.45), (18.0, 1.15)], h)
+    add_open_wall(boxes, "e2_south_boundary", (-13.0, -3.6), (8.0, -3.6), [(3.0, 2.0), (11.0, 1.45), (18.0, 1.15)], h)
+    # North wing: an outer gallery, offset rooms and a rear return link. Every
+    # structural component either blocks sight or creates a feasible route choice.
+    for index, x in enumerate((-9.5, -2.0, 5.5)):
+        add_open_wall(boxes, f"e2_north_partition_{index}", (x, 3.6), (x, 17.8), [(4.2 + (index % 2) * 2.4, 1.35 + (index % 2) * 0.25)], h)
+    add_open_wall(boxes, "e2_north_rear_gallery", (-13.0, 13.2), (8.0, 13.2), [(4.2, 1.3), (11.8, 1.55), (18.2, 1.3)], 2.55, "concrete_light")
+    add_wall(boxes, "e2_north_occluder_a", (-12.0, 7.4), (-8.1, 7.4), 2.45, "concrete_light")
+    add_wall(boxes, "e2_north_occluder_b", (-4.2, 10.1), (-0.8, 10.1), 2.45, "concrete_light")
+    add_wall(boxes, "e2_north_occluder_c", (2.0, 15.5), (5.0, 15.5), 2.35, "concrete_light")
+    # South wing is a different but workload-comparable damaged utility layout.
+    for index, x in enumerate((-9.5, -2.0, 5.5)):
+        add_open_wall(boxes, f"e2_south_partition_{index}", (x, -17.8), (x, -3.6), [(4.0 + ((index + 1) % 2) * 2.5, 1.35 + ((index + 1) % 2) * 0.25)], h)
+    add_open_wall(boxes, "e2_south_rear_gallery", (-13.0, -13.2), (8.0, -13.2), [(4.0, 1.3), (11.5, 1.55), (18.1, 1.3)], 2.55, "concrete_light")
+    add_wall(boxes, "e2_south_occluder_a", (-12.0, -7.4), (-8.1, -7.4), 2.45, "concrete_light")
+    add_wall(boxes, "e2_south_occluder_b", (-4.2, -10.1), (-0.8, -10.1), 2.45, "concrete_light")
+    add_wall(boxes, "e2_south_occluder_c", (2.0, -15.5), (5.0, -15.5), 2.35, "concrete_light")
+    # East service loop: two gateway doors from the north/south wings and two
+    # cross-links around a damaged core. It gives a coordination policy the
+    # option to avoid redundant return travel without exposing a static graph.
+    add_open_wall(boxes, "e2_east_gate", (8.0, -14.8), (8.0, 14.8), [(6.8, 1.25), (22.8, 1.25)], h)
+    add_open_wall(boxes, "e2_east_outer", (17.0, -17.8), (17.0, 17.8), [(7.8, 1.45), (17.9, 1.35), (28.0, 1.45)], h)
+    add_open_wall(boxes, "e2_east_north_crosslink", (8.0, 10.0), (22.8, 10.0), [(3.0, 1.45), (10.6, 1.15)], h)
+    add_open_wall(boxes, "e2_east_south_crosslink", (8.0, -10.0), (22.8, -10.0), [(3.0, 1.45), (10.6, 1.15)], h)
+    add_wall(boxes, "e2_east_core_a", (11.0, -4.2), (15.0, -4.2), 2.65, "concrete_light")
+    add_wall(boxes, "e2_east_core_b", (15.0, -4.2), (16.0, 0.0), 2.65, "concrete_light")
+    add_wall(boxes, "e2_east_core_c", (16.0, 0.0), (13.0, 4.0), 2.65, "concrete_light")
+    add_wall(boxes, "e2_east_core_d", (13.0, 4.0), (10.5, 1.5), 2.65, "concrete_light")
+    add_columns(boxes, "e2_column", [(-12.0, 1.5), (-7.0, -1.8), (-1.0, 1.8), (4.5, -1.8), (-10.0, 10.0), (-2.0, 15.0), (-10.0, -10.0), (-2.0, -15.0), (19.5, 5.5), (19.5, -5.5)], h)
     add_equipment(boxes, "e2_equipment", [
-        (-18.2, 10.2, 2.8, 0.75, 1.8, 0.0), (-10.0, 10.3, 3.0, 0.75, 1.8, 0.0), (-1.8, 14.0, 2.5, 0.75, 1.8, 0.0),
-        (-17.0, -10.2, 2.7, 0.8, 1.8, 0.0), (-9.5, -8.8, 2.6, 0.8, 1.8, 0.0), (0.0, -14.0, 2.5, 0.8, 1.8, 0.0),
-        (10.8, 13.5, 2.8, 0.8, 1.9, math.pi / 2), (17.5, 6.8, 2.5, 0.8, 1.9, math.pi / 2), (17.5, -6.8, 2.5, 0.8, 1.9, math.pi / 2),
+        (-11.0, 15.5, 2.4, 0.75, 1.8, 0.0), (-6.2, 5.8, 2.6, 0.80, 1.7, 0.0), (1.5, 6.4, 2.4, 0.8, 1.7, 0.0), (6.4, 15.7, 2.1, 0.8, 1.6, 0.0),
+        (-11.0, -15.5, 2.4, 0.75, 1.8, 0.0), (-6.2, -5.8, 2.6, 0.80, 1.7, 0.0), (1.5, -6.4, 2.4, 0.8, 1.7, 0.0), (6.4, -15.7, 2.1, 0.8, 1.6, 0.0),
+        (20.0, 14.0, 2.3, 0.9, 1.8, math.pi / 2), (20.0, -14.0, 2.3, 0.9, 1.8, math.pi / 2), (20.5, 0.0, 2.2, 0.9, 1.7, math.pi / 2),
     ])
     add_damage(boxes, "e2_damage", [
-        (-16.5, 14.2, 2.6, 0.8, 1.4, 0.20), (-5.0, 14.0, 2.2, 1.0, 1.2, -0.34), (4.8, -14.0, 2.5, 0.9, 1.3, 0.25),
-        (19.0, 13.0, 1.8, 1.2, 1.1, -0.30), (19.0, -12.5, 1.8, 1.2, 1.1, 0.30), (-19.0, -14.0, 1.4, 1.1, 1.0, 0.0),
+        (-9.8, 16.3, 2.4, 1.0, 1.2, 0.25), (-2.5, 14.8, 2.1, 1.1, 1.25, -0.30), (6.8, 6.0, 1.8, 1.0, 1.1, 0.20),
+        (-9.8, -16.3, 2.4, 1.0, 1.2, -0.25), (-2.5, -14.8, 2.1, 1.1, 1.25, 0.30), (6.8, -6.0, 1.8, 1.0, 1.1, -0.20),
+        (20.5, 8.0, 1.8, 1.2, 1.15, 0.15), (20.5, -8.0, 1.8, 1.2, 1.15, -0.15),
     ])
-    # Ceiling-zone fragments add 3-D sensing occlusion only; they are not an
-    # inaccessible upper floor and never carry a hidden exploration task.
-    add_overhead(boxes, "e2_overhead", [(-15.0, 2.8, 4.2, 0.60, 3.45), (-8.0, -2.8, 4.0, 0.60, 3.45), (8.5, 3.0, 4.0, 0.60, 3.45), (15.0, -2.8, 4.2, 0.60, 3.45)])
+    # Ceiling-zone fragments make only local 3-D perception occlusion. There
+    # is no hidden upper storey or inaccessible exploration objective.
+    add_overhead(boxes, "e2_overhead", [(-10.5, 2.4, 3.6, 0.55, 3.45), (-3.0, -2.4, 3.8, 0.55, 3.45), (-1.5, 11.2, 3.8, 0.55, 3.45), (-1.5, -11.2, 3.8, 0.55, 3.45), (13.5, 6.3, 3.6, 0.55, 3.45), (13.5, -6.3, 3.6, 0.55, 3.45)])
     return boxes
 
 
@@ -385,34 +404,40 @@ def build_e3(scene: Scene) -> list[Box]:
     boxes: list[Box] = []
     envelope(boxes, scene)
     h = scene.size[2]
-    # E3 is intentionally not a larger E2.  It has a long service spine,
-    # structured workshop visibility loss, and deeper asymmetric storage cells.
-    add_open_wall(boxes, "e3_workshop_boundary", (-22, 5.8), (22, 5.8), [(7.0, 2.0), (15.5, 2.0), (25.0, 2.0), (34.5, 2.0)], h)
-    add_open_wall(boxes, "e3_storage_boundary", (-22, -5.8), (22, -5.8), [(7.0, 2.0), (16.0, 2.0), (25.0, 2.0), (34.5, 2.0)], h)
-    # Rack pairs create observation occlusion, while 2.4 m aisles remain
-    # feasible after the active 0.199 m planning-envelope inflation.
-    for i, x in enumerate((-17.5, -11.5, -5.5, 0.5, 6.5)):
-        add_box(boxes, f"e3_workshop_rack_{i:02d}", (x, 10.0, 1.35), (3.1, 0.9, 2.7), "brick", "equipment")
-        add_box(boxes, f"e3_workshop_rack_{i:02d}_b", (x, 14.2, 1.35), (3.1, 0.9, 2.7), "brick", "equipment")
-    add_wall(boxes, "e3_workshop_occluder", (5.0, 8.0), (8.5, 8.0), 2.4, "concrete_light")
-    # Storage is made of unequal cells with alternating doorway positions;
-    # unlike E2 it has a predominantly serial topology and deeper terminals.
-    for i, x in enumerate((-14.0, -6.0, 2.0, 10.0)):
-        add_open_wall(boxes, f"e3_storage_partition_{i}", (x, -17.0), (x, -5.8), [(3.7 + (i % 2) * 1.5, 1.85)], h)
-    add_open_wall(boxes, "e3_storage_rear_link", (-21.7, -13.4), (10.0, -13.4), [(8.0, 1.8), (22.0, 1.8)], 2.5, "concrete_light")
-    add_wall(boxes, "e3_storage_occluder", (-18.5, -9.0), (-15.5, -9.0), 2.3, "concrete_light")
-    # A constrained east service spine yields unequal paths to the same wing.
-    add_open_wall(boxes, "e3_service_outer", (16.5, -17.0), (16.5, 17.0), [(6.5, 2.0), (17.0, 1.8), (27.5, 2.0)], h)
-    add_open_wall(boxes, "e3_service_inner", (11.0, -13.8), (11.0, 13.8), [(4.0, 1.7), (13.8, 1.7), (23.0, 1.7)], h)
-    add_open_wall(boxes, "e3_service_link_n", (11.0, 10.5), (21.8, 10.5), [(1.6, 1.9), (7.0, 1.9)], h)
-    add_open_wall(boxes, "e3_service_link_s", (11.0, -10.5), (21.8, -10.5), [(1.6, 1.9), (7.0, 1.9)], h)
-    # Central inspection spine blocks direct lines of sight across the building.
-    for i, (a, b) in enumerate((((-7.0, -2.2), (-2.0, -2.2)), ((-2.0, -2.2), (-0.5, 1.0)), ((-0.5, 1.0), (4.0, 1.0)), ((4.0, 1.0), (5.5, -1.5)))):
-        add_wall(boxes, f"e3_core_{i:02d}", a, b, 2.8, "concrete_light")
-    add_columns(boxes, "e3_column", [(-18.5, -2.2), (-12.0, 2.0), (-6.0, -2.5), (0.0, 2.4), (6.0, -2.3), (12.0, 2.0), (19.0, -2.0), (19.0, 11.5)], h)
-    add_equipment(boxes, "e3_storage_equipment", [(-19.0, -10.5, 2.6, 0.9, 1.8, 0.0), (-12.0, -15.0, 2.6, 0.9, 1.8, 0.0), (-5.0, -10.5, 2.8, 0.9, 1.8, 0.0), (3.0, -15.0, 2.6, 0.9, 1.8, 0.0), (12.0, -15.0, 2.7, 0.9, 1.8, 0.0), (19.0, -14.5, 2.4, 0.9, 1.8, 0.0)])
-    add_damage(boxes, "e3_damage", [(-20.0, 4.2, 2.8, 1.2, 1.3, 0.28), (-13.0, -15.0, 2.0, 1.0, 1.2, -0.28), (-3.5, -15.0, 2.2, 1.0, 1.2, 0.20), (6.0, -15.0, 2.2, 1.0, 1.2, -0.18), (19.0, -8.0, 2.5, 1.0, 1.2, 0.35), (20.0, 5.5, 2.4, 1.1, 1.2, -0.25), (1.0, 5.5, 2.0, 0.9, 1.2, 0.20), (-9.0, 5.5, 2.0, 0.9, 1.2, -0.20)])
-    add_overhead(boxes, "e3_overhead", [(-17.0, 3.2, 4.5, 0.60, 3.45), (-9.0, -3.2, 4.2, 0.60, 3.45), (1.0, 3.2, 4.2, 0.60, 3.45), (9.0, -3.2, 4.2, 0.60, 3.45), (18.0, 1.8, 4.0, 0.60, 3.45), (19.0, 10.0, 3.5, 0.60, 3.45)])
+    # E3-V2 changes topology, not merely obstacle count. A rack workshop,
+    # serial damaged storage cells and an S-shaped service spine create an
+    # asymmetric generalization problem after P is frozen on E2-V2.
+    add_wall(boxes, "e3_foyer_north", (-23.8, 4.0), (-13.0, 4.0), h)
+    add_wall(boxes, "e3_foyer_south", (-23.8, -4.0), (-13.0, -4.0), h)
+    add_wall(boxes, "e3_foyer_baffle_a", (-19.0, -4.0), (-19.0, 1.0), 2.65, "concrete_light")
+    add_wall(boxes, "e3_foyer_baffle_b", (-15.4, 4.0), (-15.4, -1.0), 2.65, "concrete_light")
+    add_open_wall(boxes, "e3_workshop_boundary", (-13.0, 4.0), (9.0, 4.0), [(2.0, 1.9), (10.5, 1.35), (19.3, 1.2)], h)
+    add_open_wall(boxes, "e3_storage_boundary", (-13.0, -4.0), (9.0, -4.0), [(2.0, 1.9), (10.5, 1.35), (19.3, 1.2)], h)
+    # Two rack aisles are deliberately not an empty hall. Their clear aisles
+    # remain feasible after inflation and create repeated line-of-sight breaks.
+    for i, x in enumerate((-10.0, -4.0, 2.0, 8.0)):
+        add_box(boxes, f"e3_workshop_rack_n_{i:02d}", (x, 9.2, 1.4), (3.4, 0.9, 2.8), "brick", "equipment")
+        add_box(boxes, f"e3_workshop_rack_s_{i:02d}", (x, 14.2, 1.4), (3.4, 0.9, 2.8), "brick", "equipment")
+    add_wall(boxes, "e3_workshop_turn_a", (-12.5, 7.0), (-8.5, 7.0), 2.4, "concrete_light")
+    add_wall(boxes, "e3_workshop_turn_b", (4.0, 17.0), (8.5, 17.0), 2.4, "concrete_light")
+    # Storage cells are serial with alternating door locations and a partial
+    # rear link, unlike E2's balanced three-wing topology.
+    for i, x in enumerate((-9.0, -2.0, 5.0)):
+        add_open_wall(boxes, f"e3_storage_partition_{i}", (x, -18.8), (x, -4.0), [(4.0 + (i % 2) * 3.0, 1.25 + (i % 2) * 0.2)], h)
+    add_open_wall(boxes, "e3_storage_rear_link", (-13.0, -14.2), (9.0, -14.2), [(4.4, 1.3), (15.8, 1.45)], 2.55, "concrete_light")
+    add_wall(boxes, "e3_storage_turn_a", (-12.0, -8.0), (-8.0, -8.0), 2.4, "concrete_light")
+    add_wall(boxes, "e3_storage_turn_b", (-4.0, -11.2), (-0.5, -11.2), 2.4, "concrete_light")
+    # Service wing is an S-shaped loop, reached through two constrained gates.
+    add_open_wall(boxes, "e3_service_gate", (9.0, -15.0), (9.0, 15.0), [(6.5, 1.2), (23.5, 1.2)], h)
+    add_open_wall(boxes, "e3_service_outer", (18.0, -18.8), (18.0, 18.8), [(8.0, 1.35), (18.8, 1.25), (29.5, 1.35)], h)
+    add_open_wall(boxes, "e3_service_north_link", (9.0, 11.0), (23.8, 11.0), [(3.0, 1.35), (10.5, 1.15)], h)
+    add_open_wall(boxes, "e3_service_south_link", (9.0, -11.0), (23.8, -11.0), [(3.0, 1.35), (10.5, 1.15)], h)
+    for i, (a, b) in enumerate((((10.8, -4.5), (15.0, -4.5)), ((15.0, -4.5), (16.5, 0.0)), ((16.5, 0.0), (13.0, 4.2)), ((13.0, 4.2), (10.5, 1.6)))):
+        add_wall(boxes, f"e3_service_core_{i:02d}", a, b, 2.7, "concrete_light")
+    add_columns(boxes, "e3_column", [(-12.0, 1.8), (-7.0, -2.0), (-1.0, 2.0), (5.0, -2.0), (-10.5, 15.5), (-2.0, 16.5), (-10.5, -15.5), (-2.0, -16.5), (20.5, 5.8), (20.5, -5.8), (20.5, 14.5)], h)
+    add_equipment(boxes, "e3_storage_equipment", [(-11.0, -16.2, 2.3, 0.8, 1.7, 0.0), (-6.5, -6.0, 2.4, 0.8, 1.7, 0.0), (0.0, -15.8, 2.3, 0.8, 1.7, 0.0), (6.8, -6.2, 2.4, 0.8, 1.7, 0.0), (21.0, 14.8, 2.3, 0.9, 1.7, math.pi / 2), (21.0, 0.0, 2.3, 0.9, 1.7, math.pi / 2), (21.0, -14.8, 2.3, 0.9, 1.7, math.pi / 2)])
+    add_damage(boxes, "e3_damage", [(-11.0, 16.5, 2.4, 1.0, 1.2, 0.25), (-3.0, 16.5, 2.1, 1.1, 1.2, -0.28), (7.0, 16.0, 2.0, 1.0, 1.15, 0.20), (-11.0, -16.5, 2.4, 1.0, 1.2, -0.25), (-3.0, -16.5, 2.1, 1.1, 1.2, 0.28), (7.0, -16.0, 2.0, 1.0, 1.15, -0.20), (21.0, 8.0, 1.8, 1.2, 1.1, 0.15), (21.0, -8.0, 1.8, 1.2, 1.1, -0.15), (14.5, 7.0, 1.8, 1.0, 1.1, 0.20), (14.5, -7.0, 1.8, 1.0, 1.1, -0.20)])
+    add_overhead(boxes, "e3_overhead", [(-11.0, 2.6, 3.8, 0.55, 3.45), (-3.0, -2.6, 3.8, 0.55, 3.45), (-2.0, 11.2, 3.8, 0.55, 3.45), (-2.0, -11.2, 3.8, 0.55, 3.45), (13.5, 6.5, 3.8, 0.55, 3.45), (13.5, -6.5, 3.8, 0.55, 3.45), (20.0, 1.8, 3.6, 0.55, 3.45)])
     return boxes
 
 
@@ -539,6 +564,19 @@ def audit_scene_contract(boxes: list[Box], scene: Scene, radius: float, cell=0.2
             "reachable_from_entry": distance is not None,
             "shortest_grid_distance_m": None if distance is None else round(distance * cell, 3),
         }
+    branch_distances = [item["shortest_grid_distance_m"] for item in anchors.values() if item["shortest_grid_distance_m"] is not None]
+    branch_spread = None
+    if branch_distances:
+        branch_spread = round((max(branch_distances) - min(branch_distances)) / max(0.001, min(branch_distances)), 6)
+    branch_spread_limit = scene.offline_audit.get("branch_distance_max_spread_ratio")
+    branch_balance = {
+        "interpretation": "offline entry-to-anchor workload proxy; it is never provided to a runtime UAV or allocator",
+        "shortest_grid_distance_min_m": None if not branch_distances else min(branch_distances),
+        "shortest_grid_distance_max_m": None if not branch_distances else max(branch_distances),
+        "relative_spread": branch_spread,
+        "maximum_allowed_relative_spread": branch_spread_limit,
+        "passed": branch_spread_limit is None or (branch_spread is not None and branch_spread <= branch_spread_limit),
+    }
 
     probes = {}
     for name, point, axis in scene.offline_audit["passage_probes"]:
@@ -596,6 +634,7 @@ def audit_scene_contract(boxes: list[Box], scene: Scene, radius: float, cell=0.2
     }
     passed = (
         all(item["reachable_from_entry"] for item in anchors.values())
+        and branch_balance["passed"]
         and all(item["planning_free_width_m"] >= diameter for item in probes.values())
         and all(item["reachable_from_entry"] for item in node_status.values())
         and all(item["reachable"] for item in edge_routes)
@@ -606,6 +645,7 @@ def audit_scene_contract(boxes: list[Box], scene: Scene, radius: float, cell=0.2
         "effective_planning_diameter_m": round(diameter, 3),
         "major_branch_count": len(anchors),
         "major_branch_anchors": anchors,
+        "branch_workload_balance": branch_balance,
         "passage_probes": probes,
         "passage_width_summary": {
             "interpretation": "static doorway/cross-link throat probes, not a runtime traversability map",

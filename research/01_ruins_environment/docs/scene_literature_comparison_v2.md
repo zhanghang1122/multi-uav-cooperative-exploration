@@ -22,9 +22,9 @@ Sources: [FUEL](https://doi.org/10.1109/LRA.2021.3051563),
 [decentralized multi-UAV exploration](https://doi.org/10.3390/drones7060337),
 and [UBES](https://doi.org/10.1016/j.simpa.2023.100576).
 
-## Direct Comparison Against Current E2
+## Direct Comparison Against Retired E2-V1
 
-| Question | Current E2 candidate | Literature-supported requirement | Decision |
+| Question | Retired E2-V1 candidate | Literature-supported requirement | Decision |
 | --- | --- | --- | --- |
 | Is its physical size sufficient? | `42 x 32 x 4.2 m`, comparable in volume to a published FUEL maze | Size may be useful, but no source treats volume alone as complexity | Keep a comparable scale; do not use it as an acceptance claim. |
 | Are there fair three-UAV workloads? | Branch-anchor lengths near `20.2`, `20.0`, `41.6 m` | Team-scaling comparisons need common deployment conditions and a scene where simultaneous work can matter | Reject. Redesign E2 with comparable initial branch workload. |

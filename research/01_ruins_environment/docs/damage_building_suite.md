@@ -24,12 +24,15 @@ rule, not an online planning input.
 
 | Scene | Experimental role | Structural complexity |
 | --- | --- | --- |
-| E1 Structured Interior | interface and single-UAV functional baseline | 8 rooms, 1 loop, 2 dead ends |
-| E2 Damaged Building | fixed primary B1/B2/B3/P comparison scene | 16 rooms, 4 loops, 6 dead ends, 4 bottlenecks, 6 bounded damage clusters |
-| E3 Industrial Wing | topology-generalization scene, never used for tuning P | 20 rooms, 6 loops, 10 dead ends, 6 bottlenecks, workshop racks and service wing |
+| E1 Structured Interior | interface and single-UAV functional baseline | 8 rooms, 1 loop, 2 dead ends; generated geometry: 4 columns, 3 equipment obstacles, 1 damage cluster, 2 overhead elements |
+| E2 Damaged Building | fixed primary B1/B2/B3/P comparison scene | 16 rooms, 4 loops, 6 dead ends, 4 bottlenecks, 6 damage clusters; generated geometry: 7 columns, 9 equipment obstacles, 4 overhead elements |
+| E3 Industrial Wing | topology-generalization scene, never used for tuning P | 20 rooms, 6 loops, 10 dead ends, 6 bottlenecks, workshop racks and service wing; exact geometry counts are read from its validation report |
 
-The counts are controlled environment parameters. They must be reported next to
-experimental results; visual density alone is not treated as complexity.
+Room, junction, loop, dead-end, bottleneck and turn counts are controlled
+topology-design parameters. The validation JSON separately reports automatic
+geometry counts by role (`wall`, `column`, `equipment`, `damage`, `overhead`)
+and is the only source used for obstacle-count claims. Visual density alone is
+not treated as complexity.
 
 ## Three-Dimensional Structure
 

@@ -60,7 +60,7 @@ SCENES = (
         (26.0, 22.0, 3.6),
         (-12.1, 0.0, 1.5),
         "Interface check and single-UAV functional baseline; not the primary result scene.",
-        {"rooms": 8, "junctions": 4, "loops": 1, "dead_ends": 2, "bottlenecks": 1, "occluding_turns": 6, "damage_clusters": 1, "vertical_structures": 2},
+        {"rooms": 8, "junctions": 4, "loops": 1, "dead_ends": 2, "bottlenecks": 1, "occluding_turns": 6, "damage_clusters": 1},
     ),
     Scene(
         "e2_damaged_building",
@@ -68,7 +68,7 @@ SCENES = (
         (42.0, 32.0, 4.2),
         (-20.0, 0.0, 1.5),
         "Primary fixed scene for B1/B2/B3/P comparisons: connected damaged building with loops, branches, occlusions and bounded debris.",
-        {"rooms": 16, "junctions": 10, "loops": 4, "dead_ends": 6, "bottlenecks": 4, "occluding_turns": 18, "damage_clusters": 6, "vertical_structures": 8},
+        {"rooms": 16, "junctions": 10, "loops": 4, "dead_ends": 6, "bottlenecks": 4, "occluding_turns": 18, "damage_clusters": 6},
     ),
     Scene(
         "e3_industrial_wing",
@@ -76,7 +76,7 @@ SCENES = (
         (50.0, 38.0, 4.6),
         (-24.0, 0.0, 1.5),
         "Topology-generalization scene: workshop, service wing and storage cells rather than a scaled copy of E2.",
-        {"rooms": 20, "junctions": 14, "loops": 6, "dead_ends": 10, "bottlenecks": 6, "occluding_turns": 26, "damage_clusters": 8, "vertical_structures": 14},
+        {"rooms": 20, "junctions": 14, "loops": 6, "dead_ends": 10, "bottlenecks": 6, "occluding_turns": 26, "damage_clusters": 8},
     ),
 )
 

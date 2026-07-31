@@ -5,11 +5,12 @@ document defines the B1 reference experiment only: one UAV, official FUEL
 Frontier exploration, five independent repetitions. It is the reference row
 against which B2, B3 and P will later be compared on the same E2 scene.
 
-E2 contains 16 rooms, 4 loops, 6 dead ends, 4 bottlenecks, 6 bounded damage
-clusters and 8 vertical/overhead structures. The scene size is approximately
-42 m x 32 m x 4.2 m. Its geometry and the planning-clearance validation are
-generated deterministically by the scene generator; do not change the scene
-or FUEL parameters between B1 repetitions.
+E2 contains 16 rooms, 4 loops, 6 dead ends, 4 bottlenecks and 6 bounded damage
+clusters. Its generated geometry contains 7 columns, 9 equipment obstacles and
+4 partial overhead elements. The scene size is approximately 42 m x 32 m x
+4.2 m. Its geometry and planning-clearance validation are generated
+deterministically; do not change the scene or FUEL parameters between B1
+repetitions.
 
 ## Fixed Online Boundary
 

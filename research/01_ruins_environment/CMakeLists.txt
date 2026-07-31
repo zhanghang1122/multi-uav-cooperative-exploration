@@ -12,6 +12,7 @@ catkin_install_python(PROGRAMS
   scripts/prepare_fuel_baseline_overlay.py
   scripts/record_fuel_b1_trial.py
   scripts/evaluate_surface_map.py
+  scripts/summarize_b1_trials.py
   scripts/trigger_position_neutral_exploration.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )

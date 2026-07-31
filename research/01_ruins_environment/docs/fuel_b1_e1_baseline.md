@@ -88,3 +88,25 @@ planning.
 The launch overlay and manifest live in `/tmp`; upstream FUEL is not modified.
 Review `manifest.json` before each run. A later recorder will collect map
 quality, completion time, trajectory length and map-growth data.
+
+## Five-Trial Paper Summary
+
+After all five completed B1 trials have been archived outside `/tmp`, create a
+read-only paper table summary. The command does not open ROS topics, modify a
+map or rerun a planner:
+
+```bash
+rosrun ruins_urban_01 summarize_b1_trials.py \
+  ~/uav_experiment_results/B1_E1_rep01 \
+  ~/uav_experiment_results/B1_E1_rep02 \
+  ~/uav_experiment_results/B1_E1_rep03 \
+  ~/uav_experiment_results/B1_E1_rep04 \
+  ~/uav_experiment_results/B1_E1_rep05 \
+  --output ~/uav_experiment_results/B1_E1_summary.json \
+  --per-trial-csv ~/uav_experiment_results/B1_E1_per_trial.csv
+```
+
+The JSON reports each trial and `mean +/- sample standard deviation` for map
+Precision, Recall, F1, `T80/T90/T95`, mission duration and path length. A
+coverage threshold that no trial reaches remains `null`; it is never replaced
+by a timeout. The CSV is the source for the B1 row of the later paper table.

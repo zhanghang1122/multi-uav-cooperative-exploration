@@ -1,5 +1,8 @@
 <launch>
-  <!-- Reuse FUEL's own verified RViz launch. This wrapper adds no planner
-       configuration and is deliberately kept separate from FUEL source. -->
-  <include file="$(find exploration_manager)/launch/rviz.launch" />
+  <!-- Presentation view: online occupancy, online frontier, trajectory and
+       odometry only.  It intentionally does not subscribe to FUEL's simulator
+       truth point cloud (/map_generator/global_cloud). -->
+  <node pkg="rviz" type="rviz" name="fuel_b1_rviz"
+        args="-d $(find ruins_urban_01)/rviz/e2_b1_online_mapping.rviz"
+        output="screen" />
 </launch>

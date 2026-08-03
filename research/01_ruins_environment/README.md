@@ -199,6 +199,31 @@ is never exposed to the exploration algorithm.
 
 See [docs/reproducibility.md](docs/reproducibility.md) and [experiments/README.md](experiments/README.md).
 
+## Online Mapping Video
+
+For an auditable recording of the B1 baseline, open the project-owned RViz
+configuration after the FUEL overlay is running:
+
+```bash
+roslaunch ruins_urban_01 fuel_b1_rviz.launch
+```
+
+This view shows only the online cumulative occupancy cloud
+(`/sdf_map/occupancy_all`), online Frontier markers, FUEL's planned trajectory,
+and odometry. It never displays `/map_generator/global_cloud`, which is a
+simulator truth map and must not appear in an exploration demonstration.
+
+After a run has finished, branch-level mapping diagnostics can be computed
+offline. The branch masks are evaluation-only and are never passed to FUEL:
+
+```bash
+rosrun ruins_urban_01 diagnose_e2_branch_coverage.py \
+  --truth-pcd /tmp/coop_building_e2_primary/pcd/Coop-Building-E2-Primary-Damaged-Interior.pcd \
+  --observed-pcd /tmp/fuel_b1_e2_trial/final_online_occupancy.pcd \
+  --trajectory-csv /tmp/fuel_b1_e2_trial/trajectory.csv \
+  --output /tmp/fuel_b1_e2_trial/branch_diagnostic.json
+```
+
 ## Citation
 
 Until the associated paper is published, cite the software using [CITATION.cff](CITATION.cff). A versioned release and

@@ -8,6 +8,7 @@ catkin_package()
 catkin_install_python(PROGRAMS
   scripts/collect_platform_profile.py
   scripts/derive_geometry_constraints.py
+  scripts/diagnose_e2_branch_coverage.py
   scripts/generate_damage_building_suite.py
   scripts/generate_e2_primary_benchmark.py
   scripts/prepare_fuel_baseline_overlay.py

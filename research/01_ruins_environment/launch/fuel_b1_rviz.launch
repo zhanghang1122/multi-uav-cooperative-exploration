@@ -1,7 +1,12 @@
 <launch>
-  <!-- Presentation view: online occupancy, online frontier, trajectory and
-       odometry only.  It intentionally does not subscribe to FUEL's simulator
-       truth point cloud (/map_generator/global_cloud). -->
+  <!-- These two nodes are display-only.  FUEL, its raw occupancy stream, the
+       recorder, and offline evaluation are not changed. -->
+  <node pkg="ruins_urban_01" type="filter_online_map_for_viz.py"
+        name="ruins_online_map_visual_filter" output="screen"
+        args="--input-topic /sdf_map/occupancy_all --output-topic /ruins_urban_01/online_occupancy_visual --max-visible-z-m 4.0" />
+  <node pkg="ruins_urban_01" type="publish_uav_pose_marker.py"
+        name="ruins_uav_pose_marker" output="screen"
+        args="--odom-topic /state_ukf/odom --output-topic /ruins_urban_01/uav_pose_marker --display-frame world" />
   <node pkg="rviz" type="rviz" name="fuel_b1_rviz"
         args="-d $(find ruins_urban_01)/rviz/e2_b1_online_mapping.rviz"
         output="screen" />

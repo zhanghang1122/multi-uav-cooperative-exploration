@@ -68,7 +68,7 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.06
       Style: Flat Squares
-      Topic: /sdf_map/occupancy_all
+      Topic: /ruins_urban_01/online_occupancy_visual
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
@@ -95,39 +95,13 @@ Visualization Manager:
       Name: Exploration decision
     - Class: rviz/Group
       Displays:
-        - Angle Tolerance: 0.01
-          Class: rviz/Odometry
-          Covariance:
-            Orientation:
-              Alpha: 0.5
-              Color: 255; 255; 127
-              Color Style: Unique
-              Frame: Local
-              Offset: 1
-              Scale: 1
-              Value: false
-            Position:
-              Alpha: 0.3
-              Color: 204; 51; 204
-              Scale: 1
-              Value: false
-            Value: false
+        - Class: rviz/Marker
           Enabled: true
-          Keep: 1
+          Marker Topic: /ruins_urban_01/uav_pose_marker
           Name: UAV pose
-          Position Tolerance: 0
-          Shape:
-            Alpha: 1
-            Axes Length: 0.8
-            Axes Radius: 0.06
-            Color: 255; 80; 0
-            Head Length: 0.25
-            Head Radius: 0.12
-            Shaft Length: 0.7
-            Shaft Radius: 0.05
-            Value: Arrow
-          Topic: /state_ukf/odom
-          Unreliable: false
+          Namespaces:
+            uav_pose: true
+          Queue Size: 10
           Value: true
       Enabled: true
       Name: Vehicle state

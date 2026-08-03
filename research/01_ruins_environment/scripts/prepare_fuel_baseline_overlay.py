@@ -19,6 +19,7 @@ import xml.etree.ElementTree as ET
 SCENE_FILES = {
     "e1_structured_interior": "Coop-Building-E1-Structured-Interior",
     "e2_damaged_building": "Coop-Building-E2-Damaged-Building",
+    "e2_primary_damaged_interior": "Coop-Building-E2-Primary-Damaged-Interior",
     "e3_industrial_wing": "Coop-Building-E3-Industrial-Wing",
 }
 
@@ -35,6 +36,31 @@ def write_json(path, value):
 def load_json(path):
     with open(path, "r", encoding="utf-8") as stream:
         return json.load(stream)
+
+
+def normalize_scene_report(report, requested_scene, expected_name):
+    """Read either the legacy suite schema or the frozen E2 primary schema.
+
+    The returned values are only simulator bounds and initial pose.  They are
+    not exploration hints and are never published to FUEL as goals or routes.
+    """
+    raw_scene = report.get("scene", {})
+    if raw_scene.get("key") == requested_scene:
+        size = raw_scene.get("size")
+        entry = raw_scene.get("entry")
+        geometry_qa = report.get("reachability", {})
+    elif requested_scene == "e2_primary_damaged_interior" and raw_scene.get("name") == expected_name:
+        size = raw_scene.get("size_m")
+        entry = raw_scene.get("entry_m")
+        geometry_qa = report.get("offline_geometry_audit", {})
+    else:
+        raise SystemExit("scene validation report does not match requested scene")
+
+    if not isinstance(size, list) or len(size) != 3 or not isinstance(entry, list) or len(entry) != 3:
+        raise SystemExit("scene validation report has no valid workspace size or entry pose")
+    if not geometry_qa.get("passed"):
+        raise SystemExit("scene geometry QA did not pass; do not prepare a runtime overlay")
+    return {"size": size, "entry": entry}, geometry_qa
 
 
 def find_source_launches(fuel_workspace):
@@ -124,12 +150,7 @@ def main():
     if not os.path.isfile(pcd_path) or not os.path.isfile(report_path):
         raise SystemExit("scene assets are missing; generate the suite first: " + assets_dir)
     report = load_json(report_path)
-    scene = report.get("scene", {})
-    if scene.get("key") != args.scene:
-        raise SystemExit("scene validation report does not match requested scene")
-    reachability = report.get("reachability", {})
-    if not reachability.get("passed"):
-        raise SystemExit("scene geometry QA did not pass; do not prepare a runtime overlay")
+    scene, reachability = normalize_scene_report(report, args.scene, stem)
 
     source_exploration, source_simulator = find_source_launches(os.path.abspath(os.path.expanduser(args.fuel_workspace)))
     output_dir = os.path.abspath(os.path.expanduser(args.output_dir))

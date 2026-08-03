@@ -29,11 +29,13 @@ class OnlineMapVisualizer(object):
         )
 
     def on_cloud(self, message):
-        points = (
+        # ROS Noetic's create_cloud_xyz32 calls len(points), so this must be a
+        # concrete list rather than a generator expression.
+        points = [
             (x, y, z)
             for x, y, z in point_cloud2.read_points(message, field_names=("x", "y", "z"), skip_nans=True)
             if z < self.args.max_visible_z_m
-        )
+        ]
         self.publisher.publish(point_cloud2.create_cloud_xyz32(message.header, points))
 
 

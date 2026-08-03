@@ -1,20 +1,17 @@
-# B1: FUEL Single-UAV Frontier Baseline in E2
+# B1: FUEL Single-UAV Frontier Baseline in E2 Primary
 
-> **Paused:** do not run this procedure until the E2 redesign and validation
-> criteria in [`e2_e3_literature_scene_audit.md`](e2_e3_literature_scene_audit.md)
-> have been satisfied. The current generated E2 is a candidate, not a formal
-> paper scene.
-
-E2 is the fixed primary damaged-building scene for the paper comparison. This
+E2 Primary is the fixed damaged-building scene for the paper comparison. This
 document defines the B1 reference experiment only: one UAV, official FUEL
-Frontier exploration, five independent repetitions. It is the reference row
-against which B2, B3 and P will later be compared on the same E2 scene.
+Frontier exploration, and five independent repetitions. It is the reference
+row against which B2, B3 and P will later be compared on the same E2 scene.
 
-E2 contains 16 rooms, 4 loops, 6 dead ends, 4 bottlenecks and 6 bounded damage
-clusters. Its generated geometry contains 7 columns, 9 equipment obstacles and
-4 partial overhead elements. The scene size is approximately 42 m x 32 m x
-4.2 m. Its geometry and planning-clearance validation are generated
-deterministically; do not change the scene or FUEL parameters between B1
+The fixed scene is 46 m x 36 m x 4.2 m. It contains three initially occluded
+first-order branches, one physical loop, five terminal or occluded pockets,
+four bottleneck doorways, six local collapse clusters, twelve columns, ten
+equipment obstacles, and five partial overhead elements. At FUEL's configured
+0.199 m obstacle inflation, its offline geometry audit reports 100% reachable
+coverable free space and a minimum declared bottleneck clearance of 0.802 m.
+The scene, sensor setup, and FUEL parameters must not change between B1
 repetitions.
 
 ## Fixed Online Boundary
@@ -31,13 +28,13 @@ In a terminal with ROS Noetic, FUEL and the project workspace sourced, create
 the deterministic assets and a non-invasive FUEL overlay:
 
 ```bash
-rosrun ruins_urban_01 generate_damage_building_suite.py \
-  --output-dir /tmp/damage_building_suite_v1
+rosrun ruins_urban_01 generate_e2_primary_benchmark.py \
+  --output-dir /tmp/coop_building_e2_primary
 
 rosrun ruins_urban_01 prepare_fuel_baseline_overlay.py \
   --fuel-workspace ~/fuel_ws \
-  --assets-dir /tmp/damage_building_suite_v1 \
-  --scene e2_damaged_building \
+  --assets-dir /tmp/coop_building_e2_primary \
+  --scene e2_primary_damaged_interior \
   --output-dir /tmp/fuel_building_baseline_overlay
 ```
 
@@ -53,7 +50,7 @@ RViz profile and the read-only recorder in separate terminals:
 
 ```bash
 roslaunch ruins_urban_01 run_fuel_overlay.launch \
-  overlay_file:=/tmp/fuel_building_baseline_overlay/fuel_e2_damaged_building_baseline.launch
+  overlay_file:=/tmp/fuel_building_baseline_overlay/fuel_e2_primary_damaged_interior_baseline.launch
 ```
 
 ```bash
@@ -62,7 +59,7 @@ roslaunch ruins_urban_01 fuel_b1_rviz.launch
 
 ```bash
 rosrun ruins_urban_01 record_fuel_b1_trial.py \
-  --scene e2_damaged_building \
+  --scene e2_primary_damaged_interior \
   --output-dir /tmp/fuel_b1_e2_rep01
 ```
 
@@ -93,7 +90,7 @@ After each completed run, evaluate the map against the E2 interior reference:
 
 ```bash
 RUN=/tmp/fuel_b1_e2_rep01
-TRUTH=/tmp/damage_building_suite_v1/pcd/Coop-Building-E2-Damaged-Building_interior_reference.pcd
+TRUTH=/tmp/coop_building_e2_primary/pcd/Coop-Building-E2-Primary-Damaged-Interior.pcd
 
 rosrun ruins_urban_01 evaluate_surface_map.py \
   --truth-pcd "$TRUTH" \

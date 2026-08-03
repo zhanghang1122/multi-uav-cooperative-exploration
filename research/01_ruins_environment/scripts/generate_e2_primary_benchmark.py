@@ -404,11 +404,87 @@ def sample_faces(box: Box, step: float):
                 yield transform_vertex(local, box)
 
 
+def sample_faces_with_outward_normals(box: Box, step: float):
+    """Uniformly sample box faces together with their world-frame normals."""
+    sx, sy, sz = box.size
+    faces = (
+        ("x", -sx / 2.0, sy, sz, (-1.0, 0.0, 0.0)),
+        ("x", sx / 2.0, sy, sz, (1.0, 0.0, 0.0)),
+        ("y", -sy / 2.0, sx, sz, (0.0, -1.0, 0.0)),
+        ("y", sy / 2.0, sx, sz, (0.0, 1.0, 0.0)),
+        ("z", -sz / 2.0, sx, sy, (0.0, 0.0, -1.0)),
+        ("z", sz / 2.0, sx, sy, (0.0, 0.0, 1.0)),
+    )
+    cosine, sine = math.cos(box.yaw), math.sin(box.yaw)
+    for axis, constant, side_a, side_b, local_normal in faces:
+        count_a, count_b = max(1, int(math.ceil(side_a / step))), max(1, int(math.ceil(side_b / step)))
+        for index_a in range(count_a + 1):
+            value_a = -side_a / 2.0 + index_a * side_a / count_a
+            for index_b in range(count_b + 1):
+                value_b = -side_b / 2.0 + index_b * side_b / count_b
+                local = (
+                    (constant, value_a, value_b)
+                    if axis == "x"
+                    else ((value_a, constant, value_b) if axis == "y" else (value_a, value_b, constant))
+                )
+                point = transform_vertex(local, box)
+                normal = (
+                    cosine * local_normal[0] - sine * local_normal[1],
+                    sine * local_normal[0] + cosine * local_normal[1],
+                    local_normal[2],
+                )
+                yield point, normal
+
+
+def point_inside_box(point, box: Box):
+    """Strict inside test for a yaw-only box."""
+    local_x, local_y = local_xy(point[0], point[1], box)
+    return (
+        abs(local_x) < box.size[0] / 2.0
+        and abs(local_y) < box.size[1] / 2.0
+        and abs(point[2] - box.center[2]) < box.size[2] / 2.0
+    )
+
+
 def write_pcd(path: Path, boxes: Sequence[Box]):
     points = []
     seen = set()
     for box in boxes:
         for point in sample_faces(box, PCD_STEP):
+            key = tuple(int(round(value * 1000.0)) for value in point)
+            if key not in seen:
+                seen.add(key)
+                points.append(point)
+    with path.open("w", encoding="ascii", newline="\n") as stream:
+        stream.write("# .PCD v0.7 - Point Cloud Data file format\nVERSION 0.7\nFIELDS x y z\nSIZE 4 4 4\nTYPE F F F\nCOUNT 1 1 1\n")
+        stream.write("WIDTH {0}\nHEIGHT 1\nVIEWPOINT 0 0 0 1 0 0 0\nPOINTS {0}\nDATA ascii\n".format(len(points)))
+        for point in points:
+            stream.write("{:.3f} {:.3f} {:.3f}\n".format(*point))
+    return len(points)
+
+
+def write_interior_reference_pcd(path: Path, boxes: Sequence[Box]):
+    """Write only E2 surfaces facing geometrically free indoor airspace.
+
+    The full PCD remains the simulator's sensor-rendering source.  This second
+    PCD is deliberately offline-only: it excludes exterior envelope faces and
+    floor undersides that no UAV inside the benchmark can observe.  It is the
+    frozen denominator for map Precision, Recall, F1, and T80/T90/T95.
+    """
+    half_x, half_y = SIZE[0] / 2.0, SIZE[1] / 2.0
+    probe_distance = 0.035
+    points, seen = [], set()
+    for box_index, box in enumerate(boxes):
+        for point, normal in sample_faces_with_outward_normals(box, PCD_STEP):
+            probe = (
+                point[0] + probe_distance * normal[0],
+                point[1] + probe_distance * normal[1],
+                point[2] + probe_distance * normal[2],
+            )
+            if not (-half_x < probe[0] < half_x and -half_y < probe[1] < half_y and 0.0 < probe[2] < SIZE[2]):
+                continue
+            if any(point_inside_box(probe, other) for other_index, other in enumerate(boxes) if other_index != box_index):
+                continue
             key = tuple(int(round(value * 1000.0)) for value in point)
             if key not in seen:
                 seen.add(key)
@@ -451,14 +527,29 @@ def generate(output_dir: Path):
     write_world(output_dir / "worlds" / (SCENE_NAME + ".world"), boxes)
     write_obj(output_dir / "meshes" / (SCENE_NAME + ".obj"), boxes)
     point_count = write_pcd(output_dir / "pcd" / (SCENE_NAME + ".pcd"), boxes)
+    reference_point_count = write_interior_reference_pcd(
+        output_dir / "pcd" / (SCENE_NAME + "_interior_reference.pcd"), boxes
+    )
     write_svg(output_dir / "previews" / (SCENE_NAME + ".svg"), boxes)
     result = {
-        "schema_version": 1,
+        "schema_version": 2,
         "scene": {"name": SCENE_NAME, "size_m": SIZE, "entry_m": ENTRY, "static": True, "seed": "fixed-e2-v3"},
-        "geometry": {"box_count": len(boxes), "role_counts": dict(sorted(Counter(box.role for box in boxes).items())), "truth_pcd_points": point_count},
+        "geometry": {
+            "box_count": len(boxes),
+            "role_counts": dict(sorted(Counter(box.role for box in boxes).items())),
+            "simulator_pcd_points": point_count,
+            "interior_reference_pcd_points": reference_point_count,
+        },
         "design_contract": {"primary_branches": 3, "traversable_loops": 1, "terminal_or_occluded_pockets": 5, "bottlenecks": 4, "collapse_clusters": 6, "vertical_obstacle_groups": 17, "second_floor": False},
         "offline_geometry_audit": report,
-        "runtime_contract": {"truth_pcd_usage": "offline evaluation only", "goal_prior_used": False, "route_prior_used": False, "runtime_topology_labels": False, "runtime_room_labels": False},
+        "runtime_contract": {
+            "simulator_pcd_usage": "local sensor rendering only; never supplied to the online planner",
+            "interior_reference_pcd_usage": "offline evaluation only",
+            "goal_prior_used": False,
+            "route_prior_used": False,
+            "runtime_topology_labels": False,
+            "runtime_room_labels": False,
+        },
     }
     with (output_dir / "validation" / (SCENE_NAME + ".json")).open("w", encoding="ascii", newline="\n") as stream:
         stream.write(json.dumps(result, indent=2) + "\n")

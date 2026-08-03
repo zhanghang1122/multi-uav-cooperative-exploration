@@ -218,7 +218,7 @@ offline. The branch masks are evaluation-only and are never passed to FUEL:
 
 ```bash
 rosrun ruins_urban_01 diagnose_e2_branch_coverage.py \
-  --truth-pcd /tmp/coop_building_e2_primary/pcd/Coop-Building-E2-Primary-Damaged-Interior.pcd \
+  --truth-pcd /tmp/coop_building_e2_primary/pcd/Coop-Building-E2-Primary-Damaged-Interior_interior_reference.pcd \
   --observed-pcd /tmp/fuel_b1_e2_trial/final_online_occupancy.pcd \
   --trajectory-csv /tmp/fuel_b1_e2_trial/trajectory.csv \
   --output /tmp/fuel_b1_e2_trial/branch_diagnostic.json

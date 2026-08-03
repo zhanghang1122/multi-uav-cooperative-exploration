@@ -78,19 +78,40 @@ def count_matches(reference: set, candidate: set, tolerance: int) -> int:
     return sum(any(neighbor in candidate for neighbor in nearby(voxel, tolerance)) for voxel in reference)
 
 
-def load_trajectory(path: Path | None) -> List[Tuple[float, float, float]]:
+TRAJECTORY_COORDINATE_ALIASES = {
+    "x": ("x", "x_m", "position_x", "pose_x", "px"),
+    "y": ("y", "y_m", "position_y", "pose_y", "py"),
+    "z": ("z", "z_m", "position_z", "pose_z", "pz"),
+}
+
+
+def load_trajectory(path: Path | None) -> Tuple[List[Tuple[float, float, float]], Dict[str, str]]:
     if path is None:
-        return []
+        return [], {}
     with path.open("r", encoding="utf-8") as stream:
         rows = list(csv.DictReader(stream))
+    if not rows:
+        return [], {}
+
+    headers = {key.strip().lower(): key for key in rows[0] if key}
+    fields = {}
+    for axis, aliases in TRAJECTORY_COORDINATE_ALIASES.items():
+        field = next((headers[alias] for alias in aliases if alias in headers), None)
+        if field is None:
+            available = ", ".join(sorted(headers.values()))
+            raise ValueError(
+                "trajectory CSV must provide x/y/z coordinate columns; "
+                "accepted aliases include x_m/y_m/z_m. Available columns: {} ({})".format(available, path)
+            )
+        fields[axis] = field
+
     positions = []
     for row in rows:
-        keys = {key.lower(): key for key in row}
         try:
-            positions.append((float(row[keys["x"]]), float(row[keys["y"]]), float(row[keys["z"]])))
-        except KeyError:
-            raise ValueError("trajectory CSV must provide x,y,z columns: {}".format(path))
-    return positions
+            positions.append((float(row[fields["x"]]), float(row[fields["y"]]), float(row[fields["z"]])))
+        except (KeyError, TypeError, ValueError) as error:
+            raise ValueError("invalid trajectory coordinate row in {}: {}".format(path, error))
+    return positions, fields
 
 
 def metrics(truth: set, observed: set, tolerance: int) -> Dict[str, float | int | None]:
@@ -126,7 +147,7 @@ def main() -> None:
 
     truth_points = read_ascii_pcd(Path(args.truth_pcd))
     observed_points = read_ascii_pcd(Path(args.observed_pcd))
-    trajectory = load_trajectory(Path(args.trajectory_csv)) if args.trajectory_csv else []
+    trajectory, trajectory_fields = load_trajectory(Path(args.trajectory_csv)) if args.trajectory_csv else ([], {})
     report = {
         "schema_version": 1,
         "mode": "offline_post_run_diagnostic_only",
@@ -139,6 +160,11 @@ def main() -> None:
         "metric": "per_region_voxel_surface_precision_recall_f1",
         "resolution_m": args.resolution_m,
         "tolerance_voxels": args.tolerance_voxels,
+        "trajectory": {
+            "path": args.trajectory_csv,
+            "coordinate_fields": trajectory_fields,
+            "samples": len(trajectory),
+        },
         "regions": {},
     }
     for name, bounds in REGIONS.items():

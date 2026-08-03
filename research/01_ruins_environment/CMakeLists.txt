@@ -9,6 +9,7 @@ catkin_install_python(PROGRAMS
   scripts/collect_platform_profile.py
   scripts/derive_geometry_constraints.py
   scripts/generate_damage_building_suite.py
+  scripts/generate_e2_primary_benchmark.py
   scripts/prepare_fuel_baseline_overlay.py
   scripts/record_fuel_b1_trial.py
   scripts/evaluate_surface_map.py

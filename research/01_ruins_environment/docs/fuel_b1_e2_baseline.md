@@ -17,10 +17,13 @@ repetitions.
 ## Fixed Online Boundary
 
 The online planner receives only FUEL's normal local sensing stream. It does
-not receive a route, goal location, room list, topology, Frontier list or
-truth map. The current-pose start signal only starts FUEL's official
-exploration state machine. The truth PCD is used after termination by the
-offline evaluator, never by a ROS node while the UAV is exploring.
+not receive a route, goal location, room list, topology, Frontier list or a
+planner map. The simulator uses a hidden geometric PCD only to render local
+sensor returns; the planner cannot read that file or its global point cloud.
+For E2, this sensor source contains only interior-facing surfaces, which
+removes exterior-envelope and wall-top samples that an indoor UAV cannot
+observe. The current-pose start signal only starts FUEL's official exploration
+state machine.
 
 ## One-Time Preparation
 
@@ -90,7 +93,7 @@ After each completed run, evaluate the map against the E2 interior reference:
 
 ```bash
 RUN=/tmp/fuel_b1_e2_rep01
-TRUTH=/tmp/coop_building_e2_primary/pcd/Coop-Building-E2-Primary-Damaged-Interior.pcd
+TRUTH=/tmp/coop_building_e2_primary/pcd/Coop-Building-E2-Primary-Damaged-Interior_interior_reference.pcd
 
 rosrun ruins_urban_01 evaluate_surface_map.py \
   --truth-pcd "$TRUTH" \

@@ -88,13 +88,13 @@ def write_xml(tree, path):
         stream.write("\n")
 
 
-def prepare_simulator(source, output, pcd_path):
+def prepare_simulator(source, output, sensor_pcd_path):
     tree = ET.parse(source)
     root = tree.getroot()
     pcd_nodes = [node for node in root.findall("node") if node.get("pkg") == "map_generator" and node.get("type") == "map_pub"]
     if len(pcd_nodes) != 1:
         raise RuntimeError("expected exactly one official FUEL map_generator/map_pub node")
-    pcd_nodes[0].set("args", pcd_path)
+    pcd_nodes[0].set("args", sensor_pcd_path)
     write_xml(tree, output)
 
 
@@ -145,31 +145,54 @@ def main():
     args = parse_args()
     stem = SCENE_FILES[args.scene]
     assets_dir = os.path.abspath(os.path.expanduser(args.assets_dir))
-    pcd_path = os.path.join(assets_dir, "pcd", stem + ".pcd")
+    geometry_pcd_path = os.path.join(assets_dir, "pcd", stem + ".pcd")
+    interior_reference_pcd_path = os.path.join(assets_dir, "pcd", stem + "_interior_reference.pcd")
     report_path = os.path.join(assets_dir, "validation", stem + ".json")
-    if not os.path.isfile(pcd_path) or not os.path.isfile(report_path):
+    if not os.path.isfile(geometry_pcd_path) or not os.path.isfile(report_path):
         raise SystemExit("scene assets are missing; generate the suite first: " + assets_dir)
+    if args.scene == "e2_primary_damaged_interior" and not os.path.isfile(interior_reference_pcd_path):
+        raise SystemExit(
+            "E2 primary interior reference is missing; regenerate the frozen E2 assets before preparing FUEL: "
+            + interior_reference_pcd_path
+        )
     report = load_json(report_path)
     scene, reachability = normalize_scene_report(report, args.scene, stem)
+
+    # The E2 primary PCD exported from all box faces includes the outside of
+    # the envelope and top faces above the indoor airspace.  Those samples
+    # cannot be observed by an indoor vehicle and appear as a false roof in a
+    # point-cloud-only FUEL sensor renderer.  The interior-facing reference is
+    # still ground-truth geometry, but produces only local sensor returns from
+    # the benchmark's observable indoor surfaces.  FUEL receives those returns
+    # incrementally; it never receives this file as a planner map or a route.
+    sensor_pcd_path = (
+        interior_reference_pcd_path
+        if args.scene == "e2_primary_damaged_interior"
+        else geometry_pcd_path
+    )
 
     source_exploration, source_simulator = find_source_launches(os.path.abspath(os.path.expanduser(args.fuel_workspace)))
     output_dir = os.path.abspath(os.path.expanduser(args.output_dir))
     os.makedirs(output_dir, exist_ok=True)
     simulator_overlay = os.path.join(output_dir, "simulator_" + args.scene + ".xml")
     launch_overlay = os.path.join(output_dir, "fuel_" + args.scene + "_baseline.launch")
-    prepare_simulator(source_simulator, simulator_overlay, pcd_path)
+    prepare_simulator(source_simulator, simulator_overlay, sensor_pcd_path)
     prepare_exploration(source_exploration, launch_overlay, simulator_overlay, scene)
 
     manifest = {
-        "schema_version": 1,
+        "schema_version": 2,
         "method_id": "B1_fuel_frontier_single_uav",
         "scene": args.scene,
         "launch": launch_overlay,
         "simulator_overlay": simulator_overlay,
         "source_fuel_launches": {"exploration": source_exploration, "simulator": source_simulator},
-        "simulator_truth_pcd": pcd_path,
+        "simulator_sensor_pcd": sensor_pcd_path,
+        "source_geometry_pcd": geometry_pcd_path,
+        "offline_evaluation_reference_pcd": (
+            interior_reference_pcd_path if args.scene == "e2_primary_damaged_interior" else geometry_pcd_path
+        ),
         "runtime_contract": {
-            "pcd_role": "simulator_global_map_for_local_sensor_rendering_only",
+            "pcd_role": "hidden simulator geometry for local sensor rendering only",
             "truth_pcd_supplied_to_online_planner": False,
             "route_prior_used": False,
             "goal_prior_used": False,
@@ -180,7 +203,7 @@ def main():
     }
     manifest_path = os.path.join(output_dir, "manifest.json")
     write_json(manifest_path, manifest)
-    print(json.dumps({"launch": launch_overlay, "manifest": manifest_path, "scene": args.scene}, indent=2))
+    print(json.dumps({"launch": launch_overlay, "manifest": manifest_path, "scene": args.scene, "sensor_pcd": sensor_pcd_path}, indent=2))
 
 
 if __name__ == "__main__":

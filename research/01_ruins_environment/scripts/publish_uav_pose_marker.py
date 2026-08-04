@@ -68,9 +68,9 @@ class UavPoseMarker(object):
         marker.scale.x = 0.95
         marker.scale.y = 0.26
         marker.scale.z = 0.26
-        marker.color.r = 1.0
-        marker.color.g = 0.55
-        marker.color.b = 0.05
+        marker.color.r = 0.85
+        marker.color.g = 0.12
+        marker.color.b = 0.10
         marker.color.a = 1.0
         return marker
 
@@ -82,8 +82,8 @@ class UavPoseMarker(object):
         marker.scale.x = 0.32
         marker.scale.y = 0.32
         marker.scale.z = 0.32
-        marker.color.r = 1.0
-        marker.color.g = 0.85
+        marker.color.r = 0.85
+        marker.color.g = 0.12
         marker.color.b = 0.10
         marker.color.a = 1.0
         return marker
@@ -92,9 +92,9 @@ class UavPoseMarker(object):
         marker = self._base_marker(header, "executed_path", 2)
         marker.type = Marker.LINE_STRIP
         marker.scale.x = 0.055
-        marker.color.r = 0.08
-        marker.color.g = 0.35
-        marker.color.b = 0.98
+        marker.color.r = 0.03
+        marker.color.g = 0.10
+        marker.color.b = 0.28
         marker.color.a = 1.0
         marker.points = self.executed_path
         return marker

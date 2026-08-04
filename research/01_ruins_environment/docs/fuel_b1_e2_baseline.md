@@ -63,7 +63,9 @@ roslaunch ruins_urban_01 fuel_b1_rviz.launch
 ```bash
 rosrun ruins_urban_01 record_fuel_b1_trial.py \
   --scene e2_primary_damaged_interior \
-  --output-dir /tmp/fuel_b1_e2_rep01
+  --output-dir ~/uav_experiment_results/B1_E2_rep01 \
+  --planner-stall-timeout-s 45 \
+  --stall-motion-threshold-m 0.05
 ```
 
 Once the recorder reports that it has received odometry and online occupancy,
@@ -87,12 +89,19 @@ online map and exits. Repeat with only the output suffix changed:
 
 Do not run two repetitions concurrently. Do not add RViz navigation goals.
 
+The recorder is read-only.  It records a `planner_stall` failure only after
+FUEL has published at least one B-spline and then, for 45 s, publishes no new
+B-spline while the odometry displacement remains below 0.05 m. This rule does
+not intervene in FUEL; it prevents a failed attempt from waiting until the
+global recorder timeout. Apply the same rule to all B1 repetitions and report
+the resulting success rate.
+
 ## Offline Evaluation and Archiving
 
 After each completed run, evaluate the map against the E2 interior reference:
 
 ```bash
-RUN=/tmp/fuel_b1_e2_rep01
+RUN=~/uav_experiment_results/B1_E2_rep01
 TRUTH=/tmp/coop_building_e2_primary/pcd/Coop-Building-E2-Primary-Damaged-Interior_interior_reference.pcd
 
 rosrun ruins_urban_01 evaluate_surface_map.py \

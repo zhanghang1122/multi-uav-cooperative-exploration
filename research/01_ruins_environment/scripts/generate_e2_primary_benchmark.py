@@ -35,7 +35,11 @@ FLIGHT_MIN_Z = 0.80
 FLIGHT_MAX_Z = 2.05
 PLANNING_RADIUS = 0.199
 GRID_RESOLUTION = 0.20
-PCD_STEP = 0.14
+# FUEL builds a 0.10 m occupancy grid from depth returns rendered from this
+# PCD. The surface lattice must be finer than the grid diagonal; otherwise an
+# isolated source-sampling gap can be mistaken for a traversable opening.
+PCD_STEP = 0.07
+FUEL_MAP_RESOLUTION = 0.10
 
 
 @dataclass(frozen=True)
@@ -316,6 +320,7 @@ def audit(boxes: Sequence[Box]):
     wall_top_heights = [box.center[2] + box.size[2] / 2.0 for box in boxes if box.role == "wall"]
     minimum_wall_top = min(wall_top_heights)
     vertical_non_bypass_margin = minimum_wall_top - (FLIGHT_MAX_Z + PLANNING_RADIUS)
+    pcd_surface_diagonal = math.sqrt(2.0) * PCD_STEP
     # These four named doorway throats are produced directly by add_open_wall.
     # Their clearance is checked from their declared physical opening widths;
     # an unrestricted crosslink room must not be mistaken for a 13 m throat.
@@ -339,6 +344,7 @@ def audit(boxes: Sequence[Box]):
         and all(item["planning_clearance_m"] >= effective_diameter for item in doorway_report.values())
         and FLIGHT_MIN_Z <= ENTRY[2] <= FLIGHT_MAX_Z
         and vertical_non_bypass_margin > 0.0
+        and pcd_surface_diagonal <= FUEL_MAP_RESOLUTION
     )
     return {
         "passed": passed,
@@ -350,6 +356,13 @@ def audit(boxes: Sequence[Box]):
         "vertical_non_bypass_margin_m": round(vertical_non_bypass_margin, 3),
         "planning_radius_m": PLANNING_RADIUS,
         "effective_planning_diameter_m": round(effective_diameter, 3),
+        "sensor_surface_sampling": {
+            "pcd_step_m": PCD_STEP,
+            "surface_lattice_diagonal_m": round(pcd_surface_diagonal, 4),
+            "fuel_mapping_resolution_m": FUEL_MAP_RESOLUTION,
+            "diagonal_not_coarser_than_mapping_cell": pcd_surface_diagonal <= FUEL_MAP_RESOLUTION,
+            "role": "dense surface sampling for local depth rendering; occupancy is formed online by FUEL",
+        },
         "reachable_free_fraction": round(reachable_fraction, 6),
         "anchors": anchor_distances,
         "coverage_space_policy": "sealed service-core void excluded from offline coverable free-space denominator",
@@ -548,7 +561,7 @@ def generate(output_dir: Path):
     write_svg(output_dir / "previews" / (SCENE_NAME + ".svg"), boxes)
     result = {
         "schema_version": 3,
-        "scene": {"name": SCENE_NAME, "size_m": SIZE, "entry_m": ENTRY, "static": True, "seed": "fixed-e2-v4"},
+        "scene": {"name": SCENE_NAME, "size_m": SIZE, "entry_m": ENTRY, "static": True, "seed": "fixed-e2-v5"},
         "geometry": {
             "box_count": len(boxes),
             "role_counts": dict(sorted(Counter(box.role for box in boxes).items())),

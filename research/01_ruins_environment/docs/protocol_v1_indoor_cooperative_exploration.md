@@ -27,6 +27,10 @@ centre height plus FUEL's 0.199 m obstacle envelope remains below the lowest
 architectural wall top (2.35 m). Consequently, a planner cannot transform a
 doorway/loop decision into an illegal wall-top shortcut. The sensor and map
 volume remain 4.2 m, and the RViz upper clipping is presentation-only.
+The FUEL sensor source is a 0.07 m surface-sampled PCD, denser than the
+0.10 m online occupancy grid in the diagonal coverage sense. It is not a
+filled synthetic obstacle volume; FUEL continues to derive occupied cells from
+local depth observations.
 
 ## Methods and Comparison Order
 

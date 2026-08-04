@@ -35,6 +35,15 @@ observed. RViz clips only points above 2.85 m in its display topic to suppress
 the mapper's upper-boundary artifact; that display filter is not consumed by
 FUEL, the recorder, or the offline evaluator.
 
+The E2 world exports continuous 0.28 m-thick box walls for Gazebo inspection.
+FUEL's official simulator obtains depth observations from a PCD surface model,
+not from Gazebo collision geometry. The PCD surface lattice is fixed at 0.07 m:
+its maximum in-plane diagonal gap is below FUEL's 0.10 m mapping-cell width.
+FUEL then forms occupied voxels online from local depth returns. This preserves
+a surface-sensor model while preventing source-sampling gaps from acting as
+false wall openings. RViz displays the accumulated occupancy map with a
+0.10 m square size so the integrated wall structure is visible during recording.
+
 ## One-Time Preparation
 
 In a terminal with ROS Noetic, FUEL and the project workspace sourced, create

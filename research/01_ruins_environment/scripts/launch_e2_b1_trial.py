@@ -13,6 +13,7 @@ import json
 import os
 import subprocess
 import sys
+import time
 
 
 CONFLICTING_NODES = frozenset((
@@ -60,6 +61,26 @@ def parse_args():
     return parser.parse_args()
 
 
+def write_launch_record(output_dir, command):
+    """Persist the accepted request before replacing this process with roslaunch."""
+    output_dir = os.path.abspath(os.path.expanduser(output_dir))
+    os.makedirs(output_dir, exist_ok=True)
+    record_path = os.path.join(output_dir, "launch_request.json")
+    with open(record_path, "w", encoding="utf-8") as stream:
+        json.dump({
+            "schema_version": 1,
+            "accepted": True,
+            "recorded_unix_s": time.time(),
+            "command": command,
+            "interpretation": (
+                "This record confirms that the guarded trial launcher accepted the request. "
+                "It does not confirm that roslaunch, FUEL, RViz, or the recorder started successfully."
+            ),
+        }, stream, indent=2, sort_keys=True)
+        stream.write("\n")
+    return record_path
+
+
 def main():
     args = parse_args()
     nodes = active_nodes()
@@ -83,9 +104,11 @@ def main():
         "method_id:={}".format(args.method_id),
         "planner_stall_timeout_s:={}".format(args.planner_stall_timeout_s),
     ]
+    record_path = write_launch_record(args.output_dir, command)
     print(json.dumps({
         "started": True,
         "existing_ros_master": nodes is not None,
+        "launch_record": record_path,
         "runtime_contract": "no_route_no_goal_no_truth_map",
     }, indent=2, sort_keys=True))
     os.execvp(command[0], command)

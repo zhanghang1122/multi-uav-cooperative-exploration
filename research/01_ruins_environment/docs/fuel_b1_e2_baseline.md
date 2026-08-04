@@ -123,6 +123,22 @@ rosrun ruins_urban_01 evaluate_surface_map.py \
   --output "$RUN/map_quality.json"
 ```
 
+Before accepting a run into the five-repetition table, verify that its recorded
+trajectory obeyed the indoor altitude contract:
+
+```bash
+rosrun ruins_urban_01 validate_flight_envelope.py \
+  --trajectory-csv "$RUN/trajectory.csv" \
+  --min-z-m 0.80 \
+  --max-z-m 2.05 \
+  --tolerance-m 0.02 \
+  --output "$RUN/flight_envelope.json"
+```
+
+The output must state `passed: true` and `violation_samples: 0`. A failed
+height-contract check is retained as a failed trial; it is never replaced by a
+new run without being recorded.
+
 Archive each completed directory outside `/tmp` before the next long session:
 
 ```bash

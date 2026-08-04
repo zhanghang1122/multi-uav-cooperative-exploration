@@ -57,6 +57,7 @@ class TrialRecorder(object):
         self.frontier_messages = 0
         self.frontier_add_messages = 0
         self.frontier_delete_messages = 0
+        self.recovery_events = 0
         self.received_odometry = False
         self.received_occupancy = False
 
@@ -133,6 +134,8 @@ class TrialRecorder(object):
         self.last_planner_message_s = elapsed
 
     def on_rosout(self, message):
+        if self.args.recovery_log_token and self.args.recovery_log_token in message.msg:
+            self.recovery_events += 1
         if "finish exploration." in message.msg.lower() and self.final_finish_time_s is None:
             self.final_finish_time_s = self.elapsed_s()
             rospy.loginfo("FUEL completion detected; collecting final map for %.1f s.", self.args.settle_s)
@@ -206,7 +209,7 @@ class TrialRecorder(object):
         final_points = self.write_pcd(map_path)
         summary = {
             "schema_version": 3,
-            "method_id": "B1_fuel_frontier_single_uav",
+            "method_id": self.args.method_id,
             "scene": self.args.scene,
             "success": stop_reason == "fuel_reported_finish",
             "stop_reason": stop_reason,
@@ -216,6 +219,7 @@ class TrialRecorder(object):
             "frontier_messages": self.frontier_messages,
             "frontier_add_messages": self.frontier_add_messages,
             "frontier_delete_messages": self.frontier_delete_messages,
+            "recovery_events": self.recovery_events,
             "final_occupied_points": final_points,
             "snapshot_count": len(self.snapshot_rows),
             "runtime_contract": {
@@ -266,6 +270,16 @@ def parse_args():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", required=True)
     parser.add_argument("--scene", default="e1_structured_interior")
+    parser.add_argument(
+        "--method-id",
+        default="B1_fuel_frontier_single_uav",
+        help="Identifier written to the trial summary; it never changes FUEL behavior.",
+    )
+    parser.add_argument(
+        "--recovery-log-token",
+        default="",
+        help="Optional exact ROS log token used only to count recovery events.",
+    )
     parser.add_argument("--timeout-s", type=float, default=1800.0)
     parser.add_argument("--settle-s", type=float, default=3.0)
     parser.add_argument("--map-sample-period-s", type=float, default=5.0)

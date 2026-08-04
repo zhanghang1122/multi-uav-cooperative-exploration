@@ -12,6 +12,7 @@ catkin_install_python(PROGRAMS
   scripts/generate_damage_building_suite.py
   scripts/generate_e2_primary_benchmark.py
   scripts/prepare_fuel_baseline_overlay.py
+  scripts/apply_fuel_geometric_recovery.py
   scripts/record_fuel_b1_trial.py
   scripts/evaluate_surface_map.py
   scripts/filter_online_map_for_viz.py

@@ -23,6 +23,20 @@ from sensor_msgs.msg import PointCloud2
 from visualization_msgs.msg import Marker
 
 
+DIAGNOSTIC_TOKENS = (
+    "[fsm]",
+    "finish exploration",
+    "no coverable frontier",
+    "frontier",
+    "replan",
+    "search fail",
+    "failed",
+    "no path",
+    "kinodynamic",
+    "total time too long",
+)
+
+
 def write_json(path, value):
     with open(path, "w", encoding="utf-8", newline="\n") as stream:
         json.dump(value, stream, indent=2, sort_keys=True)
@@ -60,6 +74,7 @@ class TrialRecorder(object):
         self.recovery_events = 0
         self.received_odometry = False
         self.received_occupancy = False
+        self.diagnostic_events = []
 
         rospy.Subscriber(args.odom_topic, Odometry, self.on_odometry, queue_size=100)
         rospy.Subscriber(args.occupancy_topic, PointCloud2, self.on_occupancy, queue_size=1)
@@ -134,11 +149,55 @@ class TrialRecorder(object):
         self.last_planner_message_s = elapsed
 
     def on_rosout(self, message):
+        text = message.msg.lower()
+        if any(token in text for token in DIAGNOSTIC_TOKENS):
+            self.diagnostic_events.append({
+                "elapsed_s": round(self.elapsed_s(), 3),
+                "level": int(message.level),
+                "source": message.name,
+                "message": message.msg,
+            })
+            if len(self.diagnostic_events) > self.args.rosout_history_size:
+                self.diagnostic_events.pop(0)
         if self.args.recovery_log_token and self.args.recovery_log_token in message.msg:
             self.recovery_events += 1
-        if "finish exploration." in message.msg.lower() and self.final_finish_time_s is None:
+        if "finish exploration." in text and self.final_finish_time_s is None:
             self.final_finish_time_s = self.elapsed_s()
             rospy.loginfo("FUEL completion detected; collecting final map for %.1f s.", self.args.settle_s)
+
+    def classify_stall(self):
+        """Provide evidence labels only; this function never controls FUEL."""
+        messages = "\n".join(event["message"].lower() for event in self.diagnostic_events)
+        if "finish exploration." in messages:
+            return "fuel_reported_finish"
+        if "no coverable frontier" in messages:
+            return "no_coverable_frontier_reported"
+        if "search fail" in messages or "kinodynamic" in messages or "no path" in messages:
+            return "local_path_search_failure_reported"
+        if self.last_planner_message_s is not None and self.last_motion_s is not None:
+            return "no_new_trajectory_and_no_motion"
+        return "insufficient_runtime_evidence"
+
+    def diagnostics(self, stop_reason):
+        return {
+            "schema_version": 1,
+            "stop_reason": stop_reason,
+            "observational_classification": self.classify_stall(),
+            "last_planner_message_elapsed_s": (
+                round(self.last_planner_message_s, 3) if self.last_planner_message_s is not None else None
+            ),
+            "last_motion_elapsed_s": round(self.last_motion_s, 3) if self.last_motion_s is not None else None,
+            "last_odometry_position_m": (
+                [round(value, 4) for value in self.last_position] if self.last_position is not None else None
+            ),
+            "planner_messages": self.planner_messages,
+            "frontier_messages": self.frontier_messages,
+            "recent_relevant_rosout": self.diagnostic_events[-50:],
+            "interpretation": (
+                "Read-only diagnostic evidence. It does not infer ground truth, alter FUEL, "
+                "supply a route, or prove that a reported planning failure is caused by geometry."
+            ),
+        }
 
     def write_csv(self, path, header, rows):
         with open(path, "w", encoding="utf-8", newline="") as stream:
@@ -207,6 +266,8 @@ class TrialRecorder(object):
         self.write_csv(growth_path, ("elapsed_s", "occupied_points"), self.map_growth_rows)
         self.write_csv(snapshots_path, ("elapsed_s", "occupied_points", "pcd_relative_path"), self.snapshot_rows)
         final_points = self.write_pcd(map_path)
+        diagnostics_path = os.path.join(self.args.output_dir, "runtime_diagnostics.json")
+        write_json(diagnostics_path, self.diagnostics(stop_reason))
         summary = {
             "schema_version": 3,
             "method_id": self.args.method_id,
@@ -245,6 +306,7 @@ class TrialRecorder(object):
                 "snapshots_csv": snapshots_path,
                 "snapshots_directory": os.path.join(self.args.output_dir, "snapshots"),
                 "final_online_occupancy_pcd": map_path,
+                "runtime_diagnostics_json": diagnostics_path,
             },
         }
         write_json(os.path.join(self.args.output_dir, "trial_summary.json"), summary)
@@ -308,6 +370,12 @@ def parse_args():
     parser.add_argument("--frontier-topic", default="/planning_vis/frontier")
     parser.add_argument("--planner-topic", default="/planning/bspline")
     parser.add_argument("--rosout-topic", default="/rosout_agg")
+    parser.add_argument(
+        "--rosout-history-size",
+        type=int,
+        default=300,
+        help="Number of relevant FUEL ROS log events retained for post-run diagnosis only.",
+    )
     return parser.parse_args()
 
 
@@ -315,7 +383,7 @@ def main():
     args = parse_args()
     if args.map_sample_period_s <= 0.0 or args.snapshot_period_s <= 0.0:
         raise SystemExit("map and snapshot sample periods must be positive")
-    if args.planner_stall_timeout_s < 0.0 or args.stall_motion_threshold_m <= 0.0:
+    if args.planner_stall_timeout_s < 0.0 or args.stall_motion_threshold_m <= 0.0 or args.rosout_history_size <= 0:
         raise SystemExit("planner-stall timeout must be non-negative and its motion threshold must be positive")
     rospy.init_node("fuel_b1_trial_recorder", anonymous=False)
     TrialRecorder(args).run()

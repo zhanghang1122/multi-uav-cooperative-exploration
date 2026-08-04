@@ -1,0 +1,24 @@
+<launch>
+  <!-- One reproducible B1 trial.  This file only starts the existing FUEL
+       overlay, display-only RViz helpers, a read-only recorder, and the
+       position-neutral start trigger.  It supplies no route or target. -->
+  <arg name="overlay_file" />
+  <arg name="output_dir" />
+  <arg name="scene" default="e2_primary_damaged_interior" />
+  <arg name="method_id" default="B1_fuel_frontier_single_uav" />
+  <arg name="planner_stall_timeout_s" default="45" />
+
+  <include file="$(find ruins_urban_01)/launch/run_fuel_overlay.launch">
+    <arg name="overlay_file" value="$(arg overlay_file)" />
+  </include>
+
+  <include file="$(find ruins_urban_01)/launch/fuel_b1_rviz.launch" />
+
+  <node pkg="ruins_urban_01" type="record_fuel_b1_trial.py"
+        name="fuel_b1_trial_recorder" output="screen"
+        args="--scene $(arg scene) --method-id $(arg method_id) --output-dir $(arg output_dir) --planner-stall-timeout-s $(arg planner_stall_timeout_s) --stall-motion-threshold-m 0.05" />
+
+  <node pkg="ruins_urban_01" type="trigger_position_neutral_exploration.py"
+        name="fuel_position_neutral_trigger" output="screen"
+        args="--delay-s 6.0 --timeout-s 120.0" />
+</launch>

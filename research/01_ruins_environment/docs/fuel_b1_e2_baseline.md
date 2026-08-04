@@ -58,36 +58,22 @@ state `route_prior_used: false`, `goal_prior_used: false` and
 
 ## Five Repetitions
 
-Run one repetition at a time. Start the generated FUEL overlay, the project
-RViz profile and the read-only recorder in separate terminals:
+Run one repetition at a time through the fixed trial launcher. It starts the
+generated FUEL overlay, the project RViz profile, the read-only recorder and a
+delayed position-neutral trigger. It supplies no route, target or waypoint:
 
 ```bash
-roslaunch ruins_urban_01 run_fuel_overlay.launch \
-  overlay_file:=/tmp/fuel_building_baseline_overlay/fuel_e2_primary_damaged_interior_baseline.launch
+roslaunch ruins_urban_01 run_e2_b1_trial.launch \
+  overlay_file:=/tmp/fuel_building_baseline_overlay/fuel_e2_primary_damaged_interior_baseline.launch \
+  output_dir:=$HOME/uav_experiment_results/B1_E2_height_gate_01
 ```
 
-```bash
-roslaunch ruins_urban_01 fuel_b1_rviz.launch
-```
-
-```bash
-rosrun ruins_urban_01 record_fuel_b1_trial.py \
-  --scene e2_primary_damaged_interior \
-  --output-dir ~/uav_experiment_results/B1_E2_rep01 \
-  --planner-stall-timeout-s 45 \
-  --stall-motion-threshold-m 0.05
-```
-
-Once the recorder reports that it has received odometry and online occupancy,
-issue the position-neutral trigger in a fourth terminal:
-
-```bash
-rosrun ruins_urban_01 trigger_position_neutral_exploration.py
-```
-
-The trigger process exits immediately by design. Let FUEL run until it reports
-`finish exploration.`. The recorder then waits three seconds, writes the final
-online map and exits. Repeat with only the output suffix changed:
+The trigger process exits after publishing the current-pose start signal by
+design. Let the enclosing launch continue until FUEL reports `finish
+exploration.` and the recorder writes the final online map. The first run is a
+height-contract gate, not one of the five formal repetitions. Only after its
+trajectory-height audit passes should the launcher be repeated with the five
+formal output suffixes:
 
 ```text
 /tmp/fuel_b1_e2_rep01

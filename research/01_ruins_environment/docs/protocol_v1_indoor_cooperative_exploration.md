@@ -43,7 +43,8 @@ topology, or true map coverage. Its allocation state may contain only
 information made online from shared occupied/free/unknown map state, vehicle
 state, reachable candidate cost, and the declared communication model.
 
-The implementation sequence is strict: first validate the altitude contract;
+The implementation sequence is strict: first validate the altitude contract
+with `run_e2_b1_trial.launch`;
 then archive stable B1 trials; then validate a triggered B1-R recovery event;
 then implement B2, B3 and P in that order. No E3 tuning occurs before P is
 frozen.

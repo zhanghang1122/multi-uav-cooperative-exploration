@@ -108,26 +108,6 @@ Visualization Manager:
     - Class: rviz/Group
       Displays:
         - Class: rviz/Marker
-          Enabled: false
-          Marker Topic: /planning_vis/frontier
-          Name: Current frontier
-          Namespaces:
-            {}
-          Queue Size: 100
-          Value: true
-        - Class: rviz/Marker
-          Enabled: false
-          Marker Topic: /planning_vis/trajectory
-          Name: Planned trajectory
-          Namespaces:
-            "": true
-          Queue Size: 100
-          Value: true
-      Enabled: true
-      Name: Exploration decision
-    - Class: rviz/Group
-      Displays:
-        - Class: rviz/Marker
           Enabled: true
           Marker Topic: /ruins_urban_01/uav_pose_marker
           Name: UAV pose

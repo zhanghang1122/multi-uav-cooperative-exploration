@@ -65,9 +65,9 @@ class UavPoseMarker(object):
         marker = self._base_marker(header, "uav_heading", 0)
         marker.type = Marker.ARROW
         marker.pose = pose
-        marker.scale.x = 0.95
-        marker.scale.y = 0.26
-        marker.scale.z = 0.26
+        marker.scale.x = 1.15
+        marker.scale.y = 0.32
+        marker.scale.z = 0.32
         marker.color.r = 0.85
         marker.color.g = 0.12
         marker.color.b = 0.10
@@ -79,9 +79,9 @@ class UavPoseMarker(object):
         marker.type = Marker.SPHERE
         marker.pose.position = point
         marker.pose.orientation.w = 1.0
-        marker.scale.x = 0.32
-        marker.scale.y = 0.32
-        marker.scale.z = 0.32
+        marker.scale.x = 0.48
+        marker.scale.y = 0.48
+        marker.scale.z = 0.48
         marker.color.r = 0.85
         marker.color.g = 0.12
         marker.color.b = 0.10

@@ -76,11 +76,11 @@ trajectory-height audit passes should the launcher be repeated with the five
 formal output suffixes:
 
 ```text
-/tmp/fuel_b1_e2_rep01
-/tmp/fuel_b1_e2_rep02
-/tmp/fuel_b1_e2_rep03
-/tmp/fuel_b1_e2_rep04
-/tmp/fuel_b1_e2_rep05
+$HOME/uav_experiment_results/B1_E2_rep01
+$HOME/uav_experiment_results/B1_E2_rep02
+$HOME/uav_experiment_results/B1_E2_rep03
+$HOME/uav_experiment_results/B1_E2_rep04
+$HOME/uav_experiment_results/B1_E2_rep05
 ```
 
 Do not run two repetitions concurrently. Do not add RViz navigation goals.
@@ -125,12 +125,8 @@ The output must state `passed: true` and `violation_samples: 0`. A failed
 height-contract check is retained as a failed trial; it is never replaced by a
 new run without being recorded.
 
-Archive each completed directory outside `/tmp` before the next long session:
-
-```bash
-mkdir -p ~/uav_experiment_results
-cp -a /tmp/fuel_b1_e2_rep01 ~/uav_experiment_results/B1_E2_rep01
-```
+The launcher writes directly to `~/uav_experiment_results`, so no separate
+copy from `/tmp` is required.
 
 When all five runs have passed, generate the paper-table source data without
 opening ROS or rerunning a planner:

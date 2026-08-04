@@ -15,8 +15,10 @@ The recovery rule is deliberately narrow:
    global tour, and local refinement unchanged.
 2. The stock geometric A* path to the selected online viewpoint must already
    have succeeded.
-3. Only when the subsequent mid-range kinodynamic search fails, B1-R invokes
-   FUEL's existing `planExploreTraj` generator on that already verified path.
+3. Only when the subsequent mid-range kinodynamic search fails, B1-R takes a
+   2.5 m prefix of that already verified path and invokes FUEL's existing
+   `planExploreTraj` generator. This follows FUEL's own far-goal
+   local-horizon pattern instead of optimizing a long path through a corner.
 4. No route, target coordinate, room label, truth map, or manual intervention
    is supplied.
 
@@ -32,8 +34,9 @@ selected viewpoint. For near and far path lengths it already creates a
 trajectory from that path; only the mid-range branch requires a kinodynamic
 search and returns failure when it cannot generate a seed.
 
-The B1-R patch applies the same geometric-path trajectory generation already
-present in the verified FUEL branches to this documented mid-range failure.
+The B1-R patch applies the same local geometric-path trajectory generation
+already present in FUEL's verified far-goal branch to this documented
+mid-range failure.
 It is consistent with frontier-exploration work that validates and maintains
 reachable sensing targets, rather than repeatedly commanding an infeasible
 viewpoint.

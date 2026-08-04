@@ -35,7 +35,7 @@ STOCK_BLOCK = """      // Search kino path to exactly next viewpoint and optimiz
         return FAIL;
 """
 
-RECOVERY_BLOCK = """      // Search kino path to exactly next viewpoint and optimize.
+LEGACY_RECOVERY_BLOCK = """      // Search kino path to exactly next viewpoint and optimize.
       // If the kinodynamic seed search fails after the geometric A* path has
       // already been verified, preserve autonomy by using that online path as
       // the trajectory seed. This is the same generator used by stock FUEL
@@ -46,6 +46,29 @@ RECOVERY_BLOCK = """      // Search kino path to exactly next viewpoint and opti
               pos, vel, acc, ed_->next_goal_, Vector3d(0, 0, 0), time_lb)) {
         ROS_WARN(\"B1-R recovery: kinodynamic seed failed; use validated geometric A* path\");
         planner_manager_->planExploreTraj(ed_->path_next_goal_, vel, acc, time_lb);
+      }
+"""
+
+RECOVERY_BLOCK = """      // Search kino path to exactly next viewpoint and optimize.
+      // If the kinodynamic seed search fails after the geometric A* path has
+      // already been verified, preserve autonomy by executing a short prefix
+      // of that online path. This mirrors stock FUEL's far-goal local-horizon
+      // branch and avoids optimizing a long path across an unseen corner.
+      std::cout << "Mid goal" << std::endl;
+      ed_->next_goal_ = next_pos;
+      if (!planner_manager_->kinodynamicReplan(
+              pos, vel, acc, ed_->next_goal_, Vector3d(0, 0, 0), time_lb)) {
+        ROS_WARN("B1-R recovery: kinodynamic seed failed; use local geometric A* prefix");
+        const double recovery_horizon = 2.5;
+        double recovery_len = 0.0;
+        vector<Eigen::Vector3d> recovery_path = { ed_->path_next_goal_.front() };
+        for (int i = 1; i < ed_->path_next_goal_.size() && recovery_len < recovery_horizon; ++i) {
+          auto cur_pt = ed_->path_next_goal_[i];
+          recovery_len += (cur_pt - recovery_path.back()).norm();
+          recovery_path.push_back(cur_pt);
+        }
+        ed_->next_goal_ = recovery_path.back();
+        planner_manager_->planExploreTraj(recovery_path, vel, acc, time_lb);
       }
 """
 
@@ -70,9 +93,13 @@ def apply_patch(source, dry_run):
 
     if RECOVERY_BLOCK in text:
         return "already_applied", backup
+    if LEGACY_RECOVERY_BLOCK in text:
+        if not dry_run:
+            source.write_text(text.replace(LEGACY_RECOVERY_BLOCK, RECOVERY_BLOCK, 1), encoding="utf-8", newline="\n")
+        return "upgraded", backup
     if STOCK_BLOCK not in text:
         raise RuntimeError(
-            "The verified stock FUEL mid-goal block was not found. No source file was changed. "
+            "The verified stock or recognized B1-R mid-goal block was not found. No source file was changed. "
             "Use --restore if this checkout was previously patched, or inspect the FUEL version first."
         )
     if backup.exists():
@@ -131,8 +158,8 @@ def main():
             "truth_map_usage": "offline_evaluation_only",
             "recovery_rule": (
                 "Only after stock FUEL's geometric A* path to the online-selected viewpoint succeeds "
-                "and its mid-goal kinodynamic seed search fails, generate a trajectory from that existing "
-                "online geometric path."
+                "and its mid-goal kinodynamic seed search fails, generate a trajectory from a 2.5 m "
+                "prefix of that existing online geometric path."
             ),
         },
     }

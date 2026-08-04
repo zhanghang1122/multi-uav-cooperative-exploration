@@ -45,8 +45,13 @@ class OnlineMapVisualizer(object):
                 floor_points.append((x, y, z))
             else:
                 obstacle_points.append((x, y, z))
-        self.floor_publisher.publish(point_cloud2.create_cloud_xyz32(message.header, floor_points))
-        self.obstacle_publisher.publish(point_cloud2.create_cloud_xyz32(message.header, obstacle_points))
+        # FUEL's simulator can label world-coordinate occupancy with its
+        # simulator frame.  This is a visualization-only relabel so RViz does
+        # not require an unavailable simulator-to-world TF transform.
+        header = message.header
+        header.frame_id = self.args.display_frame
+        self.floor_publisher.publish(point_cloud2.create_cloud_xyz32(header, floor_points))
+        self.obstacle_publisher.publish(point_cloud2.create_cloud_xyz32(header, obstacle_points))
 
 
 def parse_args():
@@ -56,6 +61,7 @@ def parse_args():
     parser.add_argument("--obstacle-output-topic", default="/ruins_urban_01/online_obstacle_visual")
     parser.add_argument("--floor-max-z-m", type=float, default=0.25)
     parser.add_argument("--max-visible-z-m", type=float, default=2.85)
+    parser.add_argument("--display-frame", default="world")
     return parser.parse_args(rospy.myargv()[1:])
 
 

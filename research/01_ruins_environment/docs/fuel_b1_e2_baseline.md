@@ -63,12 +63,16 @@ generated FUEL overlay, the project RViz profile, the read-only recorder and a
 delayed position-neutral trigger. It supplies no route, target or waypoint:
 
 ```bash
-roslaunch ruins_urban_01 run_e2_b1_trial.launch \
-  overlay_file:=/tmp/fuel_building_baseline_overlay/fuel_e2_primary_damaged_interior_baseline.launch \
-  output_dir:=$HOME/uav_experiment_results/B1_E2_height_gate_01
+rosrun ruins_urban_01 launch_e2_b1_trial.py \
+  --overlay-file /tmp/fuel_building_baseline_overlay/fuel_e2_primary_damaged_interior_baseline.launch \
+  --output-dir "$HOME/uav_experiment_results/B1_E2_height_gate_01"
 ```
 
-The trigger process exits after publishing the current-pose start signal by
+Before it starts anything, the command checks ROS for stale FUEL nodes with
+names that would collide with this trial. If it reports
+`existing_fuel_session`, stop only the listed stale nodes and rerun the same
+command. A missing ROS master is valid: `roslaunch` will create one. The
+trigger process exits after publishing the current-pose start signal by
 design. Let the enclosing launch continue until FUEL reports `finish
 exploration.` and the recorder writes the final online map. The first run is a
 height-contract gate, not one of the five formal repetitions. Only after its

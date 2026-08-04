@@ -17,6 +17,7 @@ catkin_install_python(PROGRAMS
   scripts/validate_flight_envelope.py
   scripts/evaluate_surface_map.py
   scripts/filter_online_map_for_viz.py
+  scripts/launch_e2_b1_trial.py
   scripts/publish_uav_pose_marker.py
   scripts/summarize_b1_trials.py
   scripts/trigger_position_neutral_exploration.py

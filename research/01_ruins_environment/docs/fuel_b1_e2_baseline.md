@@ -41,8 +41,9 @@ not from Gazebo collision geometry. The PCD surface lattice is fixed at 0.07 m:
 its maximum in-plane diagonal gap is below FUEL's 0.10 m mapping-cell width.
 FUEL then forms occupied voxels online from local depth returns. This preserves
 a surface-sensor model while preventing source-sampling gaps from acting as
-false wall openings. RViz displays the accumulated occupancy map with a
-0.10 m square size so the integrated wall structure is visible during recording.
+false wall openings. RViz follows the official FUEL demo convention: it shows
+the integrated occupancy map as height-colored `Flat Squares` at 0.06 m,
+while retaining the display-only upper-boundary filter.
 
 ## One-Time Preparation
 

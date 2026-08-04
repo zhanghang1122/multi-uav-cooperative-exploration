@@ -68,7 +68,7 @@ Visualization Manager:
       Queue Size: 10
       Selectable: true
       Size (Pixels): 3
-      Size (m): 0.1
+      Size (m): 0.15
       Style: Flat Squares
       Topic: /ruins_urban_01/online_floor_visual
       Unreliable: false
@@ -98,8 +98,8 @@ Visualization Manager:
       Queue Size: 10
       Selectable: true
       Size (Pixels): 3
-      Size (m): 0.1
-      Style: Boxes
+      Size (m): 0.15
+      Style: Flat Squares
       Topic: /ruins_urban_01/online_obstacle_visual
       Unreliable: false
       Use Fixed Frame: true

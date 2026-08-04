@@ -12,10 +12,12 @@ the map used by FUEL, the recorder, or offline evaluation.
 from __future__ import print_function
 
 import argparse
+import math
 
 import rospy
 from sensor_msgs import point_cloud2
 from sensor_msgs.msg import PointCloud2
+from std_msgs.msg import Header
 
 
 class OnlineMapVisualizer(object):
@@ -23,6 +25,7 @@ class OnlineMapVisualizer(object):
         self.args = args
         self.floor_publisher = rospy.Publisher(args.floor_output_topic, PointCloud2, queue_size=1)
         self.obstacle_publisher = rospy.Publisher(args.obstacle_output_topic, PointCloud2, queue_size=1)
+        self.last_publish_s = None
         rospy.Subscriber(args.input_topic, PointCloud2, self.on_cloud, queue_size=1)
         rospy.loginfo(
             "RViz-only map split: %s -> (%s, %s); floor z <= %.2f m, suppressing z >= %.2f m",
@@ -34,24 +37,39 @@ class OnlineMapVisualizer(object):
         )
 
     def on_cloud(self, message):
+        now = rospy.get_time()
+        if self.last_publish_s is not None and now - self.last_publish_s < self.args.min_publish_period_s:
+            return
+
         # ROS Noetic's create_cloud_xyz32 calls len(points), so this must be a
         # concrete list rather than a generator expression.
         floor_points = []
         obstacle_points = []
+        floor_voxels = set()
+        obstacle_voxels = set()
         for x, y, z in point_cloud2.read_points(message, field_names=("x", "y", "z"), skip_nans=True):
             if z >= self.args.max_visible_z_m:
                 continue
+            voxel = (
+                int(math.floor(x / self.args.visual_voxel_size_m)),
+                int(math.floor(y / self.args.visual_voxel_size_m)),
+                int(math.floor(z / self.args.visual_voxel_size_m)),
+            )
             if z <= self.args.floor_max_z_m:
-                floor_points.append((x, y, z))
+                if voxel not in floor_voxels:
+                    floor_voxels.add(voxel)
+                    floor_points.append((x, y, z))
             else:
-                obstacle_points.append((x, y, z))
+                if voxel not in obstacle_voxels:
+                    obstacle_voxels.add(voxel)
+                    obstacle_points.append((x, y, z))
         # FUEL's simulator can label world-coordinate occupancy with its
         # simulator frame.  This is a visualization-only relabel so RViz does
         # not require an unavailable simulator-to-world TF transform.
-        header = message.header
-        header.frame_id = self.args.display_frame
+        header = Header(seq=message.header.seq, stamp=message.header.stamp, frame_id=self.args.display_frame)
         self.floor_publisher.publish(point_cloud2.create_cloud_xyz32(header, floor_points))
         self.obstacle_publisher.publish(point_cloud2.create_cloud_xyz32(header, obstacle_points))
+        self.last_publish_s = now
 
 
 def parse_args():
@@ -62,6 +80,8 @@ def parse_args():
     parser.add_argument("--floor-max-z-m", type=float, default=0.25)
     parser.add_argument("--max-visible-z-m", type=float, default=2.85)
     parser.add_argument("--display-frame", default="world")
+    parser.add_argument("--visual-voxel-size-m", type=float, default=0.15)
+    parser.add_argument("--min-publish-period-s", type=float, default=0.8)
     return parser.parse_args(rospy.myargv()[1:])
 
 

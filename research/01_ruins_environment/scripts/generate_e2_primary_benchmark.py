@@ -27,6 +27,12 @@ SCENE_NAME = "Coop-Building-E2-Primary-Damaged-Interior"
 SIZE = (46.0, 36.0, 4.2)
 ENTRY = (-21.5, 0.0, 1.5)
 FLIGHT_Z = 1.5
+# The task is indoor exploration, not open-air ruins flight.  The vehicle is
+# free to change height for local clearance, but must stay below the lowest
+# architectural partition top after applying the same safety envelope used by
+# FUEL.  This preserves the intended branch and loop topology.
+FLIGHT_MIN_Z = 0.80
+FLIGHT_MAX_Z = 2.05
 PLANNING_RADIUS = 0.199
 GRID_RESOLUTION = 0.20
 PCD_STEP = 0.14
@@ -307,6 +313,9 @@ def audit(boxes: Sequence[Box]):
             "movement_axis": axis,
         }
     effective_diameter = 2.0 * PLANNING_RADIUS
+    wall_top_heights = [box.center[2] + box.size[2] / 2.0 for box in boxes if box.role == "wall"]
+    minimum_wall_top = min(wall_top_heights)
+    vertical_non_bypass_margin = minimum_wall_top - (FLIGHT_MAX_Z + PLANNING_RADIUS)
     # These four named doorway throats are produced directly by add_open_wall.
     # Their clearance is checked from their declared physical opening widths;
     # an unrestricted crosslink room must not be mistaken for a 13 m throat.
@@ -328,11 +337,17 @@ def audit(boxes: Sequence[Box]):
         and all(value is not None for value in anchor_distances.values())
         and all(item["planning_free_width_m"] >= effective_diameter for item in probe_report.values())
         and all(item["planning_clearance_m"] >= effective_diameter for item in doorway_report.values())
+        and FLIGHT_MIN_Z <= ENTRY[2] <= FLIGHT_MAX_Z
+        and vertical_non_bypass_margin > 0.0
     )
     return {
         "passed": passed,
         "grid_resolution_m": GRID_RESOLUTION,
         "flight_slice_z_m": FLIGHT_Z,
+        "flight_volume_z_m": [FLIGHT_MIN_Z, FLIGHT_MAX_Z],
+        "wall_top_bypass_allowed": False,
+        "minimum_architectural_wall_top_m": round(minimum_wall_top, 3),
+        "vertical_non_bypass_margin_m": round(vertical_non_bypass_margin, 3),
         "planning_radius_m": PLANNING_RADIUS,
         "effective_planning_diameter_m": round(effective_diameter, 3),
         "reachable_free_fraction": round(reachable_fraction, 6),
@@ -532,15 +547,15 @@ def generate(output_dir: Path):
     )
     write_svg(output_dir / "previews" / (SCENE_NAME + ".svg"), boxes)
     result = {
-        "schema_version": 2,
-        "scene": {"name": SCENE_NAME, "size_m": SIZE, "entry_m": ENTRY, "static": True, "seed": "fixed-e2-v3"},
+        "schema_version": 3,
+        "scene": {"name": SCENE_NAME, "size_m": SIZE, "entry_m": ENTRY, "static": True, "seed": "fixed-e2-v4"},
         "geometry": {
             "box_count": len(boxes),
             "role_counts": dict(sorted(Counter(box.role for box in boxes).items())),
             "simulator_pcd_points": point_count,
             "interior_reference_pcd_points": reference_point_count,
         },
-        "design_contract": {"primary_branches": 3, "traversable_loops": 1, "terminal_or_occluded_pockets": 5, "bottlenecks": 4, "collapse_clusters": 6, "vertical_obstacle_groups": 17, "second_floor": False},
+        "design_contract": {"primary_branches": 3, "traversable_loops": 1, "terminal_or_occluded_pockets": 5, "bottlenecks": 4, "collapse_clusters": 6, "vertical_obstacle_groups": 17, "second_floor": False, "physical_ceiling": False, "wall_top_bypass_allowed": False},
         "offline_geometry_audit": report,
         "runtime_contract": {
             "simulator_pcd_usage": "local sensor rendering only; never supplied to the online planner",
@@ -549,6 +564,8 @@ def generate(output_dir: Path):
             "route_prior_used": False,
             "runtime_topology_labels": False,
             "runtime_room_labels": False,
+            "flight_volume_z_m": [FLIGHT_MIN_Z, FLIGHT_MAX_Z],
+            "vertical_constraint_role": "known indoor operating envelope; not a route, room label, or target prior",
         },
     }
     with (output_dir / "validation" / (SCENE_NAME + ".json")).open("w", encoding="ascii", newline="\n") as stream:

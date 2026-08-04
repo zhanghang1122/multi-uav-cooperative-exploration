@@ -60,7 +60,15 @@ def normalize_scene_report(report, requested_scene, expected_name):
         raise SystemExit("scene validation report has no valid workspace size or entry pose")
     if not geometry_qa.get("passed"):
         raise SystemExit("scene geometry QA did not pass; do not prepare a runtime overlay")
-    return {"size": size, "entry": entry}, geometry_qa
+    flight_volume = geometry_qa.get("flight_volume_z_m", [0.0, size[2]])
+    if not isinstance(flight_volume, list) or len(flight_volume) != 2:
+        raise SystemExit("scene geometry QA has no valid operational flight-volume bounds")
+    flight_min_z, flight_max_z = flight_volume
+    if not (0.0 <= flight_min_z < flight_max_z <= size[2] and flight_min_z <= entry[2] <= flight_max_z):
+        raise SystemExit("scene operational flight-volume bounds are invalid for the entry pose")
+    if requested_scene == "e2_primary_damaged_interior" and geometry_qa.get("wall_top_bypass_allowed", True):
+        raise SystemExit("E2 primary must explicitly forbid wall-top bypass before a FUEL overlay is prepared")
+    return {"size": size, "entry": entry, "flight_volume_z_m": flight_volume}, geometry_qa
 
 
 def find_source_launches(fuel_workspace):
@@ -102,6 +110,7 @@ def prepare_exploration(source, output, simulator_overlay, scene):
     tree = ET.parse(source)
     root = tree.getroot()
     width, depth, height = scene["size"]
+    flight_min_z, flight_max_z = scene["flight_volume_z_m"]
     entry_x, entry_y, entry_z = scene["entry"]
     set_arg(root, "map_size_x", width)
     set_arg(root, "map_size_y", depth)
@@ -115,8 +124,8 @@ def prepare_exploration(source, output, simulator_overlay, scene):
         raise RuntimeError("official FUEL algorithm include was not found")
     algorithm = algorithm_includes[0]
     for name, value in (
-        ("box_min_x", -width / 2.0), ("box_min_y", -depth / 2.0), ("box_min_z", 0.0),
-        ("box_max_x", width / 2.0), ("box_max_y", depth / 2.0), ("box_max_z", height),
+        ("box_min_x", -width / 2.0), ("box_min_y", -depth / 2.0), ("box_min_z", flight_min_z),
+        ("box_max_x", width / 2.0), ("box_max_y", depth / 2.0), ("box_max_z", flight_max_z),
     ):
         for argument in algorithm.findall("arg"):
             if argument.get("name") == name:
@@ -180,7 +189,7 @@ def main():
     prepare_exploration(source_exploration, launch_overlay, simulator_overlay, scene)
 
     manifest = {
-        "schema_version": 2,
+        "schema_version": 3,
         "method_id": "B1_fuel_frontier_single_uav",
         "scene": args.scene,
         "launch": launch_overlay,
@@ -198,6 +207,9 @@ def main():
             "goal_prior_used": False,
             "room_or_topology_prior_used": False,
             "exploration_start": "position-neutral trigger only",
+            "planner_flight_volume_z_m": scene["flight_volume_z_m"],
+            "wall_top_bypass_allowed": False if args.scene == "e2_primary_damaged_interior" else None,
+            "physical_ceiling_added": False,
         },
         "geometry_qa": reachability,
     }

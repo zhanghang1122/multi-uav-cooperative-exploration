@@ -11,8 +11,13 @@ four bottleneck doorways, six local collapse clusters, twelve columns, ten
 equipment obstacles, and five partial overhead elements. At FUEL's configured
 0.199 m obstacle inflation, its offline geometry audit reports 100% reachable
 coverable free space and a minimum declared bottleneck clearance of 0.802 m.
-The scene, sensor setup, and FUEL parameters must not change between B1
-repetitions.
+The indoor operating envelope is fixed at z = 0.80--2.05 m. It is lower than
+the 2.35 m minimum architectural partition top after the 0.199 m planning
+envelope is applied. Therefore, the UAV cannot bypass a partition by climbing
+over it; it must discover and traverse a real doorway or loop. This is an
+operational altitude boundary, not a physical ceiling, route, room label or
+target prior. The scene, sensor setup, altitude envelope and FUEL parameters
+must not change between B1 repetitions.
 
 ## Fixed Online Boundary
 
@@ -24,6 +29,11 @@ For E2, this sensor source contains only interior-facing surfaces, which
 removes exterior-envelope and wall-top samples that an indoor UAV cannot
 observe. The current-pose start signal only starts FUEL's official exploration
 state machine.
+
+The map and sensor volume remain 4.2 m high so that vertical structure can be
+observed. RViz clips only points above 2.85 m in its display topic to suppress
+the mapper's upper-boundary artifact; that display filter is not consumed by
+FUEL, the recorder, or the offline evaluator.
 
 ## One-Time Preparation
 

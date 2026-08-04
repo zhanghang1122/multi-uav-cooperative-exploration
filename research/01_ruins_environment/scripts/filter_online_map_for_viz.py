@@ -43,7 +43,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Filter upper map-boundary voxels for RViz only.")
     parser.add_argument("--input-topic", default="/sdf_map/occupancy_all")
     parser.add_argument("--output-topic", default="/ruins_urban_01/online_occupancy_visual")
-    parser.add_argument("--max-visible-z-m", type=float, default=4.0)
+    parser.add_argument("--max-visible-z-m", type=float, default=2.85)
     return parser.parse_args(rospy.myargv()[1:])
 
 

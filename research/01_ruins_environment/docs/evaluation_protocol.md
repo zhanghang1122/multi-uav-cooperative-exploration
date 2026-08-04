@@ -108,14 +108,16 @@ produce the following reproducible figures and tables:
 
 ## Literature Basis
 
-- A recent UAV exploration comparison against FUEL records exploration time,
-  path length and coverage-progress curves under matched sensing and dynamics:
-  [A heuristic autonomous exploration method based on environmental information gain during quadrotor flight](https://sage.cnpereading.com/doi/10.1177/17298806241235517).
-- A multi-UAV coverage journal paper explicitly defines both coverage rate and
-  repeated coverage rate and reports them in complex environments:
-  [Multi-UAV Coverage through Two-Step Auction in Dynamic Environments](https://doi.org/10.3390/drones6060153).
-- A multi-UAV cooperative-search journal study reports exploration time,
-  detection repetition rate and algorithm complexity over ten trials:
-  [Multi-UAV adaptive cooperative coverage search method based on area dynamic sensing](https://doi.org/10.1093/jcde/qwaf031).
-- RACER motivates the workload-balance, communication and computation metrics:
-  [Rapid Collaborative Exploration with a Decentralized Multi-UAV System](https://arxiv.org/abs/2209.08533).
+- The single-UAV baseline follows FUEL's incremental Frontier structure and
+  hierarchical exploration-planning formulation: [Zhou et al., IEEE Robotics
+  and Automation Letters, 2021](https://doi.org/10.1109/LRA.2021.3051563).
+- Safe and reachable Frontier candidates are treated as a prerequisite rather
+  than a visualization feature, following [Senarathne and Wang, Robotics and
+  Autonomous Systems, 2015](https://doi.org/10.1016/j.robot.2015.05.009).
+- The cooperative measurements separate map sharing, communication and team
+  allocation effects, consistent with [Mahdoui et al., Journal of Intelligent
+  & Robotic Systems, 2020](https://doi.org/10.1007/s10846-019-01062-6) and
+  [Bayer and Faigl, Autonomous Robots, 2026](https://doi.org/10.1007/s10514-025-10234-3).
+- Coverage-progress and multi-UAV efficiency measures are retained as formal
+  outcomes rather than screenshots, consistent with [Huang et al., Aerospace
+  Science and Technology, 2025](https://doi.org/10.1016/j.ast.2025.110624).

@@ -11,13 +11,15 @@ four bottleneck doorways, six local collapse clusters, twelve columns, ten
 equipment obstacles, and five partial overhead elements. At FUEL's configured
 0.199 m obstacle inflation, its offline geometry audit reports 100% reachable
 coverable free space and a minimum declared bottleneck clearance of 0.802 m.
-The indoor operating envelope is fixed at z = 0.80--2.05 m. It is lower than
-the 2.35 m minimum architectural partition top after the 0.199 m planning
-envelope is applied. Therefore, the UAV cannot bypass a partition by climbing
-over it; it must discover and traverse a real doorway or loop. This is an
-operational altitude boundary, not a physical ceiling, route, room label or
-target prior. The scene, sensor setup, altitude envelope and FUEL parameters
-must not change between B1 repetitions.
+The physical indoor operating envelope is fixed at z = 0.80--2.05 m. It is
+lower than the 2.55 m minimum architectural partition top after the 0.199 m
+planning envelope is applied. Therefore, the UAV cannot bypass a partition by
+climbing over it; it must discover and traverse a real doorway or loop. FUEL's
+stock exploration configuration disables its optional virtual ceiling, so this
+benchmark overlay enables that native configuration at z = 1.85 m. The 0.20 m
+guard is a shared controller-tracking margin below the physical maximum, not a
+physical ceiling, route, room label or target prior. The scene, sensor setup,
+altitude envelope and FUEL parameters must not change between B1 repetitions.
 
 ## Fixed Online Boundary
 
@@ -59,12 +61,18 @@ rosrun ruins_urban_01 prepare_fuel_baseline_overlay.py \
   --assets-dir /tmp/coop_building_e2_primary \
   --scene e2_primary_damaged_interior \
   --output-dir /tmp/fuel_building_baseline_overlay
+
+rosrun ruins_urban_01 audit_fuel_overlay_contract.py \
+  --overlay-file /tmp/fuel_building_baseline_overlay/fuel_e2_primary_damaged_interior_baseline.launch \
+  --expected-virtual-ceil-m 1.85 \
+  --output /tmp/fuel_building_baseline_overlay/overlay_contract.json
 ```
 
 Before the first run, inspect the resulting
 `/tmp/fuel_building_baseline_overlay/manifest.json`. Its runtime contract must
 state `route_prior_used: false`, `goal_prior_used: false` and
-`truth_pcd_supplied_to_online_planner: false`.
+`truth_pcd_supplied_to_online_planner: false`. It must also record
+`fuel_virtual_ceil_height_m: 1.85` and `virtual_ceil_guard_m: 0.20`.
 
 ## Five Repetitions
 
@@ -132,12 +140,15 @@ rosrun ruins_urban_01 validate_flight_envelope.py \
   --min-z-m 0.80 \
   --max-z-m 2.05 \
   --tolerance-m 0.02 \
+  --analysis-start-elapsed-s 6.0 \
   --output "$RUN/flight_envelope.json"
 ```
 
-The output must state `passed: true` and `violation_samples: 0`. A failed
-height-contract check is retained as a failed trial; it is never replaced by a
-new run without being recorded.
+The output must state `passed: true` and `violation_samples: 0`. The first six
+seconds are excluded because they precede the documented position-neutral
+trigger and are only simulator initialization. A failed height-contract check
+is retained as a failed trial; it is never replaced by a new run without being
+recorded.
 
 The launcher writes directly to `~/uav_experiment_results`, so no separate
 copy from `/tmp` is required.

@@ -32,6 +32,7 @@ def close_enough(actual, expected):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--overlay-file", required=True)
+    parser.add_argument("--expected-virtual-ceil-m", type=float, required=True)
     parser.add_argument("--output", required=True)
     args = parser.parse_args()
 
@@ -40,12 +41,13 @@ def main():
         raise SystemExit("overlay file is missing: " + overlay)
 
     root = ET.parse(overlay).getroot()
-    includes = [
-        include for include in root.findall("include")
-        if include.get("file") == "$(find exploration_manager)/launch/algorithm.xml"
-    ]
+    includes = [include for include in root.findall("include") if "algorithm" in os.path.basename(include.get("file", ""))]
     if len(includes) != 1:
-        raise SystemExit("expected exactly one official FUEL algorithm include")
+        raise SystemExit("expected exactly one generated FUEL algorithm include")
+
+    algorithm_file = includes[0].get("file")
+    if not algorithm_file or not os.path.isfile(algorithm_file):
+        raise SystemExit("generated FUEL algorithm overlay is missing: {}".format(algorithm_file))
 
     supplied = {}
     for argument in includes[0].findall("arg"):
@@ -64,10 +66,25 @@ def main():
         }
         for name, expected in EXPECTED.items()
     }
+    algorithm_root = ET.parse(algorithm_file).getroot()
+    ceiling_params = [
+        element for element in algorithm_root.iter("param")
+        if element.get("name") == "sdf_map/virtual_ceil_height"
+    ]
+    try:
+        actual_ceiling = float(ceiling_params[0].get("value")) if len(ceiling_params) == 1 else None
+    except (TypeError, ValueError):
+        actual_ceiling = None
+    checks["sdf_map/virtual_ceil_height"] = {
+        "expected": args.expected_virtual_ceil_m,
+        "actual": actual_ceiling,
+        "passed": actual_ceiling is not None and close_enough(actual_ceiling, args.expected_virtual_ceil_m),
+    }
     result = {
         "schema_version": 1,
         "mode": "read_only_overlay_contract_audit",
         "overlay_file": overlay,
+        "algorithm_overlay_file": algorithm_file,
         "checks": checks,
         "passed": all(item["passed"] for item in checks.values()),
         "interpretation": (

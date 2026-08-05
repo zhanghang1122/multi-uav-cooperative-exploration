@@ -3,8 +3,9 @@
 
 FUEL's official simulator uses a global PCD only to render a local sensor
 stream.  This helper retains that interface and changes only the simulator PCD,
-workspace bounds and physical initial pose.  It does not add a route, frontier,
-room label, exploration goal, map topic or task allocation to FUEL.
+workspace bounds, physical initial pose, and a scenario-wide virtual ceiling.
+It does not add a route, frontier, room label, exploration goal, map topic or
+task allocation to FUEL.
 """
 
 from __future__ import print_function
@@ -75,10 +76,11 @@ def find_source_launches(fuel_workspace):
     root = os.path.join(fuel_workspace, "src", "FUEL", "fuel_planner", "exploration_manager", "launch")
     exploration = os.path.join(root, "exploration.launch")
     simulator = os.path.join(root, "simulator.xml")
-    missing = [path for path in (exploration, simulator) if not os.path.isfile(path)]
+    algorithm = os.path.join(root, "algorithm.xml")
+    missing = [path for path in (exploration, simulator, algorithm) if not os.path.isfile(path)]
     if missing:
         raise RuntimeError("FUEL official launch files were not found: " + ", ".join(missing))
-    return exploration, simulator
+    return exploration, simulator, algorithm
 
 
 def set_arg(root, name, value):
@@ -87,6 +89,13 @@ def set_arg(root, name, value):
             element.set("value", str(value))
             return
     raise RuntimeError("expected FUEL launch arg is missing: " + name)
+
+
+def set_param(root, name, value):
+    matches = [element for element in root.iter("param") if element.get("name") == name]
+    if len(matches) != 1:
+        raise RuntimeError("expected exactly one FUEL parameter is missing or duplicated: " + name)
+    matches[0].set("value", "{:.4f}".format(value))
 
 
 def write_xml(tree, path):
@@ -106,7 +115,21 @@ def prepare_simulator(source, output, sensor_pcd_path):
     write_xml(tree, output)
 
 
-def prepare_exploration(source, output, simulator_overlay, scene):
+def prepare_algorithm(source, output, virtual_ceil_height):
+    """Copy the official algorithm config and enable its native virtual ceiling.
+
+    FUEL writes its virtual ceiling directly into the occupancy buffer after
+    obstacle inflation.  The guard is therefore deliberately below the
+    physical maximum height: it reserves controller-tracking margin without
+    changing the upstream FUEL checkout or supplying any exploration prior.
+    """
+    tree = ET.parse(source)
+    root = tree.getroot()
+    set_param(root, "sdf_map/virtual_ceil_height", virtual_ceil_height)
+    write_xml(tree, output)
+
+
+def prepare_exploration(source, output, simulator_overlay, algorithm_overlay, scene):
     tree = ET.parse(source)
     root = tree.getroot()
     width, depth, height = scene["size"]
@@ -123,6 +146,7 @@ def prepare_exploration(source, output, simulator_overlay, scene):
     if len(algorithm_includes) != 1:
         raise RuntimeError("official FUEL algorithm include was not found")
     algorithm = algorithm_includes[0]
+    algorithm.set("file", algorithm_overlay)
     for name, value in (
         ("box_min_x", -width / 2.0), ("box_min_y", -depth / 2.0), ("box_min_z", flight_min_z),
         ("box_max_x", width / 2.0), ("box_max_y", depth / 2.0), ("box_max_z", flight_max_z),
@@ -147,6 +171,15 @@ def parse_args():
     parser.add_argument("--assets-dir", default="/tmp/damage_building_suite_v1")
     parser.add_argument("--scene", choices=sorted(SCENE_FILES), default="e1_structured_interior")
     parser.add_argument("--output-dir", default="/tmp/fuel_building_baseline_overlay")
+    parser.add_argument(
+        "--virtual-ceil-guard-m",
+        type=float,
+        default=0.20,
+        help=(
+            "Vertical tracking guard below the declared physical flight maximum. "
+            "The virtual ceiling itself is native FUEL configuration, not a route or map prior."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -166,6 +199,12 @@ def main():
         )
     report = load_json(report_path)
     scene, reachability = normalize_scene_report(report, args.scene, stem)
+    if args.virtual_ceil_guard_m <= 0.0:
+        raise SystemExit("virtual-ceil guard must be positive")
+    flight_min_z, flight_max_z = scene["flight_volume_z_m"]
+    virtual_ceil_height = flight_max_z - args.virtual_ceil_guard_m
+    if virtual_ceil_height <= max(flight_min_z, scene["entry"][2]) + 0.10:
+        raise SystemExit("virtual-ceil guard leaves insufficient vertical room above the entry pose")
 
     # The E2 primary PCD exported from all box faces includes the outside of
     # the envelope and top faces above the indoor airspace.  Those samples
@@ -180,21 +219,30 @@ def main():
         else geometry_pcd_path
     )
 
-    source_exploration, source_simulator = find_source_launches(os.path.abspath(os.path.expanduser(args.fuel_workspace)))
+    source_exploration, source_simulator, source_algorithm = find_source_launches(
+        os.path.abspath(os.path.expanduser(args.fuel_workspace))
+    )
     output_dir = os.path.abspath(os.path.expanduser(args.output_dir))
     os.makedirs(output_dir, exist_ok=True)
     simulator_overlay = os.path.join(output_dir, "simulator_" + args.scene + ".xml")
+    algorithm_overlay = os.path.join(output_dir, "algorithm_" + args.scene + ".xml")
     launch_overlay = os.path.join(output_dir, "fuel_" + args.scene + "_baseline.launch")
     prepare_simulator(source_simulator, simulator_overlay, sensor_pcd_path)
-    prepare_exploration(source_exploration, launch_overlay, simulator_overlay, scene)
+    prepare_algorithm(source_algorithm, algorithm_overlay, virtual_ceil_height)
+    prepare_exploration(source_exploration, launch_overlay, simulator_overlay, algorithm_overlay, scene)
 
     manifest = {
-        "schema_version": 3,
+        "schema_version": 4,
         "method_id": "B1_fuel_frontier_single_uav",
         "scene": args.scene,
         "launch": launch_overlay,
         "simulator_overlay": simulator_overlay,
-        "source_fuel_launches": {"exploration": source_exploration, "simulator": source_simulator},
+        "algorithm_overlay": algorithm_overlay,
+        "source_fuel_launches": {
+            "exploration": source_exploration,
+            "simulator": source_simulator,
+            "algorithm": source_algorithm,
+        },
         "simulator_sensor_pcd": sensor_pcd_path,
         "source_geometry_pcd": geometry_pcd_path,
         "offline_evaluation_reference_pcd": (
@@ -208,6 +256,13 @@ def main():
             "room_or_topology_prior_used": False,
             "exploration_start": "position-neutral trigger only",
             "planner_flight_volume_z_m": scene["flight_volume_z_m"],
+            "physical_flight_ceiling_z_m": flight_max_z,
+            "fuel_virtual_ceil_height_m": virtual_ceil_height,
+            "virtual_ceil_guard_m": args.virtual_ceil_guard_m,
+            "virtual_ceil_rationale": (
+                "FUEL inserts the virtual ceiling after obstacle inflation; the guard reserves "
+                "controller-tracking margin below the physical ceiling."
+            ),
             "wall_top_bypass_allowed": False if args.scene == "e2_primary_damaged_interior" else None,
             "physical_ceiling_added": False,
         },

@@ -94,17 +94,16 @@ catkin_make -j2
 
 First run one verification trial. Do not start five repeats until its output
 contains either `fuel_reported_finish` or a clearly classified new failure.
-Use the recorder as follows so the summary is correctly labeled and fallback
-events are counted:
+Use the guarded trial launcher so the summary is correctly labeled and
+fallback events are counted:
 
 ```bash
-rosrun ruins_urban_01 record_fuel_b1_trial.py \
-  --scene e2_primary_damaged_interior \
+rosrun ruins_urban_01 launch_e2_b1_trial.py \
+  --overlay-file /tmp/fuel_building_baseline_overlay/fuel_e2_primary_damaged_interior_baseline.launch \
   --method-id B1R_fuel_reachable_frontier_recovery \
   --recovery-log-token "B1-R" \
-  --output-dir ~/uav_experiment_results/B1R_E2_rep01 \
-  --planner-stall-timeout-s 45 \
-  --stall-motion-threshold-m 0.05
+  --output-dir ~/uav_experiment_results/B1R_E2_verify_01 \
+  --planner-stall-timeout-s 45
 ```
 
 Report `recovery_events`, success rate, map Precision/Recall/F1,

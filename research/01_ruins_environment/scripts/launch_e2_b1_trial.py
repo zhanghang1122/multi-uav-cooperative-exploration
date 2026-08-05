@@ -58,6 +58,11 @@ def parse_args():
     parser.add_argument("--output-dir", required=True)
     parser.add_argument("--scene", default="e2_primary_damaged_interior")
     parser.add_argument("--method-id", default="B1_fuel_frontier_single_uav")
+    parser.add_argument(
+        "--recovery-log-token",
+        default="",
+        help="Optional rosout token counted by the trial recorder as a recovery event.",
+    )
     parser.add_argument("--planner-stall-timeout-s", type=float, default=45.0)
     parser.add_argument(
         "--g1-audit-output",
@@ -107,6 +112,7 @@ def main():
         "output_dir:={}".format(os.path.abspath(os.path.expanduser(args.output_dir))),
         "scene:={}".format(args.scene),
         "method_id:={}".format(args.method_id),
+        "recovery_log_token:={}".format(args.recovery_log_token),
         "planner_stall_timeout_s:={}".format(args.planner_stall_timeout_s),
     ]
     if args.g1_audit_output:

@@ -1,8 +1,8 @@
 <launch>
-  <!-- VMware can silently discard the custom dock layout. Use the FUEL
-       profile that has already been verified with this simulator. -->
+  <!-- Keep the complete project display in one checked RViz configuration:
+       online floor, vertical obstacles, the UAV marker, and trajectory. -->
   <arg name="rviz_config"
-       default="$(find exploration_manager)/config/traj.rviz" />
+       default="$(find ruins_urban_01)/rviz/e2_b1_online_mapping.rviz" />
 
   <!-- These two nodes are display-only.  FUEL, its raw occupancy stream, the
        recorder, and offline evaluation are not changed. -->

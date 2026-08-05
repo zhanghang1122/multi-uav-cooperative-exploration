@@ -31,8 +31,8 @@ Visualization Manager:
       Color: 72; 79; 89
       Enabled: true
       Line Style:
-      Line Width: 0.02
         Value: Lines
+      Line Width: 0.02
       Name: Ground reference
       Normal Cell Count: 0
       Offset:

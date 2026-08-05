@@ -1,4 +1,9 @@
 <launch>
+  <!-- VMware can silently discard the custom dock layout. Use the FUEL
+       profile that has already been verified with this simulator. -->
+  <arg name="rviz_config"
+       default="$(find exploration_manager)/config/traj.rviz" />
+
   <!-- These two nodes are display-only.  FUEL, its raw occupancy stream, the
        recorder, and offline evaluation are not changed. -->
   <node pkg="ruins_urban_01" type="filter_online_map_for_viz.py"
@@ -8,6 +13,6 @@
         name="ruins_uav_pose_marker" output="screen"
         args="--odom-topic /state_ukf/odom --output-topic /ruins_urban_01/uav_pose_marker --display-frame world" />
   <node pkg="rviz" type="rviz" name="fuel_b1_rviz"
-        args="-d $(find ruins_urban_01)/rviz/e2_b1_online_mapping.rviz"
+        args="-d $(arg rviz_config)"
         output="screen" />
 </launch>

@@ -153,6 +153,12 @@ recorded.
 The launcher writes directly to `~/uav_experiment_results`, so no separate
 copy from `/tmp` is required.
 
+For VMware execution, the trial launcher opens FUEL's upstream `traj.rviz`
+profile. This avoids the known issue where RViz starts with an empty dock area
+when loading the project-specific layout. The change affects visualization
+only; the planner, occupancy stream, recorder, safety envelope, and offline
+evaluation remain unchanged.
+
 When all five runs have passed, generate the paper-table source data without
 opening ROS or rerunning a planner:
 

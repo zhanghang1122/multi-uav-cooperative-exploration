@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
-"""Apply or restore the B1-R geometric-path recovery patch to a FUEL checkout.
+"""Apply or restore the B1-R reachable-frontier recovery patch to FUEL.
 
-The verified FUEL branch first finds a geometric A* path to a selected
-frontier viewpoint.  For mid-range goals it subsequently tries a kinodynamic
-A* seed; stock FUEL returns FAIL when that second search fails, even though
-the geometric path has already been accepted.  B1-R retains stock FUEL's
-online frontier selection and map, but falls back to its existing
-waypoints-to-B-spline path generator in that precise case.
+Stock FUEL returns FAIL when the online-selected frontier viewpoint has no
+geometric A* path. Its state machine then selects the same view again on the
+next planning cycle. B1-R first retries the other online-generated frontier
+viewpoints from that same cycle and selects the shortest collision-free A*
+path. It also keeps the narrow recovery for a later kinodynamic seed failure.
 
 This tool changes one exact upstream code block, creates a sibling backup,
 and writes a manifest with SHA-256 values.  It never changes a launch file,
@@ -27,7 +26,53 @@ RELATIVE_SOURCE = Path(
 BACKUP_SUFFIX = ".b1r_original"
 MANIFEST_NAME = "fuel_b1r_geometric_recovery_manifest.json"
 
-STOCK_BLOCK = """      // Search kino path to exactly next viewpoint and optimize
+STOCK_GEOMETRIC_BLOCK = """  planner_manager_->path_finder_->reset();
+  if (planner_manager_->path_finder_->search(pos, next_pos) != Astar::REACH_END) {
+    ROS_ERROR("No path to next viewpoint");
+    return FAIL;
+  }
+  ed_->path_next_goal_ = planner_manager_->path_finder_->getPath();
+"""
+
+REACHABLE_GEOMETRIC_BLOCK = """  planner_manager_->path_finder_->reset();
+  if (planner_manager_->path_finder_->search(pos, next_pos) != Astar::REACH_END) {
+    // The tour-selected view is unreachable in the current online inflated
+    // map. Re-evaluate only other views generated from this same frontier set.
+    double best_length = 1e100;
+    int best_id = -1;
+    vector<Eigen::Vector3d> best_path;
+    for (int i = 0; i < ed_->points_.size(); ++i) {
+      if ((ed_->points_[i] - next_pos).norm() < 1e-3) continue;
+      planner_manager_->path_finder_->reset();
+      if (planner_manager_->path_finder_->search(pos, ed_->points_[i]) == Astar::REACH_END) {
+        vector<Eigen::Vector3d> candidate_path = planner_manager_->path_finder_->getPath();
+        const double candidate_length = Astar::pathLength(candidate_path);
+        if (candidate_length < best_length) {
+          best_length = candidate_length;
+          best_id = i;
+          best_path = candidate_path;
+        }
+      }
+    }
+    if (best_id < 0) {
+      ROS_ERROR("B1-R: no reachable viewpoint in current online frontier set");
+      return FAIL;
+    }
+    next_pos = ed_->points_[best_id];
+    next_yaw = ed_->yaws_[best_id];
+    ed_->refined_points_ = { next_pos };
+    ed_->refined_views_ = { next_pos + 2.0 * Vector3d(cos(next_yaw), sin(next_yaw), 0) };
+    ed_->path_next_goal_ = best_path;
+    ROS_WARN("B1-R reachable-frontier recovery: selected alternate online viewpoint %d", best_id);
+  } else {
+    ed_->path_next_goal_ = planner_manager_->path_finder_->getPath();
+  }
+  // A reachable fallback may change the desired view yaw.
+  diff = fabs(next_yaw - yaw[0]);
+  time_lb = min(diff, 2 * M_PI - diff) / ViewNode::yd_;
+"""
+
+STOCK_KINODYNAMIC_BLOCK = """      // Search kino path to exactly next viewpoint and optimize
       std::cout << \"Mid goal\" << std::endl;
       ed_->next_goal_ = next_pos;
       if (!planner_manager_->kinodynamicReplan(
@@ -91,25 +136,39 @@ def apply_patch(source, dry_run):
     text = source.read_text(encoding="utf-8")
     backup = Path(str(source) + BACKUP_SUFFIX)
 
-    if RECOVERY_BLOCK in text:
+    if REACHABLE_GEOMETRIC_BLOCK in text and RECOVERY_BLOCK in text:
         return "already_applied", backup
-    if LEGACY_RECOVERY_BLOCK in text:
+    if REACHABLE_GEOMETRIC_BLOCK in text and LEGACY_RECOVERY_BLOCK in text:
         if not dry_run:
             source.write_text(text.replace(LEGACY_RECOVERY_BLOCK, RECOVERY_BLOCK, 1), encoding="utf-8", newline="\n")
         return "upgraded", backup
-    if STOCK_BLOCK not in text:
+    if REACHABLE_GEOMETRIC_BLOCK in text and STOCK_KINODYNAMIC_BLOCK in text:
+        if not dry_run:
+            source.write_text(text.replace(STOCK_KINODYNAMIC_BLOCK, RECOVERY_BLOCK, 1), encoding="utf-8", newline="\n")
+        return "upgraded_kinodynamic", backup
+    if STOCK_GEOMETRIC_BLOCK in text and RECOVERY_BLOCK in text:
+        if not backup.exists():
+            raise RuntimeError(
+                "A legacy B1-R mid-goal patch was found without its original-source backup. "
+                "No source file was changed. Restore or inspect the FUEL checkout first."
+            )
+        if not dry_run:
+            source.write_text(text.replace(STOCK_GEOMETRIC_BLOCK, REACHABLE_GEOMETRIC_BLOCK, 1), encoding="utf-8", newline="\n")
+        return "upgraded_reachability", backup
+    if STOCK_GEOMETRIC_BLOCK not in text or STOCK_KINODYNAMIC_BLOCK not in text:
         raise RuntimeError(
-            "The verified stock or recognized B1-R mid-goal block was not found. No source file was changed. "
+            "The verified stock or recognized B1-R source blocks were not found. No source file was changed. "
             "Use --restore if this checkout was previously patched, or inspect the FUEL version first."
         )
     if backup.exists():
         raise RuntimeError(
             "A B1-R backup already exists but the source is neither recognized stock nor recognized patched. "
             "No source file was changed."
-        )
+    )
     if not dry_run:
         backup.write_bytes(source.read_bytes())
-        source.write_text(text.replace(STOCK_BLOCK, RECOVERY_BLOCK, 1), encoding="utf-8", newline="\n")
+        patched = text.replace(STOCK_GEOMETRIC_BLOCK, REACHABLE_GEOMETRIC_BLOCK, 1)
+        source.write_text(patched.replace(STOCK_KINODYNAMIC_BLOCK, RECOVERY_BLOCK, 1), encoding="utf-8", newline="\n")
     return "applied", backup
 
 
@@ -118,7 +177,7 @@ def restore_patch(source, dry_run):
     if not backup.exists():
         raise RuntimeError("No B1-R backup exists beside the FUEL source; nothing was restored.")
     text = source.read_text(encoding="utf-8")
-    if RECOVERY_BLOCK not in text:
+    if REACHABLE_GEOMETRIC_BLOCK not in text or RECOVERY_BLOCK not in text:
         raise RuntimeError(
             "The active source does not contain the recognized B1-R block. No source file was changed."
         )
@@ -144,7 +203,7 @@ def main():
     sha_after = sha256(source)
     manifest = {
         "schema_version": 1,
-        "method_id": "B1R_fuel_geometric_path_recovery",
+        "method_id": "B1R_fuel_reachable_frontier_recovery",
         "action": action,
         "dry_run": args.dry_run,
         "fuel_workspace": str(workspace),
@@ -157,9 +216,10 @@ def main():
             "goal_prior_used": False,
             "truth_map_usage": "offline_evaluation_only",
             "recovery_rule": (
-                "Only after stock FUEL's geometric A* path to the online-selected viewpoint succeeds "
-                "and its mid-goal kinodynamic seed search fails, generate a trajectory from a 2.5 m "
-                "prefix of that existing online geometric path."
+                "When stock FUEL's online-selected viewpoint has no geometric A* path, evaluate only "
+                "the remaining current-cycle online frontier viewpoints and select the shortest "
+                "collision-free path. When the later mid-goal kinodynamic seed fails after a geometric "
+                "path succeeds, generate a trajectory from a 2.5 m prefix of that online path."
             ),
         },
     }

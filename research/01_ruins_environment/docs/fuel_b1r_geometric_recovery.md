@@ -1,42 +1,45 @@
-# B1-R: FUEL Geometric-Path Recovery
+# B1-R: Reachable-Frontier Recovery
 
 ## Purpose
 
 B1-R is a single-UAV recovery comparison, not the proposed multi-UAV method.
-It starts from the unchanged FUEL Frontier system used in B1. It addresses one
-observed failure mode in E2: FUEL can successfully find a geometric A* path
-to an online-selected viewpoint, then fail when its mid-range kinodynamic A*
-seed search is unable to produce a trajectory. Stock FUEL remains in
-`PLAN_TRAJ` and repeats that failure.
+It starts from stock FUEL's online frontier system. It addresses the observed
+E2 failure: FUEL repeatedly selected a current online viewpoint for which its
+geometric A* search reported `No path to next viewpoint`. The stock function
+returns `FAIL` at that point, and the state machine can select the same
+infeasible candidate again in `PLAN_TRAJ`.
 
 The recovery rule is deliberately narrow:
 
 1. FUEL keeps its online map, frontier detection, viewpoint generation,
    global tour, and local refinement unchanged.
-2. The stock geometric A* path to the selected online viewpoint must already
-   have succeeded.
-3. Only when the subsequent mid-range kinodynamic search fails, B1-R takes a
-   2.5 m prefix of that already verified path and invokes FUEL's existing
-   `planExploreTraj` generator. This follows FUEL's own far-goal
-   local-horizon pattern instead of optimizing a long path through a corner.
+2. When the tour-selected viewpoint has no geometric A* path, B1-R evaluates
+   the remaining viewpoints generated from that *same current online frontier
+   set* and selects the collision-free path with the smallest geometric length.
+   It does not create a new target or retain a scene-specific route.
+3. If a geometric path succeeds but the subsequent mid-range kinodynamic seed
+   fails, B1-R takes a 2.5 m prefix of that path and invokes FUEL's existing
+   `planExploreTraj` generator. This follows FUEL's own far-goal local-horizon
+   pattern instead of optimizing a long path through an unseen corner.
 4. No route, target coordinate, room label, truth map, or manual intervention
    is supplied.
 
-This is a fallback for a dynamic-feasibility failure, not a preplanned route
-and not an obstacle bypass.
+This is a current-map reachability fallback, not a preplanned route and not
+an obstacle bypass. A candidate rejected in one planning cycle can be
+reconsidered only if FUEL reconstructs it from a changed online map later.
 
 ## Basis
 
-FUEL uses a hierarchical exploration procedure: frontier information,
-global coverage ordering, local viewpoint refinement, then safe trajectory
-generation. Its implementation first validates a geometric A* path to the
-selected viewpoint. For near and far path lengths it already creates a
-trajectory from that path; only the mid-range branch requires a kinodynamic
-search and returns failure when it cannot generate a seed.
+FUEL uses a hierarchical exploration procedure: frontier information, global
+coverage ordering, local viewpoint refinement, then safe trajectory
+generation. In the verified source, a selected viewpoint is passed to a
+geometric A* search. The E2 run demonstrated that a failed search returns
+`FAIL` directly; it does not advance to another current-cycle candidate.
 
-The B1-R patch applies the same local geometric-path trajectory generation
-already present in FUEL's verified far-goal branch to this documented
-mid-range failure.
+The B1-R patch checks current-cycle candidate reachability at exactly that
+failure point, then applies the local geometric-path trajectory generation
+already present in FUEL's verified far-goal branch to a documented mid-range
+dynamic-feasibility failure.
 It is consistent with frontier-exploration work that validates and maintains
 reachable sensing targets, rather than repeatedly commanding an infeasible
 viewpoint.
@@ -89,15 +92,16 @@ catkin_make -j2
 
 ## Experimental Role
 
-Use the same E2 scene, sensor settings, evaluation reference, recorder
-intervals, and five-repeat protocol as B1. Use the recorder as follows so the
-summary is correctly labeled and the precise fallback is counted:
+First run one verification trial. Do not start five repeats until its output
+contains either `fuel_reported_finish` or a clearly classified new failure.
+Use the recorder as follows so the summary is correctly labeled and fallback
+events are counted:
 
 ```bash
 rosrun ruins_urban_01 record_fuel_b1_trial.py \
   --scene e2_primary_damaged_interior \
-  --method-id B1R_fuel_geometric_path_recovery \
-  --recovery-log-token "B1-R recovery:" \
+  --method-id B1R_fuel_reachable_frontier_recovery \
+  --recovery-log-token "B1-R" \
   --output-dir ~/uav_experiment_results/B1R_E2_rep01 \
   --planner-stall-timeout-s 45 \
   --stall-motion-threshold-m 0.05

@@ -175,18 +175,23 @@ opened.  E3 is never used for parameter selection.
    diagnostics, event log, trajectory, snapshots, final PCD and evaluator
    output.
 
-## 8. Execution Now
+## 8. Observed Gate Results and Execution Now
 
-The next action is **G0 only**, using unmodified stock FUEL on frozen E2.
-It is not another five-run experiment.  Its only question is whether the
-current stack reaches FUEL completion, explicitly reports no coverable
-frontier, or triggers the recorder's planner-stall condition.  The result
-selects the next engineering action:
+G0 and G1 are complete diagnostics, not formal comparison runs:
 
-- `fuel_reported_finish`: run G1's deliberately infeasible-candidate audit;
-- `planner_stall` with a saved trace: implement/test R before repeating;
-- timeout or missing files: repair the launch/recording chain, not the
-  exploration algorithm.
+- G0 established that stock FUEL can end in a planner stall on E2.
+- G1 passed its limited read-only gate: it rejected one observed occupied
+  candidate and identified a separate locally collision-free candidate using
+  only the online occupancy map. This did not alter FUEL.
+- In `G1_E2_trial_01`, stock FUEL retained three frontiers, reported
+  `No path to next viewpoint` repeatedly from about 591 s, and entered the
+  recorder's `planner_stall` condition. The verified FUEL source returns
+  `FAIL` at this geometric A* failure point, so it has no current-cycle
+  alternate-candidate transition.
 
-The exact, reproducible G0 commands are maintained in
-`g0_stock_fuel_stall_audit_runbook.md`.
+The next action is therefore one B1-R verification run, not a five-run table.
+B1-R must produce either a documented reachable-frontier recovery event and
+continue exploration, or a newly classified failure. Only after that run
+finishes without an unbounded stall can the B1-R five-seed feasibility set
+begin. The exact procedure is maintained in
+`fuel_b1r_geometric_recovery.md`.

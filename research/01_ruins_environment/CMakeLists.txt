@@ -11,6 +11,7 @@ catkin_install_python(PROGRAMS
   scripts/diagnose_e2_branch_coverage.py
   scripts/generate_damage_building_suite.py
   scripts/generate_e2_primary_benchmark.py
+  scripts/g1_reachability_gate_audit.py
   scripts/prepare_fuel_baseline_overlay.py
   scripts/apply_fuel_geometric_recovery.py
   scripts/record_fuel_b1_trial.py

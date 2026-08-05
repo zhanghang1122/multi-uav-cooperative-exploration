@@ -55,14 +55,21 @@ class OnlineMapVisualizer(object):
                 int(math.floor(y / self.args.visual_voxel_size_m)),
                 int(math.floor(z / self.args.visual_voxel_size_m)),
             )
+            # Publish voxel *centres*, rather than the first irregular source
+            # sample in each voxel.  RViz can then render contiguous planar
+            # surfaces at a known visual resolution without changing FUEL's
+            # raw occupancy stream or the recorder's data source.
+            centred_point = tuple(
+                (index + 0.5) * self.args.visual_voxel_size_m for index in voxel
+            )
             if z <= self.args.floor_max_z_m:
                 if voxel not in floor_voxels:
                     floor_voxels.add(voxel)
-                    floor_points.append((x, y, z))
+                    floor_points.append(centred_point)
             else:
                 if voxel not in obstacle_voxels:
                     obstacle_voxels.add(voxel)
-                    obstacle_points.append((x, y, z))
+                    obstacle_points.append(centred_point)
         # FUEL's simulator can label world-coordinate occupancy with its
         # simulator frame.  This is a visualization-only relabel so RViz does
         # not require an unavailable simulator-to-world TF transform.

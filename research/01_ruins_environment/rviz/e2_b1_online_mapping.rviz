@@ -28,10 +28,10 @@ Visualization Manager:
     - Alpha: 0.45
       Cell Size: 1
       Class: rviz/Grid
-      Color: 125; 125; 125
+      Color: 72; 79; 89
       Enabled: true
       Line Style:
-        Line Width: 0.03
+      Line Width: 0.02
         Value: Lines
       Name: Ground reference
       Normal Cell Count: 0
@@ -40,7 +40,7 @@ Visualization Manager:
         Y: 0
         Z: 0
       Plane: XY
-      Plane Cell Count: 46
+      Plane Cell Count: 32
       Reference Frame: <Fixed Frame>
       Value: true
     # Presentation-only split of FUEL's online occupancy: floor and vertical
@@ -54,7 +54,7 @@ Visualization Manager:
       Axis: Z
       Channel Name: intensity
       Class: rviz/PointCloud2
-      Color: 40; 195; 225
+      Color: 36; 197; 214
       Color Transformer: FlatColor
       Decay Time: 0
       Enabled: true
@@ -68,7 +68,7 @@ Visualization Manager:
       Queue Size: 10
       Selectable: true
       Size (Pixels): 3
-      Size (m): 0.15
+      Size (m): 0.16
       Style: Flat Squares
       Topic: /ruins_urban_01/online_floor_visual
       Unreliable: false
@@ -84,7 +84,7 @@ Visualization Manager:
       Axis: Z
       Channel Name: intensity
       Class: rviz/PointCloud2
-      Color: 220; 0; 170
+      Color: 236; 65; 183
       Color Transformer: FlatColor
       Decay Time: 0
       Enabled: true
@@ -98,7 +98,7 @@ Visualization Manager:
       Queue Size: 10
       Selectable: true
       Size (Pixels): 3
-      Size (m): 0.15
+      Size (m): 0.16
       Style: Flat Squares
       Topic: /ruins_urban_01/online_obstacle_visual
       Unreliable: false
@@ -118,10 +118,10 @@ Visualization Manager:
           Queue Size: 10
           Value: true
       Enabled: true
-      Name: Vehicle state
+      Name: UAV state and executed path
   Enabled: true
   Global Options:
-    Background Color: 250; 250; 250
+    Background Color: 31; 35; 42
     Default Light: true
     Fixed Frame: world
     Frame Rate: 30
@@ -136,7 +136,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 54
+      Distance: 50
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
@@ -151,7 +151,7 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 1.12
+      Pitch: 1.20
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
       Yaw: 0.72

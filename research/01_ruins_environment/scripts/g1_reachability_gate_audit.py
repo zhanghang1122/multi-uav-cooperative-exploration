@@ -118,6 +118,13 @@ class ReachabilityGateAudit(object):
     def check_ready(self, _event):
         if self.completed:
             return
+        if time.time() - self.started_unix_s >= self.args.input_timeout_s:
+            self.completed = True
+            os.makedirs(os.path.dirname(os.path.abspath(self.args.output)), exist_ok=True)
+            write_json(self.args.output, self.missing_input_report())
+            rospy.logerr("G1 reachability audit timed out waiting for live inputs: %s", self.args.output)
+            rospy.signal_shutdown("G1 audit input timeout")
+            return
         if self.position is None or len(self.occupied) < self.args.min_occupied_cells:
             return
         self.completed = True
@@ -130,6 +137,34 @@ class ReachabilityGateAudit(object):
         else:
             rospy.logerr("G1 reachability gate audit did not pass: %s", self.args.output)
             rospy.signal_shutdown("G1 audit did not pass")
+
+    def missing_input_report(self):
+        return {
+            "schema_version": 1,
+            "mode": "read_only_component_gate_audit",
+            "passed": False,
+            "inputs": {
+                "occupancy_topic": self.args.occupancy_topic,
+                "odometry_topic": self.args.odom_topic,
+                "truth_map_usage": "none",
+                "route_or_goal_prior_used": False,
+                "room_or_scene_labels_used": False,
+            },
+            "map_snapshot": {
+                "cloud_messages_received": self.cloud_messages,
+                "projected_occupied_cells": len(self.occupied),
+                "input_timeout_s": self.args.input_timeout_s,
+            },
+            "events": [{
+                "event": "input_timeout",
+                "reason": "live_odometry_or_sufficient_online_occupancy_was_not_received",
+            }],
+            "interpretation": (
+                "The G1 component gate was not evaluated because the required live FUEL inputs "
+                "were absent or incomplete. No candidate, route or map was published."
+            ),
+            "recorded_unix_s": time.time(),
+        }
 
     def choose_observed_obstacle(self):
         px, py, _pz = self.position
@@ -248,6 +283,7 @@ def parse_args():
     parser.add_argument("--obstacle-candidate-max-distance-m", type=float, default=8.0)
     parser.add_argument("--candidate-radii-m", type=float, nargs="+", default=[1.5, 2.0, 2.5, 3.0])
     parser.add_argument("--candidate-angle-count", type=int, default=36)
+    parser.add_argument("--input-timeout-s", type=float, default=90.0)
     return parser.parse_args(rospy.myargv()[1:])
 
 

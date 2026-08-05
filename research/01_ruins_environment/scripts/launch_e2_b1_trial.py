@@ -31,6 +31,7 @@ CONFLICTING_NODES = frozenset((
     "/fuel_b1_rviz",
     "/fuel_b1_trial_recorder",
     "/fuel_position_neutral_trigger",
+    "/g1_reachability_gate_audit",
 ))
 
 
@@ -58,6 +59,10 @@ def parse_args():
     parser.add_argument("--scene", default="e2_primary_damaged_interior")
     parser.add_argument("--method-id", default="B1_fuel_frontier_single_uav")
     parser.add_argument("--planner-stall-timeout-s", type=float, default=45.0)
+    parser.add_argument(
+        "--g1-audit-output",
+        help="Optional G1 JSON path. When present, start the read-only G1 audit with the trial.",
+    )
     return parser.parse_args()
 
 
@@ -104,6 +109,11 @@ def main():
         "method_id:={}".format(args.method_id),
         "planner_stall_timeout_s:={}".format(args.planner_stall_timeout_s),
     ]
+    if args.g1_audit_output:
+        command.extend((
+            "enable_g1_audit:=true",
+            "g1_audit_output:={}".format(os.path.abspath(os.path.expanduser(args.g1_audit_output))),
+        ))
     record_path = write_launch_record(args.output_dir, command)
     print(json.dumps({
         "started": True,

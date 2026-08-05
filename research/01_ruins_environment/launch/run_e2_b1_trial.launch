@@ -7,6 +7,8 @@
   <arg name="scene" default="e2_primary_damaged_interior" />
   <arg name="method_id" default="B1_fuel_frontier_single_uav" />
   <arg name="planner_stall_timeout_s" default="45" />
+  <arg name="enable_g1_audit" default="false" />
+  <arg name="g1_audit_output" default="" />
 
   <include file="$(find ruins_urban_01)/launch/run_fuel_overlay.launch">
     <arg name="overlay_file" value="$(arg overlay_file)" />
@@ -21,4 +23,12 @@
   <node pkg="ruins_urban_01" type="trigger_position_neutral_exploration.py"
         name="fuel_position_neutral_trigger" output="screen"
         args="--delay-s 6.0 --timeout-s 120.0" />
+
+  <!-- The G1 node is a one-time, read-only component audit.  It is opt-in so
+       ordinary G0/B1 launches do not acquire any additional process. -->
+  <group if="$(arg enable_g1_audit)">
+    <node pkg="ruins_urban_01" type="g1_reachability_gate_audit.py"
+          name="g1_reachability_gate_audit" output="screen"
+          args="--output $(arg g1_audit_output)" />
+  </group>
 </launch>

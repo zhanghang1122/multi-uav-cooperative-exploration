@@ -18,16 +18,20 @@ read-only and does not claim that stock FUEL has been modified.
 ## Preconditions
 
 1. Start one clean E2 FUEL session through the existing guarded launcher.
-2. Wait until the online map and odometry are visible.
-3. In another terminal with the same ROS environment, run:
+2. Start G1 in the same guarded session, rather than in a separate terminal:
 
 ```bash
-rosrun ruins_urban_01 g1_reachability_gate_audit.py \
-  --output "$HOME/uav_experiment_results/G1_E2_reachability_gate_01.json"
+rosrun ruins_urban_01 launch_e2_b1_trial.py \
+  --overlay-file /tmp/fuel_building_baseline_overlay/fuel_e2_primary_damaged_interior_baseline.launch \
+  --output-dir "$HOME/uav_experiment_results/G1_E2_trial_01" \
+  --method-id G1_stock_fuel_with_read_only_gate_audit \
+  --g1-audit-output "$HOME/uav_experiment_results/G1_E2_reachability_gate_01.json"
 ```
 
-The command subscribes only to `/sdf_map/occupancy_all` and
-`/state_ukf/odom`.  It exits automatically after writing the report.
+The optional G1 component subscribes only to `/sdf_map/occupancy_all` and
+`/state_ukf/odom`.  It exits automatically after writing the report; missing
+live inputs produce a JSON timeout report after 90 seconds instead of an
+indefinite wait.
 
 ## Acceptance Rule
 

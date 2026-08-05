@@ -357,7 +357,7 @@ class TrialRecorder(object):
         )
 
 
-def parse_args():
+def parse_args(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", required=True)
     parser.add_argument("--scene", default="e1_structured_interior")
@@ -411,7 +411,9 @@ def parse_args():
         default=300,
         help="Number of relevant FUEL ROS log events retained for post-run diagnosis only.",
     )
-    return parser.parse_args()
+    # roslaunch appends private ROS arguments such as ``__name`` and ``__log``.
+    # Keep this recorder usable both from a shell and from a launch file.
+    return parser.parse_args(rospy.myargv(argv=argv)[1:])
 
 
 def main():

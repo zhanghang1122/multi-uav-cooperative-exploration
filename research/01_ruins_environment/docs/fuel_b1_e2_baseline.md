@@ -128,6 +128,7 @@ rosrun ruins_urban_01 evaluate_surface_map.py \
   --snapshots-csv "$RUN/snapshots.csv" \
   --resolution-m 0.1 \
   --tolerance-voxels 1 \
+  --virtual-ceiling-z-m 1.85 \
   --output "$RUN/map_quality.json"
 ```
 

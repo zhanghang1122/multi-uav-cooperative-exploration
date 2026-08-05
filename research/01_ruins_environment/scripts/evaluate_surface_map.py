@@ -111,7 +111,19 @@ def first_crossing_time(rows, threshold):
     return None
 
 
-def evaluate_snapshots(args, truth):
+def virtual_ceiling_voxel(args):
+    if args.virtual_ceiling_z_m is None:
+        return None
+    return int(math.floor(args.virtual_ceiling_z_m / args.resolution_m))
+
+
+def mask_virtual_ceiling(voxels, ceiling_voxel, tolerance):
+    if ceiling_voxel is None:
+        return voxels
+    return set(voxel for voxel in voxels if abs(voxel[2] - ceiling_voxel) > tolerance)
+
+
+def evaluate_snapshots(args, truth, ceiling_voxel):
     if not args.snapshots_csv:
         return None
     rows = []
@@ -122,6 +134,7 @@ def evaluate_snapshots(args, truth):
             if not os.path.isabs(path):
                 path = os.path.join(base_dir, path)
             observed = voxelize(read_ascii_pcd(path), args.resolution_m)
+            observed = mask_virtual_ceiling(observed, ceiling_voxel, args.virtual_ceiling_mask_voxels)
             metric = evaluate_voxels(truth, observed, args.tolerance_voxels)
             rows.append({
                 "elapsed_s": float(source_row["elapsed_s"]),
@@ -160,27 +173,63 @@ def parse_args():
         help="Recorder snapshots.csv. Enables offline surface-recall coverage curves and T80/T90/T95.",
     )
     parser.add_argument("--coverage-thresholds", default="0.80,0.90,0.95")
+    parser.add_argument(
+        "--virtual-ceiling-z-m",
+        type=float,
+        help=(
+            "Expected FUEL virtual-ceiling height. The corresponding voxel layer is removed "
+            "from truth, the final observed map, and every snapshot before scoring."
+        ),
+    )
+    parser.add_argument(
+        "--virtual-ceiling-mask-voxels",
+        type=int,
+        default=0,
+        help="Additional voxel layers masked above and below the virtual-ceiling layer (default: 0).",
+    )
     parser.add_argument("--output", required=True)
     return parser.parse_args()
 
 
 def main():
     args = parse_args()
-    if args.resolution_m <= 0.0 or args.tolerance_voxels < 0:
+    if (
+        args.resolution_m <= 0.0
+        or args.tolerance_voxels < 0
+        or args.virtual_ceiling_mask_voxels < 0
+    ):
         raise SystemExit("resolution must be positive and tolerance must be non-negative")
-    truth = voxelize(read_ascii_pcd(args.truth_pcd), args.resolution_m)
-    observed = voxelize(read_ascii_pcd(args.observed_pcd), args.resolution_m)
+    raw_truth = voxelize(read_ascii_pcd(args.truth_pcd), args.resolution_m)
+    raw_observed = voxelize(read_ascii_pcd(args.observed_pcd), args.resolution_m)
+    ceiling_voxel = virtual_ceiling_voxel(args)
+    truth = mask_virtual_ceiling(raw_truth, ceiling_voxel, args.virtual_ceiling_mask_voxels)
+    observed = mask_virtual_ceiling(raw_observed, ceiling_voxel, args.virtual_ceiling_mask_voxels)
     if not truth or not observed:
         raise SystemExit("truth and observed maps must both contain points")
     metric = evaluate_voxels(truth, observed, args.tolerance_voxels)
     result = {
-        "schema_version": 1,
+        "schema_version": 2,
         "metric": "offline_voxel_surface_precision_recall_f1",
         "truth_map_usage": "offline_evaluation_only",
         "truth_pcd": os.path.abspath(args.truth_pcd),
         "observed_pcd": os.path.abspath(args.observed_pcd),
         "resolution_m": args.resolution_m,
         "tolerance_voxels": args.tolerance_voxels,
+        "evaluation_mask": {
+            "virtual_ceiling_z_m": args.virtual_ceiling_z_m,
+            "virtual_ceiling_voxel_index": ceiling_voxel,
+            "mask_half_width_voxels": args.virtual_ceiling_mask_voxels,
+            "truth_voxels_removed": len(raw_truth) - len(truth),
+            "observed_voxels_removed": len(raw_observed) - len(observed),
+            "rationale": (
+                "FUEL's virtual ceiling is a planner safety boundary, not physical scene geometry; "
+                "the same layer is removed from both sets before physical-map scoring."
+                if ceiling_voxel is not None
+                else "No virtual-ceiling mask requested."
+            ),
+        },
+        "raw_truth_voxels": len(raw_truth),
+        "raw_observed_voxels": len(raw_observed),
         "truth_voxels": len(truth),
         "observed_voxels": metric["observed_voxels"],
         "matched_observed_voxels": metric["matched_observed_voxels"],
@@ -189,7 +238,7 @@ def main():
         "recall": round(metric["recall"], 6),
         "f1": round(metric["f1"], 6),
     }
-    snapshot_metrics = evaluate_snapshots(args, truth)
+    snapshot_metrics = evaluate_snapshots(args, truth, ceiling_voxel)
     if snapshot_metrics is not None:
         result["coverage_time_metrics"] = snapshot_metrics
     with open(args.output, "w", encoding="utf-8", newline="\n") as stream:

@@ -155,6 +155,14 @@ below 0.05 m, and no new executable trajectory is published for 45 s.
 The truth map is voxelized only offline at 0.10 m resolution with one-voxel
 matching tolerance.  Main reported results are:
 
+FUEL's virtual-ceiling voxel layer is a planner safety boundary rather than
+physical scene geometry.  Before any physical-map score is calculated, the
+layer containing the configured virtual-ceiling height is removed from both
+the frozen truth set and every observed/snapshot set.  The evaluator records
+the configured height, voxel index, and removed voxel counts in its JSON
+output.  Results produced without this mask are diagnostic only and are not
+mixed with the formal repeated-run table.
+
 - mission success rate;
 - surface precision, recall, and F1;
 - recall-time curve and its area under curve;

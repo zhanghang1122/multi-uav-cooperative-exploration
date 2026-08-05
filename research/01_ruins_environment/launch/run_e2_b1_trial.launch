@@ -15,7 +15,7 @@
   <include file="$(find ruins_urban_01)/launch/fuel_b1_rviz.launch" />
 
   <node pkg="ruins_urban_01" type="record_fuel_b1_trial.py"
-        name="fuel_b1_trial_recorder" output="screen"
+        name="fuel_b1_trial_recorder" output="screen" required="true"
         args="--scene $(arg scene) --method-id $(arg method_id) --output-dir $(arg output_dir) --planner-stall-timeout-s $(arg planner_stall_timeout_s) --stall-motion-threshold-m 0.05" />
 
   <node pkg="ruins_urban_01" type="trigger_position_neutral_exploration.py"

@@ -52,6 +52,16 @@ class TrialRecorder(object):
         self.args = args
         os.makedirs(self.args.output_dir, exist_ok=True)
         self.started_monotonic = time.monotonic()
+        write_json(os.path.join(self.args.output_dir, "recorder_startup.json"), {
+            "schema_version": 1,
+            "recorded_unix_s": time.time(),
+            "node": "fuel_b1_trial_recorder",
+            "arguments": vars(self.args),
+            "interpretation": (
+                "The read-only recorder reached initialization. This file does not prove "
+                "that FUEL, map input, planning input, or completion detection succeeded."
+            ),
+        })
         self.last_position = None
         self.path_length_m = 0.0
         self.trajectory_rows = []
@@ -174,6 +184,8 @@ class TrialRecorder(object):
             return "no_coverable_frontier_reported"
         if "search fail" in messages or "kinodynamic" in messages or "no path" in messages:
             return "local_path_search_failure_reported"
+        if self.first_planner_message_s is None:
+            return "no_planner_message_after_recorder_start"
         if self.last_planner_message_s is not None and self.last_motion_s is not None:
             return "no_new_trajectory_and_no_motion"
         return "insufficient_runtime_evidence"
@@ -187,6 +199,7 @@ class TrialRecorder(object):
                 round(self.last_planner_message_s, 3) if self.last_planner_message_s is not None else None
             ),
             "last_motion_elapsed_s": round(self.last_motion_s, 3) if self.last_motion_s is not None else None,
+            "first_planner_timeout_s": self.args.first_planner_timeout_s,
             "last_odometry_position_m": (
                 [round(value, 4) for value in self.last_position] if self.last_position is not None else None
             ),
@@ -251,6 +264,13 @@ class TrialRecorder(object):
                     self.args.planner_stall_timeout_s,
                 )
                 break
+            if self.first_planner_timed_out(elapsed):
+                stop_reason = "planner_topic_timeout"
+                rospy.logwarn(
+                    "B1 recorder received no B-spline within %.1f s after startup.",
+                    self.args.first_planner_timeout_s,
+                )
+                break
             if elapsed >= self.args.timeout_s:
                 stop_reason = "timeout"
                 break
@@ -292,6 +312,7 @@ class TrialRecorder(object):
                     "definition": "After the first B-spline has been observed, terminate recording only when no new B-spline and no cumulative odometry displacement above the motion threshold are observed for the configured duration.",
                     "planner_stall_timeout_s": self.args.planner_stall_timeout_s,
                     "stall_motion_threshold_m": self.args.stall_motion_threshold_m,
+                    "first_planner_timeout_s": self.args.first_planner_timeout_s,
                 },
             },
             "recorded_topics": {
@@ -327,6 +348,14 @@ class TrialRecorder(object):
             and no_motion_s >= self.args.planner_stall_timeout_s
         )
 
+    def first_planner_timed_out(self, elapsed):
+        """Fail closed when a recorder started with a running stack sees no planner."""
+        return (
+            self.args.first_planner_timeout_s > 0.0
+            and self.first_planner_message_s is None
+            and elapsed >= self.args.first_planner_timeout_s
+        )
+
 
 def parse_args():
     parser = argparse.ArgumentParser(description=__doc__)
@@ -360,6 +389,12 @@ def parse_args():
         help="After FUEL has published at least one B-spline, record planner_stall when no new B-spline and no motion persist for this duration. Set to 0 to disable.",
     )
     parser.add_argument(
+        "--first-planner-timeout-s",
+        type=float,
+        default=120.0,
+        help="Record planner_topic_timeout when no B-spline is observed after recorder startup. Set to 0 to disable.",
+    )
+    parser.add_argument(
         "--stall-motion-threshold-m",
         type=float,
         default=0.05,
@@ -383,7 +418,12 @@ def main():
     args = parse_args()
     if args.map_sample_period_s <= 0.0 or args.snapshot_period_s <= 0.0:
         raise SystemExit("map and snapshot sample periods must be positive")
-    if args.planner_stall_timeout_s < 0.0 or args.stall_motion_threshold_m <= 0.0 or args.rosout_history_size <= 0:
+    if (
+        args.planner_stall_timeout_s < 0.0
+        or args.first_planner_timeout_s < 0.0
+        or args.stall_motion_threshold_m <= 0.0
+        or args.rosout_history_size <= 0
+    ):
         raise SystemExit("planner-stall timeout must be non-negative and its motion threshold must be positive")
     rospy.init_node("fuel_b1_trial_recorder", anonymous=False)
     TrialRecorder(args).run()

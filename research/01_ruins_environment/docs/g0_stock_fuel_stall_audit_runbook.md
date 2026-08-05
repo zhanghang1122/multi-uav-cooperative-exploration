@@ -11,6 +11,7 @@ routes.
 The required outputs are:
 
 - `launch_request.json`: guarded launcher accepted the run;
+- `recorder_startup.json`: the recorder actually initialized;
 - `trial_summary.json`: completion/stall/timeout status;
 - `runtime_diagnostics.json`: recent relevant FUEL log evidence;
 - `trajectory.csv`, map snapshots and `final_online_occupancy.pcd`.
@@ -75,6 +76,10 @@ position-neutral trigger. Do not publish a goal, click a navigation point or
 start a second trigger. RViz is presentation-only and does not affect planner
 input.
 
+The recorder is marked as a required launch node. If it fails to initialize,
+the complete G0 launch stops rather than leaving an unrecorded FUEL simulator
+running. A valid run directory therefore contains `recorder_startup.json`.
+
 ## Review the Result
 
 After the launcher exits, inspect only the saved files:
@@ -82,6 +87,7 @@ After the launcher exits, inspect only the saved files:
 ```bash
 RUN="$HOME/uav_experiment_results/G0_B1_E2_stock_01"
 ls -lh "$RUN"
+cat "$RUN/recorder_startup.json"
 cat "$RUN/trial_summary.json"
 cat "$RUN/runtime_diagnostics.json"
 ```

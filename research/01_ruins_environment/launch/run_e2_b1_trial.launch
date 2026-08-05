@@ -6,7 +6,10 @@
   <arg name="output_dir" />
   <arg name="scene" default="e2_primary_damaged_interior" />
   <arg name="method_id" default="B1_fuel_frontier_single_uav" />
-  <arg name="recovery_log_token" default="" />
+  <!-- roslaunch removes an empty substitution from the argument list. Keep a
+       non-matching sentinel so argparse always receives a value; G0 does not
+       use recovery events. -->
+  <arg name="recovery_log_token" default="__recovery_disabled__" />
   <arg name="planner_stall_timeout_s" default="45" />
   <arg name="enable_g1_audit" default="false" />
   <arg name="g1_audit_output" default="" />

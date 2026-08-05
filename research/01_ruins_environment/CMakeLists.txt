@@ -14,6 +14,7 @@ catkin_install_python(PROGRAMS
   scripts/g1_reachability_gate_audit.py
   scripts/prepare_fuel_baseline_overlay.py
   scripts/apply_fuel_geometric_recovery.py
+  scripts/audit_fuel_overlay_contract.py
   scripts/record_fuel_b1_trial.py
   scripts/validate_flight_envelope.py
   scripts/evaluate_surface_map.py

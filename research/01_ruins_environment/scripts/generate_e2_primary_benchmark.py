@@ -132,8 +132,10 @@ def build_e2() -> List[Box]:
     add_open_wall(boxes, "north_hall_wall", (-14.8, 4.0), (8.0, 4.0), [(4.5, 1.6), (13.0, 1.4), (20.0, 1.2)], h)
     add_open_wall(boxes, "south_hall_wall", (-14.8, -4.0), (8.0, -4.0), [(4.5, 1.6), (13.0, 1.4), (20.0, 1.2)], h)
     add_open_wall(boxes, "service_inner_wall", (8.0, -17.8), (8.0, 17.8), [(17.8, 2.0), (27.8, 1.6), (7.8, 1.6)], h)
-    add_wall(boxes, "hall_occluder_a", (-9.5, 1.5), (-6.0, 1.5), 2.45, "light")
-    add_wall(boxes, "hall_occluder_b", (-1.0, -1.7), (2.6, -1.7), 2.45, "light")
+    # Every wall that constrains lateral routing clears the active flight band
+    # by at least two mapping cells after the planning radius is applied.
+    add_wall(boxes, "hall_occluder_a", (-9.5, 1.5), (-6.0, 1.5), 2.55, "light")
+    add_wall(boxes, "hall_occluder_b", (-1.0, -1.7), (2.6, -1.7), 2.55, "light")
 
     # Z2: north gallery. Four unequal rooms and a rear return provide occlusion and a loop connection.
     for index, x in enumerate((-9.0, -2.0, 5.0)):
@@ -148,9 +150,9 @@ def build_e2() -> List[Box]:
             openings.append((12.0, 1.4))
         add_open_wall(boxes, "north_partition_{:02d}".format(index), (x, 4.0), (x, 17.8), openings, h)
     add_open_wall(boxes, "north_rear_gallery", (-14.8, 13.0), (8.0, 13.0), [(4.5, 1.4), (12.0, 1.6), (20.0, 1.4)], 2.55, "light")
-    add_wall(boxes, "north_occlusion_a", (-13.2, 7.5), (-10.0, 7.5), 2.40, "light")
-    add_wall(boxes, "north_occlusion_b", (-4.5, 10.0), (-1.0, 10.0), 2.40, "light")
-    add_wall(boxes, "north_occlusion_c", (1.5, 15.0), (4.8, 15.0), 2.35, "light")
+    add_wall(boxes, "north_occlusion_a", (-13.2, 7.5), (-10.0, 7.5), 2.55, "light")
+    add_wall(boxes, "north_occlusion_b", (-4.5, 10.0), (-1.0, 10.0), 2.55, "light")
+    add_wall(boxes, "north_occlusion_c", (1.5, 15.0), (4.8, 15.0), 2.55, "light")
 
     # Z3: south utility wing. It has different local geometry but comparable branch burden.
     for index, x in enumerate((-9.0, -2.0, 5.0)):
@@ -163,9 +165,9 @@ def build_e2() -> List[Box]:
             openings.append((1.8, 1.4))
         add_open_wall(boxes, "south_partition_{:02d}".format(index), (x, -17.8), (x, -4.0), openings, h)
     add_open_wall(boxes, "south_rear_gallery", (-14.8, -13.0), (8.0, -13.0), [(4.5, 1.4), (12.0, 1.6), (20.0, 1.4)], 2.55, "light")
-    add_wall(boxes, "south_occlusion_a", (-13.2, -7.5), (-10.0, -7.5), 2.40, "light")
-    add_wall(boxes, "south_occlusion_b", (-4.5, -10.0), (-1.0, -10.0), 2.40, "light")
-    add_wall(boxes, "south_occlusion_c", (1.5, -15.0), (4.8, -15.0), 2.35, "light")
+    add_wall(boxes, "south_occlusion_a", (-13.2, -7.5), (-10.0, -7.5), 2.55, "light")
+    add_wall(boxes, "south_occlusion_b", (-4.5, -10.0), (-1.0, -10.0), 2.55, "light")
+    add_wall(boxes, "south_occlusion_c", (1.5, -15.0), (4.8, -15.0), 2.55, "light")
 
     # Z4: east service loop around a blocked core. There is no route graph in runtime assets.
     add_wall(boxes, "core_north", (11.0, 4.0), (16.5, 4.0), 2.70, "light")
@@ -343,7 +345,7 @@ def audit(boxes: Sequence[Box]):
         and all(item["planning_free_width_m"] >= effective_diameter for item in probe_report.values())
         and all(item["planning_clearance_m"] >= effective_diameter for item in doorway_report.values())
         and FLIGHT_MIN_Z <= ENTRY[2] <= FLIGHT_MAX_Z
-        and vertical_non_bypass_margin > 0.0
+        and vertical_non_bypass_margin >= 2.0 * FUEL_MAP_RESOLUTION
         and pcd_surface_diagonal <= FUEL_MAP_RESOLUTION
     )
     return {

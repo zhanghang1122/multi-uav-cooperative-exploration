@@ -1,5 +1,10 @@
 # Frozen Protocol V2: Reachability-Aware Three-UAV Cooperative Exploration
 
+> **Superseded for new simulation work by**
+> `protocol_v2_1_review_and_execution.md`.  V2 is retained as an audit trail
+> for the prior decision; V2.1 corrects the fairness boundary between the
+> single-UAV navigation substrate and the later coordination comparison.
+
 ## 0. Status and Decision
 
 This document supersedes `protocol_v1_indoor_cooperative_exploration.md` for

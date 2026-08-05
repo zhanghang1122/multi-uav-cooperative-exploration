@@ -52,6 +52,16 @@ environment has been copied; each entry states the limited element adopted.
    - Not adopted: the paper's CNN stopping predictor; V2 uses fixed offline
      surface-recall thresholds for fair evaluation.
 
+6. Gao, C., Wang, X., Wang, R., Zhao, Z., Zhai, Y., Chen, X., & Chen, B. M.
+   (2023). A UAV-based explore-then-exploit system for autonomous indoor
+   facility inspection and scene reconstruction. *Automation in Construction,
+   148*, 104753. https://doi.org/10.1016/j.autcon.2023.104753
+   - Adopted: explicit separation of exploration/mapping, safe trajectory
+     generation and reconstruction evaluation in a constrained indoor UAV
+     system.
+   - Not adopted: two-stage inspection coverage or any claim that a fixed
+     scene's reconstruction reference is available to online exploration.
+
 ## Supporting Source-Verification Notes
 
 - FUEL's official university record identifies it as a 2021 IEEE Robotics and

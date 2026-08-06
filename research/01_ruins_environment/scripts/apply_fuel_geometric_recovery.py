@@ -160,16 +160,20 @@ def apply_patch(source, dry_run):
             "The verified stock or recognized B1-R source blocks were not found. No source file was changed. "
             "Use --restore if this checkout was previously patched, or inspect the FUEL version first."
         )
+    action = "applied"
     if backup.exists():
-        raise RuntimeError(
-            "A B1-R backup already exists but the source is neither recognized stock nor recognized patched. "
-            "No source file was changed."
-    )
+        if source.read_bytes() != backup.read_bytes():
+            raise RuntimeError(
+                "A B1-R backup already exists, but the current stock source does not match that backup. "
+                "No source file was changed. Inspect both files before applying B1-R."
+            )
+        action = "reapplied_after_restore"
     if not dry_run:
-        backup.write_bytes(source.read_bytes())
+        if not backup.exists():
+            backup.write_bytes(source.read_bytes())
         patched = text.replace(STOCK_GEOMETRIC_BLOCK, REACHABLE_GEOMETRIC_BLOCK, 1)
         source.write_text(patched.replace(STOCK_KINODYNAMIC_BLOCK, RECOVERY_BLOCK, 1), encoding="utf-8", newline="\n")
-    return "applied", backup
+    return action, backup
 
 
 def restore_patch(source, dry_run):

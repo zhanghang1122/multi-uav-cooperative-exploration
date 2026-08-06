@@ -80,6 +80,15 @@ STOCK_KINODYNAMIC_BLOCK = """      // Search kino path to exactly next viewpoint
         return FAIL;
 """
 
+STOCK_KINODYNAMIC_BLOCK_WITH_SPACER = """      // Search kino path to exactly next viewpoint and optimize
+      std::cout << \"Mid goal\" << std::endl;
+      ed_->next_goal_ = next_pos;
+
+      if (!planner_manager_->kinodynamicReplan(
+              pos, vel, acc, ed_->next_goal_, Vector3d(0, 0, 0), time_lb))
+        return FAIL;
+"""
+
 LEGACY_RECOVERY_BLOCK = """      // Search kino path to exactly next viewpoint and optimize.
       // If the kinodynamic seed search fails after the geometric A* path has
       // already been verified, preserve autonomy by using that online path as
@@ -135,6 +144,14 @@ def write_manifest(path, value):
 def apply_patch(source, dry_run):
     text = source.read_text(encoding="utf-8")
     backup = Path(str(source) + BACKUP_SUFFIX)
+    stock_kinodynamic_block = next(
+        (
+            block
+            for block in (STOCK_KINODYNAMIC_BLOCK, STOCK_KINODYNAMIC_BLOCK_WITH_SPACER)
+            if block in text
+        ),
+        None,
+    )
 
     if REACHABLE_GEOMETRIC_BLOCK in text and RECOVERY_BLOCK in text:
         return "already_applied", backup
@@ -142,9 +159,9 @@ def apply_patch(source, dry_run):
         if not dry_run:
             source.write_text(text.replace(LEGACY_RECOVERY_BLOCK, RECOVERY_BLOCK, 1), encoding="utf-8", newline="\n")
         return "upgraded", backup
-    if REACHABLE_GEOMETRIC_BLOCK in text and STOCK_KINODYNAMIC_BLOCK in text:
+    if REACHABLE_GEOMETRIC_BLOCK in text and stock_kinodynamic_block is not None:
         if not dry_run:
-            source.write_text(text.replace(STOCK_KINODYNAMIC_BLOCK, RECOVERY_BLOCK, 1), encoding="utf-8", newline="\n")
+            source.write_text(text.replace(stock_kinodynamic_block, RECOVERY_BLOCK, 1), encoding="utf-8", newline="\n")
         return "upgraded_kinodynamic", backup
     if STOCK_GEOMETRIC_BLOCK in text and RECOVERY_BLOCK in text:
         if not backup.exists():
@@ -155,7 +172,7 @@ def apply_patch(source, dry_run):
         if not dry_run:
             source.write_text(text.replace(STOCK_GEOMETRIC_BLOCK, REACHABLE_GEOMETRIC_BLOCK, 1), encoding="utf-8", newline="\n")
         return "upgraded_reachability", backup
-    if STOCK_GEOMETRIC_BLOCK not in text or STOCK_KINODYNAMIC_BLOCK not in text:
+    if STOCK_GEOMETRIC_BLOCK not in text or stock_kinodynamic_block is None:
         raise RuntimeError(
             "The verified stock or recognized B1-R source blocks were not found. No source file was changed. "
             "Use --restore if this checkout was previously patched, or inspect the FUEL version first."
@@ -172,7 +189,7 @@ def apply_patch(source, dry_run):
         if not backup.exists():
             backup.write_bytes(source.read_bytes())
         patched = text.replace(STOCK_GEOMETRIC_BLOCK, REACHABLE_GEOMETRIC_BLOCK, 1)
-        source.write_text(patched.replace(STOCK_KINODYNAMIC_BLOCK, RECOVERY_BLOCK, 1), encoding="utf-8", newline="\n")
+        source.write_text(patched.replace(stock_kinodynamic_block, RECOVERY_BLOCK, 1), encoding="utf-8", newline="\n")
     return action, backup
 
 

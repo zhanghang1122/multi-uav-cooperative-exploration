@@ -101,6 +101,85 @@ line-of-sight constraints. It must be method-independent and must never enter
 online planning. Then rescore all retained E2 maps against that same reference
 before starting `G0_E2_rep02`.
 
+The gate is implemented by `build_e2_coverable_surface_reference.py`. Its
+defaults reproduce the stock FUEL sensing contract used by this repository:
+0.199 m obstacle inflation, 0.5--4.5 m useful ray range, and 0.56125 rad
+vertical half-FOV. Candidate sensor poses are generated only in collision-free,
+entry-reachable airspace below the common virtual-ceiling guard. Visibility is
+checked against the fixed box geometry. The script has no ROS publishers and
+does not accept a trajectory, online map, Frontier topic, room label, goal, or
+route.
+
+### Method basis
+
+- Zhou et al., *FUEL: Fast UAV Exploration Using Incremental Frontier
+  Structure and Hierarchical Planning*, IEEE Robotics and Automation Letters,
+  2021, DOI: [10.1109/LRA.2021.3051563](https://doi.org/10.1109/LRA.2021.3051563).
+  This is the journal source for the baseline planner; numerical sensor and
+  inflation defaults are taken from its public implementation used here.
+- Saska et al., *Cooperative Unmanned Aerial System Reconnaissance in a
+  Complex Urban Environment and Uneven Terrain*, Sensors, 2019, DOI:
+  [10.3390/s19173754](https://doi.org/10.3390/s19173754). The paper treats a
+  point as visible only when it is inside sensor range and has unobstructed
+  visual line of sight.
+- Kladnik et al., *Autonomous Full 3D Coverage Using an Aerial Vehicle...*,
+  Robotics, 2024, DOI:
+  [10.3390/robotics13060083](https://doi.org/10.3390/robotics13060083). Its
+  coverage denominator is based on visible map nodes and its analysis uses
+  sensor FOV and ray casting. This supports separating physical surface Recall
+  from geometrically coverable surface Recall.
+
+```bash
+ASSETS=/tmp/coop_building_e2_primary
+
+rosrun ruins_urban_01 build_e2_coverable_surface_reference.py \
+  --truth-pcd "$ASSETS/pcd/Coop-Building-E2-Primary-Damaged-Interior_interior_reference.pcd" \
+  --output-pcd "$ASSETS/pcd/Coop-Building-E2-Primary-Damaged-Interior_coverable_reference.pcd" \
+  --noncoverable-pcd "$ASSETS/pcd/Coop-Building-E2-Primary-Damaged-Interior_noncoverable_reference.pcd" \
+  --output-json "$ASSETS/validation/Coop-Building-E2-Primary-Damaged-Interior_coverable_reference.json"
+```
+
+For fixed E2-v5 assets, the verified default gate has these golden counts:
+
+| Audit item | Expected value |
+| --- | ---: |
+| Raw interior-reference voxels | 478,935 |
+| Physical truth after equal virtual-ceiling mask | 470,331 |
+| Geometrically coverable truth voxels | 371,320 |
+| Non-coverable truth voxels | 99,011 |
+| Coverable fraction of physical truth | 0.789487 |
+| Entry-reachable sensor-pose lattice cells | 83,252 |
+
+The corresponding deterministic PCD hashes are:
+
+- coverable reference: `05918d347fd821a47e558f75c46c373206473ea3e8ae6c4095aacf4453651f3d`;
+- non-coverable reference: `bec99eeae44f2cd20f3e08bc08b9e93dbae0d0727d3ca3f38138438b243c4415`.
+
+Any mismatch means the generated assets, script revision, or parameters differ;
+do not combine that run with the frozen E2 comparison table.
+
+Both physical-surface Recall and coverable-surface Recall remain reportable.
+The former diagnoses how much of the complete model was reconstructed; the
+latter is the fair exploration score under the frozen vehicle/sensor contract.
+ICP-aligned scores remain diagnostic only and must not replace either primary
+score.
+
+Rescore a retained run without changing its map or trajectory:
+
+```bash
+RUN=$HOME/uav_experiment_results/G0_E2_rep01
+REFERENCE=$ASSETS/pcd/Coop-Building-E2-Primary-Damaged-Interior_coverable_reference.pcd
+
+rosrun ruins_urban_01 evaluate_surface_map.py \
+  --truth-pcd "$REFERENCE" \
+  --observed-pcd "$RUN/final_online_occupancy.pcd" \
+  --snapshots-csv "$RUN/snapshots.csv" \
+  --resolution-m 0.1 \
+  --tolerance-voxels 1 \
+  --virtual-ceiling-z-m 1.85 \
+  --output "$RUN/map_quality_coverable.json"
+```
+
 Before changing a planner parameter, localize the retained run's missed
 coverage with the same virtual-ceiling mask as the global score:
 

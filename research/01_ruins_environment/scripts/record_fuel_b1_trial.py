@@ -85,6 +85,13 @@ class TrialRecorder(object):
         self.received_odometry = False
         self.received_occupancy = False
         self.diagnostic_events = []
+        self.odom_frame_id = None
+        self.odom_child_frame_id = None
+        self.odom_first_stamp_s = None
+        self.odom_last_stamp_s = None
+        self.occupancy_frame_id = None
+        self.occupancy_first_stamp_s = None
+        self.occupancy_last_stamp_s = None
 
         rospy.Subscriber(args.odom_topic, Odometry, self.on_odometry, queue_size=100)
         rospy.Subscriber(args.occupancy_topic, PointCloud2, self.on_occupancy, queue_size=1)
@@ -100,6 +107,12 @@ class TrialRecorder(object):
         return time.monotonic() - self.started_monotonic
 
     def on_odometry(self, message):
+        stamp_s = stamp_seconds(message.header.stamp)
+        if self.odom_frame_id is None:
+            self.odom_frame_id = message.header.frame_id
+            self.odom_child_frame_id = message.child_frame_id
+            self.odom_first_stamp_s = stamp_s
+        self.odom_last_stamp_s = stamp_s
         if not self.received_odometry:
             self.received_odometry = True
             rospy.loginfo("B1 recorder received odometry on %s", self.args.odom_topic)
@@ -129,9 +142,14 @@ class TrialRecorder(object):
 
         if elapsed - self.last_trajectory_sample_s >= self.args.trajectory_sample_period_s:
             self.last_trajectory_sample_s = elapsed
-            self.trajectory_rows.append((elapsed, stamp_seconds(message.header.stamp), current[0], current[1], current[2]))
+            self.trajectory_rows.append((elapsed, stamp_s, current[0], current[1], current[2]))
 
     def on_occupancy(self, message):
+        stamp_s = stamp_seconds(message.header.stamp)
+        if self.occupancy_frame_id is None:
+            self.occupancy_frame_id = message.header.frame_id
+            self.occupancy_first_stamp_s = stamp_s
+        self.occupancy_last_stamp_s = stamp_s
         if not self.received_occupancy:
             self.received_occupancy = True
             rospy.loginfo("B1 recorder received online occupancy on %s", self.args.occupancy_topic)
@@ -289,7 +307,7 @@ class TrialRecorder(object):
         diagnostics_path = os.path.join(self.args.output_dir, "runtime_diagnostics.json")
         write_json(diagnostics_path, self.diagnostics(stop_reason))
         summary = {
-            "schema_version": 3,
+            "schema_version": 4,
             "method_id": self.args.method_id,
             "scene": self.args.scene,
             "success": stop_reason == "fuel_reported_finish",
@@ -320,6 +338,22 @@ class TrialRecorder(object):
                 "online_occupancy": self.args.occupancy_topic,
                 "frontier": self.args.frontier_topic,
                 "planner": self.args.planner_topic,
+            },
+            "recorded_frames": {
+                "odometry": {
+                    "frame_id": self.odom_frame_id,
+                    "child_frame_id": self.odom_child_frame_id,
+                    "first_stamp_s": self.odom_first_stamp_s,
+                    "last_stamp_s": self.odom_last_stamp_s,
+                },
+                "online_occupancy": {
+                    "frame_id": self.occupancy_frame_id,
+                    "first_stamp_s": self.occupancy_first_stamp_s,
+                    "last_stamp_s": self.occupancy_last_stamp_s,
+                },
+                "interpretation": (
+                    "Frame names are audit metadata only. Equality of names is not assumed, and no transform is applied by the recorder."
+                ),
             },
             "outputs": {
                 "trajectory_csv": trajectory_path,

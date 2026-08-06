@@ -100,3 +100,26 @@ geometry, the common flight band, vehicle clearance, sensor range/FOV, and
 line-of-sight constraints. It must be method-independent and must never enter
 online planning. Then rescore all retained E2 maps against that same reference
 before starting `G0_E2_rep02`.
+
+Before changing a planner parameter, localize the retained run's missed
+coverage with the same virtual-ceiling mask as the global score:
+
+```bash
+RUN=$HOME/uav_experiment_results/G0_E2_rep01
+TRUTH=/tmp/coop_building_e2_primary/pcd/Coop-Building-E2-Primary-Damaged-Interior_interior_reference.pcd
+
+rosrun ruins_urban_01 diagnose_e2_branch_coverage.py \
+  --truth-pcd "$TRUTH" \
+  --observed-pcd "$RUN/final_online_occupancy.pcd" \
+  --trajectory-csv "$RUN/trajectory.csv" \
+  --resolution-m 0.1 \
+  --tolerance-voxels 1 \
+  --virtual-ceiling-z-m 1.85 \
+  --output "$RUN/branch_coverage.json"
+```
+
+This report is post-hoc only. Its region masks are never passed to the online
+planner. A region with few trajectory samples and low Recall indicates an
+exploration/reachability failure; many trajectory samples with low Recall
+instead points to the sensor/reference contract and must not be treated as the
+same failure.

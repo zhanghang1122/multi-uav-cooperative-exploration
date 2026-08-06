@@ -66,6 +66,22 @@ def voxelize(points: Iterable[Tuple[float, float, float]], resolution: float) ->
     }
 
 
+def virtual_ceiling_voxel(height: float | None, resolution: float) -> int | None:
+    if height is None:
+        return None
+    return int(math.floor(height / resolution))
+
+
+def mask_virtual_ceiling(voxels: set, ceiling_voxel: int | None, half_width: int) -> set:
+    if ceiling_voxel is None:
+        return voxels
+    return {
+        voxel
+        for voxel in voxels
+        if abs(voxel[2] - ceiling_voxel) > half_width
+    }
+
+
 def nearby(voxel: Tuple[int, int, int], tolerance: int):
     x, y, z = voxel
     for dx in range(-tolerance, tolerance + 1):
@@ -140,16 +156,32 @@ def main() -> None:
     parser.add_argument("--trajectory-csv")
     parser.add_argument("--resolution-m", type=float, default=0.1)
     parser.add_argument("--tolerance-voxels", type=int, default=1)
+    parser.add_argument(
+        "--virtual-ceiling-z-m",
+        type=float,
+        help="Remove FUEL's nonphysical virtual-ceiling voxel layer before every regional score.",
+    )
+    parser.add_argument(
+        "--virtual-ceiling-mask-voxels",
+        type=int,
+        default=0,
+        help="Additional voxel layers removed above and below the configured virtual ceiling.",
+    )
     parser.add_argument("--output", required=True)
     args = parser.parse_args()
-    if args.resolution_m <= 0 or args.tolerance_voxels < 0:
-        raise SystemExit("resolution must be positive and tolerance must be nonnegative")
+    if (
+        args.resolution_m <= 0
+        or args.tolerance_voxels < 0
+        or args.virtual_ceiling_mask_voxels < 0
+    ):
+        raise SystemExit("resolution must be positive and tolerances must be nonnegative")
 
     truth_points = read_ascii_pcd(Path(args.truth_pcd))
     observed_points = read_ascii_pcd(Path(args.observed_pcd))
     trajectory, trajectory_fields = load_trajectory(Path(args.trajectory_csv)) if args.trajectory_csv else ([], {})
+    ceiling_voxel = virtual_ceiling_voxel(args.virtual_ceiling_z_m, args.resolution_m)
     report = {
-        "schema_version": 1,
+        "schema_version": 2,
         "mode": "offline_post_run_diagnostic_only",
         "runtime_contract": {
             "truth_map_usage": "offline evaluation only",
@@ -160,6 +192,17 @@ def main() -> None:
         "metric": "per_region_voxel_surface_precision_recall_f1",
         "resolution_m": args.resolution_m,
         "tolerance_voxels": args.tolerance_voxels,
+        "virtual_ceiling_mask": {
+            "enabled": ceiling_voxel is not None,
+            "height_m": args.virtual_ceiling_z_m,
+            "voxel_index": ceiling_voxel,
+            "mask_half_width_voxels": args.virtual_ceiling_mask_voxels,
+            "interpretation": (
+                "FUEL's virtual ceiling is a planning boundary, not physical scene geometry."
+                if ceiling_voxel is not None
+                else "No virtual-ceiling mask requested."
+            ),
+        },
         "trajectory": {
             "path": args.trajectory_csv,
             "coordinate_fields": trajectory_fields,
@@ -168,12 +211,18 @@ def main() -> None:
         "regions": {},
     }
     for name, bounds in REGIONS.items():
-        truth = voxelize((point for point in truth_points if in_region(point, bounds)), args.resolution_m)
-        observed = voxelize((point for point in observed_points if in_region(point, bounds)), args.resolution_m)
+        raw_truth = voxelize((point for point in truth_points if in_region(point, bounds)), args.resolution_m)
+        raw_observed = voxelize((point for point in observed_points if in_region(point, bounds)), args.resolution_m)
+        truth = mask_virtual_ceiling(raw_truth, ceiling_voxel, args.virtual_ceiling_mask_voxels)
+        observed = mask_virtual_ceiling(raw_observed, ceiling_voxel, args.virtual_ceiling_mask_voxels)
         sampled_positions = sum(in_region(point, bounds) for point in trajectory)
         report["regions"][name] = {
             "bounds_m": {"x": [bounds[0], bounds[1]], "y": [bounds[2], bounds[3]], "z": [bounds[4], bounds[5]]},
             "trajectory_samples_in_region": sampled_positions,
+            "raw_truth_voxels": len(raw_truth),
+            "raw_observed_voxels": len(raw_observed),
+            "masked_truth_voxels": len(raw_truth) - len(truth),
+            "masked_observed_voxels": len(raw_observed) - len(observed),
             **metrics(truth, observed, args.tolerance_voxels),
         }
     output = Path(args.output)
